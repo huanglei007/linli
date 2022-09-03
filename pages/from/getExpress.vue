@@ -49,7 +49,7 @@
 					<view class="label">取件数量</view>
 					<picker style="flex: 1;" @change="bindPickerChange" :value="take_index" :range="takeParts"
 						range-key="number">
-						<view class="uni-input">{{takeParts[take_index].number?takeParts[take_index].number:'请选择'}}
+						<view class="uni-input">{{takeParts[take_index].number?takeParts[take_index].number:'请选择取件数量'}}
 						</view>
 					</picker>
 				</view>
@@ -142,7 +142,7 @@
 				takeParts: [{
 					"commission": 0,
 					"id": 0,
-					"number": ''
+					"number": '请选择取件数量'
 				}],
 				take_index: 0,
 				// timeTxt: '请选择配送时间',

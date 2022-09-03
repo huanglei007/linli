@@ -48,7 +48,7 @@
 				<view class="item flexd flex-center">
 					<view class="label">外卖数量</view>
 					<picker style="flex: 1;" @change="bindPickerChange" :value="food_index" :range="foodNum" range-key="number">
-						<view class="uni-input">{{foodNum[food_index].number?foodNum[food_index].number:'请选择'}}</view>
+						<view class="uni-input">{{foodNum[food_index].number?foodNum[food_index].number:'请选择外卖数量'}}</view>
 					</picker>
 				</view>
 			</view>
@@ -130,7 +130,7 @@
 				foodNum: [{
 					"commission": 0,
 					"id": 0,
-					"number": 0
+					"number": '请选择外卖数量'
 				}],
 				startTimeShow: false,
 				food_index: 0,

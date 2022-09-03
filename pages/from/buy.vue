@@ -148,7 +148,7 @@
 				takeParts: [{
 					"commission": 0,
 					"id": 0,
-					"number": ''
+					"number": '请选择商品种类数量'
 				}],
 				take_index: 0,
 				// 防抖
