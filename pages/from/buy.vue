@@ -158,7 +158,7 @@
 
 			let that = this
 			// 取件数量列表
-			this.util.ajax('release/getExpressNumberList', {}, res => {
+			this.util.ajax('release/buyGoodsNumberList', {}, res => {
 				that.takeParts = that.takeParts.concat(res.data.list)
 			})
 		},

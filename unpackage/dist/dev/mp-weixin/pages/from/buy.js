@@ -341,7 +341,7 @@ __webpack_require__.r(__webpack_exports__);
 
     var that = this;
     // 取件数量列表
-    this.util.ajax('release/getExpressNumberList', {}, function (res) {
+    this.util.ajax('release/buyGoodsNumberList', {}, function (res) {
       that.takeParts = that.takeParts.concat(res.data.list);
     });
   },

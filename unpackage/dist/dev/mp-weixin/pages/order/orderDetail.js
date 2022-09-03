@@ -621,10 +621,10 @@ __webpack_require__.r(__webpack_exports__);
         if (res.data.images != '') {
           that.imageValue = res.data.images.split(',');
         }
-        // 取件数量列表
-        _this.util.ajax('release/getExpressNumberList', {}, function (res) {
+        // 商品数量列表
+        _this.util.ajax('release/buyGoodsNumberList', {}, function (res) {
           for (var i in res.data.list) {
-            if (res.data.list[i].id == res.data.numberId) {
+            if (res.data.list[i].id == that.formdata.numberId) {
               that.takeNum = res.data.list[i].number;
             }
           }
