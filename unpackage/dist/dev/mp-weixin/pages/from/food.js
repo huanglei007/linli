@@ -320,7 +320,7 @@ __webpack_require__.r(__webpack_exports__);
       // 跑腿卷
       couponform: {},
       couponlist: [],
-      commission: 0
+      commission: 0,
       // 配送时间
       // radio_time: 0,
       // arr_time: [{
@@ -329,8 +329,10 @@ __webpack_require__.r(__webpack_exports__);
       // }, {
       // 	text: '立即配送',
       // 	value: '1'
-      // }]
-    };
+      // }],
+      // 防抖
+      onoff: true };
+
   },
   mounted: function mounted(option) {
     this.rules = this.globalData.rules;

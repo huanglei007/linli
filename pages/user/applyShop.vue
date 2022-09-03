@@ -130,7 +130,7 @@
 			</view>
 		</view>
 		<view class="foot">
-			<view class="btn" @click="apply">
+			<view class="btn" @click="$shake(apply)">
 				提交审核
 			</view>
 		</view>
@@ -188,7 +188,9 @@
 					value: '1'
 				}],
 				deposit_array_index: 0,
-				deposit_array: []
+				deposit_array: [],
+				// 防抖
+				onoff:true
 			}
 		},
 		onShow() {

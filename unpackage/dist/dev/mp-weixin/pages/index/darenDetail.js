@@ -122,10 +122,12 @@ var render = function() {
 
     var m2 = _vm.$shijiandate(item.begin_time)
     var m3 = _vm.$shijiandate(item.expiration_time)
+    var m4 = _vm.getwel(item)
     return {
       $orig: $orig,
       m2: m2,
-      m3: m3
+      m3: m3,
+      m4: m4
     }
   })
 
@@ -341,7 +343,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
 var _appShare = _interopRequireWildcard(__webpack_require__(/*! @/uni_modules/zhouWei-APPshare/js_sdk/appShare */ 135));function _getRequireWildcardCache() {if (typeof WeakMap !== "function") return null;var cache = new WeakMap();_getRequireWildcardCache = function _getRequireWildcardCache() {return cache;};return cache;}function _interopRequireWildcard(obj) {if (obj && obj.__esModule) {return obj;}if (obj === null || typeof obj !== "object" && typeof obj !== "function") {return { default: obj };}var cache = _getRequireWildcardCache();if (cache && cache.has(obj)) {return cache.get(obj);}var newObj = {};var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor;for (var key in obj) {if (Object.prototype.hasOwnProperty.call(obj, key)) {var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null;if (desc && (desc.get || desc.set)) {Object.defineProperty(newObj, key, desc);} else {newObj[key] = obj[key];}}}newObj.default = obj;if (cache) {cache.set(obj, newObj);}return newObj;}function _defineProperty(obj, key, value) {if (key in obj) {Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });} else {obj[key] = value;}return obj;}var _default =
 {
   data: function data() {var _ref;
@@ -374,7 +375,9 @@ var _appShare = _interopRequireWildcard(__webpack_require__(/*! @/uni_modules/zh
       getPro: new Map(),
       sumPrice: 0 }, _defineProperty(_ref, "ListIndex",
     0), _defineProperty(_ref, "id",
-    0), _ref;
+    0), _defineProperty(_ref, "onoff",
+
+    true), _ref;
 
   },
   onLoad: function onLoad(e) {

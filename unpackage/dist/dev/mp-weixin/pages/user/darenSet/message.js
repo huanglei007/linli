@@ -267,9 +267,10 @@ __webpack_require__.r(__webpack_exports__);
       classIndex: 0,
       classArray: [{
         service_type_name: '请选择分类',
-        id: 0 }] };
+        id: 0 }],
 
-
+      // 防抖
+      onoff: true };
 
   },
   mounted: function mounted() {

@@ -62,12 +62,11 @@
   font-size: 28rpx;
   color: #808080;
 }
-.content .wx_form,
-.content .wx_form_goodsName {
+.content .wx_form {
   padding: 0 40rpx;
 }
 .content .wx_form_goodsName {
-  padding-left: 20rpx;
+  padding: 20rpx 40rpx;
 }
 .content .out {
   display: flex;

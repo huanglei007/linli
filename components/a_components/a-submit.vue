@@ -8,7 +8,7 @@
 				<text v-else>0.00</text>
 			</text>
 		</view>
-		<view class="sub-btn" @click="SubmitAppointment">
+		<view class="sub-btn" @click="$shake(SubmitAppointment)">
 			<text>提交预约</text>
 		</view>
 	</view>
@@ -19,7 +19,9 @@
 		props: ['type', 'form'],
 		data() {
 			return {
-				disable: false
+				disable: false,
+				// 防抖
+				onoff:true
 			}
 		},
 		created() {

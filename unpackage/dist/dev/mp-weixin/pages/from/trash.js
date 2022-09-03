@@ -297,8 +297,10 @@ __webpack_require__.r(__webpack_exports__);
         value: '0' },
       {
         text: '立即上门',
-        value: '1' }] };
+        value: '1' }],
 
+      // 防抖
+      onoff: true };
 
   },
   mounted: function mounted(option) {

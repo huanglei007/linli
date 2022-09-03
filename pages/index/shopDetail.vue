@@ -106,7 +106,7 @@
 				<view class="swiper-item business">
 					<scroll-view scroll-y="true">
 						<view class="shopMessBox">
-							<view class="banner">
+							<!-- <view class="banner">
 								<swiper :indicator-dots="true" :interval="3000" :duration="1000">
 									<swiper-item v-for="(item , i) in info.images.split()" :key="i">
 										<view class="swiper-item">
@@ -114,7 +114,7 @@
 										</view>
 									</swiper-item>
 								</swiper>
-							</view>
+							</view> -->
 							<view class="sever">
 								<view class="title">商家服务</view>
 								<view class="item flexd">
@@ -188,7 +188,7 @@
 			<view class="cost">
 				费用 <text>{{sumPrice}}元</text>
 			</view>
-			<view class="btn" @click="orderto">
+			<view class="btn" @click="$shake(orderto)">
 				下单
 			</view>
 		</view>
@@ -229,7 +229,9 @@
 				},
 				getPro: new Map(),
 				sumPrice: 0,
-				id: 0
+				id: 0,
+				// 防抖
+				onoff:true
 			}
 		},
 		// 分享给朋友

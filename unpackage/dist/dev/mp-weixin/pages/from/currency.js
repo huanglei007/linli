@@ -291,7 +291,9 @@ __webpack_require__.r(__webpack_exports__);
       // 跑腿卷
       couponform: {},
       couponlist: [],
-      commission: null };
+      commission: null,
+      // 防抖
+      onoff: true };
 
   },
   onShow: function onShow() {

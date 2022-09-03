@@ -1430,7 +1430,7 @@ function initData(vueOptions, context) {
     try {
       data = data.call(context); // 支持 Vue.prototype 上挂的数据
     } catch (e) {
-      if (Object({"VUE_APP_NAME":"阾里","VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG) {
+      if (Object({"NODE_ENV":"development","VUE_APP_NAME":"阾里","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
         console.warn('根据 Vue 的 data 函数初始化小程序 data 失败，请尽量确保 data 函数中不访问 vm 对象，否则可能影响首次数据渲染速度。', data);
       }
     }
@@ -2660,6 +2660,20 @@ var canvaRing = null;
 var canvasCozhu = null;
 var shiti = null;
 exports.install = function (Vue, options) {
+  // 防抖
+  Vue.prototype.$shake = function (fn) {
+    var that = this;
+    if (that.onoff) {
+      that.onoff = false;
+      fn();
+      setTimeout(function () {
+        that.onoff = true;
+      }, 1500);
+    } else {
+      //如果一直走else分支可能是你没有在页面的data下面挂载onoff:true,不然一直都会走else
+      this.$alert("请稍后点击");
+    }
+  };
   // 提示弹窗
   Vue.prototype.$alert = function (title, icon, time, mask) {
     title = title == undefined ? "系统繁忙" : title;
@@ -3137,7 +3151,9 @@ exports.install = function (Vue, options) {
       canvasId: canvasId,
       type: 'area',
       fontSize: 11,
-      legend: { show: false },
+      legend: {
+        show: false },
+
       dataLabel: false, //峰值
       dataPointShape: true, //峰点
       // dataPointShapeType:'hollow',//实心或空心
@@ -3217,6 +3233,7 @@ exports.install = function (Vue, options) {
           } }] },
 
 
+
       width: cWidth,
       height: cHeight,
       extra: {
@@ -3261,7 +3278,9 @@ exports.install = function (Vue, options) {
       canvasId: canvasId,
       type: 'arcbar',
       fontSize: 10,
-      legend: { show: false },
+      legend: {
+        show: false },
+
       background: '#FFFFFF',
       pixelRatio: 1,
       series: chartData.series,
@@ -3299,7 +3318,9 @@ exports.install = function (Vue, options) {
       canvasId: canvasId,
       type: 'arcbar',
       fontSize: 10,
-      legend: { show: false },
+      legend: {
+        show: false },
+
       background: '#FFFFFF',
       pixelRatio: 1,
       series: chartData.series,
@@ -11445,7 +11466,7 @@ function type(obj) {
 
 function flushCallbacks$1(vm) {
     if (vm.__next_tick_callbacks && vm.__next_tick_callbacks.length) {
-        if (Object({"VUE_APP_NAME":"阾里","VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG) {
+        if (Object({"NODE_ENV":"development","VUE_APP_NAME":"阾里","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
             var mpInstance = vm.$scope;
             console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + vm._uid +
                 ']:flushCallbacks[' + vm.__next_tick_callbacks.length + ']');
@@ -11466,14 +11487,14 @@ function nextTick$1(vm, cb) {
     //1.nextTick 之前 已 setData 且 setData 还未回调完成
     //2.nextTick 之前存在 render watcher
     if (!vm.__next_tick_pending && !hasRenderWatcher(vm)) {
-        if(Object({"VUE_APP_NAME":"阾里","VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG){
+        if(Object({"NODE_ENV":"development","VUE_APP_NAME":"阾里","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG){
             var mpInstance = vm.$scope;
             console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + vm._uid +
                 ']:nextVueTick');
         }
         return nextTick(cb, vm)
     }else{
-        if(Object({"VUE_APP_NAME":"阾里","VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG){
+        if(Object({"NODE_ENV":"development","VUE_APP_NAME":"阾里","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG){
             var mpInstance$1 = vm.$scope;
             console.log('[' + (+new Date) + '][' + (mpInstance$1.is || mpInstance$1.route) + '][' + vm._uid +
                 ']:nextMPTick');
@@ -11559,7 +11580,7 @@ var patch = function(oldVnode, vnode) {
     });
     var diffData = this.$shouldDiffData === false ? data : diff(data, mpData);
     if (Object.keys(diffData).length) {
-      if (Object({"VUE_APP_NAME":"阾里","VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG) {
+      if (Object({"NODE_ENV":"development","VUE_APP_NAME":"阾里","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
         console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + this._uid +
           ']差量更新',
           JSON.stringify(diffData));

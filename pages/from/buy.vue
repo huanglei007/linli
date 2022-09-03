@@ -45,8 +45,10 @@
 			</view>
 			<view class="form wx_form_goodsName">
 				<uni-forms-item name="goodsName">
-					<uni-easyinput class="input" :inputBorder="false" type="text" v-model="formdata.goodsName"
-						placeholder="请输入需要帮购商品名称" placeholder-style="color:#878787" />
+					<textarea style="height:100rpx;" class="textarea" v-model="formdata.goodsName"
+						placeholder-style="color:#878787" placeholder="请输入需要帮购商品名称" />
+					<!-- <uni-easyinput style="height: 100rpx;" class="input" :inputBorder="false" type="text" v-model="formdata.goodsName"
+						placeholder="请输入需要帮购商品名称" placeholder-style="color:#878787" /> -->
 				</uni-forms-item>
 			</view>
 			<!-- <view class="form wx_form">
@@ -56,10 +58,10 @@
 				</uni-forms-item>
 			</view> -->
 			<view class="wares-num form flexd">
-				<view class="label">商品数量</view>
+				<view class="label">商品种类</view>
 				<picker style="flex:1;" @change="bindPickerChange" :value="take_index" :range="takeParts"
 					range-key="number">
-					<view class="uni-input">{{takeParts[take_index].number?takeParts[take_index].number:'请选择数量'}}
+					<view class="uni-input">{{takeParts[take_index].number?takeParts[take_index].number:'请选择商品种类数量'}}
 					</view>
 				</picker>
 			</view>
@@ -103,7 +105,7 @@
 						此费用不含商品费用
 					</view>
 				</view>
-				<button class="btn" @click="submit">
+				<button class="btn" @click="$shake(submit)">
 					<text>下单</text>
 				</button>
 			</view>
@@ -149,6 +151,8 @@
 					"number": ''
 				}],
 				take_index: 0,
+				// 防抖
+				onoff:true
 			}
 		},
 		mounted() {
@@ -235,6 +239,7 @@
 					obj.publisherName = that.sentAdd.name
 					obj.publisherPhone = that.sentAdd.phone
 					obj.categoryId = that.formdata.categoryId
+					obj.goodsName = that.formdata.goodsName
 					obj.publisherSex = that.formdata.publisherSex
 					obj.appointShop = that.formdata.appointShop
 					obj.leaveMessage = that.formdata.leaveMessage
@@ -371,12 +376,11 @@
 			}
 		}
 
-		.wx_form,
-		.wx_form_goodsName {
+		.wx_form {
 			padding: 0 40rpx;
 		}
 		.wx_form_goodsName{
-			padding-left: 20rpx;
+			padding: 20rpx 40rpx;
 		}
 
 		.out {

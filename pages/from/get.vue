@@ -111,7 +111,7 @@
 			<view class="cost">
 				跑腿费 <text>{{formdata.commission==''?0:formdata.commission}}</text> 元
 			</view>
-			<view class="btn" @click="submit">
+			<view class="btn" @click="$shake(submit)">
 				下单
 			</view>
 		</view>
@@ -167,7 +167,9 @@
 					specialDelivery: 0,
 					delivery_date: ''
 				},
-				disable: false
+				disable: false,
+				// 防抖
+				onoff:true
 			}
 		},
 		mounted() {

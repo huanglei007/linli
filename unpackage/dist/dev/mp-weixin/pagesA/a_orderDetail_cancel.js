@@ -182,7 +182,9 @@ var _default =
       // 取消原因
       current: 0,
       // 原因列表
-      reasonlist: [] };
+      reasonlist: [],
+      // 防抖
+      onoff: true };
 
   },
   onLoad: function onLoad(e) {

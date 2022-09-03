@@ -312,11 +312,11 @@
 				<view class="form" @click.stop="">
 					<view class="flexd jubetween flex-center">
 						<view class="itemx">
-							<uni-easyinput ref='more' :focus="isMore" errorMessage @confirm="morecomiss" class="input"
+							<uni-easyinput ref='more' :focus="isMore" errorMessage class="input"
 								:inputBorder="false" type="digit" v-model="moreComm" placeholder="请输加佣金额"
 								placeholder-style="color:#878787" />
 						</view>
-						<view class="btn" @click="morecomiss">
+						<view class="btn" @click="$shake(morecomiss)">
 							提交
 						</view>
 					</view>
@@ -347,7 +347,9 @@
 				userInfo: {},
 				kf_hotline: '',
 				// 取件数量
-				takeNum:0
+				takeNum:0,
+				// 防抖
+				onoff:true
 			}
 		},
 		onLoad(option) {

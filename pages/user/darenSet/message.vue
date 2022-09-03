@@ -89,7 +89,7 @@
 			</view>
 		</view> -->
 		<view class="foot">
-			<view class="btn" @click="submit">
+			<view class="btn" @click="$shake(submit)">
 				提交审核
 			</view>
 		</view>
@@ -153,7 +153,8 @@
 					service_type_name: '请选择分类',
 					id: 0,
 				}],
-
+				// 防抖
+				onoff:true
 			}
 		},
 		mounted() {

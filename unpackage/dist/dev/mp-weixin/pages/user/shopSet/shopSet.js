@@ -491,8 +491,10 @@ var _default =
         left: '',
         right: '',
         begin: '开始时间',
-        end: '结束时间' }] };
+        end: '结束时间' }],
 
+      // 防抖
+      onoff: true };
 
   },
   mounted: function mounted() {

@@ -104,7 +104,7 @@
 					<text>跑腿费 </text>
 					<text>{{commission}}元</text>
 				</view>
-				<view class="btn" @click="submit">
+				<view class="btn" @click="$shake(submit)">
 					下单
 				</view>
 			</view>
@@ -170,7 +170,9 @@
 				}, {
 					text: '立即配送',
 					value: '1'
-				}]
+				}],
+				// 防抖
+				onoff:true
 			}
 		},
 		mounted(option) {

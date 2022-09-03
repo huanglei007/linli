@@ -71,7 +71,7 @@
 				</view>
 				<view class="reda" v-if="proType==1"> {{actualPrice}}</view>
 			</view>
-			<view class="takea texcenter landi" @click="tijao">提交订单</view>
+			<view class="takea texcenter landi" @click="$shake(tijao)">提交订单</view>
 		</view>
 		<change-addresss ref="address" v-show='addPicker' @cancel="addPicker=false" @comfit="changeAdd">
 		</change-addresss>
@@ -102,7 +102,9 @@
 				actualPrice: 0,
 				remarks: '',
 				shopId: 0,
-				imageurl: ''
+				imageurl: '',
+				// 防抖
+				onoff:true
 			}
 		},
 		onLoad(option) {

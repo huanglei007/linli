@@ -39,7 +39,7 @@
 			</view>
 		</view>
 		<view class="foot">
-			<view class="btn" @click="submit">
+			<view class="btn" @click="$shake(submit)">
 				提交审核
 			</view>
 		</view>
@@ -58,7 +58,9 @@
 					right: '',
 					begin: '开始时间',
 					end: '结束时间'
-				}]
+				}],
+				// 防抖
+				onoff:true
 			}
 		},
 		mounted() {

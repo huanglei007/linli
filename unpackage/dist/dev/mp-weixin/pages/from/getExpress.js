@@ -338,8 +338,10 @@ __webpack_require__.r(__webpack_exports__);
         value: '0' },
       {
         text: '立即配送',
-        value: '1' }] };
+        value: '1' }],
 
+      // 防抖
+      onoff: true };
 
   },
   mounted: function mounted(option) {

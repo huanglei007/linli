@@ -65,7 +65,7 @@
 				<view class="cost">
 					佣金 <text>{{commission||0}}</text>元
 				</view>
-				<view class="btn" @click="nextStep">
+				<view class="btn" @click="$shake(nextStep)">
 					下单
 				</view>
 			</view>
@@ -103,7 +103,9 @@
 				// 跑腿卷
 				couponform: {},
 				couponlist: [],
-				commission:null
+				commission:null,
+				// 防抖
+				onoff:true
 			}
 		},
 		onShow() {

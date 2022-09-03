@@ -135,7 +135,9 @@ var _default =
   props: ['type', 'form'],
   data: function data() {
     return {
-      disable: false };
+      disable: false,
+      // 防抖
+      onoff: true };
 
   },
   created: function created() {

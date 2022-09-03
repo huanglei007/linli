@@ -271,7 +271,9 @@ __webpack_require__.r(__webpack_exports__);
       actualPrice: 0,
       remarks: '',
       shopId: 0,
-      imageurl: '' };
+      imageurl: '',
+      // 防抖
+      onoff: true };
 
   },
   onLoad: function onLoad(option) {

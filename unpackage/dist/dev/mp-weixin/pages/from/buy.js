@@ -299,6 +299,8 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
 {
   components: {
     pickerAddress: pickerAddress },
@@ -331,7 +333,9 @@ __webpack_require__.r(__webpack_exports__);
         "id": 0,
         "number": '' }],
 
-      take_index: 0 };
+      take_index: 0,
+      // 防抖
+      onoff: true };
 
   },
   mounted: function mounted() {
@@ -418,6 +422,7 @@ __webpack_require__.r(__webpack_exports__);
         obj.publisherName = that.sentAdd.name;
         obj.publisherPhone = that.sentAdd.phone;
         obj.categoryId = that.formdata.categoryId;
+        obj.goodsName = that.formdata.goodsName;
         obj.publisherSex = that.formdata.publisherSex;
         obj.appointShop = that.formdata.appointShop;
         obj.leaveMessage = that.formdata.leaveMessage;

@@ -340,7 +340,9 @@ __webpack_require__.r(__webpack_exports__);
         value: '1' }],
 
       deposit_array_index: 0,
-      deposit_array: [] };
+      deposit_array: [],
+      // 防抖
+      onoff: true };
 
   },
   onShow: function onShow() {var _this = this;

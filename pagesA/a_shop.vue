@@ -285,7 +285,7 @@
 
 		<!-- 保存 -->
 		<view class="saveBox" v-show="!hoursShow">
-			<text @click="saveEvent">保存</text>
+			<text @click="$shake(saveEvent)">保存</text>
 		</view>
 	</view>
 </template>
@@ -336,7 +336,9 @@
 					value: '1'
 				}],
 				deposit_array_index: 0,
-				deposit_array: []
+				deposit_array: [],
+				// 防抖
+				onoff:true
 			}
 		},
 		onLoad() {

@@ -152,10 +152,9 @@
 								</view>
 								<view class="right">
 									<view class="btn" :class="item.received==1?'active':''"
-									@click="getwel(item)">
+									@click="$shake(getwel(item))">
 										{{item.received==1?'已':'去'}}领取
 									</view>
-									
 								</view>
 							</view>
 						</view>
@@ -200,7 +199,9 @@
 				getPro: new Map(),
 				sumPrice: 0,
 				ListIndex: 0,
-				id: 0
+				id: 0,
+				// 防抖
+				onoff:true
 			}
 		},
 		onLoad(e) {

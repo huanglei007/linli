@@ -509,9 +509,9 @@ var _a_nearbyshop = _interopRequireDefault(__webpack_require__(/*! @/pages/index
     this.rangeIndex = e.target.value;
     this.getNewList();
   },
-  menuClick: function menuClick(item, index) {var _this = this;
-    //  || index > 9
-    if (item.path == '') {
+  menuClick: function menuClick(item, i, index) {var _this = this;
+    //  item.path == '' || 
+    if (index > 9 || i == 1) {
       this.$alert('功能开发中');
     } else {
       if (item.path == '/pages/index/shangquan') {

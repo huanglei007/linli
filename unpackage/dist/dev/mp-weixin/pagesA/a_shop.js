@@ -517,7 +517,9 @@ var _default =
         value: '1' }],
 
       deposit_array_index: 0,
-      deposit_array: [] };
+      deposit_array: [],
+      // 防抖
+      onoff: true };
 
   },
   onLoad: function onLoad() {

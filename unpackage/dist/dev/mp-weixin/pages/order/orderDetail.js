@@ -571,7 +571,9 @@ __webpack_require__.r(__webpack_exports__);
       userInfo: {},
       kf_hotline: '',
       // 取件数量
-      takeNum: 0 };
+      takeNum: 0,
+      // 防抖
+      onoff: true };
 
   },
   onLoad: function onLoad(option) {

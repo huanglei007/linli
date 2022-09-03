@@ -84,7 +84,7 @@
 					跑腿费
 					<text>{{commission}}元</text>
 				</view>
-				<view class="btn" @click="submit()">
+				<view class="btn" @click="$shake(submit)">
 					下单
 				</view>
 			</view>
@@ -134,7 +134,9 @@
 				}, {
 					text: '立即上门',
 					value: '1'
-				}]
+				}],
+				// 防抖
+				onoff:true
 			}
 		},
 		mounted(option) {

@@ -17,7 +17,7 @@
 				<swiper-item v-for="(d,i) in  menuList" :key="i">
 					<view class="menuBox flexd">
 						<view id="itemList" class="item" v-for="(item,index) in d.list" :key="index"
-							@click="menuClick(item,index)">
+							@click="menuClick(item,i,index)">
 							<view class="image">
 								<image :src="item.img" mode=""></image>
 								<image v-if="item.tag" class="tag" :src="item.tag" mode="widthFix"></image>
@@ -343,9 +343,9 @@
 				this.rangeIndex = e.target.value
 				this.getNewList()
 			},
-			menuClick(item, index) {
-				//  || index > 9
-				if (item.path == '') {
+			menuClick(item, i,index) {
+				//  item.path == '' || 
+				if (index > 9 || i == 1) {
 					this.$alert('功能开发中')
 				} else {
 					if (item.path == '/pages/index/shangquan') {
@@ -475,7 +475,7 @@
 				image {
 					width: 30rpx;
 					height: 30rpx;
-					margin-right:10rpx;
+					margin-right: 10rpx;
 				}
 			}
 

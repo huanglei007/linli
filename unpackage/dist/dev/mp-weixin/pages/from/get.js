@@ -352,7 +352,9 @@ __webpack_require__.r(__webpack_exports__);
         specialDelivery: 0,
         delivery_date: '' },
 
-      disable: false };
+      disable: false,
+      // 防抖
+      onoff: true };
 
   },
   mounted: function mounted() {
