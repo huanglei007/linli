@@ -1,0 +1,51 @@
+<template>
+	<view class="sub">
+		<view class="sub-btn" @click="subEvent">
+			<text>立即预约</text>
+		</view>
+	</view>
+</template>
+
+<script>
+	export default {
+		props: ['url', 'type', 'typeId'],
+		data() {
+			return {
+				baojie_typeId: ''
+			}
+		},
+		watch: {
+			typeId(newVal, oldVal) {
+				this.baojie_typeId = newVal
+			}
+		},
+		methods: {
+			// 跳转路由
+			subEvent() {
+				uni.navigateTo({
+					url: this.url + '?typeId=' + this.baojie_typeId
+				})
+			}
+		}
+	}
+</script>
+
+<style lang="less">
+	.sub {
+		width: 100vw;
+		line-height: 91rpx;
+		text-align: center;
+		background-color: #fff;
+		border-top: 1px solid #D4D4D4;
+		position: fixed;
+		bottom: 0;
+		left: 0;
+		box-shadow: 0px 6rpx 30rpx #888888;
+
+		.sub-btn {
+			margin: 18rpx 100rpx;
+			background: linear-gradient(180deg, #FDEC7E 0%, #F9D448 100%);
+			border-radius: 100rpx;
+		}
+	}
+</style>

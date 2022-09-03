@@ -1,0 +1,1 @@
+<view class="baojie-yuyue-text"><view class="baojie-yuyue-text-title"><text class="font30">备注</text></view><view class="baojie-yuyue-text-textarea"><textarea placeholder-style="color:#CCCCCC" placeholder="补充描述您的要求，或其他特殊情况" data-event-opts="{{[['input',[['__set_model',['','textarea','$event',[]]]]]]}}" value="{{textarea}}" bindinput="__e"></textarea></view></view>

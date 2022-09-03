@@ -1,0 +1,41 @@
+.obj-relation,
+.obj-name,
+.obj-gender,
+.obj-age {
+  padding: 30rpx 40rpx;
+  border-radius: 20rpx;
+  background-color: #fff;
+  margin-bottom: 30rpx;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.obj-gender .obj-gender-radio .news-active {
+  background-color: #F9D448;
+}
+.obj-symptom {
+  padding: 30rpx 40rpx;
+  border-radius: 20rpx;
+  background-color: #fff;
+  margin-bottom: 30rpx;
+}
+.obj-symptom .obj-symptom-title {
+  margin-bottom: 20rpx;
+}
+.sub {
+  width: 100vw;
+  line-height: 91rpx;
+  text-align: center;
+  background-color: #fff;
+  border-top: 1px solid #D4D4D4;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  box-shadow: 0px 6rpx 30rpx #888888;
+}
+.sub .sub-btn {
+  margin: 18rpx 100rpx;
+  background: linear-gradient(180deg, #FDEC7E 0%, #F9D448 100%);
+  border-radius: 100rpx;
+}
+

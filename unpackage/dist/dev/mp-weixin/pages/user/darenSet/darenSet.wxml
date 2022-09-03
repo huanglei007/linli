@@ -1,0 +1,1 @@
+<view class="content"><view class="conBox"><block wx:if="{{typeIndex==0}}"><message vue-id="258b4ae2-1" bind:__l="__l"></message></block></view></view>

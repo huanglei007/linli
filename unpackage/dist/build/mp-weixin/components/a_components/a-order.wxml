@@ -1,0 +1,1 @@
+<view class="sub"><view data-event-opts="{{[['tap',[['subEvent',['$event']]]]]}}" class="sub-btn" bindtap="__e"><text>立即预约</text></view></view>

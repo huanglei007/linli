@@ -1,0 +1,58 @@
+.maogou-yuyue-taocan,
+.maogou-yuyue-upDate,
+.maogou-yuyue-type {
+  padding: 30rpx 40rpx;
+  border-radius: 20rpx;
+  background-color: #fff;
+  margin-bottom: 30rpx;
+}
+.maogou-yuyue-taocan .maogou-yuyue-taocan-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.maogou-yuyue-taocan .maogou-yuyue-taocan-title .icon-i {
+  width: 25rpx;
+  height: 25rpx;
+  line-height: 25rpx;
+  padding: 8rpx;
+  text-align: center;
+  color: #FF8D1E;
+  border: 1px solid #FF8D1E;
+  border-radius: 50%;
+}
+.maogou-yuyue-taocan .maogou-yuyue-taocan-list {
+  display: flex;
+  justify-content: space-between;
+  padding-top: 20rpx;
+  flex-wrap: wrap;
+}
+.maogou-yuyue-taocan .maogou-yuyue-taocan-list .list {
+  width: 26%;
+  height: 230rpx;
+  padding: 15rpx;
+  margin-right: 15rpx;
+  margin-bottom: 20rpx;
+  border: 1px solid #CCCCCC;
+  text-align: center;
+  border-radius: 8rpx;
+}
+.maogou-yuyue-taocan .maogou-yuyue-taocan-list .list .list-price {
+  padding-top: 15rpx;
+}
+.maogou-yuyue-taocan .maogou-yuyue-taocan-list .list .list-price text {
+  color: #FF6000;
+}
+.maogou-yuyue-taocan .maogou-yuyue-taocan-list .list:nth-child(3n) {
+  margin-right: 0;
+}
+.maogou-yuyue-taocan .maogou-yuyue-taocan-list .active {
+  border: 1px solid #FA6400;
+}
+.maogou-yuyue-upDate,
+.maogou-yuyue-type {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+

@@ -1,0 +1,7 @@
+{
+  "navigationStyle": "default",
+  "navigationBarTitleText": "新增地址",
+  "usingComponents": {
+    "picker-address": "/components/wangding-pickerAddres/wangding-pickerAddress"
+  }
+}

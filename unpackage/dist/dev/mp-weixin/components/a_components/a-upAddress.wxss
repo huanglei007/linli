@@ -1,0 +1,84 @@
+.baojie-yuyue-address {
+  padding: 30rpx 40rpx;
+  border-radius: 20rpx;
+  background-color: #fff;
+  margin-bottom: 30rpx;
+}
+.baojie-yuyue-address .baojie-yuyue-address-title {
+  display: flex;
+  justify-content: space-between;
+}
+.baojie-yuyue-address .baojie-yuyue-address-add {
+  padding: 40rpx 0;
+  text-align: center;
+}
+.peihu-yuyue-handover-address-radio {
+  text-align: center;
+  margin-top: 35rpx;
+  margin-bottom: 25rpx;
+}
+.peihu-yuyue-handover-address-radio .mode-active {
+  color: #fff;
+  background-color: #FF8D1E;
+}
+.marginDown {
+  margin-bottom: 80rpx;
+}
+.radio1,
+.radio2 {
+  padding: 15rpx 55rpx;
+  border: 1rpx solid #E5E5E5;
+  background-color: #fff;
+}
+.radio1 {
+  border-radius: 10px 0px 0px 10px;
+  border-right: none;
+}
+.radio2 {
+  border-radius: 0px 10px 10px 0px;
+  border-left: none;
+}
+.addbtn {
+  color: #FF8D1E;
+  display: inline-block;
+  padding: 15rpx 25rpx;
+  text-align: center;
+  border: 1px solid #FF8D1E;
+  border-radius: 12rpx;
+}
+.wrapper {
+  background: #fff;
+  padding: 30rpx;
+  position: relative;
+}
+.wrapper .address-box {
+  position: relative;
+}
+.wrapper .address-box .titas {
+  height: 34rpx;
+  line-height: 34rpx;
+  font-size: 32rpx;
+  font-family: PingFang SC;
+  font-weight: bold;
+}
+.wrapper .address-box .moren {
+  width: 64rpx;
+  height: 32rpx;
+  border: 1rpx solid #FF6000;
+  color: #FF6000;
+  border-radius: 4rpx;
+  line-height: 32rpx;
+  font-size: 20rpx;
+  font-family: PingFang SC;
+  font-weight: 400;
+  margin-left: 21rpx;
+}
+.wrapper .address-box .icon32 {
+  position: absolute;
+  right: 0;
+}
+.wrapper .shengray {
+  width: 558rpx;
+  margin-top: 10rpx;
+}
+

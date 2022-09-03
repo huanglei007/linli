@@ -1,0 +1,760 @@
+<template>
+	<view class="shop">
+		<view class="shop-news">
+			<text class="font24">店铺信息</text>
+			<view class="news-box">
+				<view class="box1 view-diy">
+					<!-- 店铺名称 -->
+					<view class="flex-center">
+						<view class="relive-title">
+							<text class="font28">店铺名称</text>
+						</view>
+						<view class="relive-icon">
+							<input placeholder-style="color:#CCCCCC" v-model="form.shop_name" placeholder="请填写店铺名称" />
+							<image class="icon32" src="/static/image/icon_update.png" mode=""></image>
+						</view>
+					</view>
+					<view class="fengexian"></view>
+					<!-- 商家类型 -->
+					<view class="flex-center">
+						<view class="relive-title">
+							<text class="font28">商家类型</text>
+						</view>
+						<view class="relive-icon">
+							<picker mode="selector" @change="shopTypeChange" :value="typeIndex" :range="shopType"
+								range-key="name">
+								<text class="fontColor-666">{{shopType[typeIndex].name}}</text>
+							</picker>
+							<image class="icon22" src="/static/image/icon_gd.png" mode=""></image>
+						</view>
+					</view>
+					<view class="fengexian"></view>
+					<!-- 店铺头像 -->
+					<view class="flex-center">
+						<view class="relive-title">
+							<text class="font28">店铺头像</text>
+						</view>
+						<view class="relive-icon" @click="updateImg">
+							<image class="icon60" :src="form.shop_logo?form.shop_logo:Img(imageValue[0])" mode="">
+							</image>
+							<image class="icon22" src="/static/image/icon_gd.png" mode=""></image>
+						</view>
+					</view>
+				</view>
+				<view class="box2 view-diy">
+					<!-- 营业状态 -->
+					<view class="flex-center">
+						<view class="relive-title">
+							<text class="font28">营业状态</text>
+						</view>
+						<view class="relive-icon">
+							<picker mode="selector" @change="shopStatusChange" :value="form.business_status"
+								:range="shopStatus" range-key="label">
+								<view class="status" v-if="shopStatus[form.business_status]">
+									<view class="status-switch">
+										<text class="switch" :class="form.business_status==0?'shut':'open'"></text>
+										<text class="text">{{shopStatus[form.business_status].label}}</text>
+									</view>
+								</view>
+							</picker>
+							<image class="icon22" src="/static/image/icon_gd.png" mode=""></image>
+						</view>
+					</view>
+					<view class="fengexian"></view>
+					<!-- 商家地址 -->
+					<view class="flex-center">
+						<view class="relive-title">
+							<text class="font28">商家地址</text>
+						</view>
+						<view class="relive-icon">
+							<input placeholder-style="color:#CCCCCC" v-model="form.address" placeholder="请填写商家地址" />
+							<image class="icon32" src="/static/image/icon_update.png" mode=""></image>
+						</view>
+					</view>
+					<view class="fengexian"></view>
+					<!-- 营业时间 -->
+					<view class="flex-center">
+						<view class="relive-title">
+							<text class="font28">营业时间</text>
+						</view>
+						<view class="relive-icon" @click="hoursShow=true">
+							<text
+								class="font26 fontColor-666">{{form.service_begin_time}}-{{form.service_end_time}}</text>
+							<image class="icon32" src="/static/image/icon_update.png" mode=""></image>
+						</view>
+					</view>
+					<view class="fengexian"></view>
+					<!-- 起送费 -->
+					<view class="flex-center">
+						<view class="relive-title">
+							<text class="font28">起送费</text>
+						</view>
+						<view class="relive-icon">
+							<uni-number-box v-model="form.initial_delivery_fee"></uni-number-box>
+						</view>
+					</view>
+				</view>
+				<view class="box3 view-diy">
+					<!-- 运营点 -->
+					<view class="flex-center">
+						<view class="relive-title">
+							<text class="font28">运营点</text>
+						</view>
+						<view class="relive-icon" v-if="operation[operationIndex]">
+							<picker :value="operationIndex" :range="operation" range-key="operation_point_name"
+								@change="operationChange">
+								<view :class="{'fontColor-ccc':!operation[operationIndex].operation_point_name}">
+									{{operation[operationIndex]?operation[operationIndex].operation_point_name:'请填写运营点'}}
+								</view>
+							</picker>
+							<image class="icon32" src="/static/image/icon_update.png" mode=""></image>
+						</view>
+					</view>
+					<view class="fengexian"></view>
+					<!-- 联系人 -->
+					<view class="flex-center">
+						<view class="relive-title">
+							<text class="font28">联系人</text>
+						</view>
+						<view class="relive-icon">
+							<input placeholder-style="color:#CCCCCC" v-model="form.contact_name" placeholder="请填写联系人" />
+							<image class="icon32" src="/static/image/icon_update.png" mode=""></image>
+						</view>
+					</view>
+					<view class="fengexian"></view>
+					<!-- 联系方式 -->
+					<view class="flex-center">
+						<view class="relive-title">
+							<text class="font28">联系方式</text>
+						</view>
+						<view class="relive-icon">
+							<input placeholder-style="color:#CCCCCC" v-model="form.contact_phone"
+								placeholder="请填写联系方式" />
+							<image class="icon32" src="/static/image/icon_update.png" mode=""></image>
+						</view>
+					</view>
+				</view>
+				<view class="box4 view-diy">
+					<!-- 服务内容 -->
+					<view class="flex-center">
+						<view class="relive-title">
+							<text class="font28">服务内容</text>
+						</view>
+						<view class="relive-icon">
+							<input placeholder-style="color:#CCCCCC" v-model="form.service_content"
+								placeholder="请填写服务内容" />
+							<image class="icon32" src="/static/image/icon_update.png" mode=""></image>
+						</view>
+					</view>
+					<view class="fengexian"></view>
+					<!-- 服务流程 -->
+					<view class="flex-center">
+						<view class="relive-title">
+							<text class="font28">服务流程</text>
+						</view>
+						<view class="relive-icon">
+							<input placeholder-style="color:#CCCCCC" v-model="form.service_process"
+								placeholder="请填写服务流程" />
+							<image class="icon32" src="/static/image/icon_update.png" mode=""></image>
+						</view>
+					</view>
+					<view class="fengexian"></view>
+					<!-- 服务保障 -->
+					<view class="flex-center">
+						<view class="relive-title">
+							<text class="font28">服务保障</text>
+						</view>
+						<view class="relive-icon">
+							<input placeholder-style="color:#CCCCCC" v-model="form.service_guarantee"
+								placeholder="请填写服务保障" />
+							<image class="icon32" src="/static/image/icon_update.png" mode=""></image>
+						</view>
+					</view>
+				</view>
+				<view class="box5 view-diy">
+					<!-- 押金 -->
+					<view class="flex-center">
+						<view class="relive-title">
+							<text class="font28">押金</text>
+							<text v-if="form.deposit_amount>0" class="font22" style="color:#2979ff;"
+								@click="returnDeposit">{{' '}}(申请退还)</text>
+						</view>
+						<radio-group class="flexd" @change="radioChange" style="transform:scale(0.9)">
+							<label class="flexd flex-center" style="padding-left: 30rpx;"
+								v-for="(item, index) in deposit_arr" :key="item.value"
+								v-if="form.deposit_amount==0||item.value == '1'&&form.deposit_amount>0">
+								<view>
+									<radio :value="item.value" :checked="item.value == deposit_index" />
+								</view>
+								<view>{{item.text}}</view>
+							</label>
+						</radio-group>
+					</view>
+					<view class="fengexian" v-if="deposit_index=='1'"></view>
+					<!-- 押金金额 -->
+					<view class="flex-center" v-if="deposit_index=='1'">
+						<view class="relive-title">
+							<text class="font28">押金金额</text>
+						</view>
+						<view class="relive-icon" v-if="deposit_array[deposit_array_index]">
+							<picker @change="depositChange" :value="deposit_array_index" :range="deposit_array"
+								range-key="amount">
+								<view class="uni-input">{{deposit_array[deposit_array_index].amount}}</view>
+							</picker>
+							<image class="icon22" src="/static/image/icon_gd.png" mode=""></image>
+						</view>
+
+					</view>
+				</view>
+			</view>
+			<view class="box6 view-diy">
+				<!-- 营业资质 -->
+				<view class="flex-center">
+					<view class="relive-title">
+						<text class="font28">营业资质</text>
+					</view>
+					<view class="relive-icon" @click="doBusiness">
+						<image class="icon22" src="/static/image/icon_gd.png" mode=""></image>
+					</view>
+				</view>
+
+			</view>
+		</view>
+		<!-- 设置 -->
+		<view class="shop-setting">
+			<text class="font24">设置</text>
+			<view class="setting-relive flex-center view-diy">
+				<view class="relive-title">
+					<text class="font28">申请解除合作</text>
+				</view>
+				<view class="relive-icon">
+					<image class="icon22" src="/static/image/icon_gd.png" mode=""></image>
+				</view>
+			</view>
+		</view>
+
+
+		<!-- 营业时间弹窗 -->
+		<view class="pickerBox" v-if="hoursShow">
+			<view class="black" @click="hoursShow=false"></view>
+
+			<view class="pickerDate">
+				<view class="handelBox">
+					<view class="_cancel">
+						<text class="font36" @click="hoursShow=false">取消</text>
+					</view>
+					<view class="_confirm">
+						<text class="font36" style="color:cornflowerblue" @click="confirmEvent">确认</text>
+					</view>
+				</view>
+				<view class="content">
+					<picker-view :value="timeVal_start" @change="bindChange_start" class="picker-view"
+						style="height:600rpx;flex: 1;">
+						<picker-view-column>
+							<view class="item" v-for="(item,index) in 23" :key="index">
+								{{index}}时
+							</view>
+						</picker-view-column>
+						<picker-view-column>
+							<view class="item" v-for="(item,index) in 59" :key="index">
+								{{index}}分
+							</view>
+						</picker-view-column>
+					</picker-view>
+					<view class="">
+						<text>至</text>
+					</view>
+					<picker-view :value="timeVal_end" @change="bindChange_end" class="picker-view"
+						style="height:600rpx;flex: 1;">
+						<picker-view-column>
+							<view class="item" v-for="(item,index) in 23" :key="index">
+								{{index}}时
+							</view>
+						</picker-view-column>
+						<picker-view-column>
+							<view class="item" v-for="(item,index) in 59" :key="index">
+								{{index}}分
+							</view>
+						</picker-view-column>
+					</picker-view>
+
+				</view>
+			</view>
+
+		</view>
+
+		<!-- 保存 -->
+		<view class="saveBox" v-show="!hoursShow">
+			<text @click="saveEvent">保存</text>
+		</view>
+	</view>
+</template>
+
+<script>
+	export default {
+		components: {},
+		data() {
+			return {
+				imageurl: "",
+				userId: '',
+				// 我的店铺信息
+				form: {},
+				imageValue: [],
+				// 店铺类型
+				shopType: [{
+					"icon": "", //图标
+					"id": 0, //编号
+					"name": "", //商户类型名称
+					"parentId": 0 //父级id
+				}],
+				typeIndex: 0,
+				// 店铺状态
+				shopStatus: [{
+						label: '休息',
+						business_status: 0
+					},
+					{
+						label: '营业',
+						business_status: 1
+					}
+				],
+				// 营业时间
+				hoursShow: false,
+				businessHours: ['开始时间', '结束时间'],
+				timeVal_start: [9, 9],
+				timeVal_end: [15, 15],
+				// 运营点
+				operation: [],
+				operationIndex: 0,
+				// 押金
+				deposit_index: 0,
+				deposit_arr: [{
+					text: '不交押金',
+					value: '0'
+				}, {
+					text: '交押金',
+					value: '1'
+				}],
+				deposit_array_index: 0,
+				deposit_array: []
+			}
+		},
+		onLoad() {
+			this.getTypeList()
+			this.getOperation()
+			this.userId = uni.getStorageSync('userId')
+			this.imageurl = this.globalData.imageurl
+		},
+		watch: {
+			imageValue(newVal, oldVal) {
+				this.form.shop_logo = this.Img(newVal[0])
+			}
+		},
+		methods: {
+			// 获取商铺类型
+			getTypeList() {
+				let that = this
+				this.util.ajax('shop/getShopTypeList', {
+					"parentId": 0,
+					"secondType":1
+				}, res => {
+					that.shopType = res.data.list
+
+					that.getMyShop()
+				})
+			},
+			// 获取我的店铺信息
+			getMyShop() {
+				let that = this
+				this.util.ajax('shop/getShopInfo', {
+					"userId": that.userId
+				}, res => {
+					that.form = res.data
+					if (res.data.deposit_amount > 0) {
+						that.deposit_index = '1'
+						this.util.ajax('shop/queryShopDepositSet', {}, res => {
+							that.deposit_array = res.data.list
+							for (let i = 0; i < res.data.list.length; i++) {
+								if (that.form.deposit_amount == res.data.list[i].amount) {
+									that.deposit_array_index = i
+								}
+							}
+						})
+					}
+					for (let i in that.operation) {
+						if (that.operation[i].id == res.data.operation_point_id) {
+							that.operationIndex = i
+						}
+					}
+				})
+			},
+			// 保存我的店铺信息
+			saveEvent() {
+				let that = this
+				this.util.ajax('shop/saveShopSet', that.form, res => {
+					if (that.deposit_index == '1' && that.form.deposit_amount == 0) {
+						this.util.ajax('shop/submitShopDepositOrder', {
+							"amount": that.deposit_array[that.deposit_array_index].amount,
+							"userId": that.userId,
+						}, res => {
+							// #ifdef APP-PLUS
+							let paymentType = 3
+							// #endif
+							// #ifdef MP-WEIXIN
+							let paymentType = 4
+							// #endif
+							that.util.ajax('pay/toPay', {
+								"orderNum": res.data.order_num,
+								"payType": 1,
+								"paymentType": paymentType,
+								"purpose": 5,
+								"subject": "押金",
+								"userId": that.userId
+							}, resx => {
+								uni.hideLoading()
+								// #ifdef APP-PLUS
+								let response = JSON.parse(resx.data)
+								// #endif
+								uni.requestPayment({
+									"provider": "wxpay",
+									// #ifdef APP-PLUS
+									"orderInfo": {
+										"appid": response
+											.appid, // 微信开放平台 - 应用 - AppId，注意和微信小程序、公众号 AppId 可能不一致
+										"noncestr": response.noncestr, // 随机字符串
+										"package": response.package, // 固定值
+										"partnerid": response.partnerid, // 微信支付商户号
+										"prepayid": response.prepayid, // 统一下单订单号 
+										"timestamp": response.timestamp, // 时间戳（单位：秒）
+										"sign": response.sign // 签名，这里用的 MD5 签名
+									},
+									// #endif
+									// #ifdef MP-WEIXIN
+									"timeStamp": resx.data.timeStamp,
+									"nonceStr": resx.data.nonceStr,
+									"package": resx.data.packageValue,
+									"signType": 'MD5',
+									"paySign": resx.data.paySign,
+									// #endif
+									success(e) {
+										that.$alert('提交成功')
+										setTimeout(() => {
+											that.$jumpback()
+										}, 1000)
+									},
+									fail(e) {
+										that.$alert('支付失败')
+									}
+								})
+							})
+						})
+					} else {
+						this.$alert('保存成功')
+						setTimeout(() => {
+							that.$jumpback()
+						}, 1000)
+					}
+
+				})
+			},
+			// 获取营业点列表
+			getOperation() {
+				let that = this
+				this.util.ajax('common/operationPointList', {}, res => {
+					that.operation = res.data.list
+				})
+			},
+
+			// 监听商家类型变换
+			shopTypeChange(e) {
+				let that = this
+				that.typeIndex = e.detail.value
+			},
+			// 监听营业状态变换
+			shopStatusChange(e) {
+				let that = this
+				that.form.business_status = that.shopStatus[e.detail.value].business_status
+				this.util.ajax('shop/editShopStatus', {
+					"business_status": that.shopStatus[e.detail.value].business_status,
+					"user_id": that.userId
+				}, res => {
+					this.$alert('营业状态已保存')
+				})
+			},
+			// 监听营业点变换
+			operationChange(e) {
+				let that = this
+				that.operationIndex = e.detail.value
+				that.form.operation_point_id = e.detail.operation_point_id
+			},
+			//营业时间
+			// 开始 结束时间监听
+			bindChange_start(e) {
+				let that = this
+				that.timeVal_start = e.detail.value
+			},
+			bindChange_end(e) {
+				let that = this
+				that.timeVal_end = e.detail.value
+			},
+			// 监听是否交押金
+			radioChange(e) {
+				let that = this;
+				that.deposit_index = e.detail.value
+				if (e.detail.value == '1') {
+					this.util.ajax('shop/queryShopDepositSet', {}, res => {
+						that.deposit_array = res.data.list
+					})
+				}
+			},
+			// 监听押金金额
+			depositChange(e) {
+				console.log(e)
+				this.deposit_array_index = e.detail.value
+			},
+			// 退还押金
+			returnDeposit() {
+				let that = this
+				uni.showModal({
+					title: '',
+					content: '确认退还押金吗?',
+					success: function(res) {
+						if (res.confirm) {
+							that.util.ajax('shop/submitShopDepositRefund', {
+								'amount': that.form.deposit_amount,
+								"userId": that.form.user_id
+							}, res => {
+								that.$alert('已提交申请，请等待审核')
+								// that.deposit_index = '0' //不交押金
+								// that.deposit_array_index = 0 //初始化押金金额
+								// that.form.deposit_amount = 0 //初始化店铺押金金额
+							})
+						} else if (res.cancel) {
+							console.log('用户点击取消');
+						}
+					}
+				});
+			},
+			// 确认
+			confirmEvent() {
+				let that = this;
+				let start_h = '';
+				let start_s = '';
+				let end_h = '';
+				let end_s = '';
+				for (let i = 0; i < that.timeVal_start.length; i++) {
+					if (that.timeVal_start[i] < 10) {
+						if (i == 0) {
+							start_h = '0' + that.timeVal_start[i]
+						} else {
+							start_s = '0' + that.timeVal_start[i]
+						}
+					} else {
+						if (i == 0) {
+							start_h = that.timeVal_start[i]
+						} else {
+							start_s = that.timeVal_start[i]
+						}
+					}
+				}
+				for (let i = 0; i < that.timeVal_end.length; i++) {
+					if (that.timeVal_end[i] < 10) {
+						if (i == 0) {
+							end_h = '0' + that.timeVal_start[i]
+						} else {
+							end_s = '0' + that.timeVal_start[i]
+						}
+					} else {
+						if (i == 0) {
+							end_h = that.timeVal_end[i]
+						} else {
+							end_s = that.timeVal_end[i]
+						}
+					}
+				}
+				that.form.service_begin_time = start_h + ':' + start_s
+				that.form.service_end_time = end_h + ':' + end_s
+
+				this.hoursShow = false
+			},
+			//上传店铺头像
+			updateImg() {
+				this.util.sendimage(5 - this.imageValue.length, this.imageValue)
+			},
+			// 营业资质
+			doBusiness() {
+				let that = this
+				let licens = this.form.business_license
+				let img = []
+				img.push(that.imageurl + licens)
+				uni.previewImage({
+					current: img[0],
+					urls: img,
+				});
+			},
+		}
+	}
+</script>
+
+<style lang="less">
+	.flex-center {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+
+		.relive-title {
+			position: relative;
+		}
+	}
+
+	.fengexian {
+		height: 1px;
+		background: #E8E8E8;
+		margin: 20rpx 0;
+	}
+
+	.shop-setting {
+		padding-bottom: 100rpx;
+	}
+
+	.relive-icon {
+		flex: 1;
+		text-align: right;
+		display: flex;
+		align-items: center;
+		justify-content: flex-end;
+		position: relative;
+
+
+		.timeSlot,
+		.uni-datetime-picker {
+			position: absolute;
+		}
+
+		.icon32 {
+			margin-left: 5rpx;
+		}
+
+		uni-picker {
+			flex: 1;
+			text-align: right;
+		}
+
+		/* #ifdef MP-WEIXIN */
+		picker {
+			flex: 1;
+			text-align: right;
+		}
+		/* #endif */
+
+		input {
+			width: 400rpx;
+			color: #666666;
+			font-size: 26rpx;
+			text-align: right;
+		}
+	}
+
+	.shop {
+		padding: 25rpx;
+
+		.setting-relive,
+		.news-box {
+			margin-top: 20rpx;
+		}
+	}
+
+	.status {
+		display: flex;
+		justify-content: flex-end;
+
+		text {
+			font-size: 26rpx;
+		}
+
+		.status-switch {
+			width: fit-content;
+			padding: 8rpx 19rpx;
+			border-radius: 25rpx;
+			background-color: #F6F6F6;
+			display: flex;
+			align-items: center;
+			text-align: center;
+
+			.switch {
+				padding: 8rpx;
+				border-radius: 8rpx;
+			}
+
+			.shut {
+				background-color: red;
+			}
+
+			.open {
+				background-color: #6ED500;
+			}
+
+			.text {
+				margin-left: 15rpx;
+			}
+		}
+	}
+
+	.pickerBox {
+		.black {
+			position: fixed;
+			left: 0;
+			top: 0;
+			right: 0;
+			bottom: 0;
+			background-color: rgba(0, 0, 0, 0.4);
+		}
+
+		.pickerDate {
+			width: 100%;
+			background-color: #fff;
+			position: fixed;
+			left: 0;
+			bottom: 0;
+			z-index: 2;
+
+			.handelBox {
+				display: flex;
+				justify-content: space-between;
+				padding: 20rpx 30rpx;
+			}
+
+			.content {
+				display: flex;
+				align-items: center;
+				padding-bottom: 0;
+
+				.item {
+					display: flex;
+					align-items: center;
+					justify-content: center;
+					text-align: center;
+				}
+			}
+		}
+	}
+
+	.saveBox {
+		width: 100%;
+		padding: 30rpx 0 40rpx 0;
+		background-color: #fff;
+		text-align: center;
+		position: fixed;
+		left: 0;
+		bottom: 0;
+		box-shadow: 0px 6rpx 30rpx #888888;
+		z-index: 2;
+
+		text {
+			font-size: 36rpx;
+			padding: 10rpx 80rpx;
+			background: linear-gradient(180deg, #FDEC7E 0%, #F9D448 100%);
+			border-radius: 7px;
+		}
+	}
+</style>

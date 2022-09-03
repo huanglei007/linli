@@ -1,0 +1,9 @@
+{
+  "navigationStyle": "default",
+  "navigationBarTitleText": "我的订单",
+  "usingComponents": {
+    "my-apply": "/pages/user/myOrder/myApply",
+    "receiving": "/pages/user/myOrder/receiving",
+    "order": "/pages/user/myOrder/order"
+  }
+}

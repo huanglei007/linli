@@ -1,0 +1,1 @@
+<view class="maogou"><view class="maogou-img"><image src="{{imageurl+'static/image/img_maogou.png'}}" mode="widthFix"></image></view><view class="maogou-title"><image src="{{imageurl+'static/image/img_maogou_text.png'}}" mode="widthFix"></image></view><a-order vue-id="5f3cd3e2-1" url="a_maogou_yuyue" bind:__l="__l"></a-order></view>

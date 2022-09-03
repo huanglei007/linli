@@ -1,0 +1,2048 @@
+[
+    {
+        "id": 255,
+        "text": "阿坝",
+        "zip_code": "624000",
+        "abridge": "AB"
+    },
+    {
+        "id": 334,
+        "text": "阿克苏",
+        "zip_code": "843000",
+        "abridge": "AKS"
+    },
+    {
+        "id": 36,
+        "text": "阿拉善盟",
+        "zip_code": "750306",
+        "abridge": "ALSM"
+    },
+    {
+        "id": 340,
+        "text": "阿勒泰",
+        "zip_code": "836500",
+        "abridge": "ALT"
+    },
+    {
+        "id": 288,
+        "text": "阿里",
+        "zip_code": "859000",
+        "abridge": "AL"
+    },
+    {
+        "id": 298,
+        "text": "安康",
+        "zip_code": "725000",
+        "abridge": "AK"
+    },
+    {
+        "id": 105,
+        "text": "安庆",
+        "zip_code": "246000",
+        "abridge": "AQ"
+    },
+    {
+        "id": 261,
+        "text": "安顺",
+        "zip_code": "561000",
+        "abridge": "AS"
+    },
+    {
+        "id": 156,
+        "text": "安阳",
+        "zip_code": "455000",
+        "abridge": "AY"
+    },
+    {
+        "id": 39,
+        "text": "鞍山",
+        "zip_code": "114000",
+        "abridge": "AS"
+    },
+    {
+        "id": 343,
+        "text": "澳门",
+        "zip_code": "999078",
+        "abridge": "AM"
+    },
+    {
+        "id": 32,
+        "text": "巴彦",
+        "zip_code": "015000",
+        "abridge": "BY"
+    },
+    {
+        "id": 333,
+        "text": "巴音郭楞",
+        "zip_code": "841000",
+        "abridge": "BYGL"
+    },
+    {
+        "id": 253,
+        "text": "巴中",
+        "zip_code": "636600",
+        "abridge": "BZ"
+    },
+    {
+        "id": 58,
+        "text": "白城",
+        "zip_code": "137000",
+        "abridge": "BC"
+    },
+    {
+        "id": 56,
+        "text": "白山",
+        "zip_code": "134300",
+        "abridge": "BS"
+    },
+    {
+        "id": 303,
+        "text": "白银",
+        "zip_code": "730900",
+        "abridge": "BY"
+    },
+    {
+        "id": 228,
+        "text": "百色",
+        "zip_code": "533000",
+        "abridge": "BS"
+    },
+    {
+        "id": 100,
+        "text": "蚌埠",
+        "zip_code": "233000",
+        "abridge": "BB"
+    },
+    {
+        "id": 26,
+        "text": "包头",
+        "zip_code": "014000",
+        "abridge": "BT"
+    },
+    {
+        "id": 292,
+        "text": "宝鸡",
+        "zip_code": "721000",
+        "abridge": "BJ"
+    },
+    {
+        "id": 8,
+        "text": "保定",
+        "zip_code": "071000",
+        "abridge": "BD"
+    },
+    {
+        "id": 270,
+        "text": "保山",
+        "zip_code": "678000",
+        "abridge": "BS"
+    },
+    {
+        "id": 223,
+        "text": "北海",
+        "zip_code": "536000",
+        "abridge": "BH"
+    },
+    {
+        "id": 41,
+        "text": "本溪",
+        "zip_code": "117000",
+        "abridge": "BX"
+    },
+    {
+        "id": 264,
+        "text": "毕节",
+        "zip_code": "551700",
+        "abridge": "BJ"
+    },
+    {
+        "id": 150,
+        "text": "滨州",
+        "zip_code": "256600",
+        "abridge": "BZ"
+    },
+    {
+        "id": 112,
+        "text": "亳州",
+        "zip_code": "236000",
+        "abridge": "HZ"
+    },
+    {
+        "id": 332,
+        "text": "博尔塔拉",
+        "zip_code": "833400",
+        "abridge": "BRTL"
+    },
+    {
+        "id": 11,
+        "text": "沧州",
+        "zip_code": "061000",
+        "abridge": "CZ"
+    },
+    {
+        "id": 284,
+        "text": "昌都",
+        "zip_code": "854000",
+        "abridge": "CD"
+    },
+    {
+        "id": 331,
+        "text": "昌吉",
+        "zip_code": "831100",
+        "abridge": "CJ"
+    },
+    {
+        "id": 190,
+        "text": "常德",
+        "zip_code": "415000",
+        "abridge": "CD"
+    },
+    {
+        "id": 77,
+        "text": "常州",
+        "zip_code": "213000",
+        "abridge": "CZ"
+    },
+    {
+        "id": 110,
+        "text": "巢湖",
+        "zip_code": "238000",
+        "abridge": "CH"
+    },
+    {
+        "id": 49,
+        "text": "朝阳",
+        "zip_code": "100020",
+        "abridge": "CY"
+    },
+    {
+        "id": 216,
+        "text": "潮州",
+        "zip_code": "521000",
+        "abridge": "CZ"
+    },
+    {
+        "id": 193,
+        "text": "郴州",
+        "zip_code": "423000",
+        "abridge": "CZ"
+    },
+    {
+        "id": 237,
+        "text": "成都",
+        "zip_code": "610000",
+        "abridge": "CD"
+    },
+    {
+        "id": 10,
+        "text": "承德",
+        "zip_code": "067000",
+        "abridge": "CD"
+    },
+    {
+        "id": 113,
+        "text": "池州",
+        "zip_code": "247100",
+        "abridge": "CZ"
+    },
+    {
+        "id": 28,
+        "text": "赤峰",
+        "zip_code": "024000",
+        "abridge": "CF"
+    },
+    {
+        "id": 236,
+        "text": "重庆",
+        "zip_code": "400000",
+        "abridge": "CQ"
+    },
+    {
+        "id": 232,
+        "text": "崇左",
+        "zip_code": "532200",
+        "abridge": "ZZ"
+    },
+    {
+        "id": 107,
+        "text": "滁州",
+        "zip_code": "239000",
+        "abridge": "CZ"
+    },
+    {
+        "id": 275,
+        "text": "楚雄",
+        "zip_code": "675000",
+        "abridge": "CX"
+    },
+    {
+        "id": 251,
+        "text": "达州",
+        "zip_code": "635000",
+        "abridge": "DZ"
+    },
+    {
+        "id": 279,
+        "text": "大理",
+        "zip_code": "671000",
+        "abridge": "DL"
+    },
+    {
+        "id": 38,
+        "text": "大连",
+        "zip_code": "116000",
+        "abridge": "DL"
+    },
+    {
+        "id": 65,
+        "text": "大庆",
+        "zip_code": "163000",
+        "abridge": "DQ"
+    },
+    {
+        "id": 15,
+        "text": "大同",
+        "zip_code": "037000",
+        "abridge": "DT"
+    },
+    {
+        "id": 72,
+        "text": "大兴安岭",
+        "zip_code": "165000",
+        "abridge": "DXAL"
+    },
+    {
+        "id": 42,
+        "text": "丹东",
+        "zip_code": "118000",
+        "abridge": "DD"
+    },
+    {
+        "id": 280,
+        "text": "德宏",
+        "zip_code": "678400",
+        "abridge": "DH"
+    },
+    {
+        "id": 241,
+        "text": "德阳",
+        "zip_code": "618000",
+        "abridge": "DY"
+    },
+    {
+        "id": 148,
+        "text": "德州",
+        "zip_code": "253000",
+        "abridge": "DZ"
+    },
+    {
+        "id": 282,
+        "text": "迪庆",
+        "zip_code": "674400",
+        "abridge": "DQ"
+    },
+    {
+        "id": 310,
+        "text": "定西",
+        "zip_code": "743000",
+        "abridge": "DX"
+    },
+    {
+        "id": 214,
+        "text": "东莞",
+        "zip_code": "523000",
+        "abridge": "DG"
+    },
+    {
+        "id": 139,
+        "text": "东营",
+        "zip_code": "257000",
+        "abridge": "DY"
+    },
+    {
+        "id": 30,
+        "text": "鄂尔多斯",
+        "zip_code": "017000",
+        "abridge": "EEDS"
+    },
+    {
+        "id": 175,
+        "text": "鄂州",
+        "zip_code": "436000",
+        "abridge": "EZ"
+    },
+    {
+        "id": 182,
+        "text": "恩施",
+        "zip_code": "445000",
+        "abridge": "ES"
+    },
+    {
+        "id": 224,
+        "text": "防城港",
+        "zip_code": "538000",
+        "abridge": "FZG"
+    },
+    {
+        "id": 203,
+        "text": "佛山",
+        "zip_code": "528000",
+        "abridge": "FS"
+    },
+    {
+        "id": 115,
+        "text": "福州",
+        "zip_code": "350000",
+        "abridge": "FZ"
+    },
+    {
+        "id": 40,
+        "text": "抚顺",
+        "zip_code": "113000",
+        "abridge": "FS"
+    },
+    {
+        "id": 133,
+        "text": "抚州",
+        "zip_code": "344000",
+        "abridge": "FZ"
+    },
+    {
+        "id": 45,
+        "text": "阜新",
+        "zip_code": "123000",
+        "abridge": "FX"
+    },
+    {
+        "id": 108,
+        "text": "阜阳",
+        "zip_code": "236000",
+        "abridge": "FY"
+    },
+    {
+        "id": 313,
+        "text": "甘南",
+        "zip_code": "747000",
+        "abridge": "GN"
+    },
+    {
+        "id": 256,
+        "text": "甘孜",
+        "zip_code": "626000",
+        "abridge": "GZ"
+    },
+    {
+        "id": 130,
+        "text": "赣州",
+        "zip_code": "341000",
+        "abridge": "GZ"
+    },
+    {
+        "id": 325,
+        "text": "固原",
+        "zip_code": "756000",
+        "abridge": "GY"
+    },
+    {
+        "id": 250,
+        "text": "广安",
+        "zip_code": "638500",
+        "abridge": "GA"
+    },
+    {
+        "id": 243,
+        "text": "广元",
+        "zip_code": "628000",
+        "abridge": "GY"
+    },
+    {
+        "id": 198,
+        "text": "广州",
+        "zip_code": "510000",
+        "abridge": "GZ"
+    },
+    {
+        "id": 226,
+        "text": "贵港",
+        "zip_code": "537100",
+        "abridge": "GG"
+    },
+    {
+        "id": 258,
+        "text": "贵阳",
+        "zip_code": "550000",
+        "abridge": "GY"
+    },
+    {
+        "id": 221,
+        "text": "桂林",
+        "zip_code": "541000",
+        "abridge": "GL"
+    },
+    {
+        "id": 319,
+        "text": "果洛",
+        "zip_code": "814000",
+        "abridge": "GL"
+    },
+    {
+        "id": 60,
+        "text": "哈尔滨",
+        "zip_code": "150000",
+        "abridge": "HRB"
+    },
+    {
+        "id": 330,
+        "text": "哈密",
+        "zip_code": "839000",
+        "abridge": "HM"
+    },
+    {
+        "id": 316,
+        "text": "海北",
+        "zip_code": "812200",
+        "abridge": "HB"
+    },
+    {
+        "id": 315,
+        "text": "海东",
+        "zip_code": "810600",
+        "abridge": "HD"
+    },
+    {
+        "id": 233,
+        "text": "海口",
+        "zip_code": "570100",
+        "abridge": "HK"
+    },
+    {
+        "id": 318,
+        "text": "海南",
+        "zip_code": "813000",
+        "abridge": "HN"
+    },
+    {
+        "id": 321,
+        "text": "海西",
+        "zip_code": "817000",
+        "abridge": "HX"
+    },
+    {
+        "id": 6,
+        "text": "邯郸",
+        "zip_code": "056000",
+        "abridge": "HD"
+    },
+    {
+        "id": 296,
+        "text": "汉中",
+        "zip_code": "723000",
+        "abridge": "HZ"
+    },
+    {
+        "id": 87,
+        "text": "杭州",
+        "zip_code": "310000",
+        "abridge": "HZ"
+    },
+    {
+        "id": 98,
+        "text": "合肥",
+        "zip_code": "230000",
+        "abridge": "HF"
+    },
+    {
+        "id": 337,
+        "text": "和田",
+        "zip_code": "848000",
+        "abridge": "HT"
+    },
+    {
+        "id": 230,
+        "text": "河池",
+        "zip_code": "547000",
+        "abridge": "HC"
+    },
+    {
+        "id": 211,
+        "text": "河源",
+        "zip_code": "517000",
+        "abridge": "HY"
+    },
+    {
+        "id": 151,
+        "text": "菏泽",
+        "zip_code": "274000",
+        "abridge": "HZ"
+    },
+    {
+        "id": 229,
+        "text": "贺州",
+        "zip_code": "542800",
+        "abridge": "HZ"
+    },
+    {
+        "id": 157,
+        "text": "鹤壁",
+        "zip_code": "458000",
+        "abridge": "HB"
+    },
+    {
+        "id": 63,
+        "text": "鹤岗",
+        "zip_code": "154100",
+        "abridge": "HG"
+    },
+    {
+        "id": 70,
+        "text": "黑河",
+        "zip_code": "164300",
+        "abridge": "HH"
+    },
+    {
+        "id": 13,
+        "text": "衡水",
+        "zip_code": "053000",
+        "abridge": "HS"
+    },
+    {
+        "id": 187,
+        "text": "衡阳",
+        "zip_code": "421000",
+        "abridge": "HY"
+    },
+    {
+        "id": 276,
+        "text": "红河",
+        "zip_code": "661400",
+        "abridge": "HH"
+    },
+    {
+        "id": 25,
+        "text": "呼和浩特",
+        "zip_code": "010000",
+        "abridge": "HHHT"
+    },
+    {
+        "id": 31,
+        "text": "呼伦贝尔",
+        "zip_code": "021000",
+        "abridge": "HLBR"
+    },
+    {
+        "id": 91,
+        "text": "湖州",
+        "zip_code": "313000",
+        "abridge": "HZ"
+    },
+    {
+        "id": 50,
+        "text": "葫芦岛",
+        "zip_code": "125000",
+        "abridge": "HLD"
+    },
+    {
+        "id": 195,
+        "text": "怀化",
+        "zip_code": "418000",
+        "abridge": "HH"
+    },
+    {
+        "id": 81,
+        "text": "淮安",
+        "zip_code": "223001",
+        "abridge": "HA"
+    },
+    {
+        "id": 103,
+        "text": "淮北",
+        "zip_code": "235000",
+        "abridge": "HB"
+    },
+    {
+        "id": 101,
+        "text": "淮南",
+        "zip_code": "232000",
+        "abridge": "HN"
+    },
+    {
+        "id": 179,
+        "text": "黄冈",
+        "zip_code": "438000",
+        "abridge": "HG"
+    },
+    {
+        "id": 317,
+        "text": "黄南",
+        "zip_code": "811300",
+        "abridge": "HN"
+    },
+    {
+        "id": 106,
+        "text": "黄山",
+        "zip_code": "242700",
+        "abridge": "HS"
+    },
+    {
+        "id": 171,
+        "text": "黄石",
+        "zip_code": "435000",
+        "abridge": "HS"
+    },
+    {
+        "id": 208,
+        "text": "惠州",
+        "zip_code": "516000",
+        "abridge": "HZ"
+    },
+    {
+        "id": 62,
+        "text": "鸡西",
+        "zip_code": "158100",
+        "abridge": "JX"
+    },
+    {
+        "id": 131,
+        "text": "吉安",
+        "zip_code": "343000",
+        "abridge": "JA"
+    },
+    {
+        "id": 52,
+        "text": "吉林",
+        "zip_code": "132000",
+        "abridge": "JL"
+    },
+    {
+        "id": 135,
+        "text": "济南",
+        "zip_code": "250000",
+        "abridge": "JN"
+    },
+    {
+        "id": 142,
+        "text": "济宁",
+        "zip_code": "272000",
+        "abridge": "JN"
+    },
+    {
+        "id": 169,
+        "text": "济源",
+        "zip_code": "454650",
+        "abridge": "JY"
+    },
+    {
+        "id": 67,
+        "text": "佳木斯",
+        "zip_code": "154000",
+        "abridge": "JMS"
+    },
+    {
+        "id": 90,
+        "text": "嘉兴",
+        "zip_code": "314000",
+        "abridge": "JX"
+    },
+    {
+        "id": 301,
+        "text": "嘉峪关",
+        "zip_code": "735100",
+        "abridge": "JYG"
+    },
+    {
+        "id": 204,
+        "text": "江门",
+        "zip_code": "529000",
+        "abridge": "JM"
+    },
+    {
+        "id": 159,
+        "text": "焦作",
+        "zip_code": "454100",
+        "abridge": "JZ"
+    },
+    {
+        "id": 217,
+        "text": "揭阳",
+        "zip_code": "522000",
+        "abridge": "XY"
+    },
+    {
+        "id": 302,
+        "text": "金昌",
+        "zip_code": "737100",
+        "abridge": "JC"
+    },
+    {
+        "id": 93,
+        "text": "金华",
+        "zip_code": "321000",
+        "abridge": "JH"
+    },
+    {
+        "id": 43,
+        "text": "锦州",
+        "zip_code": "121000",
+        "abridge": "JZ"
+    },
+    {
+        "id": 18,
+        "text": "晋城",
+        "zip_code": "048000",
+        "abridge": "JC"
+    },
+    {
+        "id": 20,
+        "text": "晋中",
+        "zip_code": "030600",
+        "abridge": "JZ"
+    },
+    {
+        "id": 176,
+        "text": "荆门",
+        "zip_code": "448000",
+        "abridge": "JM"
+    },
+    {
+        "id": 178,
+        "text": "荆州",
+        "zip_code": "434000",
+        "abridge": "JZ"
+    },
+    {
+        "id": 125,
+        "text": "景德镇",
+        "zip_code": "333000",
+        "abridge": "JDZ"
+    },
+    {
+        "id": 127,
+        "text": "九江",
+        "zip_code": "332000",
+        "abridge": "JJ"
+    },
+    {
+        "id": 308,
+        "text": "酒泉",
+        "zip_code": "735000",
+        "abridge": "JQ"
+    },
+    {
+        "id": 336,
+        "text": "喀什",
+        "zip_code": "844000",
+        "abridge": "KS"
+    },
+    {
+        "id": 153,
+        "text": "开封",
+        "zip_code": "475000",
+        "abridge": "KF"
+    },
+    {
+        "id": 328,
+        "text": "克拉玛依",
+        "zip_code": "834000",
+        "abridge": "KLMY"
+    },
+    {
+        "id": 335,
+        "text": "克孜勒苏柯尔克孜",
+        "zip_code": "845350",
+        "abridge": "KZLSKRKZ"
+    },
+    {
+        "id": 267,
+        "text": "昆明",
+        "zip_code": "650000",
+        "abridge": "KM"
+    },
+    {
+        "id": 283,
+        "text": "拉萨",
+        "zip_code": "850000",
+        "abridge": "LS"
+    },
+    {
+        "id": 231,
+        "text": "来宾",
+        "zip_code": "546100",
+        "abridge": "LB"
+    },
+    {
+        "id": 146,
+        "text": "莱芜",
+        "zip_code": "271100",
+        "abridge": "LF"
+    },
+    {
+        "id": 300,
+        "text": "兰州",
+        "zip_code": "730000",
+        "abridge": "LZ"
+    },
+    {
+        "id": 12,
+        "text": "廊坊",
+        "zip_code": "065000",
+        "abridge": "LF"
+    },
+    {
+        "id": 246,
+        "text": "乐山",
+        "zip_code": "614000",
+        "abridge": "LS"
+    },
+    {
+        "id": 272,
+        "text": "丽江",
+        "zip_code": "674100",
+        "abridge": "LJ"
+    },
+    {
+        "id": 97,
+        "text": "丽水",
+        "zip_code": "323000",
+        "abridge": "LS"
+    },
+    {
+        "id": 80,
+        "text": "连云港",
+        "zip_code": "222000",
+        "abridge": "LYG"
+    },
+    {
+        "id": 257,
+        "text": "凉山",
+        "zip_code": "615000",
+        "abridge": "LS"
+    },
+    {
+        "id": 46,
+        "text": "辽阳",
+        "zip_code": "111000",
+        "abridge": "LL"
+    },
+    {
+        "id": 54,
+        "text": "辽源",
+        "zip_code": "136200",
+        "abridge": "LY"
+    },
+    {
+        "id": 149,
+        "text": "聊城",
+        "zip_code": "252000",
+        "abridge": "LC"
+    },
+    {
+        "id": 289,
+        "text": "林芝",
+        "zip_code": "860000",
+        "abridge": "LZ"
+    },
+    {
+        "id": 274,
+        "text": "临沧",
+        "zip_code": "677000",
+        "abridge": "LC"
+    },
+    {
+        "id": 23,
+        "text": "临汾",
+        "zip_code": "041000",
+        "abridge": "LF"
+    },
+    {
+        "id": 312,
+        "text": "临夏",
+        "zip_code": "731100",
+        "abridge": "LX"
+    },
+    {
+        "id": 147,
+        "text": "临沂",
+        "zip_code": "276000",
+        "abridge": "LQ"
+    },
+    {
+        "id": 220,
+        "text": "柳州",
+        "zip_code": "545000",
+        "abridge": "LZ"
+    },
+    {
+        "id": 111,
+        "text": "六安",
+        "zip_code": "237000",
+        "abridge": "LA"
+    },
+    {
+        "id": 259,
+        "text": "六盘水",
+        "zip_code": "553000",
+        "abridge": "LPS"
+    },
+    {
+        "id": 122,
+        "text": "龙岩",
+        "zip_code": "364000",
+        "abridge": "LY"
+    },
+    {
+        "id": 311,
+        "text": "陇南",
+        "zip_code": "742500",
+        "abridge": "LN"
+    },
+    {
+        "id": 196,
+        "text": "娄底",
+        "zip_code": "417000",
+        "abridge": "LD"
+    },
+    {
+        "id": 240,
+        "text": "泸州",
+        "zip_code": "646000",
+        "abridge": "LZ"
+    },
+    {
+        "id": 24,
+        "text": "吕梁",
+        "zip_code": "033000",
+        "abridge": "LL"
+    },
+    {
+        "id": 154,
+        "text": "洛阳",
+        "zip_code": "471000",
+        "abridge": "LY"
+    },
+    {
+        "id": 162,
+        "text": "漯河",
+        "zip_code": "462000",
+        "abridge": "LH"
+    },
+    {
+        "id": 102,
+        "text": "马鞍山",
+        "zip_code": "243000",
+        "abridge": "MAS"
+    },
+    {
+        "id": 206,
+        "text": "茂名",
+        "zip_code": "525000",
+        "abridge": "MM"
+    },
+    {
+        "id": 248,
+        "text": "眉山",
+        "zip_code": "620000",
+        "abridge": "MS"
+    },
+    {
+        "id": 209,
+        "text": "梅州",
+        "zip_code": "514000",
+        "abridge": "MZ"
+    },
+    {
+        "id": 242,
+        "text": "绵阳",
+        "zip_code": "621000",
+        "abridge": "MY"
+    },
+    {
+        "id": 69,
+        "text": "牡丹江",
+        "zip_code": "157000",
+        "abridge": "MDJ"
+    },
+    {
+        "id": 287,
+        "text": "那曲",
+        "zip_code": "852000",
+        "abridge": "NQ"
+    },
+    {
+        "id": 124,
+        "text": "南昌",
+        "zip_code": "330000",
+        "abridge": "NC"
+    },
+    {
+        "id": 247,
+        "text": "南充",
+        "zip_code": "637000",
+        "abridge": "NC"
+    },
+    {
+        "id": 74,
+        "text": "南京",
+        "zip_code": "210000",
+        "abridge": "NJ"
+    },
+    {
+        "id": 219,
+        "text": "南宁",
+        "zip_code": "530000",
+        "abridge": "NN"
+    },
+    {
+        "id": 121,
+        "text": "南平",
+        "zip_code": "353000",
+        "abridge": "NP"
+    },
+    {
+        "id": 79,
+        "text": "南通",
+        "zip_code": "226000",
+        "abridge": "NT"
+    },
+    {
+        "id": 164,
+        "text": "南阳",
+        "zip_code": "473000",
+        "abridge": "NY"
+    },
+    {
+        "id": 245,
+        "text": "内江",
+        "zip_code": "641000",
+        "abridge": "NJ"
+    },
+    {
+        "id": 88,
+        "text": "宁波",
+        "zip_code": "315000",
+        "abridge": "NB"
+    },
+    {
+        "id": 123,
+        "text": "宁德",
+        "zip_code": "352000",
+        "abridge": "ND"
+    },
+    {
+        "id": 281,
+        "text": "怒江",
+        "zip_code": "673100",
+        "abridge": "NJ"
+    },
+    {
+        "id": 239,
+        "text": "攀枝花",
+        "zip_code": "617000",
+        "abridge": "PZH"
+    },
+    {
+        "id": 47,
+        "text": "盘锦",
+        "zip_code": "124000",
+        "abridge": "PJ"
+    },
+    {
+        "id": 155,
+        "text": "平顶山",
+        "zip_code": "467000",
+        "abridge": "PDS"
+    },
+    {
+        "id": 307,
+        "text": "平凉",
+        "zip_code": "744000",
+        "abridge": "PL"
+    },
+    {
+        "id": 126,
+        "text": "萍乡",
+        "zip_code": "337000",
+        "abridge": "PX"
+    },
+    {
+        "id": 117,
+        "text": "莆田",
+        "zip_code": "351100",
+        "abridge": "PT"
+    },
+    {
+        "id": 160,
+        "text": "濮阳",
+        "zip_code": "457000",
+        "abridge": "PY"
+    },
+    {
+        "id": 273,
+        "text": "普洱",
+        "zip_code": "665000",
+        "abridge": "PR"
+    },
+    {
+        "id": 68,
+        "text": "七台河",
+        "zip_code": "154600",
+        "abridge": "QTH"
+    },
+    {
+        "id": 61,
+        "text": "齐齐哈尔",
+        "zip_code": "161000",
+        "abridge": "QQHR"
+    },
+    {
+        "id": 265,
+        "text": "黔东",
+        "zip_code": "556000",
+        "abridge": "QD"
+    },
+    {
+        "id": 266,
+        "text": "黔南",
+        "zip_code": "558000",
+        "abridge": "QN"
+    },
+    {
+        "id": 263,
+        "text": "黔西",
+        "zip_code": "562400",
+        "abridge": "QX"
+    },
+    {
+        "id": 225,
+        "text": "钦州",
+        "zip_code": "535000",
+        "abridge": "QZ"
+    },
+    {
+        "id": 5,
+        "text": "秦皇岛",
+        "zip_code": "066000",
+        "abridge": "QHD"
+    },
+    {
+        "id": 136,
+        "text": "青岛",
+        "zip_code": "266000",
+        "abridge": "QD"
+    },
+    {
+        "id": 213,
+        "text": "清远",
+        "zip_code": "511500",
+        "abridge": "QY"
+    },
+    {
+        "id": 309,
+        "text": "庆阳",
+        "zip_code": "745000",
+        "abridge": "QY"
+    },
+    {
+        "id": 268,
+        "text": "曲靖",
+        "zip_code": "655000",
+        "abridge": "QJ"
+    },
+    {
+        "id": 94,
+        "text": "衢州",
+        "zip_code": "324000",
+        "abridge": "QZ"
+    },
+    {
+        "id": 0,
+        "text": "全部",
+        "zip_code": "300000",
+        "abridge": "all"
+    },
+    {
+        "id": 119,
+        "text": "泉州",
+        "zip_code": "362000",
+        "abridge": "QZ"
+    },
+    {
+        "id": 286,
+        "text": "日喀则",
+        "zip_code": "857000",
+        "abridge": "RKZ"
+    },
+    {
+        "id": 145,
+        "text": "日照",
+        "zip_code": "276800",
+        "abridge": "RZ"
+    },
+    {
+        "id": 163,
+        "text": "三门峡",
+        "zip_code": "472000",
+        "abridge": "SMX"
+    },
+    {
+        "id": 118,
+        "text": "三明",
+        "zip_code": "365000",
+        "abridge": "SM"
+    },
+    {
+        "id": 234,
+        "text": "三亚",
+        "zip_code": "572000",
+        "abridge": "SY"
+    },
+    {
+        "id": 116,
+        "text": "厦门",
+        "zip_code": "361000",
+        "abridge": "XM"
+    },
+    {
+        "id": 285,
+        "text": "山南",
+        "zip_code": "856000",
+        "abridge": "SN"
+    },
+    {
+        "id": 202,
+        "text": "汕头",
+        "zip_code": "515000",
+        "abridge": "ST"
+    },
+    {
+        "id": 210,
+        "text": "汕尾",
+        "zip_code": "516600",
+        "abridge": "SW"
+    },
+    {
+        "id": 299,
+        "text": "商洛",
+        "zip_code": "726000",
+        "abridge": "SL"
+    },
+    {
+        "id": 165,
+        "text": "商丘",
+        "zip_code": "476000",
+        "abridge": "SQ"
+    },
+    {
+        "id": 73,
+        "text": "上海",
+        "zip_code": "200000",
+        "abridge": "SH"
+    },
+    {
+        "id": 134,
+        "text": "上饶",
+        "zip_code": "334000",
+        "abridge": "SR"
+    },
+    {
+        "id": 199,
+        "text": "韶关",
+        "zip_code": "512000",
+        "abridge": "SG"
+    },
+    {
+        "id": 188,
+        "text": "邵阳",
+        "zip_code": "422000",
+        "abridge": "SY"
+    },
+    {
+        "id": 92,
+        "text": "绍兴",
+        "zip_code": "312000",
+        "abridge": "SX"
+    },
+    {
+        "id": 200,
+        "text": "深圳",
+        "zip_code": "518000",
+        "abridge": "SZ"
+    },
+    {
+        "id": 37,
+        "text": "沈阳",
+        "zip_code": "110000",
+        "abridge": "SY"
+    },
+    {
+        "id": 172,
+        "text": "十堰",
+        "zip_code": "442000",
+        "abridge": "SY"
+    },
+    {
+        "id": 3,
+        "text": "石家庄",
+        "zip_code": "050000",
+        "abridge": "SJZ"
+    },
+    {
+        "id": 323,
+        "text": "石嘴山",
+        "zip_code": "753000",
+        "abridge": "SZS"
+    },
+    {
+        "id": 64,
+        "text": "双鸭山",
+        "zip_code": "155100",
+        "abridge": "SYS"
+    },
+    {
+        "id": 19,
+        "text": "朔州",
+        "zip_code": "036000",
+        "abridge": "SZ"
+    },
+    {
+        "id": 53,
+        "text": "四平",
+        "zip_code": "136000",
+        "abridge": "SP"
+    },
+    {
+        "id": 57,
+        "text": "松原",
+        "zip_code": "138000",
+        "abridge": "SY"
+    },
+    {
+        "id": 78,
+        "text": "苏州",
+        "zip_code": "215000",
+        "abridge": "SZ"
+    },
+    {
+        "id": 86,
+        "text": "宿迁",
+        "zip_code": "223800",
+        "abridge": "SQ"
+    },
+    {
+        "id": 109,
+        "text": "宿州",
+        "zip_code": "234000",
+        "abridge": "SZ"
+    },
+    {
+        "id": 71,
+        "text": "绥化",
+        "zip_code": "152000",
+        "abridge": "SH"
+    },
+    {
+        "id": 181,
+        "text": "随州",
+        "zip_code": "441300",
+        "abridge": "SZ"
+    },
+    {
+        "id": 244,
+        "text": "遂宁",
+        "zip_code": "629000",
+        "abridge": "SN"
+    },
+    {
+        "id": 339,
+        "text": "塔城",
+        "zip_code": "834700",
+        "abridge": "TC"
+    },
+    {
+        "id": 344,
+        "text": "台湾",
+        "zip_code": "999079",
+        "abridge": "TW"
+    },
+    {
+        "id": 96,
+        "text": "台州",
+        "zip_code": "318000",
+        "abridge": "TZ"
+    },
+    {
+        "id": 14,
+        "text": "太原",
+        "zip_code": "030000",
+        "abridge": "TY"
+    },
+    {
+        "id": 143,
+        "text": "泰安",
+        "zip_code": "271000",
+        "abridge": "TA"
+    },
+    {
+        "id": 85,
+        "text": "泰州",
+        "zip_code": "225300",
+        "abridge": "TZ"
+    },
+    {
+        "id": 4,
+        "text": "唐山",
+        "zip_code": "063000",
+        "abridge": "TS"
+    },
+    {
+        "id": 2,
+        "text": "天津",
+        "zip_code": "300000",
+        "abridge": "TJ"
+    },
+    {
+        "id": 304,
+        "text": "天水",
+        "zip_code": "741000",
+        "abridge": "TS"
+    },
+    {
+        "id": 48,
+        "text": "铁岭",
+        "zip_code": "112000",
+        "abridge": "TL"
+    },
+    {
+        "id": 55,
+        "text": "通化",
+        "zip_code": "134000",
+        "abridge": "TH"
+    },
+    {
+        "id": 29,
+        "text": "通辽",
+        "zip_code": "028000",
+        "abridge": "TL"
+    },
+    {
+        "id": 291,
+        "text": "铜川",
+        "zip_code": "727000",
+        "abridge": "TC"
+    },
+    {
+        "id": 104,
+        "text": "铜陵",
+        "zip_code": "244000",
+        "abridge": "TL"
+    },
+    {
+        "id": 262,
+        "text": "铜仁",
+        "zip_code": "554300",
+        "abridge": "TR"
+    },
+    {
+        "id": 329,
+        "text": "吐鲁番",
+        "zip_code": "838000",
+        "abridge": "TLF"
+    },
+    {
+        "id": 144,
+        "text": "威海",
+        "zip_code": "264200",
+        "abridge": "WH"
+    },
+    {
+        "id": 141,
+        "text": "潍坊",
+        "zip_code": "261000",
+        "abridge": "WF"
+    },
+    {
+        "id": 294,
+        "text": "渭南",
+        "zip_code": "714000",
+        "abridge": "WN"
+    },
+    {
+        "id": 89,
+        "text": "温州",
+        "zip_code": "325000",
+        "abridge": "WZ"
+    },
+    {
+        "id": 277,
+        "text": "文山",
+        "zip_code": "663000",
+        "abridge": "WS"
+    },
+    {
+        "id": 27,
+        "text": "乌海",
+        "zip_code": "016000",
+        "abridge": "WH"
+    },
+    {
+        "id": 33,
+        "text": "乌兰察布",
+        "zip_code": "012000",
+        "abridge": "WLCB"
+    },
+    {
+        "id": 327,
+        "text": "乌鲁木齐",
+        "zip_code": "830000",
+        "abridge": "WLMQ"
+    },
+    {
+        "id": 75,
+        "text": "无锡",
+        "zip_code": "214000",
+        "abridge": "WX"
+    },
+    {
+        "id": 324,
+        "text": "吴忠",
+        "zip_code": "751100",
+        "abridge": "WZ"
+    },
+    {
+        "id": 99,
+        "text": "芜湖",
+        "zip_code": "241000",
+        "abridge": "WH"
+    },
+    {
+        "id": 222,
+        "text": "梧州",
+        "zip_code": "543000",
+        "abridge": "WZ"
+    },
+    {
+        "id": 170,
+        "text": "武汉",
+        "zip_code": "430000",
+        "abridge": "WH"
+    },
+    {
+        "id": 305,
+        "text": "武威",
+        "zip_code": "733000",
+        "abridge": "WW"
+    },
+    {
+        "id": 290,
+        "text": "西安",
+        "zip_code": "710000",
+        "abridge": "XA"
+    },
+    {
+        "id": 314,
+        "text": "西宁",
+        "zip_code": "810000",
+        "abridge": "XN"
+    },
+    {
+        "id": 278,
+        "text": "西双版纳",
+        "zip_code": "666100",
+        "abridge": "XSBN"
+    },
+    {
+        "id": 35,
+        "text": "锡林郭勒盟",
+        "zip_code": "026000",
+        "abridge": "XLGLM"
+    },
+    {
+        "id": 180,
+        "text": "咸宁",
+        "zip_code": "437000",
+        "abridge": "XN"
+    },
+    {
+        "id": 293,
+        "text": "咸阳",
+        "zip_code": "712000",
+        "abridge": "XY"
+    },
+    {
+        "id": 342,
+        "text": "香港",
+        "zip_code": "999077",
+        "abridge": "XG"
+    },
+    {
+        "id": 186,
+        "text": "湘潭",
+        "zip_code": "411100",
+        "abridge": "XT"
+    },
+    {
+        "id": 197,
+        "text": "湘西",
+        "zip_code": "416000",
+        "abridge": "XX"
+    },
+    {
+        "id": 174,
+        "text": "襄阳",
+        "zip_code": "441000",
+        "abridge": "XY"
+    },
+    {
+        "id": 177,
+        "text": "孝感",
+        "zip_code": "432000",
+        "abridge": "XG"
+    },
+    {
+        "id": 22,
+        "text": "忻州",
+        "zip_code": "034000",
+        "abridge": "XZ"
+    },
+    {
+        "id": 158,
+        "text": "新乡",
+        "zip_code": "453000",
+        "abridge": "XX"
+    },
+    {
+        "id": 128,
+        "text": "新余",
+        "zip_code": "338000",
+        "abridge": "XY"
+    },
+    {
+        "id": 166,
+        "text": "信阳",
+        "zip_code": "464000",
+        "abridge": "XY"
+    },
+    {
+        "id": 7,
+        "text": "邢台",
+        "zip_code": "054000",
+        "abridge": "XT"
+    },
+    {
+        "id": 34,
+        "text": "兴安",
+        "zip_code": "137400",
+        "abridge": "XA"
+    },
+    {
+        "id": 76,
+        "text": "徐州",
+        "zip_code": "221000",
+        "abridge": "XZ"
+    },
+    {
+        "id": 161,
+        "text": "许昌",
+        "zip_code": "461000",
+        "abridge": "XC"
+    },
+    {
+        "id": 114,
+        "text": "宣城",
+        "zip_code": "242000",
+        "abridge": "XC"
+    },
+    {
+        "id": 252,
+        "text": "雅安",
+        "zip_code": "625000",
+        "abridge": "YA"
+    },
+    {
+        "id": 140,
+        "text": "烟台",
+        "zip_code": "264000",
+        "abridge": "YT"
+    },
+    {
+        "id": 295,
+        "text": "延安",
+        "zip_code": "716000",
+        "abridge": "YA"
+    },
+    {
+        "id": 59,
+        "text": "延边",
+        "zip_code": "133000",
+        "abridge": "YB"
+    },
+    {
+        "id": 82,
+        "text": "盐城",
+        "zip_code": "224000",
+        "abridge": "YC"
+    },
+    {
+        "id": 83,
+        "text": "扬州",
+        "zip_code": "225000",
+        "abridge": "YZ"
+    },
+    {
+        "id": 212,
+        "text": "阳江",
+        "zip_code": "529500",
+        "abridge": "YJ"
+    },
+    {
+        "id": 16,
+        "text": "阳泉",
+        "zip_code": "045000",
+        "abridge": "YQ"
+    },
+    {
+        "id": 66,
+        "text": "伊春",
+        "zip_code": "153000",
+        "abridge": "YC"
+    },
+    {
+        "id": 338,
+        "text": "伊犁哈萨克",
+        "zip_code": "835000",
+        "abridge": "YLHSK"
+    },
+    {
+        "id": 249,
+        "text": "宜宾",
+        "zip_code": "644000",
+        "abridge": "YB"
+    },
+    {
+        "id": 173,
+        "text": "宜昌",
+        "zip_code": "443000",
+        "abridge": "YC"
+    },
+    {
+        "id": 132,
+        "text": "宜春",
+        "zip_code": "336000",
+        "abridge": "YC"
+    },
+    {
+        "id": 192,
+        "text": "益阳",
+        "zip_code": "413000",
+        "abridge": "YY"
+    },
+    {
+        "id": 322,
+        "text": "银川",
+        "zip_code": "750000",
+        "abridge": "YC"
+    },
+    {
+        "id": 129,
+        "text": "鹰潭",
+        "zip_code": "335000",
+        "abridge": "YT"
+    },
+    {
+        "id": 44,
+        "text": "营口",
+        "zip_code": "115000",
+        "abridge": "YK"
+    },
+    {
+        "id": 194,
+        "text": "永州",
+        "zip_code": "425000",
+        "abridge": "YZ"
+    },
+    {
+        "id": 297,
+        "text": "榆林",
+        "zip_code": "719000",
+        "abridge": "YL"
+    },
+    {
+        "id": 227,
+        "text": "玉林",
+        "zip_code": "537000",
+        "abridge": "YL"
+    },
+    {
+        "id": 320,
+        "text": "玉树",
+        "zip_code": "815000",
+        "abridge": "YS"
+    },
+    {
+        "id": 269,
+        "text": "玉溪",
+        "zip_code": "653100",
+        "abridge": "YX"
+    },
+    {
+        "id": 189,
+        "text": "岳阳",
+        "zip_code": "414000",
+        "abridge": "YY"
+    },
+    {
+        "id": 218,
+        "text": "云浮",
+        "zip_code": "527300",
+        "abridge": "YF"
+    },
+    {
+        "id": 21,
+        "text": "运城",
+        "zip_code": "044000",
+        "abridge": "YC"
+    },
+    {
+        "id": 138,
+        "text": "枣庄",
+        "zip_code": "277000",
+        "abridge": "ZZ"
+    },
+    {
+        "id": 205,
+        "text": "湛江",
+        "zip_code": "524000",
+        "abridge": "ZJ"
+    },
+    {
+        "id": 191,
+        "text": "张家界",
+        "zip_code": "427000",
+        "abridge": "ZJJ"
+    },
+    {
+        "id": 9,
+        "text": "张家口",
+        "zip_code": "075000",
+        "abridge": "ZJK"
+    },
+    {
+        "id": 306,
+        "text": "张掖",
+        "zip_code": "734000",
+        "abridge": "ZY"
+    },
+    {
+        "id": 120,
+        "text": "漳州",
+        "zip_code": "363000",
+        "abridge": "ZZ"
+    },
+    {
+        "id": 51,
+        "text": "长春",
+        "zip_code": "130000",
+        "abridge": "CC"
+    },
+    {
+        "id": 184,
+        "text": "长沙",
+        "zip_code": "410000",
+        "abridge": "CS"
+    },
+    {
+        "id": 17,
+        "text": "长治",
+        "zip_code": "046000",
+        "abridge": "CZ"
+    },
+    {
+        "id": 271,
+        "text": "昭通",
+        "zip_code": "657000",
+        "abridge": "ZT"
+    },
+    {
+        "id": 207,
+        "text": "肇庆",
+        "zip_code": "526000",
+        "abridge": "ZQ"
+    },
+    {
+        "id": 84,
+        "text": "镇江",
+        "zip_code": "212000",
+        "abridge": "ZJ"
+    },
+    {
+        "id": 152,
+        "text": "郑州",
+        "zip_code": "450000",
+        "abridge": "ZZ"
+    },
+    {
+        "id": 215,
+        "text": "中山",
+        "zip_code": "528400",
+        "abridge": "ZS"
+    },
+    {
+        "id": 326,
+        "text": "中卫",
+        "zip_code": "755000",
+        "abridge": "ZW"
+    },
+    {
+        "id": 95,
+        "text": "舟山",
+        "zip_code": "316000",
+        "abridge": "ZS"
+    },
+    {
+        "id": 167,
+        "text": "周口",
+        "zip_code": "466000",
+        "abridge": "ZK"
+    },
+    {
+        "id": 185,
+        "text": "株洲",
+        "zip_code": "412000",
+        "abridge": "ZZ"
+    },
+    {
+        "id": 201,
+        "text": "珠海",
+        "zip_code": "519000",
+        "abridge": "ZH"
+    },
+    {
+        "id": 168,
+        "text": "驻马店",
+        "zip_code": "463000",
+        "abridge": "ZMD"
+    },
+    {
+        "id": 254,
+        "text": "资阳",
+        "zip_code": "641300",
+        "abridge": "ZY"
+    },
+    {
+        "id": 137,
+        "text": "淄博",
+        "zip_code": "255000",
+        "abridge": "ZB"
+    },
+    {
+        "id": 238,
+        "text": "自贡",
+        "zip_code": "643000",
+        "abridge": "ZG"
+    },
+    {
+        "id": 260,
+        "text": "遵义",
+        "zip_code": "563000",
+        "abridge": "ZY"
+    }
+]

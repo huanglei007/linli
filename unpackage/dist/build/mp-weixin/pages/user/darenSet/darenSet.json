@@ -1,0 +1,8 @@
+{
+  "navigationStyle": "default",
+  "navigationBarTitleText": "达人设置",
+  "usingComponents": {
+    "message": "/pages/user/darenSet/message",
+    "product": "/pages/user/darenSet/product"
+  }
+}

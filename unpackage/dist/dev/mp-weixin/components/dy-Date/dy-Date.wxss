@@ -1,0 +1,22 @@
+.tx_r {
+  line-height: 48px;
+  font-size: 15px;
+  font-weight: normal;
+  color: #212121;
+}
+.placeholder {
+  font-size: 32rpx;
+  font-family: Source Han Sans CN;
+  font-weight: bold;
+  color: #212121;
+}
+.fa-angle-right {
+  font-size: 36rpx;
+  padding-left: 12rpx;
+}
+.uni-input {
+  font-size: 32rpx;
+  font-family: Source Han Sans CN;
+  font-weight: bold;
+}
+

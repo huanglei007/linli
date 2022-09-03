@@ -1,0 +1,1 @@
+<view class="content"><view class="conBox"><block wx:if="{{typeIndex==0}}"><shop vue-id="1f18e462-1" bind:__l="__l"></shop></block><block wx:if="{{typeIndex==1}}"><daren vue-id="1f18e462-2" bind:__l="__l"></daren></block></view></view>

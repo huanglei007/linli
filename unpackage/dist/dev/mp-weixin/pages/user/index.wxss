@@ -1,0 +1,215 @@
+@charset "UTF-8";
+/**
+ * 这里是uni-app内置的常用样式变量
+ *
+ * uni-app 官方扩展插件及插件市场（https://ext.dcloud.net.cn）上很多三方插件均使用了这些样式变量
+ * 如果你是插件开发者，建议你使用scss预处理，并在插件代码中直接使用这些变量（无需 import 这个文件），方便用户通过搭积木的方式开发整体风格一致的App
+ *
+ */
+/**
+ * 如果你是App开发者（插件使用者），你可以通过修改这些变量来定制自己的插件主题，实现自定义主题功能
+ *
+ * 如果你的项目同样使用了scss预处理，你也可以直接在你的 scss 代码中使用如下变量，同时无需 import 这个文件
+ */
+/* 颜色变量 */
+/* 行为相关颜色 */
+/* 文字基本颜色 */
+/* 背景颜色 */
+/* 边框颜色 */
+/* 尺寸变量 */
+/* 文字尺寸 */
+/* 图片尺寸 */
+/* Border Radius */
+/* 水平间距 */
+/* 垂直间距 */
+/* 透明度 */
+/* 文章场景相关 */
+.content {
+  padding-bottom: 47rpx;
+}
+.content .topheard {
+  width: 100%;
+  position: relative;
+  background-image: url("https://linli-community-api.niuclub.net/image/static/image/my_bg.png");
+  background-size: 100% auto;
+  background-repeat: no-repeat;
+}
+.content .topheard .chendi {
+  width: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+.content .topheard .tias {
+  width: 100%;
+}
+.content .topheard .tias .bap {
+  padding: 0 30rpx 64rpx 30rpx;
+}
+.content .topheard .tias .user image {
+  width: 120rpx;
+  height: 120rpx;
+  margin-right: 20rpx;
+  border-radius: 50%;
+}
+.content .topheard .tias .user .nickname {
+  font-size: 32rpx;
+  font-family: PingFang SC;
+  font-weight: bold;
+  margin-bottom: 21rpx;
+}
+.content .topheard .tias .shezhi {
+  width: 40rpx;
+  height: 40rpx;
+}
+.content .topheard .tias .my-shop-title {
+  padding: 20rpx 30rpx;
+  border-radius: 20rpx;
+  margin: 0 30rpx;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: linear-gradient(273deg, #FFB881 0%, #EFD05B 100%);
+}
+.content .topheard .tias .my-shop-title .my-shop-title-icon {
+  display: flex;
+  align-items: center;
+}
+.content .topheard .tias .my-shop-title .my-shop-title-icon text {
+  color: #fff;
+}
+.content .topheard .tapeu {
+  background: #fff;
+  margin-top: 20rpx;
+  padding: 45rpx 0;
+}
+.content .topheard .tapeu .zhonum {
+  font-size: 36rpx;
+  font-weight: bold;
+}
+.content .topheard .tapeu .item {
+  width: 33%;
+  position: relative;
+  text-align: center;
+}
+.content .topheard .tapeu .item::before {
+  content: '';
+  display: block;
+  position: absolute;
+  top: 50%;
+  right: 0;
+  -webkit-transform: translateY(-50%);
+          transform: translateY(-50%);
+  width: 4rpx;
+  height: 40rpx;
+  background-color: #d8d8d8;
+}
+.content .topheard .tapeu .item:last-child::before {
+  display: none;
+}
+.content .uesermore {
+  padding: 0 20rpx;
+  margin-bottom: 150rpx;
+}
+.content .uesermore .title {
+  font-size: 30rpx;
+  line-height: 2;
+  margin-top: 20rpx;
+  margin-left: 20rpx;
+}
+.content .uesermore .repair {
+  width: 100%;
+  margin-top: 20rpx;
+}
+.content .uesermore .repair .commission {
+  width: 350rpx;
+  height: 160rpx;
+  background: #FFFFFF;
+  border-radius: 8rpx;
+}
+.content .uesermore .repair .commission view {
+  margin: auto 0;
+}
+.content .uesermore .repair .commission image {
+  width: 94rpx;
+  height: 94rpx;
+  margin: auto 0;
+}
+.content .uesermore .order-wrapper {
+  width: 100%;
+  margin-top: 20rpx;
+  background: #FFFFFF;
+  border-radius: 8rpx;
+  padding: 33rpx 0;
+}
+.content .uesermore .order-wrapper .order-hd {
+  padding: 0 34rpx;
+  color: #282828;
+}
+.content .uesermore .order-wrapper .order-hd view {
+  margin: auto 0;
+}
+.content .uesermore .order-wrapper .order-hd .left {
+  font-weight: bold;
+  font-size: 32rpx;
+}
+.content .uesermore .order-wrapper .order-hd image {
+  width: 18rpx;
+  height: 18rpx;
+  margin: auto 0;
+  margin-left: 10rpx;
+}
+.content .uesermore .order-wrapper .order-bd {
+  margin-top: 47rpx;
+}
+.content .uesermore .order-wrapper .order-bd .order-item {
+  width: 25%;
+  position: relative;
+}
+.content .uesermore .order-wrapper .order-bd .order-item .pic text {
+  font-size: 40rpx;
+  font-weight: bold;
+}
+.content .uesermore .order-wrapper .order-bd .order-item .pic image {
+  width: 50rpx;
+  height: 50rpx;
+}
+.content .uesermore .order-wrapper .order-bd .order-item .order-status-num {
+  width: 35rpx;
+  height: 35rpx;
+  background: #FF3709;
+  border-radius: 50%;
+  position: absolute;
+  font-size: 20rpx;
+  right: 45rpx;
+  top: -15rpx;
+  z-index: 9;
+}
+.content .uesermore .order-wrapper .order-bd .order-item .txt {
+  margin-top: 15rpx;
+}
+.content .uesermore .outtake .oulist {
+  height: 98rpx;
+  background: #FFFFFF;
+  border-radius: 8rpx;
+  margin-top: 25rpx;
+  padding: 0 30rpx;
+}
+.content .uesermore .outtake .oulist image {
+  width: 40rpx;
+  height: 40rpx;
+  margin: auto 0;
+  margin-right: 20rpx;
+}
+.content .uesermore .outtake .oulist view {
+  font-size: 32rpx;
+  font-family: PingFang SC;
+  font-weight: 400;
+  margin: auto 0;
+}
+.content .uesermore .outtake .oulist .you {
+  width: 24rpx;
+  height: 24rpx;
+  margin-right: 0;
+}
+

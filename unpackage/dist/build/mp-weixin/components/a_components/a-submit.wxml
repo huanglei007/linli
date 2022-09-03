@@ -1,0 +1,1 @@
+<view class="sub"><view class="sub-text"><text class="font30">上门服务费</text><text class="sub-text-cost">￥<block wx:if="{{form}}"><text>{{form.commission}}</text></block><block wx:else><text>0.00</text></block></text></view><view data-event-opts="{{[['tap',[['SubmitAppointment',['$event']]]]]}}" class="sub-btn" bindtap="__e"><text>提交预约</text></view></view>

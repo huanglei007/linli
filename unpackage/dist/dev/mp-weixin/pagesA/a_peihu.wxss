@@ -1,0 +1,32 @@
+.peihu .peihu-head,
+.peihu .peihu-content {
+  padding: 30rpx 40rpx;
+}
+.peihu .peihu-head {
+  margin: 20rpx 0;
+  background-color: #fff;
+}
+.peihu .peihu-head .peihu-head-img {
+  width: 100%;
+}
+.peihu .peihu-head .peihu-head-text {
+  padding-top: 20rpx;
+}
+.peihu .peihu-head .peihu-head-text text {
+  line-height: 40rpx;
+}
+.peihu .peihu-content {
+  margin-bottom: 150rpx;
+  background-color: #fff;
+}
+.peihu .peihu-content .peihu-content-title {
+  padding-bottom: 30rpx;
+  position: relative;
+}
+.peihu .peihu-content .peihu-content-content text {
+  font-size: 26rpx;
+  color: #333333;
+  display: inline-block;
+  line-height: 40rpx;
+}
+

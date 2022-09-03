@@ -1,0 +1,6 @@
+.peihu-yuyue-type,
+.peihu-yuyue-obj,
+.peihu-yuyue-news,
+.peihu-yuyue-time{padding:30rpx 40rpx;border-radius:20rpx;background-color:#fff;margin-bottom:30rpx}.peihu-yuyue-type{display:flex;justify-content:space-between;align-items:center}.peihu-yuyue-obj{position:relative}.peihu-yuyue-obj .peihu-yuyue-obj-title .icon32{position:absolute;right:40rpx}.peihu-yuyue-obj .peihu-yuyue-obj-add{padding:40rpx 0;text-align:center}.peihu-yuyue-news .peihu-yuyue-news-age,
+.peihu-yuyue-news .peihu-yuyue-news-gender,
+.peihu-yuyue-news .peihu-yuyue-news-place{display:flex;justify-content:space-between;align-items:center}.peihu-yuyue-news .peihu-yuyue-news-age{padding-bottom:30rpx}.peihu-yuyue-news .peihu-yuyue-news-place{padding-top:30rpx}.peihu-yuyue-news .peihu-yuyue-news-gender{padding:30rpx 0;border-bottom:1px solid #e8e8e8;border-top:1px solid #e8e8e8}.peihu-yuyue-news .peihu-yuyue-news-gender .peihu-yuyue-news-gender-radio .news-active{background-color:#f9d448}.peihu-yuyue-time{display:flex;justify-content:space-between}

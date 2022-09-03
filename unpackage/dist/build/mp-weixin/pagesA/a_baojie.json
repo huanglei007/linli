@@ -1,0 +1,7 @@
+{
+  "navigationStyle": "default",
+  "navigationBarTitleText": "家政保洁",
+  "usingComponents": {
+    "a-order": "/components/a_components/a-order"
+  }
+}

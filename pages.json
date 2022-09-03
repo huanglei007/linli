@@ -1,0 +1,686 @@
+{
+	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+		{
+			"path": "pages/login/login"
+		},
+		{
+			"path": "pages/login/register"
+		},
+		{
+			"path": "pages/agreement/secret",
+			"style": {
+				"navigationStyle": "default",
+				"navigationBarTitleText": "用户协议",
+				"app-plus": {
+					"titleNView": {
+						"titleAlign": "left",
+						"backgroundColor": "#ffffff"
+					}
+				}
+			}
+		},
+		{
+			"path": "pages/index/index",
+			"style": {
+				"enablePullDownRefresh": true
+			}
+		},
+		{
+			"path": "pages/index/search"
+		},
+		{
+			"path": "pages/index/daren",
+			"style": {
+				"navigationStyle": "default",
+				"navigationBarTitleText": "社区达人",
+				"app-plus": {
+					"titleNView": {
+						"titleAlign": "left",
+						"backgroundColor": "#ffffff"
+					}
+				}
+			}
+		},
+		{
+			"path": "pages/index/applyDaren"
+		},
+		{
+			"path": "pages/index/tijian"
+		},
+		{
+			"path": "pages/index/changeVillage"
+		},
+		{
+			"path": "pages/index/changeCity"
+		},
+		{
+			"path": "pages/index/shangquan"
+		},
+		{
+			"path": "pages/index/bookSearch"
+		},
+		{
+			"path": "pages/index/shopDetail"
+		},
+		{
+			"path": "pages/index/darenDetail"
+		},
+		{
+			"path": "pages/index/xianzhi",
+			"style": {
+				"navigationStyle": "default",
+				"navigationBarTitleText": "闲置买卖",
+				"app-plus": {
+					"titleNView": {
+						"titleAlign": "left",
+						"backgroundColor": "#ffffff"
+					}
+				}
+			}
+		},
+		{
+			"path": "pages/index/shopOrder",
+			"style": {
+				"navigationStyle": "default",
+				"navigationBarTitleText": "订单详情",
+				"app-plus": {
+					"titleNView": {
+						"titleAlign": "left",
+						"backgroundColor": "#ffffff"
+					}
+				}
+			}
+		},
+		{
+			"path": "pages/from/xianzhi",
+			"style": {
+				"navigationStyle": "default",
+				"navigationBarTitleText": "闲置买卖",
+				"app-plus": {
+					"titleNView": {
+						"titleAlign": "left",
+						"backgroundColor": "#ffffff"
+					}
+				}
+			}
+		},
+		{
+			"path": "pages/from/pet",
+			"style": {
+				"navigationStyle": "default",
+				"navigationBarTitleText": "宠物买卖",
+				"app-plus": {
+					"titleNView": {
+						"titleAlign": "left",
+						"backgroundColor": "#ffffff"
+					}
+				}
+			}
+		},
+		{
+			"path": "pages/index/pet",
+			"style": {
+				"navigationStyle": "default",
+				"navigationBarTitleText": "宠物买卖",
+				"app-plus": {
+					"titleNView": {
+						"titleAlign": "left",
+						"backgroundColor": "#ffffff"
+					}
+				}
+			}
+		},
+		{
+			"path": "pages/from/book",
+			"style": {
+				"navigationStyle": "default",
+				"navigationBarTitleText": "旧书出售",
+				"app-plus": {
+					"titleNView": {
+						"titleAlign": "left",
+						"backgroundColor": "#ffffff"
+					}
+				}
+			}
+		},
+		{
+			"path": "pages/index/book",
+			"style": {
+				"navigationStyle": "default",
+				"navigationBarTitleText": "旧书出售",
+				"app-plus": {
+					"titleNView": {
+						"titleAlign": "left",
+						"backgroundColor": "#ffffff"
+					}
+				}
+			}
+		},
+		{
+			"path": "pages/from/clothes",
+			"style": {
+				"navigationStyle": "default",
+				"navigationBarTitleText": "旧衣出售",
+				"app-plus": {
+					"titleNView": {
+						"titleAlign": "left",
+						"backgroundColor": "#ffffff"
+					}
+				}
+			}
+		},
+		{
+			"path": "pages/index/shopList",
+			"style": {
+				"navigationStyle": "default",
+				"navigationBarTitleText": "商铺",
+				"app-plus": {
+					"titleNView": {
+						"titleAlign": "left",
+						"backgroundColor": "#ffffff"
+					}
+				}
+			}
+		},
+		{
+			"path": "pages/index/darenList",
+			"style": {
+				"navigationStyle": "default",
+				"navigationBarTitleText": "达人",
+				"app-plus": {
+					"titleNView": {
+						"titleAlign": "left",
+						"backgroundColor": "#ffffff"
+					}
+				}
+			}
+		},
+		{
+			"path": "pages/index/wuye",
+			"style": {
+				"navigationStyle": "default",
+				"navigationBarTitleText": "社区物业",
+				"app-plus": {
+					"titleNView": {
+						"titleAlign": "left",
+						"backgroundColor": "#ffffff"
+					}
+				}
+			}
+		},
+		{
+			"path": "pages/index/a_nearbyshop",
+			"style": {
+				"navigationStyle": "default",
+				"navigationBarTitleText": "附近商家",
+				"app-plus": {
+					"titleNView": {
+						"titleAlign": "left",
+						"backgroundColor": "#ffffff"
+					}
+				}
+			}
+		},
+		{
+			"path": "pages/from/apply"
+		},
+		{
+			"path": "pages/from/currency"
+		},
+		{
+			"path": "pages/order/index"
+		},
+		{
+			"path": "pages/order/orderList"
+		},
+		{
+			"path": "pages/order/orderDetail",
+			"style": {
+				"enablePullDownRefresh": true,
+				"onReachBottomDistance": 50
+			}
+		},
+		{
+			"path": "pages/order/shop"
+		},
+		{
+			"path": "pages/order/get"
+		},
+		{
+			"path": "pages/chat/index"
+		},
+		{
+			"path": "pages/chat/HM-chat"
+		},
+		{
+			"path": "pages/user/index"
+		},
+		{
+			"path": "pages/user/applyShop"
+		},
+		{
+			"path": "pages/user/ticket"
+		},
+		{
+			"path": "pages/user/wallet"
+		},
+		{
+			"path": "pages/user/tixian"
+		},
+		{
+			"path": "pages/user/address",
+			"style": {
+				"navigationStyle": "default",
+				"navigationBarTitleText": "地址管理",
+				"app-plus": {
+					"titleNView": {
+						"titleAlign": "left",
+						"backgroundColor": "#ffffff"
+					}
+				}
+			}
+		},
+		{
+			"path": "pages/user/addressManage",
+			"style": {
+				"navigationStyle": "default",
+				"navigationBarTitleText": "新增地址",
+				"app-plus": {
+					"titleNView": {
+						"titleAlign": "left",
+						"backgroundColor": "#ffffff"
+					}
+				}
+			}
+		},
+		{
+			"path": "pages/user/shopSet/shopSet",
+			"style": {
+				"navigationStyle": "default",
+				"navigationBarTitleText": "我的店铺",
+				"app-plus": {
+					"titleNView": {
+						"titleAlign": "left",
+						"backgroundColor": "#ffffff"
+					}
+				}
+			}
+		},
+		{
+			"path": "pages/user/shopSet/fuli",
+			"style": {
+				"navigationStyle": "default",
+				"navigationBarTitleText": "优惠卷管理",
+				"app-plus": {
+					"titleNView": {
+						"titleAlign": "left",
+						"backgroundColor": "#ffffff"
+					}
+				}
+			}
+		},
+		{
+			"path": "pages/user/darenSet/darenSet",
+			"style": {
+				"navigationStyle": "default",
+				"navigationBarTitleText": "达人设置",
+				"app-plus": {
+					"titleNView": {
+						"titleAlign": "left",
+						"backgroundColor": "#ffffff"
+					}
+				}
+			}
+		},
+		{
+			"path": "pages/user/set",
+			"style": {
+				"navigationStyle": "default",
+				"navigationBarTitleText": "设置",
+				"app-plus": {
+					"titleNView": {
+						"titleAlign": "left",
+						"backgroundColor": "#ffffff"
+					}
+				}
+			}
+		},
+		{
+			"path": "pages/user/pass",
+			"style": {
+				"navigationStyle": "default",
+				"navigationBarTitleText": "修改密码",
+				"app-plus": {
+					"titleNView": {
+						"titleAlign": "left",
+						"backgroundColor": "#ffffff"
+					}
+				}
+			}
+		},
+		{
+			"path": "pages/user/about",
+			"style": {
+				"navigationStyle": "default",
+				"navigationBarTitleText": "关于我们",
+				"app-plus": {
+					"titleNView": {
+						"titleAlign": "left",
+						"backgroundColor": "#ffffff"
+					}
+				}
+			}
+		}, {
+			"path": "pages/user/tickitDetail",
+			"style": {
+				"navigationStyle": "default",
+				"navigationBarTitleText": "代金券详情",
+				"navigationBarBackgroundColor": "#ffac46"
+			}
+		},
+		{
+			"path": "pages/user/myOrder/myOrder",
+			"style": {
+				"navigationStyle": "default",
+				"navigationBarTitleText": "我的订单",
+				"app-plus": {
+					"titleNView": {
+						"titleAlign": "left",
+						"backgroundColor": "#ffffff"
+					}
+				}
+			}
+		},
+		{
+			"path": "pages/user/orderDetail",
+			"style": {
+				"navigationStyle": "default",
+				"navigationBarTitleText": "订单详情",
+				"app-plus": {
+					"titleNView": {
+						"titleAlign": "left",
+						"backgroundColor": "#ffffff"
+					}
+				}
+			}
+
+		},
+		{
+			"path": "pages/user/yuyue/yuyue",
+			"style": {
+				"navigationStyle": "default",
+				"navigationBarTitleText": "我的预约",
+				"app-plus": {
+					"titleNView": {
+						"titleAlign": "left",
+						"backgroundColor": "#ffffff"
+					}
+				}
+			}
+		},
+		{
+			"path": "pages/user/collection/collection",
+			"style": {
+				"navigationStyle": "default",
+				"navigationBarTitleText": "我的收藏",
+				"app-plus": {
+					"titleNView": {
+						"titleAlign": "left",
+						"backgroundColor": "#ffffff"
+					}
+				}
+			}
+
+		},
+		{
+			"path": "pages/chooselocation/index"
+		}
+	],
+
+	"subPackages": [{
+			"root": "pagesA",
+			"name": "pagesA",
+			"pages": [{
+					"path": "a_baojie",
+					"style": {
+						"navigationStyle": "default",
+						"navigationBarTitleText": "家政保洁",
+						"app-plus": {
+							"titleNView": {
+								"titleAlign": "left",
+								"backgroundColor": "#ffffff"
+							}
+						}
+					}
+				},
+				{
+					"path": "a_baojie_yuyue",
+					"style": {
+						"navigationStyle": "default",
+						"navigationBarTitleText": "家政保洁",
+						"app-plus": {
+							"titleNView": {
+								"titleAlign": "left",
+								"backgroundColor": "#ffffff"
+							}
+						}
+					}
+				},
+				{
+					"path": "a_weixiu",
+					"style": {
+						"navigationStyle": "default",
+						"navigationBarTitleText": "安装维修",
+						"app-plus": {
+							"titleNView": {
+								"titleAlign": "left",
+								"backgroundColor": "#ffffff"
+							}
+						}
+					}
+				},
+				{
+					"path": "a_maogou",
+					"style": {
+						"navigationStyle": "default",
+						"navigationBarTitleText": "喂猫喂狗",
+						"app-plus": {
+							"titleNView": {
+								"titleAlign": "left",
+								"backgroundColor": "#ffffff"
+							}
+						}
+					}
+				},
+				{
+					"path": "a_maogou_yuyue",
+					"style": {
+						"navigationStyle": "default",
+						"navigationBarTitleText": "喂猫喂狗",
+						"app-plus": {
+							"titleNView": {
+								"titleAlign": "left",
+								"backgroundColor": "#ffffff"
+							}
+						}
+					}
+				},
+				{
+					"path": "a_peihu",
+					"style": {
+						"navigationStyle": "default",
+						"navigationBarTitleText": "陪护看病",
+						"app-plus": {
+							"titleNView": {
+								"titleAlign": "left",
+								"backgroundColor": "#ffffff"
+							}
+						}
+					}
+				},
+				{
+					"path": "a_peihu_yuyue",
+					"style": {
+						"navigationStyle": "default",
+						"navigationBarTitleText": "陪护看病",
+						"app-plus": {
+							"titleNView": {
+								"titleAlign": "left",
+								"backgroundColor": "#ffffff"
+							}
+						}
+					}
+				},
+				{
+					"path": "a_peihu_yuyue_obj",
+					"style": {
+						"navigationStyle": "default",
+						"navigationBarTitleText": "服务对象",
+						"app-plus": {
+							"titleNView": {
+								"titleAlign": "left",
+								"backgroundColor": "#ffffff"
+							}
+						}
+					}
+				},
+				{
+					"path": "a_jiachu",
+					"style": {
+						"navigationStyle": "default",
+						"navigationBarTitleText": "私厨预约",
+						"app-plus": {
+							"titleNView": {
+								"titleAlign": "left",
+								"backgroundColor": "#ffffff"
+							}
+						}
+					}
+				},
+				{
+					"path": "a_orderDetail_cancel",
+					"style": {
+						"navigationStyle": "default",
+						"navigationBarTitleText": "取消订单",
+						"app-plus": {
+							"titleNView": {
+								"titleAlign": "left",
+								"backgroundColor": "#ffffff"
+							}
+						}
+					}
+				},
+				{
+					"path": "a_orderDetail_evaluate",
+					"style": {
+						"navigationStyle": "default",
+						"navigationBarTitleText": "评价",
+						"app-plus": {
+							"titleNView": {
+								"titleAlign": "left",
+								"backgroundColor": "#ffffff"
+							}
+						}
+					}
+
+				},
+				{
+					"path": "a_product",
+					"style": {
+						"navigationStyle": "default",
+						"navigationBarTitleText": "商品管理",
+						"app-plus": {
+							"titleNView": {
+								"titleAlign": "left",
+								"backgroundColor": "#ffffff"
+							}
+						}
+					}
+				},
+				{
+					"path": "a_shop",
+					"style": {
+						"navigationStyle": "default",
+						"navigationBarTitleText": "店铺管理",
+						"app-plus": {
+							"titleNView": {
+								"titleAlign": "left",
+								"backgroundColor": "#ffffff"
+							}
+						}
+					}
+				},
+				{
+					"path": "a_myWelfare",
+					"style": {
+						"navigationStyle": "default",
+						"navigationBarTitleText": "我的福利",
+						"app-plus": {
+							"titleNView": {
+								"titleAlign": "left",
+								"backgroundColor": "#ffffff"
+							}
+						}
+					}
+				}
+			]
+		}
+
+	],
+	"globalStyle": {
+		"navigationStyle": "custom",
+		"navigationBarTextStyle": "black",
+		"navigationBarTitleText": "邻里",
+		"navigationBarBackgroundColor": "#fff",
+		"backgroundColor": "#FFFFFF",
+		"app-plus": {
+			"softinputNavBar": "none"
+		}
+	},
+	"tabBar": {
+		"color": "#212121",
+		"selectedColor": "#212121",
+		"borderStyle": "black",
+		"backgroundColor": "#ffffff",
+		"iconWidth": "20px",
+		"list": [{
+				"pagePath": "pages/index/index",
+				"iconPath": "static/image/icon_syw.png",
+				"selectedIconPath": "static/image/icon_syx.png",
+				"text": "首页"
+			},
+			{
+				"pagePath": "pages/index/shangquan",
+				"iconPath": "static/image/huang/icon_sq.png",
+				"selectedIconPath": "static/image/huang/icon_sq_active.png",
+				"text": "社区商圈"
+			},
+			// {
+			// 	"pagePath": "pages/from/currency",
+			// 	"iconPath": "static/image/icon_fbxqw.png",
+			// 	"selectedIconPath": "static/image/icon_fbxqx.png",
+			// 	"text": "发布需求"
+			// },
+			{
+				"pagePath": "pages/chat/index",
+				"iconPath": "static/image/icon_xxw.png",
+				"selectedIconPath": "static/image/icon_xx.png",
+				"text": "消息"
+			},
+			{
+				"pagePath": "pages/order/index",
+				"iconPath": "static/image/icon_jddt.png",
+				"selectedIconPath": "static/image/icon_jd.png",
+				"text": "接单大厅"
+			}, {
+				"pagePath": "pages/user/index",
+				"iconPath": "static/image/icon_wdw.png",
+				"selectedIconPath": "static/image/icon_wdx.png",
+				"text": "我的"
+			}
+		]
+	},
+	"easycom": {
+		"a-(.*)": "@/components/a_components/a-$1.vue"
+	}
+}

@@ -1,0 +1,5 @@
+.maogou-img image,
+.maogou-title image {
+  width: 100%;
+}
+
