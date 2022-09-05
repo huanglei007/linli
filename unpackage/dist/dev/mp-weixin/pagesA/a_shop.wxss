@@ -78,6 +78,7 @@
   background-color: #6ED500;
 }
 .status .status-switch .text {
+  color: #666666;
   margin-left: 15rpx;
 }
 .pickerBox .black {

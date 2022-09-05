@@ -95,29 +95,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "recyclableRender", function() { return recyclableRender; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "components", function() { return components; });
 var components
-try {
-  components = {
-    uniNumberBox: function() {
-      return __webpack_require__.e(/*! import() | uni_modules/uni-number-box/components/uni-number-box/uni-number-box */ "uni_modules/uni-number-box/components/uni-number-box/uni-number-box").then(__webpack_require__.bind(null, /*! @/uni_modules/uni-number-box/components/uni-number-box/uni-number-box.vue */ 861))
-    }
-  }
-} catch (e) {
-  if (
-    e.message.indexOf("Cannot find module") !== -1 &&
-    e.message.indexOf(".vue") !== -1
-  ) {
-    console.error(e.message)
-    console.error("1. 排查组件名称拼写是否正确")
-    console.error(
-      "2. 排查组件是否符合 easycom 规范，文档：https://uniapp.dcloud.net.cn/collocation/pages?id=easycom"
-    )
-    console.error(
-      "3. 若组件不符合 easycom 规范，需手动引入，并在 components 中注册该组件"
-    )
-  } else {
-    throw e
-  }
-}
 var render = function() {
   var _vm = this
   var _h = _vm.$createElement
@@ -180,6 +157,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0; //
+//
 //
 //
 //
@@ -553,6 +531,9 @@ var _default =
         "userId": that.userId },
       function (res) {
         that.form = res.data;
+        that.timeVal_start = res.data.service_begin_time.split(':').map(function (i) {return i / 1;});
+        that.timeVal_end = res.data.service_end_time.split(':').map(function (i) {return i / 1;});
+
         if (res.data.deposit_amount > 0) {
           that.deposit_index = '1';
           _this.util.ajax('shop/queryShopDepositSet', {}, function (res) {
@@ -654,14 +635,14 @@ var _default =
       that.typeIndex = e.detail.value;
     },
     // 监听营业状态变换
-    shopStatusChange: function shopStatusChange(e) {var _this3 = this;
+    shopStatusChange: function shopStatusChange(e) {
       var that = this;
       that.form.business_status = that.shopStatus[e.detail.value].business_status;
       this.util.ajax('shop/editShopStatus', {
-        "business_status": that.shopStatus[e.detail.value].business_status,
+        "business_status": that.form.business_status + 1,
         "user_id": that.userId },
       function (res) {
-        _this3.$alert('营业状态已保存');
+
       });
     },
     // 监听营业点变换
@@ -669,16 +650,6 @@ var _default =
       var that = this;
       that.operationIndex = e.detail.value;
       that.form.operation_point_id = e.detail.operation_point_id;
-    },
-    //营业时间
-    // 开始 结束时间监听
-    bindChange_start: function bindChange_start(e) {
-      var that = this;
-      that.timeVal_start = e.detail.value;
-    },
-    bindChange_end: function bindChange_end(e) {
-      var that = this;
-      that.timeVal_end = e.detail.value;
     },
     // 监听是否交押金
     radioChange: function radioChange(e) {
@@ -718,47 +689,75 @@ var _default =
         } });
 
     },
+    // 监听配送费
+    deliveryChange: function deliveryChange(e) {
+      var that = this;
+      this.util.ajax('shop/editShopStatus', {
+        "initial_delivery_fee": e.detail.value,
+        "user_id": that.userId },
+      function (res) {
+
+      });
+    },
+    // 服务内容
+    serviceContent: function serviceContent(e) {
+      var that = this;
+      this.util.ajax('shop/editShopStatus', {
+        "service_content": e.detail.value,
+        "user_id": that.userId },
+      function (res) {
+
+      });
+    },
+    // 服务流程
+    serviceProcedure: function serviceProcedure(e) {
+      var that = this;
+      this.util.ajax('shop/editShopStatus', {
+        "service_process": e.detail.value,
+        "user_id": that.userId },
+      function (res) {
+
+      });
+    },
+    // 服务保障
+    serviceGuarantee: function serviceGuarantee(e) {
+      var that = this;
+      this.util.ajax('shop/editShopStatus', {
+        "service_guarantee": e.detail.value,
+        "user_id": that.userId },
+      function (res) {
+
+      });
+    },
+    //营业时间
+    // 开始 结束时间监听
+    bindChange_start: function bindChange_start(e) {
+      var that = this;
+      that.timeVal_start = e.detail.value;
+    },
+    bindChange_end: function bindChange_end(e) {
+      var that = this;
+      that.timeVal_end = e.detail.value;
+    },
     // 确认
     confirmEvent: function confirmEvent() {
       var that = this;
-      var start_h = '';
-      var start_s = '';
-      var end_h = '';
-      var end_s = '';
-      for (var i = 0; i < that.timeVal_start.length; i++) {
-        if (that.timeVal_start[i] < 10) {
-          if (i == 0) {
-            start_h = '0' + that.timeVal_start[i];
-          } else {
-            start_s = '0' + that.timeVal_start[i];
-          }
-        } else {
-          if (i == 0) {
-            start_h = that.timeVal_start[i];
-          } else {
-            start_s = that.timeVal_start[i];
-          }
-        }
-      }
-      for (var _i = 0; _i < that.timeVal_end.length; _i++) {
-        if (that.timeVal_end[_i] < 10) {
-          if (_i == 0) {
-            end_h = '0' + that.timeVal_start[_i];
-          } else {
-            end_s = '0' + that.timeVal_start[_i];
-          }
-        } else {
-          if (_i == 0) {
-            end_h = that.timeVal_end[_i];
-          } else {
-            end_s = that.timeVal_end[_i];
-          }
-        }
-      }
+      var start = this.timeVal_start;
+      var start_h = start[0] < 10 ? '0' + start[0] : String(start[0]);
+      var start_s = start[1] < 10 ? '0' + start[1] : String(start[1]);
+      var end = this.timeVal_end;
+      var end_h = end[0] < 10 ? '0' + end[0] : String(end[0]);
+      var end_s = end[1] < 10 ? '0' + end[1] : String(end[1]);
+      this.util.ajax('shop/editShopStatus', {
+        "service_begin_time": start_h + ':' + start_s,
+        "service_end_time": end_h + ':' + end_s,
+        "user_id": that.userId },
+      function (res) {
+
+      });
       that.form.service_begin_time = start_h + ':' + start_s;
       that.form.service_end_time = end_h + ':' + end_s;
-
-      this.hoursShow = false;
+      that.hoursShow = false;
     },
     //上传店铺头像
     updateImg: function updateImg() {

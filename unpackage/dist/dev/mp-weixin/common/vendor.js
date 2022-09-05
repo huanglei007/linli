@@ -1430,7 +1430,7 @@ function initData(vueOptions, context) {
     try {
       data = data.call(context); // 支持 Vue.prototype 上挂的数据
     } catch (e) {
-      if (Object({"NODE_ENV":"development","VUE_APP_NAME":"阾里","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
+      if (Object({"VUE_APP_NAME":"阾里","VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG) {
         console.warn('根据 Vue 的 data 函数初始化小程序 data 失败，请尽量确保 data 函数中不访问 vm 对象，否则可能影响首次数据渲染速度。', data);
       }
     }
@@ -2823,7 +2823,7 @@ exports.install = function (Vue, options) {
   Vue.prototype.$date = function () {
     var date = new Date();
     var year = date.getFullYear();
-    var month = date.getMonth() < 10 ? "0" + (date.getMonth() + 1) : date.getMonth() + 1;
+    var month = date.getMonth() < 9 ? "0" + (date.getMonth() + 1) : date.getMonth() + 1;
     var day = date.getDate() < 10 ? "0" + date.getDate() : date.getDate();
     return year + "/" + month + "/" + day;
   };
@@ -2841,7 +2841,7 @@ exports.install = function (Vue, options) {
   Vue.prototype.$datemon = function () {
     var date = new Date();
     var year = date.getFullYear();
-    var month = date.getMonth() < 10 ? "0" + (date.getMonth() + 1) : date.getMonth() + 1;
+    var month = date.getMonth() < 9 ? "0" + (date.getMonth() + 1) : date.getMonth() + 1;
     var day = date.getDate() < 10 ? "0" + date.getDate() : date.getDate();
     return year + "/" + month;
   };
@@ -2879,7 +2879,7 @@ exports.install = function (Vue, options) {
   Vue.prototype.$grttnowdate = function () {
     var date = new Date();
     var yy = date.getFullYear();
-    var mm = date.getMonth() < 10 ? "0" + (date.getMonth() + 1) : date.getMonth() + 1;
+    var mm = date.getMonth() < 9 ? "0" + (date.getMonth() + 1) : date.getMonth() + 1;
     var dd = date.getDate() < 10 ? "0" + date.getDate() : date.getDate();
     return yy + '-' + mm + '-' + dd;
   };
@@ -2888,7 +2888,7 @@ exports.install = function (Vue, options) {
   Vue.prototype.$datetime = function () {
     var date = new Date();
     var yy = date.getFullYear();
-    var mm = date.getMonth() < 10 ? "0" + (date.getMonth() + 1) : date.getMonth() + 1;
+    var mm = date.getMonth() < 9 ? "0" + (date.getMonth() + 1) : date.getMonth() + 1;
     var dd = date.getDate() < 10 ? "0" + date.getDate() : date.getDate();
     var hh = date.getHours();
     var mf = date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes();
@@ -2910,7 +2910,7 @@ exports.install = function (Vue, options) {
   Vue.prototype.$shijian = function (timea) {
     var date = new Date(timea);
     var yy = date.getFullYear();
-    var mm = date.getMonth() < 10 ? "0" + (date.getMonth() + 1) : date.getMonth() + 1;
+    var mm = date.getMonth() < 9 ? "0" + (date.getMonth() + 1) : date.getMonth() + 1;
     var dd = date.getDate() < 10 ? "0" + date.getDate() : date.getDate();
     var hh = date.getHours();
     var mf = date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes();
@@ -2921,7 +2921,7 @@ exports.install = function (Vue, options) {
   Vue.prototype.$shijianymd = function (timea) {
     var date = new Date(timea);
     var yy = date.getFullYear();
-    var mm = date.getMonth() < 10 ? "0" + (date.getMonth() + 1) : date.getMonth() + 1;
+    var mm = date.getMonth() < 9 ? "0" + (date.getMonth() + 1) : date.getMonth() + 1;
     var dd = date.getDate() < 10 ? "0" + date.getDate() : date.getDate();
     var hh = date.getHours();
     var mf = date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes();
@@ -2933,7 +2933,7 @@ exports.install = function (Vue, options) {
   Vue.prototype.$shijiandate = function (timea) {
     var date = new Date(timea);
     var yy = date.getFullYear();
-    var mm = date.getMonth() < 10 ? "0" + (date.getMonth() + 1) : date.getMonth() + 1;
+    var mm = date.getMonth() < 9 ? "0" + (date.getMonth() + 1) : date.getMonth() + 1;
     var dd = date.getDate() < 10 ? "0" + date.getDate() : date.getDate();
     var hh = date.getHours();
     var mf = date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes();
@@ -2944,7 +2944,7 @@ exports.install = function (Vue, options) {
   Vue.prototype.$shijiansp = function (timea) {
     var date = new Date(timea);
     var yy = date.getFullYear();
-    var mm = date.getMonth() < 10 ? "0" + (date.getMonth() + 1) : date.getMonth() + 1;
+    var mm = date.getMonth() < 9 ? "0" + (date.getMonth() + 1) : date.getMonth() + 1;
     var dd = date.getDate() < 10 ? "0" + date.getDate() : date.getDate();
     var hh = date.getHours();
     var mf = date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes();
@@ -11466,7 +11466,7 @@ function type(obj) {
 
 function flushCallbacks$1(vm) {
     if (vm.__next_tick_callbacks && vm.__next_tick_callbacks.length) {
-        if (Object({"NODE_ENV":"development","VUE_APP_NAME":"阾里","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
+        if (Object({"VUE_APP_NAME":"阾里","VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG) {
             var mpInstance = vm.$scope;
             console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + vm._uid +
                 ']:flushCallbacks[' + vm.__next_tick_callbacks.length + ']');
@@ -11487,14 +11487,14 @@ function nextTick$1(vm, cb) {
     //1.nextTick 之前 已 setData 且 setData 还未回调完成
     //2.nextTick 之前存在 render watcher
     if (!vm.__next_tick_pending && !hasRenderWatcher(vm)) {
-        if(Object({"NODE_ENV":"development","VUE_APP_NAME":"阾里","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG){
+        if(Object({"VUE_APP_NAME":"阾里","VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG){
             var mpInstance = vm.$scope;
             console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + vm._uid +
                 ']:nextVueTick');
         }
         return nextTick(cb, vm)
     }else{
-        if(Object({"NODE_ENV":"development","VUE_APP_NAME":"阾里","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG){
+        if(Object({"VUE_APP_NAME":"阾里","VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG){
             var mpInstance$1 = vm.$scope;
             console.log('[' + (+new Date) + '][' + (mpInstance$1.is || mpInstance$1.route) + '][' + vm._uid +
                 ']:nextMPTick');
@@ -11580,7 +11580,7 @@ var patch = function(oldVnode, vnode) {
     });
     var diffData = this.$shouldDiffData === false ? data : diff(data, mpData);
     if (Object.keys(diffData).length) {
-      if (Object({"NODE_ENV":"development","VUE_APP_NAME":"阾里","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
+      if (Object({"VUE_APP_NAME":"阾里","VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG) {
         console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + this._uid +
           ']差量更新',
           JSON.stringify(diffData));
@@ -16449,7 +16449,7 @@ module.exports = JSON.parse("{\"uni-datetime-picker.selectDate\":\"選擇日期\
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _default = { "pages": { "pages/login/login": {}, "pages/login/register": {}, "pages/agreement/secret": { "navigationStyle": "default", "navigationBarTitleText": "用户协议" }, "pages/index/index": { "enablePullDownRefresh": true }, "pages/index/search": {}, "pages/index/daren": { "navigationStyle": "default", "navigationBarTitleText": "社区达人" }, "pages/index/applyDaren": {}, "pages/index/tijian": {}, "pages/index/changeVillage": {}, "pages/index/changeCity": {}, "pages/index/shangquan": {}, "pages/index/bookSearch": {}, "pages/index/shopDetail": {}, "pages/index/darenDetail": {}, "pages/index/xianzhi": { "navigationStyle": "default", "navigationBarTitleText": "闲置买卖" }, "pages/index/shopOrder": { "navigationStyle": "default", "navigationBarTitleText": "订单详情" }, "pages/from/xianzhi": { "navigationStyle": "default", "navigationBarTitleText": "闲置买卖" }, "pages/from/pet": { "navigationStyle": "default", "navigationBarTitleText": "宠物买卖" }, "pages/index/pet": { "navigationStyle": "default", "navigationBarTitleText": "宠物买卖" }, "pages/from/book": { "navigationStyle": "default", "navigationBarTitleText": "旧书出售" }, "pages/index/book": { "navigationStyle": "default", "navigationBarTitleText": "旧书出售" }, "pages/from/clothes": { "navigationStyle": "default", "navigationBarTitleText": "旧衣出售" }, "pages/index/shopList": { "navigationStyle": "default", "navigationBarTitleText": "商铺" }, "pages/index/darenList": { "navigationStyle": "default", "navigationBarTitleText": "达人" }, "pages/index/wuye": { "navigationStyle": "default", "navigationBarTitleText": "社区物业" }, "pages/index/a_nearbyshop": { "navigationStyle": "default", "navigationBarTitleText": "附近商家" }, "pages/from/apply": {}, "pages/from/currency": {}, "pages/order/index": {}, "pages/order/orderList": {}, "pages/order/orderDetail": { "enablePullDownRefresh": true, "onReachBottomDistance": 50 }, "pages/order/shop": {}, "pages/order/get": {}, "pages/chat/index": {}, "pages/chat/HM-chat": {}, "pages/user/index": {}, "pages/user/applyShop": {}, "pages/user/ticket": {}, "pages/user/wallet": {}, "pages/user/tixian": {}, "pages/user/address": { "navigationStyle": "default", "navigationBarTitleText": "地址管理" }, "pages/user/addressManage": { "navigationStyle": "default", "navigationBarTitleText": "新增地址" }, "pages/user/shopSet/shopSet": { "navigationStyle": "default", "navigationBarTitleText": "我的店铺" }, "pages/user/shopSet/fuli": { "navigationStyle": "default", "navigationBarTitleText": "优惠卷管理" }, "pages/user/darenSet/darenSet": { "navigationStyle": "default", "navigationBarTitleText": "达人设置" }, "pages/user/set": { "navigationStyle": "default", "navigationBarTitleText": "设置" }, "pages/user/pass": { "navigationStyle": "default", "navigationBarTitleText": "修改密码" }, "pages/user/about": { "navigationStyle": "default", "navigationBarTitleText": "关于我们" }, "pages/user/tickitDetail": { "navigationStyle": "default", "navigationBarTitleText": "代金券详情", "navigationBarBackgroundColor": "#ffac46" }, "pages/user/myOrder/myOrder": { "navigationStyle": "default", "navigationBarTitleText": "我的订单" }, "pages/user/orderDetail": { "navigationStyle": "default", "navigationBarTitleText": "订单详情" }, "pages/user/yuyue/yuyue": { "navigationStyle": "default", "navigationBarTitleText": "我的预约" }, "pages/user/collection/collection": { "navigationStyle": "default", "navigationBarTitleText": "我的收藏" }, "pages/chooselocation/index": {}, "pagesA/a_baojie": { "navigationStyle": "default", "navigationBarTitleText": "家政保洁" }, "pagesA/a_baojie_yuyue": { "navigationStyle": "default", "navigationBarTitleText": "家政保洁" }, "pagesA/a_weixiu": { "navigationStyle": "default", "navigationBarTitleText": "安装维修" }, "pagesA/a_maogou": { "navigationStyle": "default", "navigationBarTitleText": "喂猫喂狗" }, "pagesA/a_maogou_yuyue": { "navigationStyle": "default", "navigationBarTitleText": "喂猫喂狗" }, "pagesA/a_peihu": { "navigationStyle": "default", "navigationBarTitleText": "陪护看病" }, "pagesA/a_peihu_yuyue": { "navigationStyle": "default", "navigationBarTitleText": "陪护看病" }, "pagesA/a_peihu_yuyue_obj": { "navigationStyle": "default", "navigationBarTitleText": "服务对象" }, "pagesA/a_jiachu": { "navigationStyle": "default", "navigationBarTitleText": "私厨预约" }, "pagesA/a_orderDetail_cancel": { "navigationStyle": "default", "navigationBarTitleText": "取消订单" }, "pagesA/a_orderDetail_evaluate": { "navigationStyle": "default", "navigationBarTitleText": "评价" }, "pagesA/a_product": { "navigationStyle": "default", "navigationBarTitleText": "商品管理" }, "pagesA/a_shop": { "navigationStyle": "default", "navigationBarTitleText": "店铺管理" }, "pagesA/a_myWelfare": { "navigationStyle": "default", "navigationBarTitleText": "我的福利" } }, "globalStyle": { "navigationStyle": "custom", "navigationBarTextStyle": "black", "navigationBarTitleText": "邻里", "navigationBarBackgroundColor": "#fff", "backgroundColor": "#FFFFFF" } };exports.default = _default;
+Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _default = { "pages": { "pages/login/login": {}, "pages/login/register": {}, "pages/agreement/secret": { "navigationStyle": "default", "navigationBarTitleText": "用户协议" }, "pages/index/index": { "enablePullDownRefresh": true }, "pages/index/search": {}, "pages/index/daren": { "navigationStyle": "default", "navigationBarTitleText": "社区达人" }, "pages/index/applyDaren": {}, "pages/index/tijian": {}, "pages/index/changeVillage": {}, "pages/index/changeCity": {}, "pages/index/shangquan": {}, "pages/index/bookSearch": {}, "pages/index/shopDetail": {}, "pages/index/darenDetail": {}, "pages/index/xianzhi": { "navigationStyle": "default", "navigationBarTitleText": "闲置买卖" }, "pages/index/shopOrder": { "navigationStyle": "default", "navigationBarTitleText": "订单详情" }, "pages/from/xianzhi": { "navigationStyle": "default", "navigationBarTitleText": "闲置买卖" }, "pages/from/pet": { "navigationStyle": "default", "navigationBarTitleText": "宠物买卖" }, "pages/index/pet": { "navigationStyle": "default", "navigationBarTitleText": "宠物买卖" }, "pages/from/book": { "navigationStyle": "default", "navigationBarTitleText": "旧书出售" }, "pages/index/book": { "navigationStyle": "default", "navigationBarTitleText": "旧书出售" }, "pages/from/clothes": { "navigationStyle": "default", "navigationBarTitleText": "旧衣出售" }, "pages/index/shopList": { "navigationStyle": "default", "navigationBarTitleText": "商铺" }, "pages/index/darenList": { "navigationStyle": "default", "navigationBarTitleText": "达人" }, "pages/index/wuye": { "navigationStyle": "default", "navigationBarTitleText": "社区物业" }, "pages/index/a_nearbyshop": { "navigationStyle": "default", "navigationBarTitleText": "附近商家" }, "pages/from/apply": {}, "pages/from/currency": {}, "pages/order/index": {}, "pages/order/orderList": {}, "pages/order/orderDetail": { "enablePullDownRefresh": true, "onReachBottomDistance": 50 }, "pages/order/shop": {}, "pages/order/get": {}, "pages/chat/index": {}, "pages/chat/HM-chat": {}, "pages/user/index": {}, "pages/user/applyShop": {}, "pages/user/ticket": {}, "pages/user/wallet": {}, "pages/user/tixian": {}, "pages/user/address": { "navigationStyle": "default", "navigationBarTitleText": "地址管理" }, "pages/user/addressManage": { "navigationStyle": "default", "navigationBarTitleText": "新增地址" }, "pages/user/shopSet/shopSet": { "navigationStyle": "default", "navigationBarTitleText": "我的店铺" }, "pages/user/shopSet/fuli": { "navigationStyle": "default", "navigationBarTitleText": "优惠券管理" }, "pages/user/darenSet/darenSet": { "navigationStyle": "default", "navigationBarTitleText": "达人设置" }, "pages/user/set": { "navigationStyle": "default", "navigationBarTitleText": "设置" }, "pages/user/pass": { "navigationStyle": "default", "navigationBarTitleText": "修改密码" }, "pages/user/about": { "navigationStyle": "default", "navigationBarTitleText": "关于我们" }, "pages/user/tickitDetail": { "navigationStyle": "default", "navigationBarTitleText": "代金券详情", "navigationBarBackgroundColor": "#ffac46" }, "pages/user/myOrder/myOrder": { "navigationStyle": "default", "navigationBarTitleText": "我的订单" }, "pages/user/orderDetail": { "navigationStyle": "default", "navigationBarTitleText": "订单详情" }, "pages/user/yuyue/yuyue": { "navigationStyle": "default", "navigationBarTitleText": "我的预约" }, "pages/user/collection/collection": { "navigationStyle": "default", "navigationBarTitleText": "我的收藏" }, "pages/chooselocation/index": {}, "pagesA/a_baojie": { "navigationStyle": "default", "navigationBarTitleText": "家政保洁" }, "pagesA/a_baojie_yuyue": { "navigationStyle": "default", "navigationBarTitleText": "家政保洁" }, "pagesA/a_weixiu": { "navigationStyle": "default", "navigationBarTitleText": "安装维修" }, "pagesA/a_maogou": { "navigationStyle": "default", "navigationBarTitleText": "喂猫喂狗" }, "pagesA/a_maogou_yuyue": { "navigationStyle": "default", "navigationBarTitleText": "喂猫喂狗" }, "pagesA/a_peihu": { "navigationStyle": "default", "navigationBarTitleText": "陪护看病" }, "pagesA/a_peihu_yuyue": { "navigationStyle": "default", "navigationBarTitleText": "陪护看病" }, "pagesA/a_peihu_yuyue_obj": { "navigationStyle": "default", "navigationBarTitleText": "服务对象" }, "pagesA/a_jiachu": { "navigationStyle": "default", "navigationBarTitleText": "私厨预约" }, "pagesA/a_orderDetail_cancel": { "navigationStyle": "default", "navigationBarTitleText": "取消订单" }, "pagesA/a_orderDetail_evaluate": { "navigationStyle": "default", "navigationBarTitleText": "评价" }, "pagesA/a_product": { "navigationStyle": "default", "navigationBarTitleText": "商品管理" }, "pagesA/a_shop": { "navigationStyle": "default", "navigationBarTitleText": "店铺管理" }, "pagesA/a_myWelfare": { "navigationStyle": "default", "navigationBarTitleText": "我的福利" } }, "globalStyle": { "navigationStyle": "custom", "navigationBarTextStyle": "black", "navigationBarTitleText": "邻里", "navigationBarBackgroundColor": "#fff", "backgroundColor": "#FFFFFF" } };exports.default = _default;
 
 /***/ }),
 

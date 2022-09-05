@@ -250,7 +250,7 @@ var _default =
         label: '已过期' }],
 
       index: 0,
-      // 优惠卷
+      // 优惠券
       coupons: [],
       // 是否进入选择模式
       select: false,
@@ -330,7 +330,7 @@ var _default =
       that.coupons = [];
       this.getDiscount();
     },
-    // 点击优惠卷
+    // 点击优惠券
     listClickEvent: function listClickEvent(index) {
       var that = this;
       if (that.current == index) {
@@ -339,7 +339,7 @@ var _default =
         that.current = index;
       }
     },
-    // 确定优惠卷
+    // 确定优惠券
     confirm: function confirm() {
       var that = this;
 

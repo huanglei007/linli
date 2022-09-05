@@ -316,7 +316,7 @@ var _default =
       } else if (type == '上门时间') {
         that.form.start_time = data.split('/')[0];
         that.form.end_time = data.split('/')[1];
-      } else if (type == '优惠卷') {
+      } else if (type == '优惠券') {
         that.form.coupon_id = data.id;
         that.form.coupon_amount = data.amount;
         that.form.commission = parseInt(that.typelist[that.index].price - data.amount);

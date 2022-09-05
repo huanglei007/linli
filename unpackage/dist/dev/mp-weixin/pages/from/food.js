@@ -299,7 +299,7 @@ __webpack_require__.r(__webpack_exports__);
       foodNum: [{
         "commission": 0,
         "id": 0,
-        "number": 0 }],
+        "number": '请选择外卖数量' }],
 
       startTimeShow: false,
       food_index: 0,

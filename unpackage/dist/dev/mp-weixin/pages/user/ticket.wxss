@@ -79,9 +79,6 @@
   border-radius: 10rpx;
   margin-bottom: 10rpx;
 }
-.list .item .name {
-  margin-bottom: 10rpx;
-}
 .list .item .more {
   width: 30rpx;
   margin-bottom: 10rpx;
@@ -91,7 +88,7 @@
   background-color: rgba(255, 88, 30, 0.1);
   padding: 0 10rpx;
   border-radius: 10rpx;
-  margin-bottom: 10rpx;
+  margin: 10rpx 0;
 }
 .list .item .ticket .left {
   width: 130rpx;

@@ -194,9 +194,9 @@ var _default =
   props: ['type', 'price'],
   data: function data() {
     return {
-      // 优惠卷类别
+      // 优惠券类别
       title: '',
-      // 优惠卷
+      // 优惠券
       discount: [{
         "amount": 0, //金额
         "min_order_amount": 0, //使用金额
@@ -205,7 +205,7 @@ var _default =
         "expiration_time": "", //有效期结束时间
         "id": 0 //编号
       }],
-      // 可用的优惠卷
+      // 可用的优惠券
       discount_ok: [],
       // 当前选择
       current: null,
@@ -214,24 +214,24 @@ var _default =
   },
   created: function created() {},
   watch: {
-    // 监听父组件传过来的服务费筛选可用的优惠卷
+    // 监听父组件传过来的服务费筛选可用的优惠券
     price: function price(newVal, oldVal) {
       this.getDiscount(this.type);
     } },
 
 
   methods: {
-    // 获取优惠卷
+    // 获取优惠券
     getDiscount: function getDiscount(type) {var _this = this;
       this.util.ajax('personalDemand/xqCouponList', {
         "type": type },
       function (res) {
         _this.discount = res.data.list;
-        // 筛选可用优惠卷
+        // 筛选可用优惠券
         _this.discountScreen();
       });
     },
-    // 筛选可用优惠卷
+    // 筛选可用优惠券
     discountScreen: function discountScreen() {
       var that = this;
       that.discount_ok = [];
@@ -241,7 +241,7 @@ var _default =
         }
       }
     },
-    // 打开优惠卷弹窗
+    // 打开优惠券弹窗
     selectEvent: function selectEvent() {
       if (this.discount_ok.length > 0) {
         this.$refs.popup.open('bottom');
@@ -256,7 +256,7 @@ var _default =
       var that = this;
       if (that.current != null) {
 
-        this.$parent.getSubComponentData('优惠卷', that.discount_ok[that.current]);
+        this.$parent.getSubComponentData('优惠券', that.discount_ok[that.current]);
 
 
 
@@ -264,7 +264,7 @@ var _default =
         that.disNum = that.discount_ok[that.current].amount;
       } else {
 
-        this.$parent.getSubComponentData('优惠卷', {
+        this.$parent.getSubComponentData('优惠券', {
           id: '',
           amount: 0 });
 
@@ -279,7 +279,7 @@ var _default =
       }
       this.$refs.popup.close();
     },
-    // 点击优惠卷
+    // 点击优惠券
     listClickEvent: function listClickEvent(index) {
       var that = this;
       if (that.current == index) {

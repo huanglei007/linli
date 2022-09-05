@@ -203,21 +203,17 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
 var _default =
 {
   data: function data() {
     return {
       htosp: 0,
-      typeList: ['代金券', '优惠券'],
+      typeList: ['代金券', '优惠券', '跑腿劵'],
       typeIndex: 0,
       statusList: ['待使用', '已使用', '已过期'],
       statusIndex: 0,
-      list: [] };
+      list: [],
+      curPage: 1 };
 
   },
   onLoad: function onLoad() {
@@ -234,12 +230,35 @@ var _default =
   methods: {
     getlist: function getlist() {
       var that = this;
-      if (this.typeIndex) {
-        this.util.ajax('userWelfare/couponList', {
-          userId: this.userId,
+      if (that.typeIndex == 0) {
+        this.util.ajax('userWelfare/voucherList', {
+          userId: that.userId,
           "pageSize": 20,
-          "status": this.statusIndex,
-          "curPage": 1 },
+          "status": that.statusIndex,
+          "curPage": that.curPage },
+        function (res) {
+          if (that.curPage !== res.data.page.curPage) that.isfoot = true;
+          if (that.curPage == res.data.page.curPage) {
+            that.list = that.list.concat(res.data.list.map(function (e) {
+              return {
+                amount: e.original_price,
+                time: that.$shijiandate(e.begin_time) + ' - ' + that.$shijiandate(e.
+                expiration_time),
+                rule: e.voucher_name + ' 实付' + e.real_pay_amount + '元',
+                shop: e.shop_name,
+                infoid: e.info_id,
+                type: e.type,
+                id: e.id };
+
+            }));
+          }
+        });
+      } else if (that.typeIndex == 1) {
+        this.util.ajax('userWelfare/couponList', {
+          "userId": that.userId,
+          "pageSize": 20,
+          "status": that.statusIndex,
+          "curPage": that.curPage },
         function (res) {
           if (that.curPage !== res.data.page.curPage) that.isfoot = true;
           if (that.curPage == res.data.page.curPage) {
@@ -257,23 +276,23 @@ var _default =
           }
         });
       } else {
-        this.util.ajax('userWelfare/voucherList', {
-          userId: this.userId,
+        this.util.ajax('release/errandCouponList', {
+          "type": that.statusIndex + 1,
+          "curPage": that.curPage,
           "pageSize": 20,
-          "status": this.statusIndex,
-          "curPage": 1 },
+          "userId": uni.getStorageSync('userId') },
         function (res) {
           if (that.curPage !== res.data.page.curPage) that.isfoot = true;
           if (that.curPage == res.data.page.curPage) {
-            that.list = that.list.concat(res.data.list.map(function (e) {
+            that.list = that.list.concat(res.data.coupon.map(function (e) {
               return {
-                amount: e.original_price,
-                time: that.$shijiandate(e.begin_time) + ' - ' + that.$shijiandate(e.expiration_time),
-                rule: e.voucher_name + ' 实付' + e.real_pay_amount + '元',
-                shop: e.shop_name,
-                infoid: e.info_id,
-                type: e.type,
-                id: e.id };
+                amount: e.amount,
+                time: that.$shijiandate(e.expiration_time) + '过期',
+                rule: e.coupon_name,
+                shop: '跑腿专用',
+                infoid: '',
+                type: '',
+                id: e.coupon_id };
 
             }));
           }
@@ -287,17 +306,23 @@ var _default =
       this.getlist();
     },
     jumpto: function jumpto(type, id) {
+      var that = this;
       if (type == 1) {
         this.$jump('/pages/index/shopDetail?id=' + id);
+      } else if (that.typeIndex == 1) {
+        this.$jump('/pages/from/apply?id=0');
       } else {
         this.$jump('/pages/index/darenDetail?id=' + id);
       }
     },
     toDetail: function toDetail(type, info, id) {
-      if (this.typeIndex == 0 && this.statusIndex == 0) {
+      var that = this;
+      if (that.typeIndex == 0 && that.statusIndex == 0) {
         this.$jump('/pages/user/tickitDetail?id=' + id);
-      } else {
+      } else if (that.typeIndex == 1) {
         this.jumpto(type, info);
+      } else {
+        this.$jump('/pages/from/apply?id=0');
       }
     } } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))

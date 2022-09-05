@@ -348,7 +348,8 @@ var _default =
       {
         img: '/static/image/icon_fuli.png',
         title: '我的福利',
-        url: '/pagesA/a_myWelfare',
+        // url: '/pagesA/a_myWelfare',
+        url: "./ticket",
         len: 0 },
 
       {

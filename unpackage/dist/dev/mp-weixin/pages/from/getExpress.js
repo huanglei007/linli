@@ -311,7 +311,7 @@ __webpack_require__.r(__webpack_exports__);
       takeParts: [{
         "commission": 0,
         "id": 0,
-        "number": '' }],
+        "number": '请选择取件数量' }],
 
       take_index: 0,
       // timeTxt: '请选择配送时间',

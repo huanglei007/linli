@@ -90,7 +90,8 @@
 							<text class="font28">起送费</text>
 						</view>
 						<view class="relive-icon">
-							<uni-number-box v-model="form.initial_delivery_fee"></uni-number-box>
+							<input v-model="form.initial_delivery_fee" @blur="deliveryChange" />
+							<image class="icon32" src="/static/image/icon_update.png" mode=""></image>
 						</view>
 					</view>
 				</view>
@@ -103,7 +104,7 @@
 						<view class="relive-icon" v-if="operation[operationIndex]">
 							<picker :value="operationIndex" :range="operation" range-key="operation_point_name"
 								@change="operationChange">
-								<view :class="{'fontColor-ccc':!operation[operationIndex].operation_point_name}">
+								<view class="fontColor-666" :class="{'fontColor-ccc':!operation[operationIndex].operation_point_name}">
 									{{operation[operationIndex]?operation[operationIndex].operation_point_name:'请填写运营点'}}
 								</view>
 							</picker>
@@ -142,7 +143,7 @@
 						</view>
 						<view class="relive-icon">
 							<input placeholder-style="color:#CCCCCC" v-model="form.service_content"
-								placeholder="请填写服务内容" />
+								@blur="serviceContent" placeholder="请填写服务内容" />
 							<image class="icon32" src="/static/image/icon_update.png" mode=""></image>
 						</view>
 					</view>
@@ -154,7 +155,7 @@
 						</view>
 						<view class="relive-icon">
 							<input placeholder-style="color:#CCCCCC" v-model="form.service_process"
-								placeholder="请填写服务流程" />
+								@blur="serviceProcedure" placeholder="请填写服务流程" />
 							<image class="icon32" src="/static/image/icon_update.png" mode=""></image>
 						</view>
 					</view>
@@ -166,7 +167,7 @@
 						</view>
 						<view class="relive-icon">
 							<input placeholder-style="color:#CCCCCC" v-model="form.service_guarantee"
-								placeholder="请填写服务保障" />
+								@blur="serviceGuarantee" placeholder="请填写服务保障" />
 							<image class="icon32" src="/static/image/icon_update.png" mode=""></image>
 						</view>
 					</view>
@@ -199,7 +200,7 @@
 						<view class="relive-icon" v-if="deposit_array[deposit_array_index]">
 							<picker @change="depositChange" :value="deposit_array_index" :range="deposit_array"
 								range-key="amount">
-								<view class="uni-input">{{deposit_array[deposit_array_index].amount}}</view>
+								<view class="fontColor-666 uni-input">{{deposit_array[deposit_array_index].amount}}</view>
 							</picker>
 							<image class="icon22" src="/static/image/icon_gd.png" mode=""></image>
 						</view>
@@ -252,12 +253,12 @@
 						style="height:600rpx;flex: 1;">
 						<picker-view-column>
 							<view class="item" v-for="(item,index) in 23" :key="index">
-								{{index}}时
+								<text>{{index<10?'0'+index:index}}时</text>
 							</view>
 						</picker-view-column>
 						<picker-view-column>
 							<view class="item" v-for="(item,index) in 59" :key="index">
-								{{index}}分
+								{{index<10?'0'+index:index}}分
 							</view>
 						</picker-view-column>
 					</picker-view>
@@ -268,12 +269,12 @@
 						style="height:600rpx;flex: 1;">
 						<picker-view-column>
 							<view class="item" v-for="(item,index) in 23" :key="index">
-								{{index}}时
+								{{index<10?'0'+index:index}}时
 							</view>
 						</picker-view-column>
 						<picker-view-column>
 							<view class="item" v-for="(item,index) in 59" :key="index">
-								{{index}}分
+								{{index<10?'0'+index:index}}分
 							</view>
 						</picker-view-column>
 					</picker-view>
@@ -338,7 +339,7 @@
 				deposit_array_index: 0,
 				deposit_array: [],
 				// 防抖
-				onoff:true
+				onoff: true
 			}
 		},
 		onLoad() {
@@ -358,7 +359,7 @@
 				let that = this
 				this.util.ajax('shop/getShopTypeList', {
 					"parentId": 0,
-					"secondType":1
+					"secondType": 1
 				}, res => {
 					that.shopType = res.data.list
 
@@ -372,6 +373,9 @@
 					"userId": that.userId
 				}, res => {
 					that.form = res.data
+					that.timeVal_start = res.data.service_begin_time.split(':').map(i => i / 1)
+					that.timeVal_end = res.data.service_end_time.split(':').map(i => i / 1)
+
 					if (res.data.deposit_amount > 0) {
 						that.deposit_index = '1'
 						this.util.ajax('shop/queryShopDepositSet', {}, res => {
@@ -477,10 +481,10 @@
 				let that = this
 				that.form.business_status = that.shopStatus[e.detail.value].business_status
 				this.util.ajax('shop/editShopStatus', {
-					"business_status": that.shopStatus[e.detail.value].business_status,
+					"business_status": that.form.business_status+1,
 					"user_id": that.userId
 				}, res => {
-					this.$alert('营业状态已保存')
+					
 				})
 			},
 			// 监听营业点变换
@@ -488,16 +492,6 @@
 				let that = this
 				that.operationIndex = e.detail.value
 				that.form.operation_point_id = e.detail.operation_point_id
-			},
-			//营业时间
-			// 开始 结束时间监听
-			bindChange_start(e) {
-				let that = this
-				that.timeVal_start = e.detail.value
-			},
-			bindChange_end(e) {
-				let that = this
-				that.timeVal_end = e.detail.value
 			},
 			// 监听是否交押金
 			radioChange(e) {
@@ -537,47 +531,75 @@
 					}
 				});
 			},
+			// 监听配送费
+			deliveryChange(e){
+				let that = this
+				this.util.ajax('shop/editShopStatus', {
+					"initial_delivery_fee": e.detail.value,
+					"user_id": that.userId
+				}, res => {
+				
+				})
+			},
+			// 服务内容
+			serviceContent(e) {
+				let that = this
+				this.util.ajax('shop/editShopStatus', {
+					"service_content": e.detail.value,
+					"user_id": that.userId
+				}, res => {
+
+				})
+			},
+			// 服务流程
+			serviceProcedure(e) {
+				let that = this
+				this.util.ajax('shop/editShopStatus', {
+					"service_process": e.detail.value,
+					"user_id": that.userId
+				}, res => {
+
+				})
+			},
+			// 服务保障
+			serviceGuarantee(e) {
+				let that = this
+				this.util.ajax('shop/editShopStatus', {
+					"service_guarantee": e.detail.value,
+					"user_id": that.userId
+				}, res => {
+
+				})
+			},
+			//营业时间
+			// 开始 结束时间监听
+			bindChange_start(e) {
+				let that = this
+				that.timeVal_start = e.detail.value
+			},
+			bindChange_end(e) {
+				let that = this
+				that.timeVal_end = e.detail.value
+			},
 			// 确认
 			confirmEvent() {
-				let that = this;
-				let start_h = '';
-				let start_s = '';
-				let end_h = '';
-				let end_s = '';
-				for (let i = 0; i < that.timeVal_start.length; i++) {
-					if (that.timeVal_start[i] < 10) {
-						if (i == 0) {
-							start_h = '0' + that.timeVal_start[i]
-						} else {
-							start_s = '0' + that.timeVal_start[i]
-						}
-					} else {
-						if (i == 0) {
-							start_h = that.timeVal_start[i]
-						} else {
-							start_s = that.timeVal_start[i]
-						}
-					}
-				}
-				for (let i = 0; i < that.timeVal_end.length; i++) {
-					if (that.timeVal_end[i] < 10) {
-						if (i == 0) {
-							end_h = '0' + that.timeVal_start[i]
-						} else {
-							end_s = '0' + that.timeVal_start[i]
-						}
-					} else {
-						if (i == 0) {
-							end_h = that.timeVal_end[i]
-						} else {
-							end_s = that.timeVal_end[i]
-						}
-					}
-				}
+				let that = this
+				let start = this.timeVal_start;
+				let start_h = start[0] < 10 ? '0' + start[0] : String(start[0]);
+				let start_s = start[1] < 10 ? '0' + start[1] : String(start[1]);
+				let end = this.timeVal_end;
+				let end_h = end[0] < 10 ? '0' + end[0] : String(end[0]);
+				let end_s = end[1] < 10 ? '0' + end[1] : String(end[1]);
+				this.util.ajax('shop/editShopStatus', {
+					"service_begin_time": start_h + ':' + start_s,
+					"service_end_time": end_h + ':' + end_s,
+					"user_id": that.userId
+				}, res => {
+					
+				})
 				that.form.service_begin_time = start_h + ':' + start_s
 				that.form.service_end_time = end_h + ':' + end_s
-
-				this.hoursShow = false
+				that.hoursShow = false
 			},
 			//上传店铺头像
 			updateImg() {
@@ -647,6 +669,7 @@
 			flex: 1;
 			text-align: right;
 		}
+
 		/* #endif */
 
 		input {
@@ -697,6 +720,7 @@
 			}
 
 			.text {
+				color: #666666;
 				margin-left: 15rpx;
 			}
 		}
