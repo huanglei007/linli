@@ -47,7 +47,7 @@
 					mode="widthFix"></image>
 				<image class="box-btn-img" src="/static/img/img_xrfl_btn.png" mode="widthFix"></image>
 				<view class="box">
-					<!-- 优惠卷 -->
+					<!-- 优惠券 -->
 					<view class="box-list" v-for="(item,index) in coupons" :key="index">
 						<view class="list-left">
 							<text style="font-size:50rpx;color: #FF2D51;">劵</text>

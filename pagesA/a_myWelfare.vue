@@ -65,7 +65,7 @@
 					label: '已过期',
 				}],
 				index: 0,
-				// 优惠卷
+				// 优惠券
 				coupons: [],
 				// 是否进入选择模式
 				select: false,
@@ -145,7 +145,7 @@
 				that.coupons = [];
 				this.getDiscount();
 			},
-			// 点击优惠卷
+			// 点击优惠券
 			listClickEvent(index) {
 				let that = this
 				if (that.current == index) {
@@ -154,7 +154,7 @@
 					that.current = index
 				}
 			},
-			// 确定优惠卷
+			// 确定优惠券
 			confirm() {
 				let that = this
 				// #ifdef APP-NVUE

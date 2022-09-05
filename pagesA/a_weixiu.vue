@@ -20,7 +20,7 @@
 		<a-upAddress :upAddressId='upAddressId'></a-upAddress>
 		<!-- 上门时间 -->
 		<a-upTime></a-upTime>
-		<!-- 优惠卷 -->
+		<!-- 优惠券 -->
 		<a-discount :type="4" :price='price'></a-discount>
 		<!-- 备注 -->
 		<a-remarks></a-remarks>

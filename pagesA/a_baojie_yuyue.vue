@@ -19,7 +19,7 @@
 		<a-upAddress :upAddressId='upAddressId'></a-upAddress>
 		<!-- 上门时间 -->
 		<a-upTime :start_time="form.start_time" :end_time="form.end_time"></a-upTime>
-		<!-- 优惠卷 -->
+		<!-- 优惠券 -->
 		<a-discount :type="3" :price='price'></a-discount>
 		<!-- 备注 -->
 		<a-remarks></a-remarks>
@@ -117,7 +117,7 @@
 					this.getDateBeforeNow(data.split('/')[0], data.split('/')[1])
 					that.form.start_time = data.split('/')[0]
 					that.form.end_time = data.split('/')[1]
-				} else if (type == '优惠卷') {
+				} else if (type == '优惠券') {
 					that.form.coupon_id = data.id
 					that.form.coupon_amount = data.amount
 					that.form.commission = that.typelist[that.index].price - data.amount

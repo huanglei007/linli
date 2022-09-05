@@ -2,7 +2,7 @@
 	<view class="baojie-yuyue-disc">
 		<view class="baojie-yuyue-disc-title">
 			<text class="font30">
-				领取优惠卷
+				领取优惠券
 			</text>
 		</view>
 		<view class="baojie-yuyue-disc-select" style="flex: 1;text-align: right;" @click="selectEvent">
@@ -52,9 +52,9 @@
 		props: ['type', 'price'],
 		data() {
 			return {
-				// 优惠卷类别
+				// 优惠券类别
 				title: '',
-				// 优惠卷
+				// 优惠券
 				discount: [{
 					"amount": 0, //金额
 					"min_order_amount": 0, //使用金额
@@ -63,7 +63,7 @@
 					"expiration_time": "", //有效期结束时间
 					"id": 0 //编号
 				}],
-				// 可用的优惠卷
+				// 可用的优惠券
 				discount_ok: [],
 				// 当前选择
 				current: null,
@@ -72,24 +72,24 @@
 		},
 		created() {},
 		watch: {
-			// 监听父组件传过来的服务费筛选可用的优惠卷
+			// 监听父组件传过来的服务费筛选可用的优惠券
 			price(newVal, oldVal) {
 				this.getDiscount(this.type)
 			},
 		},
 
 		methods: {
-			// 获取优惠卷
+			// 获取优惠券
 			getDiscount(type) {
 				this.util.ajax('personalDemand/xqCouponList', {
 					"type": type
 				}, res => {
 					this.discount = res.data.list
-					// 筛选可用优惠卷
+					// 筛选可用优惠券
 					this.discountScreen()
 				})
 			},
-			// 筛选可用优惠卷
+			// 筛选可用优惠券
 			discountScreen() {
 				let that = this
 				that.discount_ok = []
@@ -99,7 +99,7 @@
 					}
 				}
 			},
-			// 打开优惠卷弹窗
+			// 打开优惠券弹窗
 			selectEvent() {
 				if (this.discount_ok.length > 0) {
 					this.$refs.popup.open('bottom')
@@ -114,21 +114,21 @@
 				let that = this
 				if (that.current != null) {
 					// #ifdef APP-PLUS || MP-WEIXIN
-					this.$parent.getSubComponentData('优惠卷', that.discount_ok[that.current])
+					this.$parent.getSubComponentData('优惠券', that.discount_ok[that.current])
 					// #endif
 					// #ifdef H5
-					this.$parent.$parent.getSubComponentData('优惠卷', that.discount_ok[that.current])
+					this.$parent.$parent.getSubComponentData('优惠券', that.discount_ok[that.current])
 					// #endif
 					that.disNum = that.discount_ok[that.current].amount
 				} else {
 					// #ifdef APP-PLUS || MP-WEIXIN
-					this.$parent.getSubComponentData('优惠卷', {
+					this.$parent.getSubComponentData('优惠券', {
 						id: '',
 						amount: 0
 					})
 					// #endif
 					// #ifdef H5
-					this.$parent.$parent.getSubComponentData('优惠卷', {
+					this.$parent.$parent.getSubComponentData('优惠券', {
 						id: '',
 						amount: 0
 					})
@@ -137,7 +137,7 @@
 				}
 				this.$refs.popup.close()
 			},
-			// 点击优惠卷
+			// 点击优惠券
 			listClickEvent(index) {
 				let that = this
 				if (that.current == index) {
@@ -151,7 +151,7 @@
 </script>
 
 <style lang="less">
-	// 优惠卷
+	// 优惠券
 	.baojie-yuyue-disc {
 		padding: 30rpx 40rpx;
 		border-radius: 20rpx;

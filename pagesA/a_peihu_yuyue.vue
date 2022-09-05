@@ -126,7 +126,7 @@
 				</picker>
 			</view>
 		</view>
-		<!-- 优惠卷 -->
+		<!-- 优惠券 -->
 		<a-discount :type="6" :price='price'></a-discount>
 		<!-- 备注 -->
 		<a-remarks></a-remarks>
@@ -288,7 +288,7 @@
 				} else if (type == '上门时间') {
 					that.form.start_time = data.split('/')[0]
 					that.form.end_time = data.split('/')[1]
-				} else if (type == '优惠卷') {
+				} else if (type == '优惠券') {
 					that.form.coupon_id = data.id
 					that.form.coupon_amount = data.amount
 					that.form.commission = parseInt(that.timelist[that.timeIndex].price - data.amount)

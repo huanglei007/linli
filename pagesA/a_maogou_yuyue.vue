@@ -57,7 +57,7 @@
 				</picker>
 			</view>
 		</view>
-		<!-- 优惠卷 -->
+		<!-- 优惠券 -->
 		<a-discount :type="7" :price='price'></a-discount>
 		<!-- 备注 -->
 		<a-remarks></a-remarks>
@@ -184,7 +184,7 @@
 					that.form.latitude = data.latitude
 					that.form.longitude = data.longitude
 					that.form.handover_mode = mode
-				} else if (type == '优惠卷') {
+				} else if (type == '优惠券') {
 					that.form.coupon_id = data.id
 					that.form.coupon_amount = data.amount
 					that.form.commission = parseInt(that.combolist[that.comboIndex].combo_price - data.amount)

@@ -32,10 +32,10 @@
 					<view class="zhonum">{{userData.collection_count}}</view>
 					<view class="gray">关注</view>
 				</view>
-				<view class="item" @click="$jump('./ticket')">
+				<!-- <view class="item" @click="$jump('./ticket')">
 					<view class="zhonum">{{userData.voucher_count}}</view>
-					<view class="gray">代金券</view>
-				</view>
+					<view class="gray">我的福利</view>
+				</view> -->
 				<view class="item">
 					<view class="zhonum">{{userData.integral_count}}</view>
 					<view class="gray">积分</view>
@@ -171,7 +171,8 @@
 					{
 						img: '/static/image/icon_fuli.png',
 						title: '我的福利',
-						url: '/pagesA/a_myWelfare',
+						// url: '/pagesA/a_myWelfare',
+						url: "./ticket",
 						len: 0
 					},
 					{
@@ -387,7 +388,8 @@
 				}
 
 				.item {
-					width: 33%;
+					/* width: 33%; */
+					flex: 1;
 					position: relative;
 					text-align: center;
 

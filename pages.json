@@ -310,7 +310,7 @@
 			"path": "pages/user/shopSet/fuli",
 			"style": {
 				"navigationStyle": "default",
-				"navigationBarTitleText": "优惠卷管理",
+				"navigationBarTitleText": "优惠券管理",
 				"app-plus": {
 					"titleNView": {
 						"titleAlign": "left",
