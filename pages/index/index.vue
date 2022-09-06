@@ -33,12 +33,10 @@
 		<!-- 附近商家 -->
 		<nearbyshop></nearbyshop>
 		<!-- 微信订阅消息弹窗 -->
-		<!-- #ifdef MP-WEIXIN -->
 		<uni-popup ref="wxMessage" type="dialog" :mask-click="false">
 			<uni-popup-dialog type="info" cancelText="关闭" confirmText="同意" title="通知" :content="wxMessage_text"
 				@confirm="dialogConfirm" @close="dialogClose"></uni-popup-dialog>
 		</uni-popup>
-		<!-- #endif -->
 		<!-- 新人福利 -->
 		<uni-popup ref="popup" type="center" :mask-click="false">
 			<view class="newUser-box">
@@ -296,8 +294,8 @@
 			})
 			// 判断是否新用户
 			if (e.new && e.new == 1) {
-				this.getDiscount()
-				this.$refs.popup.open()
+				that.getDiscount()
+				that.$refs.popup.open()
 				uni.hideTabBar();
 			} else {
 				// 微信订阅弹窗
@@ -306,10 +304,20 @@
 					"withSubscriptions": true,
 					success(res) {
 						let itemSettings = res.subscriptionsSetting.itemSettings
-						let tmpl_1 = itemSettings.LCKpmzf8qAd8XdsRcGl6N6pCmM205WGImmZ6ZDBTGCw
-						let tmpl_2 = itemSettings.iXmb8LUNIb_VP_KaNq5avEPVrZLdfBbQBNrrRelJfhE
-						if (tmpl_1 != 'accept' || tmpl_2 != 'accept') {
-							this.$refs.wxMessage.open()
+						if (itemSettings) {
+							if (itemSettings.LCKpmzf8qAd8XdsRcGl6N6pCmM205WGImmZ6ZDBTGCw) {
+								let tmpl_1 = itemSettings.LCKpmzf8qAd8XdsRcGl6N6pCmM205WGImmZ6ZDBTGCw
+							}
+
+							if (itemSettings.iXmb8LUNIb_VP_KaNq5avEPVrZLdfBbQBNrrRelJfhE) {
+								let tmpl_2 = itemSettings.iXmb8LUNIb_VP_KaNq5avEPVrZLdfBbQBNrrRelJfhE
+							}
+							if (tmpl_1 != 'accept' || tmpl_2 != 'accept') {
+								that.$refs.wxMessage.open()
+								uni.hideTabBar();
+							}
+						} else {
+							that.$refs.wxMessage.open()
 							uni.hideTabBar();
 						}
 					}
@@ -343,7 +351,7 @@
 				this.rangeIndex = e.target.value
 				this.getNewList()
 			},
-			menuClick(item, i,index) {
+			menuClick(item, i, index) {
 				//  item.path == '' || 
 				if (index > 9 || i == 1) {
 					this.$alert('功能开发中')

@@ -248,8 +248,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
-
 var _wx_messagePush = __webpack_require__(/*! @/static/js/wx_messagePush.js */ 17);
 
 
@@ -462,8 +460,8 @@ var _a_nearbyshop = _interopRequireDefault(__webpack_require__(/*! @/pages/index
     });
     // 判断是否新用户
     if (e.new && e.new == 1) {
-      this.getDiscount();
-      this.$refs.popup.open();
+      that.getDiscount();
+      that.$refs.popup.open();
       uni.hideTabBar();
     } else {
       // 微信订阅弹窗
@@ -472,10 +470,20 @@ var _a_nearbyshop = _interopRequireDefault(__webpack_require__(/*! @/pages/index
         "withSubscriptions": true,
         success: function success(res) {
           var itemSettings = res.subscriptionsSetting.itemSettings;
-          var tmpl_1 = itemSettings.LCKpmzf8qAd8XdsRcGl6N6pCmM205WGImmZ6ZDBTGCw;
-          var tmpl_2 = itemSettings.iXmb8LUNIb_VP_KaNq5avEPVrZLdfBbQBNrrRelJfhE;
-          if (tmpl_1 != 'accept' || tmpl_2 != 'accept') {
-            this.$refs.wxMessage.open();
+          if (itemSettings) {
+            if (itemSettings.LCKpmzf8qAd8XdsRcGl6N6pCmM205WGImmZ6ZDBTGCw) {
+              var _tmpl_ = itemSettings.LCKpmzf8qAd8XdsRcGl6N6pCmM205WGImmZ6ZDBTGCw;
+            }
+
+            if (itemSettings.iXmb8LUNIb_VP_KaNq5avEPVrZLdfBbQBNrrRelJfhE) {
+              var _tmpl_2 = itemSettings.iXmb8LUNIb_VP_KaNq5avEPVrZLdfBbQBNrrRelJfhE;
+            }
+            if (tmpl_1 != 'accept' || tmpl_2 != 'accept') {
+              that.$refs.wxMessage.open();
+              uni.hideTabBar();
+            }
+          } else {
+            that.$refs.wxMessage.open();
             uni.hideTabBar();
           }
         } });
