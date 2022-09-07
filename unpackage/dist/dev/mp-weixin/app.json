@@ -134,6 +134,5 @@
   "unipush": {
     "enable": false
   },
-  "usingComponents": {},
-  "sitemapLocation": "sitemap.json"
+  "usingComponents": {}
 }

@@ -19,9 +19,6 @@ function ajax(url, data, cb, header, flag) {
 		'content-type': 'application/json'
 	};
 
-	// uni.showLoading({
-	//   title: '加载中'
-	// })
 	uni.request({
 		url: domain + url,
 		method: "POST",
@@ -292,7 +289,7 @@ module.exports = {
 						// 通知列表
 						that.ajax('message/listPage', {
 							"userId": userid,
-							"isRead":1,
+							"isRead": 1,
 						}, res => {
 							let arr = res.data.list
 							for (let i = 0; i < arr.length; i++) {

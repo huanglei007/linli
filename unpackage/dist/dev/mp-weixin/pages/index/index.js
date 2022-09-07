@@ -252,102 +252,91 @@ var _wx_messagePush = __webpack_require__(/*! @/static/js/wx_messagePush.js */ 1
 
 
 
-var _a_nearbyshop = _interopRequireDefault(__webpack_require__(/*! @/pages/index/a_nearbyshop.vue */ 56));var _components$data$onLo;function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function _defineProperty(obj, key, value) {if (key in obj) {Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });} else {obj[key] = value;}return obj;}var list = function list() {__webpack_require__.e(/*! require.ensure | components/menuList */ "components/menuList").then((function () {return resolve(__webpack_require__(/*! @/components/menuList.vue */ 604));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default = (_components$data$onLo = {
-
-
-
-  components: {
-    list: list,
-    nearbyshop: _a_nearbyshop.default },
-
-  data: function data() {
-    return {
-      imageurl: '',
-      userId: '',
-      htosp: 0,
-      swiperConfig: {
-        indicatorDots: false,
-        indicatorColor: 'rgba(255, 255, 255, .4)',
-        indicatorActiveColor: 'rgba(255, 255, 255, 1)',
-        autoplay: false,
-        interval: 3000,
-        duration: 300,
-        circular: true,
-        previousMargin: '65rpx',
-        nextMargin: '65rpx' },
-
-      menuList: [{
-        page: 1,
-        list: [{
-          img: '/static/image/icon_bqkd.png',
-          title: '帮取快递',
-          path: '/pages/from/apply?id=0' },
-        {
-          img: '/static/image/icon_bqwm.png',
-          title: '帮送外卖',
-          path: '/pages/from/apply?id=1' },
-        {
-          img: '/static/image/icon_bdlj.png',
-          title: '帮丢垃圾',
-          path: '/pages/from/apply?id=2' },
-        {
-          img: '/static/image/icon_bgw.png',
-          title: '帮购商品',
-          path: '/pages/from/apply?id=3' },
-        {
-          img: '/static/image/icon_tcps.png',
-          title: '帮取帮送',
-          path: '/pages/from/apply?id=4' },
-
-        {
-          img: '/static/image/huang/icon_cyd.png',
-          title: '餐饮店',
-          path: '/pages/index/shangquan' },
-
-        {
-          img: '/static/image/huang/icon_bld.png',
-          title: '便利店',
-          path: '/pages/index/shangquan' },
-
-        {
-          img: '/static/image/huang/icon_sgd.png',
-          title: '水果店',
-          path: '/pages/index/shangquan' },
-
-        {
-          img: '/static/image/huang/icon_gxd.png',
-          title: '洗衣店',
-          path: '/pages/index/shangquan' },
-
-        {
-          img: '/static/image/huang/icon_cwd.png',
-          title: '宠物店',
-          path: '/pages/index/shangquan' },
-
-
-        {
-          img: '/static/image/huang/mipmap-mdpi/icon_baojie.png',
-          title: '家政保洁',
-          path: '/pagesA/a_baojie' },
-
-        {
-          img: '/static/image/huang/mipmap-mdpi/icon_weixiu.png',
-          title: '安装维修',
-          path: '/pagesA/a_weixiu' },
-
-        {
-          img: '/static/image/huang/mipmap-mdpi/icon_maogou.png',
-          title: '喂猫遛狗',
-          path: '/pagesA/a_maogou' },
-
-        {
-          img: '/static/image/huang/mipmap-mdpi/icon_peihu.png',
-          title: '陪诊陪护',
-          path: '/pagesA/a_peihu' },
-
-        {
-          img: '/static/image/huang/mipmap-mdpi/icon_jiachu.png',
-          title: '百味家厨',
+var _a_nearbyshop = _interopRequireDefault(__webpack_require__(/*! @/pages/index/a_nearbyshop.vue */ 56));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };} //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+// 微信订阅消息
+// 附近商家
+var list = function list() {__webpack_require__.e(/*! require.ensure | components/menuList */ "components/menuList").then((function () {return resolve(__webpack_require__(/*! @/components/menuList.vue */ 604));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default = { components: { list: list, nearbyshop: _a_nearbyshop.default }, data: function data() {return { imageurl: '', userId: '', htosp: 0, menuList: [{ page: 1, list: [{ img: '/static/image/icon_bqkd.png', title: '帮取快递', path: '/pages/from/apply?id=0' }, { img: '/static/image/icon_bqwm.png', title: '帮送外卖', path: '/pages/from/apply?id=1' }, { img: '/static/image/icon_bdlj.png', title: '帮丢垃圾', path: '/pages/from/apply?id=2' }, { img: '/static/image/icon_bgw.png', title: '帮购商品', path: '/pages/from/apply?id=3' }, { img: '/static/image/icon_tcps.png', title: '帮取帮送', path: '/pages/from/apply?id=4' }, { img: '/static/image/huang/icon_cyd.png', title: '餐饮店', path: '/pages/index/shangquan' }, { img: '/static/image/huang/icon_bld.png', title: '便利店', path: '/pages/index/shangquan' }, { img: '/static/image/huang/icon_sgd.png', title: '水果店', path: '/pages/index/shangquan' }, { img: '/static/image/huang/icon_gxd.png', title: '洗衣店', path: '/pages/index/shangquan' }, { img: '/static/image/huang/icon_cwd.png', title: '宠物店', path: '/pages/index/shangquan' }, { img: '/static/image/huang/mipmap-mdpi/icon_baojie.png', title: '家政保洁', path: '/pagesA/a_baojie' }, { img: '/static/image/huang/mipmap-mdpi/icon_weixiu.png', title: '安装维修', path: '/pagesA/a_weixiu' }, { img: '/static/image/huang/mipmap-mdpi/icon_maogou.png', title: '喂猫遛狗', path: '/pagesA/a_maogou' }, { img: '/static/image/huang/mipmap-mdpi/icon_peihu.png', title: '陪诊陪护', path: '/pagesA/a_peihu' }, { img: '/static/image/huang/mipmap-mdpi/icon_jiachu.png', title: '百味家厨',
           path: '/pagesA/a_jiachu' }] },
 
 
@@ -424,21 +413,6 @@ var _a_nearbyshop = _interopRequireDefault(__webpack_require__(/*! @/pages/index
         ] }],
 
 
-      classfy: [{
-        category_name: '需求类别',
-        id: 0 }],
-
-      classfyIndex: 0,
-      range: [{
-        name: '距离',
-        id: 0 }],
-
-      rangeIndex: 0,
-      shopChoise: 0,
-      shopList: [],
-      curPage: 1,
-      commissionSort: 0,
-      isfoot: false,
       village: {},
       // 新用户福利
       coupons: [],
@@ -452,181 +426,119 @@ var _a_nearbyshop = _interopRequireDefault(__webpack_require__(/*! @/pages/index
     this.village = uni.getStorageSync('village');
     this.imageurl = this.globalData.imageurl;
     var that = this;
-    this.util.ajax('release/categoryList', {}, function (res) {
-      that.classfy = that.classfy.concat(res.data.list);
-    });
-    this.util.ajax('release/distanceConfigList', {}, function (res) {
-      that.range = that.range.concat(res.data.list);
-    });
-    // 判断是否新用户
-    if (e.new && e.new == 1) {
-      that.getDiscount();
-      that.$refs.popup.open();
-      uni.hideTabBar();
-    } else {
-      // 微信订阅弹窗
+    // 是否游客
+    if (this.userId != 40) {
+      // 是否新用户
+      if (e.new && e.new == 1) {
+        that.getDiscount();
+        that.$refs.popup.open();
+        uni.hideTabBar();
+      } else {
+        // 微信订阅弹窗
 
-      uni.getSetting({
-        "withSubscriptions": true,
-        success: function success(res) {
-          var itemSettings = res.subscriptionsSetting.itemSettings;
-          if (itemSettings) {
-            if (itemSettings.LCKpmzf8qAd8XdsRcGl6N6pCmM205WGImmZ6ZDBTGCw) {
-              var _tmpl_ = itemSettings.LCKpmzf8qAd8XdsRcGl6N6pCmM205WGImmZ6ZDBTGCw;
-            }
+        uni.getSetting({
+          "withSubscriptions": true,
+          success: function success(res) {
+            var itemSettings = res.subscriptionsSetting.itemSettings;
+            if (itemSettings) {
+              if (itemSettings.LCKpmzf8qAd8XdsRcGl6N6pCmM205WGImmZ6ZDBTGCw) {
+                var _tmpl_ = itemSettings.LCKpmzf8qAd8XdsRcGl6N6pCmM205WGImmZ6ZDBTGCw;
+              }
 
-            if (itemSettings.iXmb8LUNIb_VP_KaNq5avEPVrZLdfBbQBNrrRelJfhE) {
-              var _tmpl_2 = itemSettings.iXmb8LUNIb_VP_KaNq5avEPVrZLdfBbQBNrrRelJfhE;
-            }
-            if (tmpl_1 != 'accept' || tmpl_2 != 'accept') {
+              if (itemSettings.iXmb8LUNIb_VP_KaNq5avEPVrZLdfBbQBNrrRelJfhE) {
+                var _tmpl_2 = itemSettings.iXmb8LUNIb_VP_KaNq5avEPVrZLdfBbQBNrrRelJfhE;
+              }
+              if (tmpl_1 != 'accept' || tmpl_2 != 'accept') {
+                that.$refs.wxMessage.open();
+                uni.hideTabBar();
+              }
+            } else {
               that.$refs.wxMessage.open();
               uni.hideTabBar();
             }
-          } else {
-            that.$refs.wxMessage.open();
-            uni.hideTabBar();
-          }
-        } });
+          } });
 
 
+      }
     }
-  },
-  onPullDownRefresh: function onPullDownRefresh() {
-    this.getNewList();
   },
   onShow: function onShow() {
     this.residentialEvent();
-    this.getNewList();
   },
-  onReachBottom: function onReachBottom() {
-    if (!this.isfoot) {
-      this.curPage++;
-      this.getlist();
-    }
-  } }, _defineProperty(_components$data$onLo, "onPullDownRefresh", function onPullDownRefresh()
-{
-  this.getlist();
-}), _defineProperty(_components$data$onLo, "computed",
-{}), _defineProperty(_components$data$onLo, "methods",
-{
-  bindPickerChange: function bindPickerChange(e) {
-    this.classfyIndex = e.target.value;
-    this.getNewList();
-  },
-  bindPickerChange2: function bindPickerChange2(e) {
-    this.rangeIndex = e.target.value;
-    this.getNewList();
-  },
-  menuClick: function menuClick(item, i, index) {var _this = this;
-    //  item.path == '' || 
-    if (index > 9 || i == 1) {
-      this.$alert('功能开发中');
-    } else {
-      if (item.path == '/pages/index/shangquan') {
-        wx.reLaunch({
-          url: item.path + '?type=' + item.title });
-
-      } else if (index < 5) {
-        this.util.ajax('shop/queryWorkTime', {}, function (res) {
-          var data = res.data.set;
-          var date = new Date();
-          var time = _this.$shijianhour(date.getTime()).split(':')[0];
-          if (parseInt(time) >= data.on_duty_time && parseInt(time) < data.off_duty_time) {
-            _this.$jump(item.path);
-          } else {
-            var text = data.on_duty_time + '点' + ' 至 ' + data.off_duty_time + '点';
-            _this.$alert('开放时间为 ' + text);
-          }
-        });
+  methods: {
+    menuClick: function menuClick(item, i, index) {var _this = this;
+      //  item.path == '' || 
+      if (index > 9 || i == 1) {
+        this.$alert('功能开发中');
       } else {
-        this.$jump(item.path);
-      }
-    }
-  },
-  getlist: function getlist() {
-    var that = this;
-    this.util.ajax('release/releaseList', {
-      "categoryId": this.classfy[this.classfyIndex].id,
-      "commissionSort": 0,
-      "curPage": this.curPage,
-      "distanceValue": this.range[this.rangeIndex].value,
-      "pageSize": 20,
-      "userId": this.userId },
-    function (res) {
-      if (that.curPage !== res.data.page.curPage) that.isfoot = true;
-      if (that.curPage == res.data.page.curPage) {
-        that.shopList = that.shopList.concat(res.data.list.map(function (e) {
-          return {
-            "category_name": e.category_name,
-            "commission": e.commission,
-            "createtime": that.$shijian(e.createtime),
-            "distance": e.distance,
-            "id": e.id,
-            "image": e.head_img,
-            //"publisher_name": e.publisher_name,
-            "requirement_introduction": "备注：" + e.leave_message,
-            "user_id": e.user_id,
-            "user_name": e.publisher_name };
+        if (item.path == '/pages/index/shangquan') {
+          wx.reLaunch({
+            url: item.path + '?type=' + item.title });
 
-        }));
+        } else if (index < 5) {
+          this.util.ajax('shop/queryWorkTime', {}, function (res) {
+            var data = res.data.set;
+            var date = new Date();
+            var time = _this.$shijianhour(date.getTime()).split(':')[0];
+            if (parseInt(time) >= data.on_duty_time && parseInt(time) < data.off_duty_time) {
+              _this.$jump(item.path);
+            } else {
+              var text = data.on_duty_time + '点' + ' 至 ' + data.off_duty_time + '点';
+              _this.$alert('开放时间为 ' + text);
+            }
+          });
+        } else {
+          this.$jump(item.path);
+        }
       }
-      uni.stopPullDownRefresh();
-    });
-  },
-  getNewList: function getNewList() {
-    this.showList = false;
-    this.shopList = [];
-    this.curPage = 1;
-    this.isfoot = false;
-    this.getlist();
-  },
-  // 绑定小区
-  residentialEvent: function residentialEvent() {
-    var that = this;
-    this.util.ajax('user/getUserInfo', {
-      "userId": that.userId },
-    function (res) {
-      that.userData = res.data;
-      uni.setStorageSync('userInfo', res.data);
-      that.village = res.data.residentialQuarterVo;
-      if (!res.data.residentialQuarterVo.residential_quarter_name) {
-        that.$alert('请先绑定小区');
-        setTimeout(function (e) {
-          that.$jump('/pages/index/changeVillage');
-        }, 1000);
-      }
-    });
-  },
-  //关闭新人福利弹窗
-  closePop: function closePop() {
-    this.$refs.popup.close();
-    uni.showTabBar();
+    },
+    // 绑定小区
+    residentialEvent: function residentialEvent() {
+      var that = this;
+      this.util.ajax('user/getUserInfo', {
+        "userId": that.userId },
+      function (res) {
+        that.userData = res.data;
+        uni.setStorageSync('userInfo', res.data);
+        that.village = res.data.residentialQuarterVo;
+        if (!res.data.residentialQuarterVo.residential_quarter_name) {
+          that.$alert('请先绑定小区');
+          setTimeout(function (e) {
+            that.$jump('/pages/index/changeVillage');
+          }, 1000);
+        }
+      });
+    },
+    //关闭新人福利弹窗
+    closePop: function closePop() {
+      this.$refs.popup.close();
+      uni.showTabBar();
 
-    this.$refs.wxMessage.open();
-    uni.hideTabBar();
+      this.$refs.wxMessage.open();
+      uni.hideTabBar();
 
-  },
-  // 获取新人福利跑腿卷
-  getDiscount: function getDiscount() {var _this2 = this;
-    this.util.ajax('release/errandCouponList', {
-      "userId": uni.getStorageSync('userId') },
-    function (res) {
-      for (var i = 0; i < 3; i++) {
-        _this2.coupons.push(res.data.coupon[i]);
-      }
-    });
-  },
-  // 微信订阅消息弹窗
-  // 确认
-  dialogConfirm: function dialogConfirm() {
-    (0, _wx_messagePush.openSubscription)();
-    uni.showTabBar();
-  },
-  // 关闭
-  dialogClose: function dialogClose() {
-    this.$refs.wxMessage.close();
-    uni.showTabBar();
-  } }), _components$data$onLo);exports.default = _default;
+    },
+    // 获取新人福利跑腿卷
+    getDiscount: function getDiscount() {var _this2 = this;
+      this.util.ajax('release/errandCouponList', {
+        "userId": uni.getStorageSync('userId') },
+      function (res) {
+        for (var i = 0; i < 3; i++) {
+          _this2.coupons.push(res.data.coupon[i]);
+        }
+      });
+    },
+    // 微信订阅消息弹窗
+    // 确认
+    dialogConfirm: function dialogConfirm() {
+      (0, _wx_messagePush.openSubscription)();
+      uni.showTabBar();
+    },
+    // 关闭
+    dialogClose: function dialogClose() {
+      this.$refs.wxMessage.close();
+      uni.showTabBar();
+    } } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 
 /***/ }),

@@ -330,6 +330,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 var _default =
 {
   components: {},
@@ -458,25 +460,6 @@ var _default =
       function (res) {
         _this.form = res.data;
       });
-    },
-    //路由跳转
-    urlchange: function urlchange(url) {
-      // 审核状态(-1申请入驻审核中 -2申请入驻被拒绝 0商家设置审核中 1审核通过 2商家设置被拒绝)
-      // 1、商家入驻：等于null或-2时，可以申请，其余提示已入驻
-      // 2、商家管理：等于0时提示审核中，其余可以进入 
-      if (this.form.status == 0) {
-        if (url == 'a_product') {
-          this.popupForm.title = '商品审核中';
-        } else {
-          this.popupForm.title = '店铺管理审核中';
-        }
-        this.popupForm.content = '请耐心等待，预计1个工作日';
-        this.$refs.alertDialog.open();
-      } else {
-        uni.navigateTo({
-          url: url });
-
-      }
     },
     //店铺审核弹窗
     //确认

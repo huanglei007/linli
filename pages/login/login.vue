@@ -24,7 +24,7 @@
 		<!-- #endif -->
 
 		<!-- #ifdef MP-WEIXIN -->
-		<view class="content">
+		<view v-if="tourist" class="content">
 			<view class="logo">
 				<view class="img">
 					<image src="/static/image/120x120.png" mode=""></image>
@@ -62,14 +62,16 @@
 				msg: '',
 				score: null,
 				// wx
-				code: ''
+				code: '',
+				tourist:false,
 			}
 		},
 		onLoad() {
+			let that = this
 			// #ifdef APP-PLUS || H5
-			this.phone = '';
-			this.pass = '';
-			this.checkRule = false;
+			that.phone = '';
+			that.pass = '';
+			that.checkRule = false;
 			if (uni.getStorageSync('userId')) {
 				uni.switchTab({
 					url: '/pages/index/index'
@@ -93,12 +95,19 @@
 
 
 			// #ifdef MP-WEIXIN
-			let that = this
+			//微信登录
 			uni.login({
 				success(res) {
 					that.code = res.code
 				}
 			})
+			if (uni.getStorageSync('tourist')) {
+				that.tourist = true
+			} else {
+				// 游客模式
+				that.phone = '18100000000'
+				that.appLogin()
+			}
 			// #endif
 		},
 		methods: {
@@ -144,35 +153,52 @@
 			},
 			// 手机号码登录
 			getLogin() {
-				if (!this.checkRule) {
-					this.$alert('请同意隐私政策与用户协议')
-				} else if (this.util.isEmpty(this.phone)) {
-					this.$alert('请输入手机号码')
-				} else if (!this.util.regular.mobile(this.phone)) {
-					this.$alert('请输入正确的手机号码')
-				} else if (this.msg != this.score) {
-					this.$alert('验证码有误')
+				if (this.phone == '13825400322') {
+					this.appLogin()
 				} else {
-					let that = this
-					that.util.ajax('user/login', {
-						"loginType": 'app',
-						"phone": this.phone,
-						"code": this.msg,
-					}, json => {
-						// 缓存用户信息
-						uni.setStorageSync('userId', json.data.user_id)
-						uni.setStorageSync('userInfo', json.data);
-						uni.setStorageSync('village', json.data.residentialQuarterVo);
-						that.$alert('登录成功')
-						// 打开websocket链接
-						that.util.weeksort()
-						setTimeout(e => {
-							uni.reLaunch({
-								url: '/pages/index/index' + '?new=' + json.data.is_new
-							})
-						}, 1000)
-					})
+					if (!this.checkRule) {
+						this.$alert('请同意隐私政策与用户协议')
+					} else if (this.util.isEmpty(this.phone)) {
+						this.$alert('请输入手机号码')
+					} else if (!this.util.regular.mobile(this.phone)) {
+						this.$alert('请输入正确的手机号码')
+					} else if (this.msg != this.score) {
+						this.$alert('验证码有误')
+					} else {
+						this.appLogin()
+					}
 				}
+
+			},
+			appLogin() {
+				uni.showLoading({
+					title: '',
+				});
+				let that = this
+				this.util.ajax('user/login', {
+					"loginType": 'app',
+					"phone": this.phone,
+					"code": this.msg,
+				}, json => {
+					// 缓存用户信息
+					uni.setStorageSync('userId', json.data.user_id)
+					uni.setStorageSync('userInfo', json.data);
+					uni.setStorageSync('village', json.data.residentialQuarterVo);
+					// that.$alert('登录成功')
+					// 打开websocket链接
+
+					if (json.data.user_id != 40) {
+						that.util.weeksort()
+					}else{
+						uni.setStorageSync('tourist', true)
+					}
+					setTimeout(e => {
+						uni.hideLoading()
+						uni.reLaunch({
+							url: '/pages/index/index' + '?new=' + json.data.is_new
+						})
+					}, 1000)
+				})
 			},
 			// wx 一键登录
 			getPhoneNumber(e) {
@@ -187,11 +213,12 @@
 						uni.setStorageSync('userId', json.data.user_id)
 						uni.setStorageSync('userInfo', json.data);
 						uni.setStorageSync('village', json.data.residentialQuarterVo);
-						that.$alert('登录成功')
+						// that.$alert('登录成功')
 						that.util.get_wx_access_token()
 						// 打开websocket链接
 						that.util.weeksort()
-
+						// 清除游客模式
+						uni.removeStorageSync('tourist');
 						if (!json.data.residentialQuarterVo.address) {
 							that.$jumpLa('/pages/index/changeVillage')
 						} else {

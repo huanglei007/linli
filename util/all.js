@@ -72,14 +72,35 @@ exports.install = function(Vue, options) {
 		},
 		// 普通页面跳转
 		Vue.prototype.$jump = function(url) {
-			uni.navigateTo({
-				url: url,
-				animationType: 'zoom-fade-out',
-				animationDuration: 200,
-				fail: (e) => {
-					console.log(e)
-				}
-			})
+			if (uni.getStorageSync('userId') == 40) {
+				uni.showModal({
+					title: '提示',
+					content: '请先登录',
+					confirmText: "去登录",
+					success: function(res) {
+						if (res.confirm) {
+							uni.removeStorageSync('userId');
+							uni.removeStorageSync('userInfo');
+							uni.removeStorageSync('access_token');
+							uni.reLaunch({
+								url: '/pages/login/login',
+							})
+						} else if (res.cancel) {
+							console.log('用户点击取消');
+						}
+					}
+				});
+			} else {
+				uni.navigateTo({
+					url: url,
+					animationType: 'zoom-fade-out',
+					animationDuration: 200,
+					fail: (e) => {
+						console.log(e)
+					}
+				})
+			}
+
 		},
 
 		// tab页面跳转
@@ -108,7 +129,7 @@ exports.install = function(Vue, options) {
 
 		// 修改tab页面
 		Vue.prototype.$settab = function(ind, text, icon, select) {
-		 uni.setTabBarItem({
+			uni.setTabBarItem({
 				index: ind,
 				text: text,
 				iconPath: "static/tab/" + icon,
@@ -123,18 +144,18 @@ exports.install = function(Vue, options) {
 			// 纬度3.86~53.55,经度73.66~135.05 
 			return !(lng > 73.66 && lng < 135.05 && lat > 3.86 && lat < 53.55);
 		}
-	//检查是否授权
-	// Vue.prototype.$checkUserSetting = function (cb) {
-	//   uni.getSetting({
-	//     success(dataShow) {
-	//       if (dataShow.authSetting['scope.userInfo']) {
-	//         cb(true)
-	//       } else if (!dataShow.authSetting['scope.userInfo']) {
-	//         cb(false)
-	//       }
-	//     }
-	//   })
-	// }
+		//检查是否授权
+		// Vue.prototype.$checkUserSetting = function (cb) {
+		//   uni.getSetting({
+		//     success(dataShow) {
+		//       if (dataShow.authSetting['scope.userInfo']) {
+		//         cb(true)
+		//       } else if (!dataShow.authSetting['scope.userInfo']) {
+		//         cb(false)
+		//       }
+		//     }
+		//   })
+		// }
 
 
 	Vue.prototype.$email = function(str) { //邮箱
@@ -782,7 +803,7 @@ exports.install = function(Vue, options) {
 				calibration: false,
 				fontColor: "#666666",
 				fontSize: 13,
-		 	rotateLabel: false,
+				rotateLabel: false,
 				itemCount: 5,
 				boundaryGap: "center",
 				disableGrid: true,
@@ -829,7 +850,7 @@ exports.install = function(Vue, options) {
 					barBorderCircle: true,
 					linearType: "none",
 					linearOpacity: 1,
-		 		colorStop: 0,
+					colorStop: 0,
 					meterBorder: 1,
 					meterFillColor: "#FFFFFF",
 					activeBgColor: "#255CFD",

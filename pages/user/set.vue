@@ -129,7 +129,6 @@
 							uni.removeStorageSync('access_token');
 							uni.reLaunch({
 								url: '/pages/login/login',
-								
 							})
 							// console.log('用户点击确定');
 						} else if (res.cancel) {

@@ -99,17 +99,6 @@
 				imageurl: '',
 				userId: '',
 				htosp: 0,
-				swiperConfig: {
-					indicatorDots: false,
-					indicatorColor: 'rgba(255, 255, 255, .4)',
-					indicatorActiveColor: 'rgba(255, 255, 255, 1)',
-					autoplay: false,
-					interval: 3000,
-					duration: 300,
-					circular: true,
-					previousMargin: '65rpx',
-					nextMargin: '65rpx'
-				},
 				menuList: [{
 						page: 1,
 						list: [{
@@ -258,21 +247,6 @@
 						]
 					}
 				],
-				classfy: [{
-					category_name: '需求类别',
-					id: 0
-				}],
-				classfyIndex: 0,
-				range: [{
-					name: '距离',
-					id: 0
-				}],
-				rangeIndex: 0,
-				shopChoise: 0,
-				shopList: [],
-				curPage: 1,
-				commissionSort: 0,
-				isfoot: false,
 				village: {},
 				// 新用户福利
 				coupons: [],
@@ -286,71 +260,46 @@
 			this.village = uni.getStorageSync('village');
 			this.imageurl = this.globalData.imageurl
 			let that = this
-			this.util.ajax('release/categoryList', {}, (res) => {
-				that.classfy = that.classfy.concat(res.data.list)
-			})
-			this.util.ajax('release/distanceConfigList', {}, (res) => {
-				that.range = that.range.concat(res.data.list)
-			})
-			// 判断是否新用户
-			if (e.new && e.new == 1) {
-				that.getDiscount()
-				that.$refs.popup.open()
-				uni.hideTabBar();
-			} else {
-				// 微信订阅弹窗
-				// #ifdef MP-WEIXIN
-				uni.getSetting({
-					"withSubscriptions": true,
-					success(res) {
-						let itemSettings = res.subscriptionsSetting.itemSettings
-						if (itemSettings) {
-							if (itemSettings.LCKpmzf8qAd8XdsRcGl6N6pCmM205WGImmZ6ZDBTGCw) {
-								let tmpl_1 = itemSettings.LCKpmzf8qAd8XdsRcGl6N6pCmM205WGImmZ6ZDBTGCw
-							}
+			// 是否游客
+			if (this.userId != 40) {
+				// 是否新用户
+				if (e.new && e.new == 1) {
+					that.getDiscount()
+					that.$refs.popup.open()
+					uni.hideTabBar();
+				} else {
+					// 微信订阅弹窗
+					// #ifdef MP-WEIXIN
+					uni.getSetting({
+						"withSubscriptions": true,
+						success(res) {
+							let itemSettings = res.subscriptionsSetting.itemSettings
+							if (itemSettings) {
+								if (itemSettings.LCKpmzf8qAd8XdsRcGl6N6pCmM205WGImmZ6ZDBTGCw) {
+									let tmpl_1 = itemSettings.LCKpmzf8qAd8XdsRcGl6N6pCmM205WGImmZ6ZDBTGCw
+								}
 
-							if (itemSettings.iXmb8LUNIb_VP_KaNq5avEPVrZLdfBbQBNrrRelJfhE) {
-								let tmpl_2 = itemSettings.iXmb8LUNIb_VP_KaNq5avEPVrZLdfBbQBNrrRelJfhE
-							}
-							if (tmpl_1 != 'accept' || tmpl_2 != 'accept') {
+								if (itemSettings.iXmb8LUNIb_VP_KaNq5avEPVrZLdfBbQBNrrRelJfhE) {
+									let tmpl_2 = itemSettings.iXmb8LUNIb_VP_KaNq5avEPVrZLdfBbQBNrrRelJfhE
+								}
+								if (tmpl_1 != 'accept' || tmpl_2 != 'accept') {
+									that.$refs.wxMessage.open()
+									uni.hideTabBar();
+								}
+							} else {
 								that.$refs.wxMessage.open()
 								uni.hideTabBar();
 							}
-						} else {
-							that.$refs.wxMessage.open()
-							uni.hideTabBar();
 						}
-					}
-				})
-				// #endif
+					})
+					// #endif
+				}
 			}
-		},
-		onPullDownRefresh() {
-			this.getNewList()
 		},
 		onShow() {
 			this.residentialEvent()
-			this.getNewList()
 		},
-		onReachBottom() {
-			if (!this.isfoot) {
-				this.curPage++
-				this.getlist()
-			}
-		},
-		onPullDownRefresh() {
-			this.getlist()
-		},
-		computed: {},
 		methods: {
-			bindPickerChange: function(e) {
-				this.classfyIndex = e.target.value
-				this.getNewList()
-			},
-			bindPickerChange2: function(e) {
-				this.rangeIndex = e.target.value
-				this.getNewList()
-			},
 			menuClick(item, i, index) {
 				//  item.path == '' || 
 				if (index > 9 || i == 1) {
@@ -376,43 +325,6 @@
 						this.$jump(item.path)
 					}
 				}
-			},
-			getlist() {
-				let that = this
-				this.util.ajax('release/releaseList', {
-					"categoryId": this.classfy[this.classfyIndex].id,
-					"commissionSort": 0,
-					"curPage": this.curPage,
-					"distanceValue": this.range[this.rangeIndex].value,
-					"pageSize": 20,
-					"userId": this.userId
-				}, (res) => {
-					if (that.curPage !== res.data.page.curPage) that.isfoot = true
-					if (that.curPage == res.data.page.curPage) {
-						that.shopList = that.shopList.concat(res.data.list.map((e) => {
-							return {
-								"category_name": e.category_name,
-								"commission": e.commission,
-								"createtime": that.$shijian(e.createtime),
-								"distance": e.distance,
-								"id": e.id,
-								"image": e.head_img,
-								//"publisher_name": e.publisher_name,
-								"requirement_introduction": "备注：" + e.leave_message,
-								"user_id": e.user_id,
-								"user_name": e.publisher_name,
-							}
-						}))
-					}
-					uni.stopPullDownRefresh()
-				})
-			},
-			getNewList() {
-				this.showList = false
-				this.shopList = []
-				this.curPage = 1
-				this.isfoot = false
-				this.getlist()
 			},
 			// 绑定小区
 			residentialEvent() {

@@ -1430,7 +1430,7 @@ function initData(vueOptions, context) {
     try {
       data = data.call(context); // 支持 Vue.prototype 上挂的数据
     } catch (e) {
-      if (Object({"NODE_ENV":"development","VUE_APP_NAME":"阾里","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
+      if (Object({"VUE_APP_NAME":"阾里","VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG) {
         console.warn('根据 Vue 的 data 函数初始化小程序 data 失败，请尽量确保 data 函数中不访问 vm 对象，否则可能影响首次数据渲染速度。', data);
       }
     }
@@ -2721,13 +2721,34 @@ exports.install = function (Vue, options) {
   },
   // 普通页面跳转
   Vue.prototype.$jump = function (url) {
-    uni.navigateTo({
-      url: url,
-      animationType: 'zoom-fade-out',
-      animationDuration: 200,
-      fail: function fail(e) {
-        console.log(e);
-      } });
+    if (uni.getStorageSync('userId') == 40) {
+      uni.showModal({
+        title: '提示',
+        content: '请先登录',
+        confirmText: "去登录",
+        success: function success(res) {
+          if (res.confirm) {
+            uni.removeStorageSync('userId');
+            uni.removeStorageSync('userInfo');
+            uni.removeStorageSync('access_token');
+            uni.reLaunch({
+              url: '/pages/login/login' });
+
+          } else if (res.cancel) {
+            console.log('用户点击取消');
+          }
+        } });
+
+    } else {
+      uni.navigateTo({
+        url: url,
+        animationType: 'zoom-fade-out',
+        animationDuration: 200,
+        fail: function fail(e) {
+          console.log(e);
+        } });
+
+    }
 
   },
 
@@ -3567,9 +3588,6 @@ var systemData = null;var appId = 'wx8cd0cfe284e7e4c0'; //appId
 var tempFilePathsIndex = 0; //遍历选择图片的下标
 function _ajax(url, data, cb, header, flag) {header ? header['content-type'] = 'application/json' : header = { 'content-type': 'application/json' };
 
-  // uni.showLoading({
-  //   title: '加载中'
-  // })
   uni.request({
     url: domain + url,
     method: "POST",
@@ -11466,7 +11484,7 @@ function type(obj) {
 
 function flushCallbacks$1(vm) {
     if (vm.__next_tick_callbacks && vm.__next_tick_callbacks.length) {
-        if (Object({"NODE_ENV":"development","VUE_APP_NAME":"阾里","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
+        if (Object({"VUE_APP_NAME":"阾里","VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG) {
             var mpInstance = vm.$scope;
             console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + vm._uid +
                 ']:flushCallbacks[' + vm.__next_tick_callbacks.length + ']');
@@ -11487,14 +11505,14 @@ function nextTick$1(vm, cb) {
     //1.nextTick 之前 已 setData 且 setData 还未回调完成
     //2.nextTick 之前存在 render watcher
     if (!vm.__next_tick_pending && !hasRenderWatcher(vm)) {
-        if(Object({"NODE_ENV":"development","VUE_APP_NAME":"阾里","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG){
+        if(Object({"VUE_APP_NAME":"阾里","VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG){
             var mpInstance = vm.$scope;
             console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + vm._uid +
                 ']:nextVueTick');
         }
         return nextTick(cb, vm)
     }else{
-        if(Object({"NODE_ENV":"development","VUE_APP_NAME":"阾里","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG){
+        if(Object({"VUE_APP_NAME":"阾里","VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG){
             var mpInstance$1 = vm.$scope;
             console.log('[' + (+new Date) + '][' + (mpInstance$1.is || mpInstance$1.route) + '][' + vm._uid +
                 ']:nextMPTick');
@@ -11580,7 +11598,7 @@ var patch = function(oldVnode, vnode) {
     });
     var diffData = this.$shouldDiffData === false ? data : diff(data, mpData);
     if (Object.keys(diffData).length) {
-      if (Object({"NODE_ENV":"development","VUE_APP_NAME":"阾里","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
+      if (Object({"VUE_APP_NAME":"阾里","VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG) {
         console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + this._uid +
           ']差量更新',
           JSON.stringify(diffData));

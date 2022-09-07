@@ -80,13 +80,13 @@
 				</view>
 				<view class="order-bd flexd juaround">
 					<block v-for="(item,index) in orderMenu" :key="index">
-						<navigator class="order-item texcenter" hover-class="none" :url="item.url">
+						<div class="order-item texcenter" hover-class="none" @click="$jump(item.url)">
 							<view class="order-status-num white" v-if="item.len!==0">{{item.len}}</view>
 							<view class="pic">
 								<image :src="item.img" mode=""></image>
 							</view>
 							<view class="txt shengray">{{item.title}}</view>
-						</navigator>
+						</div>
 					</block>
 				</view>
 			</view>
@@ -95,31 +95,32 @@
 			</view>
 			<view class="outtake">
 				<view v-if="userData.user_type==3" class="oulist flexd jubetween" hover-class="none"
-					url="/pages/user/shopSet/a_shop" @click="urlchange('/pagesA/a_shop')">
+					url="/pages/user/shopSet/a_shop" @click="$jump('/pagesA/a_shop')">
 					<view class="flexd">
 						<image src="/static/image/icon_sj.png" mode=""></image>
 						<view>商家设置</view>
 					</view>
 					<image src="/static/image/icon_gd.png" mode="" class="you"></image>
 				</view>
-				<navigator v-if="userData.user_type==4" class="oulist flexd jubetween" hover-class="none"
-					:url="userData.status!=-1?'/pages/user/darenSet/darenSet':''">
+				<view v-if="userData.user_type==4" class="oulist flexd jubetween" hover-class="none"
+					@click="$jump(userData.status!=-1?'/pages/user/darenSet/darenSet':'')">
 					<view class="flexd">
 						<image src="/static/image/icon_dr.png" mode=""></image>
 						<view>达人设置</view>
 					</view>
 					<image src="/static/image/icon_gd.png" mode="" class="you"></image>
-				</navigator>
+				</view>
 				<view v-if="userData.user_type==5" class="oulist flexd jubetween" hover-class="none"
-					url="/pages/user/applyShop" @click="urlchange('/pages/user/applyShop')">
+					url="/pages/user/applyShop" @click="$jump('/pages/user/applyShop')">
 					<view class="flexd">
 						<image src="/static/image/icon_sj.png" mode=""></image>
 						<view>商家入驻</view>
 					</view>
 					<image src="/static/image/icon_gd.png" mode="" class="you"></image>
 				</view>
-				<navigator v-if="userData.user_type==5" class="oulist flexd jubetween" hover-class="none"
-					url="/pages/index/applyDaren">
+
+				<view v-if="userData.user_type==5" class="oulist flexd jubetween" hover-class="none"
+					@click="$jump('/pages/index/applyDaren')">
 					<view class="flexd">
 						<image src="/static/image/icon_dr.png" mode=""></image>
 						<view>达人入驻</view>
@@ -134,15 +135,16 @@
 					<view class="remark" v-if="userData.remarks">
 						{{userData.remarks}}
 					</view>
-				</navigator>
+				</view>
+
 				<block v-for="(item,index) in usout" :key="index">
-					<navigator class="oulist flexd jubetween" hover-class="none" :url="item.url">
+					<div class="oulist flexd jubetween" hover-class="none" @click="$jump(item.url)">
 						<view class="flexd">
 							<image :src="item.img" mode=""></image>
 							<view>{{item.title}}</view>
 						</view>
 						<image src="/static/image/icon_gd.png" mode="" class="you"></image>
-					</navigator>
+					</div>
 				</block>
 			</view>
 		</view>
@@ -281,25 +283,6 @@
 				}, res => {
 					this.form = res.data
 				})
-			},
-			//路由跳转
-			urlchange(url) {
-				// 审核状态(-1申请入驻审核中 -2申请入驻被拒绝 0商家设置审核中 1审核通过 2商家设置被拒绝)
-				// 1、商家入驻：等于null或-2时，可以申请，其余提示已入驻
-				// 2、商家管理：等于0时提示审核中，其余可以进入 
-				if (this.form.status == 0) {
-					if (url == 'a_product') {
-						this.popupForm.title = '商品审核中'
-					} else {
-						this.popupForm.title = '店铺管理审核中'
-					}
-					this.popupForm.content = '请耐心等待，预计1个工作日'
-					this.$refs.alertDialog.open()
-				} else {
-					uni.navigateTo({
-						url: url
-					})
-				}
 			},
 			//店铺审核弹窗
 			//确认
