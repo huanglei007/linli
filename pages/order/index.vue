@@ -96,7 +96,7 @@
 			// 获取列表数据
 			getlist() {
 				let that = this
-				// 发布需求列表
+				// 需求列表
 				this.util.ajax('release/releaseList', {
 					"categoryId": this.classfy[this.classfyIndex].id,
 					"commissionSort": 0,
@@ -120,6 +120,7 @@
 									"requirement_introduction": "备注：" + e.leave_message,
 									"user_id": e.user_id,
 									"user_name": e.publisher_name,
+									"now_delivery":e.now_delivery
 								}
 							}))
 						}

@@ -297,7 +297,6 @@ __webpack_require__.r(__webpack_exports__);
 
     return {
       htosp: 0,
-      form_rules: {},
       name: '',
       time: '12:01',
       buyAdd: {},
@@ -324,7 +323,7 @@ __webpack_require__.r(__webpack_exports__);
         delivery_date: '',
         deliveryStartTime: '',
         deliveryEndTime: '',
-        now_delivery: 1 },
+        now_delivery: 0 },
 
       disalbe: false,
       // 跑腿卷
@@ -345,7 +344,6 @@ __webpack_require__.r(__webpack_exports__);
 
   },
   mounted: function mounted(option) {
-    this.form_rules = this.globalData.rules;
     this.htosp = uni.getStorageSync('htop');
     this.userId = uni.getStorageSync('userId');
 
@@ -380,7 +378,7 @@ __webpack_require__.r(__webpack_exports__);
       }
     },
     commission: function commission(newVal, oldVal) {
-      this.commission = Math.floor(newVal * 100) / 100;
+      this.commission = Number(newVal.toFixed(2));
     } },
 
   methods: {
@@ -521,19 +519,20 @@ __webpack_require__.r(__webpack_exports__);
         this.disable = false;
         return;
       }
+      if (!this.imageValue.length) {
+        this.$alert('请上传快递取件码截图');
+        this.disable = false;
+        return;
+      }
       // if (this.timeTxt == '请选择配送时间') {
       // 	this.$alert('请选择配送时间')
       // 	this.disable = false;
       // 	return
       // }
       var that = this;
-      // if (that.radio_time == 1) {
-      // 	that.commission += 1
-      // }
       this.$refs.form.validate().then(function (res) {
         uni.showLoading({
           title: '' });
-
 
         var obj = res;
         obj.publisherName = that.sentAdd.name;

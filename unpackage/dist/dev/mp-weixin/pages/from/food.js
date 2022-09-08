@@ -315,7 +315,6 @@ __webpack_require__.r(__webpack_exports__);
         delivery_date: '',
         now_delivery: 1 },
 
-      rules: {},
       disable: false,
       // 跑腿卷
       couponform: {},
@@ -335,7 +334,6 @@ __webpack_require__.r(__webpack_exports__);
 
   },
   mounted: function mounted(option) {
-    this.rules = this.globalData.rules;
     this.htosp = uni.getStorageSync('htop');
     this.userId = uni.getStorageSync('userId');
 

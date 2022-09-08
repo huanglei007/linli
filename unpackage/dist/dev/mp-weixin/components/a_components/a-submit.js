@@ -150,7 +150,6 @@ var _default =
       var form = this.form;
       form.userId = uni.getStorageSync('userId');
       var url = 'personalDemand/';
-      console.log(form);
       if (form.address == '' || form.start_time == '') {
         that.$alert('地址 时间不能为空');
       } else {

@@ -379,17 +379,7 @@
 			}
 		},
 		{
-			"path": "pages/user/myOrder/myOrder",
-			"style": {
-				"navigationStyle": "default",
-				"navigationBarTitleText": "我的订单",
-				"app-plus": {
-					"titleNView": {
-						"titleAlign": "left",
-						"backgroundColor": "#ffffff"
-					}
-				}
-			}
+			"path": "pages/user/myOrder/myOrder"
 		},
 		{
 			"path": "pages/user/orderDetail",

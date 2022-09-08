@@ -1,6 +1,6 @@
 <template>
 	<view class="content">
-		<uni-forms ref='form' :rules="form_rules">
+		<uni-forms ref='form'>
 			<view class="form">
 				<view class="address flexd jubetween flex-center" v-show="formdata.appointShop==1"
 					@click="addIndex='buyAdd';isAddress=true">
@@ -125,11 +125,9 @@
 		data() {
 			return {
 				htosp: 0,
-				form_rules: {},
 				imageValue: [],
 				isAddress: false,
 				addIndex: 'buyAdd',
-				rules: {},
 				buyAdd: {},
 				sentAdd: {},
 				formdata: {
@@ -156,7 +154,6 @@
 			}
 		},
 		mounted() {
-			this.form_rules = this.globalData.rules;
 			this.htosp = uni.getStorageSync('htop');
 			this.userId = uni.getStorageSync('userId');
 
@@ -220,18 +217,22 @@
 					return
 				}
 				if (this.take_index == 0) {
-					this.$alert('请选择取件数量')
+					this.$alert('请选择商品种类数量')
+					this.disable = false;
+					return
+				}
+				if (!this.formdata.goodsName) {
+					this.$alert('请输入商品名称')
+					this.disable = false;
+					return
+				}
+				if (!this.formdata.goodsValuation) {
+					this.$alert('请输入商品估价')
 					this.disable = false;
 					return
 				}
 				let that = this
 				this.$refs.form.validate().then(res => {
-					// uni.showModal({
-					// 	title: '下单须知',
-					// 	content: '如遇订单问题请及时在我的订单中申请售后，订单完成默认无售后',
-					// 	confirmText: '发布',
-					// 	success: function (e) {
-					// 		if (e.confirm) {
 					uni.showLoading({
 						title: ''
 					})
@@ -307,11 +308,6 @@
 							})
 						})
 					})
-					// } else if (e.cancel) {
-					// 			console.log('用户点击取消');
-					// 		}
-					// 	}
-					// })
 				}).catch(err => {
 					console.log('表单错误信息：', err);
 					that.disable = false

@@ -301,37 +301,37 @@ var globalData = {
         errorMessage: '请输入需求介绍' }] },
 
 
-    goodsName: {
-      rules: [{
-        required: true,
-        errorMessage: '请输入商品名称' }] },
-
-
-    goodsValuation: {
-      rules: [{
-        required: true,
-        errorMessage: '请输入商品估价' },
-      {
-        format: 'number',
-        errorMessage: '估价只能输入数字' },
-      {
-        minimum: 0,
-        maximum: 500,
-        errorMessage: '商品估价应在0-500之间' }] },
-
-
+    // goodsName:{
+    // 	rules: [{
+    // 			required: true,
+    // 			errorMessage: '请输入商品名称',
+    // 		}]
+    // },
+    // goodsValuation:{
+    // 	rules: [{
+    // 			required: true,
+    // 			errorMessage: '请输入商品估价',
+    // 		},{
+    // 			format: 'number',
+    // 			errorMessage: '估价只能输入数字'
+    // 		 },{
+    // 			minimum:0,
+    // 			maximum: 500, 
+    // 			errorMessage: '商品估价应在0-500之间'
+    // 		}]
+    // },
     bookName: {
       rules: [{
         required: true,
         errorMessage: '请输入书名' }] },
 
 
-    commission: {
-      rules: [{
-        required: true,
-        errorMessage: '请填写佣金' }] },
-
-
+    // commission: {
+    // 	rules: [{
+    // 			required: true,
+    // 			errorMessage: '请填写佣金',
+    // 		},]
+    // },
     publisherName: {
       rules: [{
         required: true,
@@ -369,19 +369,19 @@ var globalData = {
       {
         minLength: 11,
         maxLength: 11,
-        errorMessage: '请正确填写手机号' }] },
+        errorMessage: '请正确填写手机号' }] } }, _defineProperty(_rules, "bookName",
 
 
-    goodsSize: {
-      rules: [{
-        required: true,
-        errorMessage: '请输入物品大小' }] },
 
 
-    goodsWeight: {
-      rules: [{
-        required: true,
-        errorMessage: '请输入物品重量，单位kg' }] } }, _defineProperty(_rules, "bookName",
+
+
+
+
+
+
+
+
 
 
   {

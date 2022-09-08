@@ -1,6 +1,6 @@
 <template>
 	<view class="content">
-		<uni-forms ref='form' :rules="form_rules">
+		<uni-forms ref='form'>
 			<view class="form">
 				<view class="address flexd jubetween flex-center" @click="addIndex='buyAdd';isAddress=true">
 					<view class="icon">
@@ -128,7 +128,6 @@
 			})
 			return {
 				htosp: 0,
-				form_rules:{},
 				name: '',
 				time: '12:01',
 				buyAdd: {},
@@ -155,7 +154,7 @@
 					delivery_date: '',
 					deliveryStartTime: '',
 					deliveryEndTime: '',
-					now_delivery: 1
+					now_delivery: 0
 				},
 				disalbe: false,
 				// 跑腿卷
@@ -176,7 +175,6 @@
 			}
 		},
 		mounted(option) {
-			this.form_rules = this.globalData.rules;
 			this.htosp = uni.getStorageSync('htop');
 			this.userId = uni.getStorageSync('userId');
 
@@ -211,7 +209,7 @@
 				}
 			},
 			commission(newVal, oldVal) {
-				this.commission = Math.floor(newVal * 100) / 100
+				this.commission = Number(newVal.toFixed(2))
 			}
 		},
 		methods: {
@@ -352,20 +350,21 @@
 					this.disable = false;
 					return
 				}
+				if (!this.imageValue.length) {
+					this.$alert('请上传快递取件码截图')
+					this.disable = false;
+					return
+				}
 				// if (this.timeTxt == '请选择配送时间') {
 				// 	this.$alert('请选择配送时间')
 				// 	this.disable = false;
 				// 	return
 				// }
 				let that = this
-				// if (that.radio_time == 1) {
-				// 	that.commission += 1
-				// }
 				this.$refs.form.validate().then(res => {
 					uni.showLoading({
 						title: ''
 					})
-
 					let obj = res
 					obj.publisherName = that.sentAdd.name
 					obj.publisherPhone = that.sentAdd.phone

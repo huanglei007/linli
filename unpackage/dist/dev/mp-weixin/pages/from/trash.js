@@ -267,7 +267,6 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       htosp: 0,
-      form_rules: {},
       imageValue: [],
       buyAdd: {},
       isAddress: false,
@@ -284,7 +283,7 @@ __webpack_require__.r(__webpack_exports__);
         delivery_date: '',
         deliveryStartTime: '',
         deliveryEndTime: '',
-        now_delivery: 1 },
+        now_delivery: 0 },
 
       // 跑腿卷
       couponform: {},
@@ -304,7 +303,6 @@ __webpack_require__.r(__webpack_exports__);
 
   },
   mounted: function mounted(option) {
-    this.form_rules = this.globalData.rules;
     this.htosp = uni.getStorageSync('htop');
     this.userId = uni.getStorageSync('userId');
 
@@ -338,7 +336,7 @@ __webpack_require__.r(__webpack_exports__);
       }
     },
     commission: function commission(newVal, oldVal) {
-      this.commission = Math.floor(newVal * 100) / 100;
+      this.commission = Number(newVal.toFixed(2));
     } },
 
   methods: {
@@ -450,9 +448,6 @@ __webpack_require__.r(__webpack_exports__);
         return;
       }
       var that = this;
-      if (that.radio_time == 1) {
-        that.commission += 1;
-      }
       this.$refs.form.validate().then(function (res) {
         uni.showLoading({
           title: '' });

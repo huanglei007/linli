@@ -315,7 +315,6 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       htosp: 0,
-      form_rules: {},
       buyAdd: {},
       sentAdd: {},
       typeIndex: 0,
@@ -358,7 +357,6 @@ __webpack_require__.r(__webpack_exports__);
 
   },
   mounted: function mounted() {
-    this.form_rules = this.globalData.rules;
     this.htosp = uni.getStorageSync('htop');
     this.userId = uni.getStorageSync('userId');
     this.formdata.startTime = this.$shijianhour(new Date().getTime() + 3600000);
@@ -402,6 +400,7 @@ __webpack_require__.r(__webpack_exports__);
     submit: function submit() {var _this = this;
       if (this.disable) return;
       this.disable = true;
+
       if (!this.buyAdd.address) {
         this.$alert('请选择取件地址');
         this.disable = false;
@@ -417,8 +416,18 @@ __webpack_require__.r(__webpack_exports__);
         this.disable = false;
         return;
       }
+      if (!this.formdata.commission) {
+        this.$alert('请输入佣金');
+        this.disable = false;
+        return;
+      }
       if (!this.cateIndex) {
         this.$alert('请选择商品类别');
+        this.disable = false;
+        return;
+      }
+      if (!this.formdata.goodsWeight) {
+        this.$alert('请输入预估重量');
         this.disable = false;
         return;
       }
@@ -429,12 +438,6 @@ __webpack_require__.r(__webpack_exports__);
       }
       var that = this;
       this.$refs.form.validate().then(function (res) {
-        // uni.showModal({
-        // 	title: '下单须知',
-        // 	content: '如遇订单问题请及时在我的订单中申请售后，订单完成默认无售后',
-        // 	confirmText: '发布',
-        // 	success: function (e) {
-        // 		if (e.confirm) {
         uni.showLoading({
           title: '' });
 
@@ -520,11 +523,6 @@ __webpack_require__.r(__webpack_exports__);
 
           });
         });
-        // } else if (e.cancel) {
-        // 			console.log('用户点击取消');
-        // 		}
-        // 	}
-        // })
       }).catch(function (err) {
         console.log('表单错误信息：', err);
         that.disable = false;

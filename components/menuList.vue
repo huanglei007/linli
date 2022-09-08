@@ -13,8 +13,8 @@
 				<view class="message">
 					<view class="top-box flexd jubetween flex-center">
 						<view class="flexd">
-							<view class="title">
-								<text class="font32" :class="{'urgent':item.now_delivery==1}">{{item.category_name}}</text>
+							<view class="title" :class="{'urgent':item.now_delivery==1}">
+								<text class="font32">{{item.category_name}}</text>
 							</view>
 							<view class="nickname" v-if="item.publisher_name">
 								<text class="font32">{{item.publisher_name}}</text>

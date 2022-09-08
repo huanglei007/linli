@@ -3,7 +3,7 @@
 		<view class="header " :style="{paddingTop: htosp+'px'}">
 			<view class="flexd jubetween">
 				<view class="city flexd flex-center">
-					<image @click="$jumpback()" src="/static/image/icon_gb.png" mode=""></image>
+					<image @click="$jumpsw('/pages/user/index')" src="/static/image/icon_gb.png" mode=""></image>
 					我的钱包
 				</view>
 				<view class="village" @click="$jump('/pages/user/tixian')">

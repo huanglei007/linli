@@ -1,16 +1,13 @@
 <template>
 	<view class="content">
-		<!-- <view class="toptype flexd " :style="{paddingTop:htosp +'rpx'}">
+		<view class="toptype flexd " :style="{paddingTop:htosp +'px'}">
 			<image class="backs" src="/static/image/icon_gb.png" mode="" @click="back()"></image>
 			<view class="titla texcenter">我的订单</view>
-		</view> -->
-		<!--  :style="{paddingTop:htosp+80 +'rpx'}" -->
-		<view class="searchType flex-center flexd jubetween">
-			<view class="item" v-for="(item,i) in typeList" :key="i"
-			:class="typeIndex==i?'active':''"
-			@click="typeIndex=i">
+		</view>
+		<view class="searchType flex-center flexd jubetween" :style="{paddingTop:htosp+ 40 +'px'}">
+			<view class="item" v-for="(item,i) in typeList" :key="i" :class="typeIndex==i?'active':''"
+				@click="typeIndex=i">
 				{{item}}
-				
 				<image class="icon" src="/static/img/icon_xuanzhong.png" mode="widthFix"></image>
 			</view>
 		</view>
@@ -27,45 +24,45 @@
 	import receiving from './receiving.vue'
 	import order from './order.vue'
 	export default {
-		components:{
+		components: {
 			myApply,
 			receiving,
 			order
 		},
 		onShow() {
-			if(this.first){
+			if (this.first) {
 				this.refresh()
-			}else{
-				this.first=true
+			} else {
+				this.first = true
 			}
 		},
 		onLoad(e) {
-			if(e.type){
-				this.typeIndex=e.type
+			if (e.type) {
+				this.typeIndex = e.type
 			}
-			this.htosp=uni.getStorageSync('htop')
+			this.htosp = uni.getStorageSync('htop')
 		},
 		data() {
 			return {
-				typeList: ['我的发布','我的接单','商品订单'],
+				typeList: ['我的发布', '我的接单', '商品订单'],
 				typeIndex: 0,
 				first: false,
 				htosp: ''
 			}
 		},
 		methods: {
-			refresh(){
+			refresh() {
 				let type
-				if(this.typeIndex==0){
-					type='apply'
-				}else if(this.typeIndex==1){
-					type='receiving'
-				}else{
-					type='order'
+				if (this.typeIndex == 0) {
+					type = 'apply'
+				} else if (this.typeIndex == 1) {
+					type = 'receiving'
+				} else {
+					type = 'order'
 				}
 				this.$refs[type].getNewList()
 			},
-			back(){
+			back() {
 				uni.switchTab({
 					url: '/pages/user/index'
 				})
@@ -75,18 +72,20 @@
 </script>
 
 <style lang="scss">
-	.searchType{
+	.searchType {
 		padding-top: 1rpx solid #F5F5F5;
 		background-color: #fff;
 		padding-bottom: 15rpx;
-		.item{
+
+		.item {
 			line-height: 100rpx;
 			position: relative;
 			font-size: 28rpx;
 			color: #989898;
 			text-align: center;
 			width: 33.3%;
-			.icon{
+
+			.icon {
 				position: absolute;
 				bottom: 0;
 				left: 50%;
@@ -94,11 +93,13 @@
 				width: 30rpx;
 				opacity: 0;
 			}
-			&.active{
+
+			&.active {
 				font-size: 32rpx;
 				color: #212121;
 				font-weight: bold;
-				.icon{
+
+				.icon {
 					opacity: 1;
 				}
 			}

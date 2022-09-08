@@ -1,6 +1,6 @@
 <template>
 	<view class="content">
-		<uni-forms ref='form' :rules="form_rules">
+		<uni-forms ref='form'>
 			<view class="form">
 				<view class="address flexd jubetween flex-center" @click="addIndex='buyAdd';isAddress=true">
 					<view class="icon">
@@ -103,7 +103,6 @@
 		data() {
 			return {
 				htosp: 0,
-				form_rules:{},
 				imageValue: [],
 				buyAdd: {},
 				isAddress: false,
@@ -120,7 +119,7 @@
 					delivery_date: '',
 					deliveryStartTime: '',
 					deliveryEndTime: '',
-					now_delivery:1
+					now_delivery:0
 				},
 				// 跑腿卷
 				couponform: {},
@@ -140,7 +139,6 @@
 			}
 		},
 		mounted(option) {
-			this.form_rules = this.globalData.rules;
 			this.htosp = uni.getStorageSync('htop');
 			this.userId = uni.getStorageSync('userId');
 			
@@ -174,7 +172,7 @@
 				}
 			},
 			commission(newVal, oldVal) {
-				this.commission = Math.floor(newVal * 100) / 100
+				this.commission = Number(newVal.toFixed(2))
 			}
 		},
 		methods: {
@@ -286,9 +284,6 @@
 					return
 				}
 				let that = this
-				if (that.radio_time == 1) {
-					that.commission += 1
-				}
 				this.$refs.form.validate().then(res => {
 					uni.showLoading({
 						title: ''

@@ -1,6 +1,6 @@
 <template>
 	<view class="content">
-		<uni-forms ref='form' :rules="rules">
+		<uni-forms ref='form'>
 			<view class="form">
 				<view class="address flexd jubetween flex-center" @click="addIndex='buyAdd';isAddress=true">
 					<view class="icon">
@@ -146,7 +146,6 @@
 					delivery_date: '',
 					now_delivery: 1
 				},
-				rules: {},
 				disable: false,
 				// 跑腿卷
 				couponform: {},
@@ -166,7 +165,6 @@
 			}
 		},
 		mounted(option) {
-			this.rules = this.globalData.rules
 			this.htosp = uni.getStorageSync('htop');
 			this.userId = uni.getStorageSync('userId');
 

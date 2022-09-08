@@ -117,7 +117,7 @@
 				<view class="flexd jubetween" v-if="formdata.goodsWeight">
 					<view class="item name flexd flex-center jubetween">
 						<view class="label">重量预估</view>
-						<view class="text">{{formdata.goodsWeight}}</view>
+						<view class="text">{{formdata.goodsWeight}}(KG)</view>
 					</view>
 				</view>
 				<view class="flexd jubetween" v-if="formdata.goodsName">
@@ -126,42 +126,38 @@
 						<view class="text">{{formdata.appointShop?'是':'否'}}</view>
 					</view>
 				</view>
-				<view class="flexd jubetween" v-if="formdata.deliveryStartTime&&formdata.deliveryEndTime">
+				<!-- 帮取快递 帮送外卖 帮丢垃圾 -->
+				<view class="flexd jubetween" v-if="formdata.now_delivery&&formdata.now_delivery!=0">
 					<view class="item name flexd flex-center jubetween">
-						<view class="label">配送时间</view>
-						<view class="text" v-if="formdata.now_delivery==0">
-							{{formdata.delivery_date.split('-')[1]+'-'+formdata.delivery_date.split('-')[2]}}
-							{{formdata.deliveryStartTime+'-'+formdata.deliveryEndTime}}
+						<view class="label" v-if="formdata.categoryId == 2">上门时间</view>
+						<view class="label" v-else>配送时间</view>
+						<view class="text">立即</view>
+					</view>
+				</view>
+				<!-- 配送时间 -->
+				<view class="flexd jubetween" v-else-if="formdata.deliveryStartTime||formdata.startTime">
+					<view class="item name flexd flex-center jubetween">
+						<view class="label" v-if="formdata.categoryId == 2">上门时间</view>
+						<view class="label" v-else>配送时间</view>
+						<view class="text">
+							<text v-if="formdata.delivery_date">{{formdata.delivery_date.split('-')[1]+'月'+formdata.delivery_date.split('-')[2]+'日'}}</text>
+							<text v-if="formdata.startTime">
+								{{formdata.startTime+'-'+formdata.endTime}}
+							</text>
+							<text v-else>{{formdata.deliveryStartTime+'-'+formdata.deliveryEndTime}}</text>
 						</view>
-						<view class="text" v-else>立即配送</view>
 					</view>
 				</view>
-				<view class="flexd jubetween" v-if="formdata.startTime">
-					<view class="item name flexd flex-center jubetween">
-						<view class="label">配送时间</view>
-						<view class="text" v-if="formdata.now_delivery==0">
-							{{formdata.startTime}}{{formdata.endTime?'-'+formdata.endTime:''}}</view>
-						<view class="text" v-else>立即配送</view>
-					</view>
-				</view>
+
 				<view class="flexd jubetween" v-if="formdata.numberId">
 					<view class="item name flexd flex-center jubetween">
-						<view class="label">取件数量</view>
+						<view class="label" v-if="formdata.categoryId == 1">取件数量</view>
+						<view class="label" v-else-if="formdata.categoryId == 3">商品种类数量</view>
+						<view class="label" v-else-if="formdata.categoryId == 21">外卖数量</view>
 						<view class="text">{{takeNum}}</view>
 					</view>
 				</view>
-				<!-- <view class="flexd jubetween" v-if="formdata.categoryId == 3">
-					<view class="item name flexd flex-center jubetween">
-						<view class="label">商品数量</view>
-						<view class="text">{{formdata.numberId}}</view>
-					</view>
-				</view> -->
-				<view class="flexd jubetween" v-if="formdata.cycleValue">
-					<view class="item name flexd flex-center jubetween">
-						<view class="label">时间</view>
-						<view class="text">{{formdata.cycleValue}}</view>
-					</view>
-				</view>
+
 				<view class="flexd jubetween" v-if="formdata.commission">
 					<view class="item name flexd flex-center jubetween">
 						<view class="label">佣金
@@ -277,13 +273,13 @@
 
 		<!-- 旧版 底部功能 -->
 		<view class="foot flexd jubetween flex-center">
-			<view
+			<!-- <view
 				v-if="formdata.commission&&formdata.dataStatus==1&&userId!=formdata.userId&&formdata.categoryId!=6&&formdata.categoryId!=7">
 				<view @click="talkto(form.order_receiving_user_id)" class="sub-connect">
 					<image src="/static/image/icon_lt.png" mode=""></image>
 					<text class="font22">线上沟通</text>
 				</view>
-			</view>
+			</view> -->
 			<text class="font42 fontColor-FF6000">￥{{formdata.commission}}</text>
 			<view class="flexd flex-center">
 				<view class="btn" @click="take"
@@ -312,8 +308,8 @@
 				<view class="form" @click.stop="">
 					<view class="flexd jubetween flex-center">
 						<view class="itemx">
-							<uni-easyinput ref='more' :focus="isMore" errorMessage class="input"
-								:inputBorder="false" type="digit" v-model="moreComm" placeholder="请输加佣金额"
+							<uni-easyinput ref='more' :focus="isMore" errorMessage class="input" :inputBorder="false"
+								type="digit" v-model="moreComm" placeholder="请输加佣金额"
 								placeholder-style="color:#878787" />
 						</view>
 						<view class="btn" @click="$shake(morecomiss)">
@@ -346,10 +342,10 @@
 				isMore: false,
 				userInfo: {},
 				kf_hotline: '',
-				// 取件数量
-				takeNum:0,
+				// 商品数量
+				takeNum: 0,
 				// 防抖
-				onoff:true
+				onoff: true
 			}
 		},
 		onLoad(option) {
@@ -399,14 +395,26 @@
 					if (res.data.images != '') {
 						that.imageValue = res.data.images.split(',')
 					}
-					// 商品数量列表
-					this.util.ajax('release/buyGoodsNumberList', {}, res => {
-						for(let i in res.data.list){
-							if(res.data.list[i].id == that.formdata.numberId){
-								that.takeNum = res.data.list[i].number
-							}
+					// 筛选对应数量列表
+					let url = ''
+					let nums = [1, 3, 21]
+					if (nums.indexOf(res.data.categoryId) > -1) {
+						if (res.data.categoryId == 1) { // 帮取快递
+							url = 'release/getExpressNumberList'
+						} else if (res.data.categoryId == 3) { // 帮购商品
+							url = 'release/buyGoodsNumberList'
+						} else if (res.data.categoryId == 21) { // 帮送外卖
+							url = 'release/deliverTakeoutNumberList'
 						}
-					})
+						this.util.ajax(url, {}, res => {
+							for (let i in res.data.list) {
+								if (res.data.list[i].id == that.formdata.numberId) {
+									that.takeNum = res.data.list[i].number
+								}
+							}
+						})
+					}
+
 				})
 			},
 			bindPickerChange: function(e) {

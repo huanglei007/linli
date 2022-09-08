@@ -264,7 +264,7 @@ __webpack_require__.r(__webpack_exports__);
     // 获取列表数据
     getlist: function getlist() {
       var that = this;
-      // 发布需求列表
+      // 需求列表
       this.util.ajax('release/releaseList', {
         "categoryId": this.classfy[this.classfyIndex].id,
         "commissionSort": 0,
@@ -287,7 +287,8 @@ __webpack_require__.r(__webpack_exports__);
                 "publisher_name": e.publisher_name,
                 "requirement_introduction": "备注：" + e.leave_message,
                 "user_id": e.user_id,
-                "user_name": e.publisher_name };
+                "user_name": e.publisher_name,
+                "now_delivery": e.now_delivery };
 
             }));
           }

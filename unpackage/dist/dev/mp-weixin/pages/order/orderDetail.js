@@ -128,9 +128,9 @@ var render = function() {
     _vm.formdata.categoryId != 11 &&
     _vm.formdata.categoryId != 15 &&
     _vm.formdata.categoryId != 19 &&
-    _vm.formdata.deliveryStartTime &&
-    _vm.formdata.deliveryEndTime &&
-    _vm.formdata.now_delivery == 0
+    !(_vm.formdata.now_delivery && _vm.formdata.now_delivery != 0) &&
+    (_vm.formdata.deliveryStartTime || _vm.formdata.startTime) &&
+    _vm.formdata.delivery_date
       ? _vm.formdata.delivery_date.split("-")
       : null
   var g1 =
@@ -139,9 +139,9 @@ var render = function() {
     _vm.formdata.categoryId != 11 &&
     _vm.formdata.categoryId != 15 &&
     _vm.formdata.categoryId != 19 &&
-    _vm.formdata.deliveryStartTime &&
-    _vm.formdata.deliveryEndTime &&
-    _vm.formdata.now_delivery == 0
+    !(_vm.formdata.now_delivery && _vm.formdata.now_delivery != 0) &&
+    (_vm.formdata.deliveryStartTime || _vm.formdata.startTime) &&
+    _vm.formdata.delivery_date
       ? _vm.formdata.delivery_date.split("-")
       : null
   var l0 =
@@ -549,10 +549,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
-
-
-
 {
   components: {
     pickerAddress: pickerAddress,
@@ -570,7 +566,7 @@ __webpack_require__.r(__webpack_exports__);
       isMore: false,
       userInfo: {},
       kf_hotline: '',
-      // 取件数量
+      // 商品数量
       takeNum: 0,
       // 防抖
       onoff: true };
@@ -623,14 +619,26 @@ __webpack_require__.r(__webpack_exports__);
         if (res.data.images != '') {
           that.imageValue = res.data.images.split(',');
         }
-        // 商品数量列表
-        _this.util.ajax('release/buyGoodsNumberList', {}, function (res) {
-          for (var i in res.data.list) {
-            if (res.data.list[i].id == that.formdata.numberId) {
-              that.takeNum = res.data.list[i].number;
-            }
+        // 筛选对应数量列表
+        var url = '';
+        var nums = [1, 3, 21];
+        if (nums.indexOf(res.data.categoryId) > -1) {
+          if (res.data.categoryId == 1) {// 帮取快递
+            url = 'release/getExpressNumberList';
+          } else if (res.data.categoryId == 3) {// 帮购商品
+            url = 'release/buyGoodsNumberList';
+          } else if (res.data.categoryId == 21) {// 帮送外卖
+            url = 'release/deliverTakeoutNumberList';
           }
-        });
+          _this.util.ajax(url, {}, function (res) {
+            for (var i in res.data.list) {
+              if (res.data.list[i].id == that.formdata.numberId) {
+                that.takeNum = res.data.list[i].number;
+              }
+            }
+          });
+        }
+
       });
     },
     bindPickerChange: function bindPickerChange(e) {

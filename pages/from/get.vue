@@ -6,7 +6,7 @@
 				{{item}}
 			</view>
 		</view>
-		<uni-forms ref='form' :rules="form_rules">
+		<uni-forms ref='form'>
 			<view class="form" style="background-color: initial;">
 				<view class="address flexd jubetween flex-center" style="margin-bottom: 10rpx;"
 					@click="addIndex='buyAdd';isAddress=true">
@@ -130,7 +130,6 @@
 		data() {
 			return {
 				htosp: 0,
-				form_rules: {},
 				buyAdd: {},
 				sentAdd: {},
 				typeIndex: 0,
@@ -173,7 +172,6 @@
 			}
 		},
 		mounted() {
-			this.form_rules = this.globalData.rules;
 			this.htosp = uni.getStorageSync('htop');
 			this.userId = uni.getStorageSync('userId');
 			this.formdata.startTime = this.$shijianhour(new Date().getTime() + 3600000)
@@ -217,6 +215,7 @@
 			submit() {
 				if (this.disable) return
 				this.disable = true;
+				
 				if (!this.buyAdd.address) {
 					this.$alert('请选择取件地址')
 					this.disable = false;
@@ -232,8 +231,18 @@
 					this.disable = false;
 					return
 				}
+				if (!this.formdata.commission) {
+					this.$alert('请输入佣金')
+					this.disable = false;
+					return
+				}
 				if (!this.cateIndex) {
 					this.$alert('请选择商品类别')
+					this.disable = false;
+					return
+				}
+				if(!this.formdata.goodsWeight){
+					this.$alert('请输入预估重量')
 					this.disable = false;
 					return
 				}
@@ -244,12 +253,6 @@
 				}
 				let that = this
 				this.$refs.form.validate().then(res => {
-					// uni.showModal({
-					// 	title: '下单须知',
-					// 	content: '如遇订单问题请及时在我的订单中申请售后，订单完成默认无售后',
-					// 	confirmText: '发布',
-					// 	success: function (e) {
-					// 		if (e.confirm) {
 					uni.showLoading({
 						title: ''
 					})
@@ -335,11 +338,6 @@
 							})
 						})
 					})
-					// } else if (e.cancel) {
-					// 			console.log('用户点击取消');
-					// 		}
-					// 	}
-					// })
 				}).catch(err => {
 					console.log('表单错误信息：', err);
 					that.disable = false
