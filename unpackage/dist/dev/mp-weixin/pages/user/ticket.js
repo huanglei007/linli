@@ -203,6 +203,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 var _default =
 {
   data: function data() {
@@ -265,7 +268,8 @@ var _default =
             that.list = that.list.concat(res.data.list.map(function (e) {
               return {
                 amount: e.amount,
-                time: that.$shijiandate(e.begin_time) + ' - ' + that.$shijiandate(e.expiration_time),
+                time: that.$shijiandate(e.begin_time) + ' - ' + that.$shijiandate(e.
+                expiration_time),
                 rule: e.coupon_name,
                 shop: e.shop_name,
                 infoid: e.info_id,

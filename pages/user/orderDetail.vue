@@ -96,7 +96,7 @@
 						<text class="font24">合计</text>
 						<text class="num font18">
 							¥
-							<text class="font30">{{form.order.pro_price}}</text>
+							<text class="font30">{{form.order.order_price}}</text>
 						</text>
 					</view>
 				</view>

@@ -449,6 +449,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 var _default =
 {
   components: {},
@@ -729,7 +733,7 @@ var _default =
 
       });
     },
-    //营业时间
+    // 营业时间
     // 开始 结束时间监听
     bindChange_start: function bindChange_start(e) {
       var that = this;
@@ -759,7 +763,7 @@ var _default =
       that.form.service_end_time = end_h + ':' + end_s;
       that.hoursShow = false;
     },
-    //上传店铺头像
+    // 上传店铺头像
     updateImg: function updateImg() {
       this.util.sendimage(5 - this.imageValue.length, this.imageValue);
     },

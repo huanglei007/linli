@@ -80,7 +80,7 @@
 						<view class="relive-icon" @click="hoursShow=true">
 							<text
 								class="font26 fontColor-666">{{form.service_begin_time}}-{{form.service_end_time}}</text>
-							<image class="icon32" src="/static/image/icon_update.png" mode=""></image>
+							<image class="icon22" src="/static/image/icon_gd.png" mode=""></image>
 						</view>
 					</view>
 					<view class="fengexian"></view>
@@ -104,11 +104,12 @@
 						<view class="relive-icon" v-if="operation[operationIndex]">
 							<picker :value="operationIndex" :range="operation" range-key="operation_point_name"
 								@change="operationChange">
-								<view class="fontColor-666" :class="{'fontColor-ccc':!operation[operationIndex].operation_point_name}">
+								<view class="fontColor-666"
+									:class="{'fontColor-ccc':!operation[operationIndex].operation_point_name}">
 									{{operation[operationIndex]?operation[operationIndex].operation_point_name:'请填写运营点'}}
 								</view>
 							</picker>
-							<image class="icon32" src="/static/image/icon_update.png" mode=""></image>
+							<image class="icon22" src="/static/image/icon_gd.png" mode=""></image>
 						</view>
 					</view>
 					<view class="fengexian"></view>
@@ -191,21 +192,24 @@
 							</label>
 						</radio-group>
 					</view>
-					<view class="fengexian" v-if="deposit_index=='1'"></view>
-					<!-- 押金金额 -->
-					<view class="flex-center" v-if="deposit_index=='1'">
-						<view class="relive-title">
-							<text class="font28">押金金额</text>
-						</view>
-						<view class="relive-icon" v-if="deposit_array[deposit_array_index]">
-							<picker @change="depositChange" :value="deposit_array_index" :range="deposit_array"
-								range-key="amount">
-								<view class="fontColor-666 uni-input">{{deposit_array[deposit_array_index].amount}}</view>
-							</picker>
-							<image class="icon22" src="/static/image/icon_gd.png" mode=""></image>
-						</view>
+					<block v-if="deposit_index=='1'">
+						<view class="fengexian"></view>
+						<!-- 押金金额 -->
+						<view class="flex-center">
+							<view class="relive-title">
+								<text class="font28">押金金额</text>
+							</view>
+							<view class="relive-icon" v-if="deposit_array[deposit_array_index]">
+								<picker @change="depositChange" :value="deposit_array_index" :range="deposit_array"
+									range-key="amount">
+									<view class="fontColor-666 uni-input">{{deposit_array[deposit_array_index].amount}}
+									</view>
+								</picker>
+								<image class="icon22" src="/static/image/icon_gd.png" mode=""></image>
+							</view>
 
-					</view>
+						</view>
+					</block>
 				</view>
 			</view>
 			<view class="box6 view-diy">
@@ -481,10 +485,10 @@
 				let that = this
 				that.form.business_status = that.shopStatus[e.detail.value].business_status
 				this.util.ajax('shop/editShopStatus', {
-					"business_status": that.form.business_status+1,
+					"business_status": that.form.business_status + 1,
 					"user_id": that.userId
 				}, res => {
-					
+
 				})
 			},
 			// 监听营业点变换
@@ -532,13 +536,13 @@
 				});
 			},
 			// 监听配送费
-			deliveryChange(e){
+			deliveryChange(e) {
 				let that = this
 				this.util.ajax('shop/editShopStatus', {
 					"initial_delivery_fee": e.detail.value,
 					"user_id": that.userId
 				}, res => {
-				
+
 				})
 			},
 			// 服务内容
@@ -571,7 +575,7 @@
 
 				})
 			},
-			//营业时间
+			// 营业时间
 			// 开始 结束时间监听
 			bindChange_start(e) {
 				let that = this
@@ -595,13 +599,13 @@
 					"service_end_time": end_h + ':' + end_s,
 					"user_id": that.userId
 				}, res => {
-					
+
 				})
 				that.form.service_begin_time = start_h + ':' + start_s
 				that.form.service_end_time = end_h + ':' + end_s
 				that.hoursShow = false
 			},
-			//上传店铺头像
+			// 上传店铺头像
 			updateImg() {
 				this.util.sendimage(5 - this.imageValue.length, this.imageValue)
 			},

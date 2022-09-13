@@ -18,6 +18,9 @@
 			</view>
 		</view>
 		<view class="list">
+			<view v-if="!list[0]" class="nullData fontColor-ccc">
+				<text>暂无</text>
+			</view>
 			<view class="item" :class="{lived: statusIndex==1,out: statusIndex==2}" v-for="(item,i) in list" :key="i">
 				<view v-if="typeIndex!=2" class="flexd jubetween flex-center" @click="jumpto(item.type,item.infoid)">
 					<view class="name">{{item.shop}}</view>
@@ -108,7 +111,8 @@
 							that.list = that.list.concat(res.data.list.map(e => {
 								return {
 									amount: e.amount,
-									time: that.$shijiandate(e.begin_time) + ' - ' + that.$shijiandate(e.expiration_time),
+									time: that.$shijiandate(e.begin_time) + ' - ' + that.$shijiandate(e
+										.expiration_time),
 									rule: e.coupon_name,
 									shop: e.shop_name,
 									infoid: e.info_id,
@@ -120,7 +124,7 @@
 					})
 				} else {
 					this.util.ajax('release/errandCouponList', {
-						"type": that.statusIndex+1,
+						"type": that.statusIndex + 1,
 						"curPage": that.curPage,
 						"pageSize": 20,
 						"userId": uni.getStorageSync('userId')
@@ -130,7 +134,7 @@
 							that.list = that.list.concat(res.data.coupon.map(e => {
 								return {
 									amount: e.amount,
-									time: that.$shijiandate(e.expiration_time)+'过期',
+									time: that.$shijiandate(e.expiration_time) + '过期',
 									rule: e.coupon_name,
 									shop: '跑腿专用',
 									infoid: '',
@@ -152,7 +156,7 @@
 				let that = this
 				if (type == 1) {
 					this.$jump('/pages/index/shopDetail?id=' + id)
-				}else if(that.typeIndex == 1){
+				} else if (that.typeIndex == 1) {
 					this.$jump('/pages/from/apply?id=0')
 				} else {
 					this.$jump('/pages/index/darenDetail?id=' + id)
@@ -162,9 +166,9 @@
 				let that = this
 				if (that.typeIndex == 0 && that.statusIndex == 0) {
 					this.$jump('/pages/user/tickitDetail?id=' + id)
-				} else if(that.typeIndex == 1) {
+				} else if (that.typeIndex == 1) {
 					this.jumpto(type, info)
-				}else{
+				} else {
 					this.$jump('/pages/from/apply?id=0')
 				}
 			}
@@ -230,8 +234,11 @@
 
 	.list {
 		margin: 20rpx;
-
-		.item {
+		
+		.nullData{
+			text-align: center;
+		}
+		.item {	
 			background-color: #fff;
 			padding: 10rpx 20rpx;
 			border-radius: 10rpx;
@@ -239,7 +246,6 @@
 
 			.more {
 				width: 30rpx;
-				margin-bottom: 10rpx;
 			}
 
 			.ticket {
@@ -251,6 +257,7 @@
 
 				.left {
 					width: 130rpx;
+					text-align: center;
 					color: #FF581E;
 
 					text {
@@ -262,6 +269,7 @@
 				.center {
 					flex: 1;
 					padding: 0 30rpx;
+					margin-right: 20rpx;
 
 					.title {
 						color: #FF581E;
@@ -283,7 +291,6 @@
 						line-height: 2;
 						border-radius: 30rpx;
 						margin-bottom: 10rpx;
-
 					}
 
 					.sub {
