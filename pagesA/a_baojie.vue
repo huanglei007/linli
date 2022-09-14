@@ -1,6 +1,6 @@
 <template>
 	<view class="baojie">
-		<view class="swiperbox">
+		<view class="swiperbox" v-if="imageurl">
 			<swiper class="swiper" :circular="true" :indicator-dots="true" :autoplay="true">
 				<swiper-item>
 					<image :src="imageurl+'static/image/img_baojie.png'" alt=""></image>
@@ -46,7 +46,7 @@
 			<view class="introduce-title">
 				<text>服务介绍</text>
 			</view>
-			<view class="introduce-text">
+			<view class="introduce-text" v-if="imageurl">
 				<image :src="imageurl+'static/image/introduce.png'" mode="widthFix"></image>
 			</view>
 		</view>

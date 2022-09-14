@@ -50,7 +50,12 @@
   flex: 1;
   margin-left: 20rpx;
 }
-.list .item .message .top-box .title {
+.list .item .message .top-box .box-title {
+  flex: 1;
+  margin-right: 30rpx;
+  overflow: hidden;
+}
+.list .item .message .top-box .box-title .title {
   font-size: 30rpx;
   position: relative;
   font-weight: bold;

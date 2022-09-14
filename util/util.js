@@ -213,7 +213,6 @@ module.exports = {
 		var toUserId = uni.getStorageSync('userInfo').phone;
 		// var socketlink = "ws://192.168.1.26:9077/apiModule/ws/chat/" + toUserId + "/123456/0/O4HpflBADiZu3Ue@";
 		var socketlink = "wss://chat2.niuclub.net/apiModule/ws/chat/" + toUserId + "/111111/0/jqDpwZCDEMw37Uh3"
-		// this.commentList=[]  //创建新的socket连接前先清除之前的实时聊天记录
 		uni.closeSocket() //创建新的socket连接前确保旧的已关闭
 		clearTimeout(this.hearinva); //关闭心跳包
 		//创建一个socket连接
@@ -256,10 +255,9 @@ module.exports = {
 			let that = this;
 			that.hearinva = setTimeout(() => {
 				let jsonsa = {};
-				jsonsa.messageType = 0; //0心跳包 1.单聊 2群聊
+				jsonsa.messageType = 0; //0.心跳包 1.单聊 2群聊
 				jsonsa.toUserName = '';
 				jsonsa.messageContent = 'ping';
-				// jsonsa.businessData = datasa;
 				jsonsa.roomId = 0;
 				jsonsa.appId = 'jqDpwZCDEMw37Uh3';
 				uni.sendSocketMessage({
@@ -273,15 +271,15 @@ module.exports = {
 						});
 					}
 				});
+				var infos = JSON.parse(res.data);
+				console.log('WebSocket:', infos)
 				// 用户ID
 				let userid = uni.getStorageSync('userId')
-				//用户类型 (1.平台 2.运营点 3.商家 4.达人 5.普通会员)
+				// 用户类型 (1.平台 2.运营点 3.商家 4.达人 5.普通会员)
 				let usertype = uni.getStorageSync('userInfo').user_type
-				var infos = JSON.parse(res.data);
-				console.log('infos:', infos)
 				if (infos != null && infos != '' && infos != undefined && infos !=
 					'用户未登录,请先登录') {
-					// 推送消息或语音
+					// 推送订单消息或语音
 					const innerAudioContext = uni.createInnerAudioContext();
 					innerAudioContext.autoplay = true;
 					// 根据用户推送
@@ -364,7 +362,8 @@ module.exports = {
 							}
 						})
 					}
-					// 消息类别 1 -> 图片
+					
+					// 消息类别 1 => 图片
 					if (infos.data.messageType == 1) {
 						if (userid) {
 							that.ajax('contact/queryAllUnreadMessage', {
@@ -400,12 +399,8 @@ module.exports = {
 						console.log('heart***');
 					}
 				} else {
-					// that.weeksort(function() {
-					// 	that.getsort(cb)
-					// });
 					that.$jump('/pages/login/login')
 				}
-				//that.hearinva;
 			}, 10000)
 
 		})

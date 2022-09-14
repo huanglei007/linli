@@ -123,7 +123,6 @@
 			},
 			getlianjie() {
 				let that = this;
-
 				that.util.getsort(function(res) {
 					let mysid = res.data.messageContent;
 					let tophone = mysid.substring(0, mysid.indexOf('@'));

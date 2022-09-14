@@ -547,8 +547,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
-
 {
   components: {
     pickerAddress: pickerAddress,
@@ -779,15 +777,30 @@ __webpack_require__.r(__webpack_exports__);
     // 取消订单
     cancel: function cancel() {
       var that = this;
+      var url = '';
+      var data = {};
+      if (that.formdata.shop_order_id) {
+        url = 'order/cancelOrder';
+        data = {
+          "orderId": that.formdata.shop_order_id,
+          "userId": that.userId };
+
+      } else {
+        url = 'myOrder/cancelOrder';
+        data = {
+          "releaseRequirementId": that.id,
+          "userId": that.userId };
+
+      }
       uni.showModal({
         title: '是否取消订单',
         success: function success() {
-          that.util.ajax('myOrder/cancelOrder', {
-            "releaseRequirementId": that.id,
-            "userId": that.userId },
-          function (res) {
+          that.util.ajax(url, data, function (res) {
             that.$alert('订单已取消');
             that.refresh();
+            setTimeout(function () {
+              that.$jumpback();
+            }, 1000);
           });
         } });
 

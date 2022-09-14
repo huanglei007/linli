@@ -16,9 +16,9 @@
 					<text class="font28 fontColor-999">上门时间</text>
 				</view>
 				<view class="upTime-time font28">
-					<uni-dateformat :date="form.start_time" format='MM/dd hh:mm '></uni-dateformat>
+					<uni-dateformat :date="form.start_time" format='MM-dd hh:mm '></uni-dateformat>
 					<text> 至 </text>
-					<uni-dateformat :date="form.end_time" format=' MM/dd hh:mm'></uni-dateformat>
+					<uni-dateformat :date="form.end_time" format=' MM-dd hh:mm'></uni-dateformat>
 				</view>
 			</view>
 			<!-- 陪护看病 -->
@@ -125,8 +125,8 @@
 			</view>
 		</view>
 		<view class="remarks-box">
-			<text v-if="!form.leaveMessag" class="fontColor-999">没留下什么, 试试线上沟通~</text>
-			<text v-else>{{form.leaveMessage}}</text>
+			<text v-if="!form.remark" class="fontColor-999">没留下什么, 试试线上沟通~</text>
+			<text v-else>{{form.remark}}</text>
 		</view>
 	</view>
 </template>

@@ -12,7 +12,7 @@
 				</view>
 				<view class="message">
 					<view class="top-box flexd jubetween flex-center">
-						<view class="flexd">
+						<view class="box-title flexd">
 							<view class="title" :class="{'urgent':item.now_delivery==1}">
 								<text class="font32">{{item.category_name}}</text>
 							</view>
@@ -34,9 +34,8 @@
 						</view>
 					</view>
 					<view class="bottom-box flexd jubetween flex-center">
-						<view class="remake">
-							<!-- <text>备注:</text> -->
-							<text class="fontColor-999">{{item.requirement_introduction}}</text>
+						<view class="remake fontColor-999">
+							<text>{{item.requirement_introduction}}</text>
 						</view>
 						<view class="btn flexd flex-center" v-if="userId!=item.user_id"
 							@click.stop="talkto(item.user_id,item.publisher_name)">
@@ -148,13 +147,19 @@
 				margin-left: 20rpx;
 
 				.top-box {
-					.title {
-						font-size: 30rpx;
-						position: relative;
-						font-weight: bold;
-						width: fit-content;
-						margin: 0 15rpx 0 0;
+					.box-title{
+						flex: 1;
+						margin-right: 30rpx;
+						overflow: hidden;
+						.title {
+							font-size: 30rpx;
+							position: relative;
+							font-weight: bold;
+							width: fit-content;
+							margin: 0 15rpx 0 0;
+						}
 					}
+					
 				}
 
 				.min-box {

@@ -37,7 +37,13 @@
 						<image src="/static/image/icon_dw.png" mode="widthFix"></image>
 					</view>
 				</view>
-				<view class="flexd jubetween" v-if="formdata.distance">
+				<view v-if="formdata.shop_order_id">
+					<view class="item name flexd flex-center jubetween">
+						<view class="label">店铺名称</view>
+						<view class="text">{{formdata.shopOrder.shop.shop_name}}</view>
+					</view>
+				</view>
+				<view v-if="formdata.distance">
 					<view class="item name flexd flex-center jubetween">
 						<view class="label">距离</view>
 						<view class="text">{{formdata.distance}}</view>
@@ -45,11 +51,9 @@
 				</view>
 			</view>
 			<view class="form">
-				<view class="flexd jubetween">
-					<view class="item name flexd flex-center jubetween">
-						<view class="label">发布人</view>
-						<view class="text">{{formdata.publisherName}}<!-- /{{formdata.publisherSex?'女士':'先生'}} -->
-						</view>
+				<view class="item name flexd flex-center jubetween">
+					<view class="label">发布人</view>
+					<view class="text">{{formdata.publisherName}}<!-- /{{formdata.publisherSex?'女士':'先生'}} -->
 					</view>
 				</view>
 				<view class="item flexd flex-center jubetween">
@@ -60,74 +64,71 @@
 						</image>
 					</view>
 				</view>
-				<view class="flexd jubetween" v-if="formdata.petKind">
+				<view v-if="formdata.petKind">
 					<view class="item name flexd flex-center jubetween">
 						<view class="label">宠物种类</view>
 						<view class="text">{{formdata.petKind}}</view>
 					</view>
 				</view>
-				<view class="flexd jubetween" v-if="formdata.petAge">
+				<view v-if="formdata.petAge">
 					<view class="item name flexd flex-center jubetween">
 						<view class="label">宠物年龄</view>
 						<view class="text">{{formdata.petAge}}</view>
 					</view>
 				</view>
-				<view class="flexd jubetween" v-if="formdata.vaccinated==0||formdata.vaccinated">
+				<view v-if="formdata.vaccinated==0||formdata.vaccinated">
 					<view class="item name flexd flex-center jubetween">
 						<view class="label">已打疫苗</view>
 						<view class="text">{{formdata.vaccinated?'否':'是'}}</view>
 					</view>
 				</view>
-				<view class="flexd jubetween" v-if="formdata.bookName">
+				<view v-if="formdata.bookName">
 					<view class="item name flexd flex-center jubetween">
 						<view class="label">书籍名称</view>
 						<view class="text">《{{formdata.bookName}}》</view>
 					</view>
 				</view>
-				<view class="flexd jubetween" v-if="formdata.clothesCategoryName">
+				<view v-if="formdata.clothesCategoryName">
 					<view class="item name flexd flex-center jubetween">
 						<view class="label">衣服类型</view>
 						<view class="text">{{formdata.clothesCategoryName}}</view>
 					</view>
 				</view>
-				<view class="flexd jubetween" v-if="formdata.goodsCategoryName">
+				<view v-if="formdata.goodsCategoryName">
 					<view class="item name flexd flex-center jubetween">
 						<view class="label">物品类型</view>
 						<view class="text">{{formdata.goodsCategoryName}}</view>
 					</view>
 				</view>
-				<view class="flexd jubetween" v-if="formdata.goodsName">
-					<view class="item name flexd flex-center jubetween">
-						<view class="label">物品名称</view>
-						<view class="text">{{formdata.goodsName}}</view>
-					</view>
-				</view>
-				<view class="flexd jubetween" v-if="formdata.goodsName">
-					<view class="item name flexd flex-center jubetween">
-						<view class="label">商品估价</view>
-						<view class="text">￥{{formdata.goodsValuation}}</view>
-					</view>
-				</view>
-				<view class="flexd jubetween" v-if="formdata.goodsSize">
+				<view v-if="formdata.goodsSize">
 					<view class="item name flexd flex-center jubetween">
 						<view class="label">大小预估</view>
 						<view class="text">{{formdata.goodsSize}}</view>
 					</view>
 				</view>
-				<view class="flexd jubetween" v-if="formdata.goodsWeight">
+				<view v-if="formdata.goodsWeight">
 					<view class="item name flexd flex-center jubetween">
 						<view class="label">重量预估</view>
 						<view class="text">{{formdata.goodsWeight}}(KG)</view>
 					</view>
 				</view>
-				<view class="flexd jubetween" v-if="formdata.goodsName">
+				<!-- 帮购商品 -->
+				<block v-if="formdata.goodsName&&!formdata.shop_order_id">
+					<view class="item name flexd flex-center jubetween">
+						<view class="label">物品名称</view>
+						<view class="text">{{formdata.goodsName}}</view>
+					</view>
+					<view class="item name flexd flex-center jubetween">
+						<view class="label">商品估价</view>
+						<view class="text">￥{{formdata.goodsValuation}}</view>
+					</view>
 					<view class="item name flexd flex-center jubetween">
 						<view class="label">是否指定商家购买</view>
 						<view class="text">{{formdata.appointShop?'是':'否'}}</view>
 					</view>
-				</view>
+				</block>
 				<!-- 帮取快递 帮送外卖 帮丢垃圾 -->
-				<view class="flexd jubetween" v-if="formdata.now_delivery&&formdata.now_delivery!=0">
+				<view v-if="formdata.now_delivery&&formdata.now_delivery!=0">
 					<view class="item name flexd flex-center jubetween">
 						<view class="label" v-if="formdata.categoryId == 2">上门时间</view>
 						<view class="label" v-else>配送时间</view>
@@ -135,12 +136,13 @@
 					</view>
 				</view>
 				<!-- 配送时间 -->
-				<view class="flexd jubetween" v-else-if="formdata.deliveryStartTime||formdata.startTime">
+				<view v-else-if="formdata.deliveryStartTime||formdata.startTime">
 					<view class="item name flexd flex-center jubetween">
 						<view class="label" v-if="formdata.categoryId == 2">上门时间</view>
 						<view class="label" v-else>配送时间</view>
 						<view class="text">
-							<text v-if="formdata.delivery_date">{{formdata.delivery_date.split('-')[1]+'月'+formdata.delivery_date.split('-')[2]+'日'}}</text>
+							<text
+								v-if="formdata.delivery_date">{{formdata.delivery_date.split('-')[1]+'月'+formdata.delivery_date.split('-')[2]+'日'}}</text>
 							<text v-if="formdata.startTime">
 								{{formdata.startTime+'-'+formdata.endTime}}
 							</text>
@@ -148,8 +150,7 @@
 						</view>
 					</view>
 				</view>
-
-				<view class="flexd jubetween" v-if="formdata.numberId">
+				<view v-if="formdata.numberId">
 					<view class="item name flexd flex-center jubetween">
 						<view class="label" v-if="formdata.categoryId == 1">取件数量</view>
 						<view class="label" v-else-if="formdata.categoryId == 3">商品种类数量</view>
@@ -157,8 +158,7 @@
 						<view class="text">{{takeNum}}</view>
 					</view>
 				</view>
-
-				<view class="flexd jubetween" v-if="formdata.commission">
+				<view v-if="formdata.commission">
 					<view class="item name flexd flex-center jubetween">
 						<view class="label">佣金
 							<!-- <text>(平台抽佣{{Math.floor(formdata.platformCommission*100)}}%)</text> -->
@@ -166,19 +166,32 @@
 						<view class="text">￥{{formdata.commission}}</view>
 					</view>
 				</view>
-				<view class="flexd jubetween" v-if="formdata.sellingPrice">
+				<view class="item name" v-if="formdata.shop_order_id">
+					<view class="label">商品列表</view>
+					<view class="shoplist-box">
+						<view class="box-data flexd flex-center jubetween"
+							v-for="(data,index) in formdata.shopOrder.orderDetails" :key="index">
+							<view class="data-left flexd flex-center">
+								<image :src="data.pro_image" mode=""></image>
+								<text>{{data.pro_name}}</text>
+							</view>
+							<text>x{{data.buy_count}}</text>
+						</view>
+					</view>
+				</view>
+				<view v-if="formdata.sellingPrice">
 					<view class="item name flexd flex-center jubetween">
 						<view class="label">出售价格</view>
 						<view class="text">￥{{formdata.sellingPrice}}</view>
 					</view>
 				</view>
-				<view class="flexd jubetween" v-if="formdata.transactionModeName">
+				<view v-if="formdata.transactionModeName">
 					<view class="item name flexd flex-center jubetween">
 						<view class="label">交易方式</view>
 						<view class="text">{{formdata.transactionModeName}}</view>
 					</view>
 				</view>
-				<view class="flexd jubetween" v-if="formdata.js_operation_point_name">
+				<view v-if="formdata.js_operation_point_name">
 					<view class="item name flexd flex-center jubetween">
 						<view class="label">运营点</view>
 						<view class="text">{{formdata.js_operation_point_name}}</view>
@@ -186,32 +199,25 @@
 				</view>
 			</view>
 			<view class="form" v-if="formdata.getAndSendType==0||formdata.getAndSendType">
-				<view class="flexd jubetween">
-					<view class="item name flexd flex-center jubetween">
-						<view class="label">帮取帮送</view>
-						<view class="text">{{formdata.getAndSendType==1?'帮送':'帮取'}}</view>
+				<view class="item name flexd flex-center jubetween">
+					<view class="label">帮取帮送</view>
+					<view class="text">{{formdata.getAndSendType==1?'帮送':'帮取'}}</view>
+				</view>
+				<view class="item name flexd flex-center jubetween">
+					<view class="label">{{formdata.getAndSendType==1?'收件人':'给件人'}}</view>
+					<view class="text">{{formdata.senderName}}<!-- /{{formdata.senderSex?'女士':'先生'}} -->
 					</view>
 				</view>
-				<view class="flexd jubetween">
-					<view class="item name flexd flex-center jubetween">
-						<view class="label">{{formdata.getAndSendType==1?'收件人':'给件人'}}</view>
-						<view class="text">{{formdata.senderName}}<!-- /{{formdata.senderSex?'女士':'先生'}} -->
-						</view>
-					</view>
-				</view>
-				<view class="flexd jubetween">
-					<view class="item name flexd flex-center jubetween">
-						<view class="label">{{formdata.getAndSendType==1?'收件人':'给件人'}}手机号</view>
-						<view class="text flexd flex-center">
-							<view>{{formdata.senderPhone}}</view>
-							<image @click="phone(formdata.publisherPhone)" src="/static/image/icon_dh.png"
-								mode="widthFix">
-							</image>
-						</view>
+				<view class="item name flexd flex-center jubetween">
+					<view class="label">{{formdata.getAndSendType==1?'收件人':'给件人'}}手机号</view>
+					<view class="text flexd flex-center">
+						<view>{{formdata.senderPhone}}</view>
+						<image @click="phone(formdata.publisherPhone)" src="/static/image/icon_dh.png" mode="widthFix">
+						</image>
 					</view>
 				</view>
 			</view>
-			<view class="form" v-if="formdata.requirementIntroduction">
+			<view class="form" v-if="formdata.requirementIntroduction&&!formdata.shop_order_id">
 				<view class="item">
 					<textarea class="textarea" disabled v-model="formdata.requirementIntroduction"
 						placeholder-style="color:#878787" placeholder="请给接单者留言" />
@@ -226,44 +232,36 @@
 			<view class="form" v-if="imageValue.length">
 				<view class="item">
 					<view class="out">
-						<!-- <block v-for="(item,index) in imageValue" :key='index'> -->
-						<view v-for="(item,index) in imageValue" :key='index' class="peop" @click="preview(item)">
-							<image :src="Img(item)" mode=""></image>
-						</view>
-						<!-- </block> -->
+						<block v-for="(item,index) in imageValue" :key='index'>
+							<view class="peop" @click="preview(item)">
+								<image :src="Img(item)" mode=""></image>
+							</view>
+						</block>
 					</view>
 				</view>
 			</view>
 			<view class="form" v-if="formdata.dataStatus!=1&&formdata.dataStatus!=4">
-				<view class="flexd jubetween">
-					<view class="item name flexd flex-center jubetween">
-						<view class="label">接单人</view>
-						<view class="text flexd flex-center">
-							<view>{{formdata.order_receiving_nick_name}}</view>
-							<image @click="talkto(formdata.order_receiving_user_id)" src="/static/image/icon_lt.png"
-								mode="widthFix"></image>
-						</view>
+				<view class="item name flexd flex-center jubetween">
+					<view class="label">接单人</view>
+					<view class="text flexd flex-center">
+						<view>{{formdata.order_receiving_nick_name}}</view>
+						<image @click="talkto(formdata.order_receiving_user_id)" src="/static/image/icon_lt.png"
+							mode="widthFix"></image>
 					</view>
 				</view>
-				<view class="flexd jubetween">
-					<view class="item name flexd flex-center jubetween">
-						<view class="label">手机号</view>
-						<view class="text flexd flex-center">
-							<view>{{formdata.order_receiving_phone}}</view>
-							<image @click="phone(formdata.order_receiving_phone)" src="/static/image/icon_dh.png"
-								mode="widthFix"></image>
-						</view>
+				<view class="item name flexd flex-center jubetween">
+					<view class="label">手机号</view>
+					<view class="text flexd flex-center">
+						<view>{{formdata.order_receiving_phone}}</view>
+						<image @click="phone(formdata.order_receiving_phone)" src="/static/image/icon_dh.png"
+							mode="widthFix"></image>
 					</view>
 				</view>
-				<view class="flexd jubetween">
-					<view class="item name flexd flex-center jubetween">
-						<view class="label">接单时间</view>
-						<view class="text">{{$shijian(formdata.order_receiving_time)}}
-							<!-- /{{formdata.senderSex?'女士':'先生'}} -->
-						</view>
+				<view class="item name flexd flex-center jubetween">
+					<view class="label">接单时间</view>
+					<view class="text">{{$shijian(formdata.order_receiving_time)}}
 					</view>
 				</view>
-
 			</view>
 
 		</view>
@@ -293,10 +291,10 @@
 				<view class="btn" @click="finish" v-if="formdata.dataStatus==2&&userId==formdata.userId">
 					完成订单
 				</view>
-				<view class="btnWhite" @click="showComm"
+				<!-- <view class="btnWhite" @click="showComm"
 					v-if="formdata.dataStatus==1&&userId==formdata.userId&&formdata.categoryId!=6&&formdata.categoryId!=7">
 					加佣
-				</view>
+				</view> -->
 				<view class="btnWhite" @click="cancel" v-if="formdata.dataStatus==1&&userId==formdata.userId">
 					取消订单
 				</view>
@@ -555,15 +553,30 @@
 			// 取消订单
 			cancel() {
 				let that = this
+				let url = ''
+				let data = {}
+				if (that.formdata.shop_order_id) {
+					url = 'order/cancelOrder'
+					data = {
+						"orderId": that.formdata.shop_order_id,
+						"userId": that.userId
+					}
+				} else {
+					url = 'myOrder/cancelOrder'
+					data = {
+						"releaseRequirementId": that.id,
+						"userId": that.userId
+					}
+				}
 				uni.showModal({
 					title: '是否取消订单',
 					success() {
-						that.util.ajax('myOrder/cancelOrder', {
-							"releaseRequirementId": that.id,
-							"userId": that.userId
-						}, res => {
+						that.util.ajax(url, data, res => {
 							that.$alert('订单已取消')
 							that.refresh()
+							setTimeout(()=>{
+								that.$jumpback()
+							},1000)
 						})
 					}
 				})
@@ -642,7 +655,6 @@
 
 			.item {
 				padding: 10rpx 40rpx;
-				border-bottom: 1rpx solid #f5f5f5;
 				line-height: 80rpx;
 				width: 100%;
 				box-sizing: border-box;
@@ -793,7 +805,7 @@
 		box-sizing: border-box;
 		background-color: #fff;
 		box-shadow: 0px 6rpx 30rpx #888888;
-
+		z-index: 2;
 
 		.sub-connect {
 			display: flex;
@@ -857,6 +869,27 @@
 				padding: 0 20rpx;
 				border-radius: 10rpx;
 				margin-left: 20rpx;
+			}
+		}
+	}
+
+	.shoplist-box {
+		.box-data {
+			margin-bottom: 30rpx;
+
+			.data-left {
+				image {
+					width: 100rpx;
+					height: 100rpx;
+				}
+
+				text {
+					padding-left: 20rpx;
+				}
+			}
+
+			text {
+				color: #333;
 			}
 		}
 	}

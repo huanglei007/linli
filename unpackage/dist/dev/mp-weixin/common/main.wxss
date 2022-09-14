@@ -2411,6 +2411,10 @@
   width: 60rpx;
   height: 60rpx;
 }
+.img120 {
+  width: 120rpx;
+  height: 120rpx;
+}
 /* 按钮 */
 .addbtn {
   color: #FF8D1E;

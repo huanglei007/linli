@@ -295,7 +295,6 @@ var _default =
     },
     getlianjie: function getlianjie() {
       var that = this;
-
       that.util.getsort(function (res) {
         var mysid = res.data.messageContent;
         var tophone = mysid.substring(0, mysid.indexOf('@'));
