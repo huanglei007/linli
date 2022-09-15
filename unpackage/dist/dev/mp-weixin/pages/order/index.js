@@ -240,7 +240,9 @@ __webpack_require__.r(__webpack_exports__);
       shopList: [],
       curPage: 1,
       commissionSort: 0,
-      isfoot: false };
+      isfoot: false,
+      // swiper高度
+      swiperHeight: '' };
 
   },
   onLoad: function onLoad() {
@@ -306,6 +308,10 @@ __webpack_require__.r(__webpack_exports__);
           arr.push(res.data.list.slice(i * 15, i * 15 + 15));
         }
         _this.menuList = arr;
+        // swiper高度适应
+        _this.$nextTick(function () {
+          _this.setSwiperHeight();
+        });
       });
     },
     // 距离配置列表
@@ -344,6 +350,20 @@ __webpack_require__.r(__webpack_exports__);
       this.shopList = [];
       this.curPage = 1;
       this.getlist();
+    },
+    // swiper高度适应
+    setSwiperHeight: function setSwiperHeight() {
+      var that = this;
+      var query = uni.createSelectorQuery().in(this);
+      query.select('#itemList').boundingClientRect();
+      query.exec(function (res) {
+        if (res && res[0]) {
+          that.swiperHeight = (res[0].height + 2) * 3;
+
+          that.swiperHeight = (res[0].height + 5) * 3;
+
+        }
+      });
     } } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 

@@ -13,7 +13,7 @@
 			</view>
 		</view>
 		<view class="menu">
-			<swiper :indicator-dots="true" :duration="200">
+			<swiper :indicator-dots="true" :duration="200" :style="{'height':swiperHeight+'px'}">
 				<swiper-item v-for="(d,i) in  menuList" :key="i">
 					<view class="menuBox flexd">
 						<view id="itemList" class="item" v-for="(item,index) in d.list" :key="index"
@@ -251,7 +251,9 @@
 				// 新用户福利
 				coupons: [],
 				// 微信订阅消息
-				wxMessage_text: '为了及时获取订单状态，您是否想接收订单状态的消息提醒？'
+				wxMessage_text: '为了及时获取订单状态，您是否想接收订单状态的消息提醒？',
+				// swiper高度
+				swiperHeight: ''
 			}
 		},
 		onLoad(e) {
@@ -295,6 +297,11 @@
 					// #endif
 				}
 			}
+
+			// swiper高度适应
+			this.$nextTick(() => {
+				this.setSwiperHeight();
+			});
 		},
 		onShow() {
 			this.residentialEvent()
@@ -372,7 +379,21 @@
 			dialogClose() {
 				this.$refs.wxMessage.close()
 				uni.showTabBar();
-			}
+			},
+			// swiper高度适应
+			setSwiperHeight() {
+				let that = this;
+				let query = uni.createSelectorQuery().in(this);
+				query.select('#itemList').boundingClientRect();
+				query.exec(res => {
+					if (res && res[0]) {
+						that.swiperHeight = (res[0].height + 2) * 3
+						// #ifdef MP-WEIXIN
+						that.swiperHeight = (res[0].height + 5) * 3
+						// #endif
+					}
+				});
+			},
 		}
 	}
 </script>
@@ -420,13 +441,6 @@
 			padding-bottom: 0;
 			/* #endif */
 
-			swiper {
-				height: 540rpx;
-				/* #ifdef APP-PLUS */
-				height: 460rpx;
-				/* #endif */
-			}
-
 			.menuBox {
 				flex-wrap: wrap;
 			}
@@ -434,7 +448,7 @@
 			.item {
 				flex: 0 0 20%;
 				text-align: center;
-				margin-bottom: 20rpx;
+				padding-bottom: 20rpx;
 
 				image {
 					width: 100rpx;

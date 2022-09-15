@@ -124,7 +124,7 @@
   padding: 0 40rpx;
 }
 .wares-num .label {
-  width: 160rpx;
+  width: 140rpx;
 }
 .wares-num picker .uni-input {
   font-weight: 300;

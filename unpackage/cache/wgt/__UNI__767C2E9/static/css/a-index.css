@@ -64,7 +64,10 @@
 	width: 60rpx;
 	height: 60rpx;
 }
-
+.img120{
+	width: 120rpx;
+	height: 120rpx;
+}
 /* 按钮 */
 .addbtn {
 	color: #FF8D1E;
@@ -117,7 +120,8 @@
 /* swiper轮播标识圆点 */
 .menu .uni-swiper-wrapper .uni-swiper-dots-horizontal {
 	height: 16rpx !important;
-	bottom: 10rpx !important;
+	line-height: 16rpx !important;
+	bottom: 0rpx !important;
 }
 
 /* 社区商圈 附近商家 分段器 */

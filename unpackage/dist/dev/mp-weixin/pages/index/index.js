@@ -417,10 +417,12 @@ var list = function list() {__webpack_require__.e(/*! require.ensure | component
       // 新用户福利
       coupons: [],
       // 微信订阅消息
-      wxMessage_text: '为了及时获取订单状态，您是否想接收订单状态的消息提醒？' };
+      wxMessage_text: '为了及时获取订单状态，您是否想接收订单状态的消息提醒？',
+      // swiper高度
+      swiperHeight: '' };
 
   },
-  onLoad: function onLoad(e) {
+  onLoad: function onLoad(e) {var _this = this;
     this.userId = uni.getStorageSync('userId');
     this.htosp = uni.getStorageSync('htop');
     this.village = uni.getStorageSync('village');
@@ -461,12 +463,17 @@ var list = function list() {__webpack_require__.e(/*! require.ensure | component
 
       }
     }
+
+    // swiper高度适应
+    this.$nextTick(function () {
+      _this.setSwiperHeight();
+    });
   },
   onShow: function onShow() {
     this.residentialEvent();
   },
   methods: {
-    menuClick: function menuClick(item, i, index) {var _this = this;
+    menuClick: function menuClick(item, i, index) {var _this2 = this;
       //   index > 9 || i == 1
       if (item.path == '') {
         this.$alert('功能开发中');
@@ -479,12 +486,12 @@ var list = function list() {__webpack_require__.e(/*! require.ensure | component
           this.util.ajax('shop/queryWorkTime', {}, function (res) {
             var data = res.data.set;
             var date = new Date();
-            var time = _this.$shijianhour(date.getTime()).split(':')[0];
+            var time = _this2.$shijianhour(date.getTime()).split(':')[0];
             if (parseInt(time) >= data.on_duty_time && parseInt(time) < data.off_duty_time) {
-              _this.$jump(item.path);
+              _this2.$jump(item.path);
             } else {
               var text = data.on_duty_time + '点' + ' 至 ' + data.off_duty_time + '点';
-              _this.$alert('开放时间为 ' + text);
+              _this2.$alert('开放时间为 ' + text);
             }
           });
         } else {
@@ -519,12 +526,12 @@ var list = function list() {__webpack_require__.e(/*! require.ensure | component
 
     },
     // 获取新人福利跑腿卷
-    getDiscount: function getDiscount() {var _this2 = this;
+    getDiscount: function getDiscount() {var _this3 = this;
       this.util.ajax('release/errandCouponList', {
         "userId": uni.getStorageSync('userId') },
       function (res) {
         for (var i = 0; i < 3; i++) {
-          _this2.coupons.push(res.data.coupon[i]);
+          _this3.coupons.push(res.data.coupon[i]);
         }
       });
     },
@@ -538,6 +545,20 @@ var list = function list() {__webpack_require__.e(/*! require.ensure | component
     dialogClose: function dialogClose() {
       this.$refs.wxMessage.close();
       uni.showTabBar();
+    },
+    // swiper高度适应
+    setSwiperHeight: function setSwiperHeight() {
+      var that = this;
+      var query = uni.createSelectorQuery().in(this);
+      query.select('#itemList').boundingClientRect();
+      query.exec(function (res) {
+        if (res && res[0]) {
+          that.swiperHeight = (res[0].height + 2) * 3;
+
+          that.swiperHeight = (res[0].height + 5) * 3;
+
+        }
+      });
     } } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 

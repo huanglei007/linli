@@ -4,10 +4,10 @@
 			接单大厅
 		</view>
 		<view class="menu">
-			<swiper :indicator-dots="true" :duration="200">
+			<swiper :indicator-dots="true" :duration="200" :style="{'height':swiperHeight+'px'}">
 				<swiper-item v-for="(d,i) in  menuList" :key="i">
 					<view class="menuBox flexd">
-						<view class="item" v-for="(item,index) in d" :key="index" @click="typeClick(item)">
+						<view id="itemList" class="item" v-for="(item,index) in d" :key="index" @click="typeClick(item)">
 							<view class="image">
 								<image :src="Img(item.icon)" mode=""></image>
 							</view>
@@ -73,6 +73,8 @@
 				curPage: 1,
 				commissionSort: 0,
 				isfoot: false,
+				// swiper高度
+				swiperHeight: ''
 			}
 		},
 		onLoad() {
@@ -138,6 +140,10 @@
 						arr.push(res.data.list.slice(i * 15, i * 15 + 15))
 					}
 					this.menuList = arr
+					// swiper高度适应
+					this.$nextTick(() => {
+						this.setSwiperHeight();
+					});
 				})
 			},
 			// 距离配置列表
@@ -177,6 +183,20 @@
 				this.curPage = 1
 				this.getlist()
 			},
+			// swiper高度适应
+			setSwiperHeight() {
+				let that = this;
+				let query = uni.createSelectorQuery().in(this);
+				query.select('#itemList').boundingClientRect();
+				query.exec(res => {
+					if (res && res[0]) {
+						that.swiperHeight = (res[0].height + 2) * 3
+						// #ifdef MP-WEIXIN
+						that.swiperHeight = (res[0].height + 5) * 3
+						// #endif
+					}
+				});
+			},
 		}
 	}
 </script>
@@ -202,13 +222,6 @@
 			/* #ifdef MP-WEIXIN */
 			padding-bottom: 0;
 			/* #endif */
-			
-			swiper {
-				height: 540rpx;
-				/* #ifdef APP-PLUS */
-				height: 460rpx;
-				/* #endif */
-			}
 
 			.menuBox {
 				flex-wrap: wrap;
@@ -217,7 +230,7 @@
 			.item {
 				flex: 0 0 20%;
 				text-align: center;
-				margin-bottom: 20rpx;
+				padding-bottom: 20rpx;
 
 				image {
 					width: 100rpx;

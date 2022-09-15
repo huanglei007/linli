@@ -359,7 +359,6 @@ __webpack_require__.r(__webpack_exports__);
         commission: '',
         publisherPhone: '' };
 
-
     },
     cancel: function cancel() {
       this.isAddress = false;
@@ -391,6 +390,7 @@ __webpack_require__.r(__webpack_exports__);
       that.take_index = e.target.value;
       that.formdata.commission = that.takeParts[e.target.value].commission;
     },
+    // 下单
     submit: function submit() {
       if (this.disable) return;
       this.disable = true;
