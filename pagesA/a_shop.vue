@@ -290,7 +290,7 @@
 
 		<!-- 保存 -->
 		<view class="saveBox" v-show="!hoursShow">
-			<text @click="$shake(saveEvent)">保存</text>
+			<text @click="$shake(saveEvent)">提交审核</text>
 		</view>
 	</view>
 </template>

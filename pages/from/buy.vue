@@ -66,9 +66,9 @@
 				</picker>
 			</view>
 			<view class="form wx_form" style="padding-bottom: 0;">
-				<uni-forms-item labelWidth="80" label="商品估价" name="goodsValuation">
+				<uni-forms-item labelWidth="65" label="商品估价" name="goodsValuation">
 					<uni-easyinput class="input" :inputBorder="false" type="digit" v-model="formdata.goodsValuation"
-						placeholder="估价供骑士参考(最高500元)" placeholder-style="color:#878787" />
+						placeholder="帮购时预先垫付,送货结清(最高500元)" placeholder-style="color:#878787" />
 					<!-- <view class="uni-warning" style="padding-left: 20rpx;">骑士帮购时预先垫付，送货时当面结清</view> -->
 				</uni-forms-item>
 			</view>
@@ -447,7 +447,7 @@
 		padding: 0 40rpx;
 
 		.label {
-			width: 160rpx;
+			width: 130rpx;
 		}
 
 		picker {
