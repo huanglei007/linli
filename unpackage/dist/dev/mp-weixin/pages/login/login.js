@@ -318,14 +318,16 @@ var _default =
         uni.setStorageSync('userId', json.data.user_id);
         uni.setStorageSync('userInfo', json.data);
         uni.setStorageSync('village', json.data.residentialQuarterVo);
-        // that.$alert('登录成功')
-        // 打开websocket链接
-
         if (json.data.user_id != 40) {
+          // 打开websocket链接
           that.util.weeksort();
         } else {
           uni.setStorageSync('tourist', true);
         }
+        // 审核机制开关
+        that.util.ajax('user/closeWithdrawal', {}, function (res) {
+          uni.setStorageSync('examine', res.data.close_withdrawal);
+        });
         setTimeout(function (e) {
           uni.hideLoading();
           uni.reLaunch({
@@ -347,12 +349,16 @@ var _default =
           uni.setStorageSync('userId', json.data.user_id);
           uni.setStorageSync('userInfo', json.data);
           uni.setStorageSync('village', json.data.residentialQuarterVo);
-          // that.$alert('登录成功')
+          // 获取wx token
           that.util.get_wx_access_token();
           // 打开websocket链接
           that.util.weeksort();
           // 清除游客模式
           uni.removeStorageSync('tourist');
+          // 审核机制开关
+          that.util.ajax('user/closeWithdrawal', {}, function (res) {
+            uni.setStorageSync('examine', res.data.close_withdrawal);
+          });
           if (!json.data.residentialQuarterVo.address) {
             that.$jumpLa('/pages/index/changeVillage');
           } else {

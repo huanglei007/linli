@@ -459,7 +459,7 @@
 							})
 						})
 					} else {
-						this.$alert('保存成功')
+						this.$alert('提交成功,请等待审核')
 						setTimeout(() => {
 							that.$jumpback()
 						}, 1000)

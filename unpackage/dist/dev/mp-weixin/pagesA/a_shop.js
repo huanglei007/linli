@@ -617,7 +617,7 @@ var _default =
             });
           });
         } else {
-          _this2.$alert('保存成功');
+          _this2.$alert('提交成功,请等待审核');
           setTimeout(function () {
             that.$jumpback();
           }, 1000);

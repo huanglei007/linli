@@ -106,7 +106,7 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _default =
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _default =
 {
   data: function data() {
     return {};
@@ -125,9 +125,44 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
     setInterval(function () {
       _this.util.get_wx_access_token();
     }, 6000000);
+
+    // wx更新版本
+    var updateManager = uni.getUpdateManager();
+
+    updateManager.onCheckForUpdate(function (res) {
+      // 请求完新版本信息的回调
+      console.log('新版本', res.hasUpdate);
+    });
+
+    updateManager.onUpdateReady(function (res) {
+      uni.showModal({
+        title: '更新提示',
+        content: '新版本已经准备好，是否重启应用？',
+        showCancel: false,
+        success: function success(res) {
+          if (res.confirm) {
+            // 新的版本已经下载好，调用 applyUpdate 应用新版本并重启
+            updateManager.applyUpdate();
+          }
+        } });
+
+
+    });
+
+    updateManager.onUpdateFailed(function (res) {
+      // 新的版本下载失败
+      console.log('download error');
+      uni.showModal({
+        title: '提示',
+        content: '新版小程序下载失败\n请自行退出程序，手动卸载本程序，再运行',
+        confirmText: "知道了" });
+
+    });
+
   },
   beforeDestroy: function beforeDestroy() {},
   methods: {} };exports.default = _default;
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 
 /***/ }),
 /* 11 */

@@ -16,8 +16,8 @@
 		</view>
 		<!-- 订单列表 -->
 		<view class="list">
-			<view v-if="!list[0]" class="fontColor-ccc" style="text-align: center;">
-				<text>暂无</text>
+			<view v-if="!list[0]" class="fontColor-ccc texcenter" style="padding-top: 200rpx;">
+				<text>暂无订单信息</text>
 			</view>
 			<view class="item" v-for="(item,i) in list" :key="i"
 				@click="$jump('/pages/user/orderDetail?type='+typeIndex+'&id='+item.order_id)">

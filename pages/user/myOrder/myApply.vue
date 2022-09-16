@@ -8,7 +8,7 @@
 		</view>
 		<view class="list">
 			<view class='gray texcenter' v-if="!list.length" style="padding-top: 200rpx;">
-				暂时没有订单信息
+				暂无订单信息
 			</view>
 			<view class="item flexd jubetween flex-center " :class="item.data_status!=1?'active':''"
 				@click="$jump('/pages/order/orderDetail?id='+item.id)" v-for="(item,i) in list" :key="i">

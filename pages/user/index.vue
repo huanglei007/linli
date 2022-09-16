@@ -43,7 +43,7 @@
 			</view>
 		</view>
 		<view class="uesermore">
-			<view class="order-wrapper" @click="$jump('/pages/user/wallet')">
+			<view v-if="examine==0" class="order-wrapper" @click="$jump('/pages/user/wallet')">
 				<view class="order-hd flexd jubetween">
 					<view class="left">我的钱包</view>
 					<view class="right flexd">
@@ -110,32 +110,34 @@
 					</view>
 					<image src="/static/image/icon_gd.png" mode="" class="you"></image>
 				</view>
-				<view v-if="userData.user_type==5" class="oulist flexd jubetween" hover-class="none"
-					url="/pages/user/applyShop" @click="$jump('/pages/user/applyShop')">
-					<view class="flexd">
-						<image src="/static/image/icon_sj.png" mode=""></image>
-						<view>商家入驻</view>
-					</view>
-					<image src="/static/image/icon_gd.png" mode="" class="you"></image>
-				</view>
-
-				<view v-if="userData.user_type==5" class="oulist flexd jubetween" hover-class="none"
-					@click="$jump('/pages/index/applyDaren')">
-					<view class="flexd">
-						<image src="/static/image/icon_dr.png" mode=""></image>
-						<view>达人入驻</view>
-					</view>
-					<view class="flexd">
-						<view :class="{'uni-warning': userData.status==-2,'uni-success': userData.status==-1}">
-							{{userData.status==-1?'审核中':''}}
-							{{userData.status==-2?'未通过':''}}
+				<block v-if="userData.user_type==5&&examine==0">
+					<view class="oulist flexd jubetween" hover-class="none" url="/pages/user/applyShop"
+						@click="$jump('/pages/user/applyShop')">
+						<view class="flexd">
+							<image src="/static/image/icon_sj.png" mode=""></image>
+							<view>商家入驻</view>
 						</view>
 						<image src="/static/image/icon_gd.png" mode="" class="you"></image>
 					</view>
-					<view class="remark" v-if="userData.remarks">
-						{{userData.remarks}}
+
+					<view class="oulist flexd jubetween" hover-class="none" @click="$jump('/pages/index/applyDaren')">
+						<view class="flexd">
+							<image src="/static/image/icon_dr.png" mode=""></image>
+							<view>达人入驻</view>
+						</view>
+						<view class="flexd">
+							<view :class="{'uni-warning': userData.status==-2,'uni-success': userData.status==-1}">
+								{{userData.status==-1?'审核中':''}}
+								{{userData.status==-2?'未通过':''}}
+							</view>
+							<image src="/static/image/icon_gd.png" mode="" class="you"></image>
+						</view>
+						<view class="remark" v-if="userData.remarks">
+							{{userData.remarks}}
+						</view>
 					</view>
-				</view>
+				</block>
+
 
 				<block v-for="(item,index) in usout" :key="index">
 					<div class="oulist flexd jubetween" hover-class="none" @click="$jump(item.url)">
@@ -254,7 +256,9 @@
 				popupForm: {
 					title: '',
 					content: ''
-				}
+				},
+				// 审核机制开关
+				examine:0,
 			}
 		},
 		onShow() {
@@ -262,8 +266,9 @@
 			this.getMyShop()
 		},
 		onLoad() {
-			this.htosp = uni.getStorageSync('htop');
+			this.htosp = uni.getStorageSync('htop')
 			this.userId = uni.getStorageSync('userId')
+			this.examine = uni.getStorageSync('examine')
 			this.imageurl = this.globalData.imageurl
 		},
 		methods: {

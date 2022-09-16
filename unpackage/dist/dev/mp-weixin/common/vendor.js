@@ -763,8 +763,8 @@ function populateParameters(result) {var _result$brand =
   var parameters = {
     appId: "__UNI__767C2E9",
     appName: "阾里",
-    appVersion: "1.0.17",
-    appVersionCode: "1017",
+    appVersion: "1.0.18",
+    appVersionCode: "1018",
     appLanguage: getAppLanguage(hostLanguage),
     uniCompileVersion: "3.5.3",
     uniRuntimeVersion: "3.5.3",
@@ -872,8 +872,8 @@ var getAppBaseInfo = {
     result = sortObject(Object.assign(result, {
       appId: "__UNI__767C2E9",
       appName: "阾里",
-      appVersion: "1.0.17",
-      appVersionCode: "1017",
+      appVersion: "1.0.18",
+      appVersionCode: "1018",
       appLanguage: getAppLanguage(hostLanguage),
       hostVersion: version,
       hostLanguage: hostLanguage,

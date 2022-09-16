@@ -14,6 +14,21 @@
 		</view>
 		<view class="menu">
 			<swiper :indicator-dots="true" :duration="200" :style="{'height':swiperHeight+'px'}">
+				<swiper-item v-for="(d,i) in  menuList_new" :key="i">
+					<view class="menuBox flexd">
+						<view id="itemList" class="item" v-for="(item,index) in d" :key="index"
+							@click="menuClick(menuList[i][index],i,index)">
+							<view class="image">
+								<image :src="Img(item.icon)" mode=""></image>
+							</view>
+							<view class="title">
+								{{item.category_name}}
+							</view>
+						</view>
+					</view>
+				</swiper-item>
+			</swiper>
+			<!-- <swiper :indicator-dots="true" :duration="200" :style="{'height':swiperHeight+'px'}">
 				<swiper-item v-for="(d,i) in  menuList" :key="i">
 					<view class="menuBox flexd">
 						<view id="itemList" class="item" v-for="(item,index) in d.list" :key="index"
@@ -28,7 +43,7 @@
 						</view>
 					</view>
 				</swiper-item>
-			</swiper>
+			</swiper> -->
 		</view>
 		<!-- 附近商家 -->
 		<nearbyshop></nearbyshop>
@@ -99,153 +114,148 @@
 				imageurl: '',
 				userId: '',
 				htosp: 0,
-				menuList: [{
-						page: 1,
-						list: [{
-								img: '/static/image/icon_bqkd.png',
-								title: '帮取快递',
-								path: '/pages/from/apply?id=0'
-							}, {
-								img: '/static/image/icon_bqwm.png',
-								title: '帮送外卖',
-								path: '/pages/from/apply?id=1'
-							}, {
-								img: '/static/image/icon_bdlj.png',
-								title: '帮丢垃圾',
-								path: '/pages/from/apply?id=2'
-							}, {
-								img: '/static/image/icon_bgw.png',
-								title: '帮购商品',
-								path: '/pages/from/apply?id=3'
-							}, {
-								img: '/static/image/icon_tcps.png',
-								title: '帮取帮送',
-								path: '/pages/from/apply?id=4'
-							},
-							{
-								img: '/static/image/huang/icon_cyd.png',
-								title: '餐饮店',
-								path: '/pages/index/shangquan'
-							},
-							{
-								img: '/static/image/huang/icon_bld.png',
-								title: '便利店',
-								path: '/pages/index/shangquan'
-							},
-							{
-								img: '/static/image/huang/icon_sgd.png',
-								title: '水果店',
-								path: '/pages/index/shangquan'
-							},
-							{
-								img: '/static/image/huang/icon_gxd.png',
-								title: '洗衣店',
-								path: '/pages/index/shangquan'
-							},
-							{
-								img: '/static/image/huang/icon_cwd.png',
-								title: '宠物店',
-								path: '/pages/index/shangquan'
-							},
-
-							{
-								img: '/static/image/huang/mipmap-mdpi/icon_baojie.png',
-								title: '家政保洁',
-								path: '/pagesA/a_baojie'
-							},
-							{
-								img: '/static/image/huang/mipmap-mdpi/icon_weixiu.png',
-								title: '安装维修',
-								path: '/pagesA/a_weixiu'
-							},
-							{
-								img: '/static/image/huang/mipmap-mdpi/icon_maogou.png',
-								title: '喂猫遛狗',
-								path: '/pagesA/a_maogou'
-							},
-							{
-								img: '/static/image/huang/mipmap-mdpi/icon_peihu.png',
-								title: '陪诊陪护',
-								path: '/pagesA/a_peihu'
-							},
-							{
-								img: '/static/image/huang/mipmap-mdpi/icon_jiachu.png',
-								title: '百味家厨',
-								path: '/pagesA/a_jiachu'
-							},
-						]
-					},
-					{
-						page: 2,
-						list: [{
-								img: '/static/image/huang/icon_jyhs.png',
-								title: '旧衣回收',
-								path: '/pages/from/clothes'
-							},
-							{
-								img: '/static/image/huang/icon_xzmm.png',
-								title: '闲置买卖',
-								path: '/pages/index/xianzhi'
-							},
-							{
-								img: '/static/image/huang/icon_fwzp.png',
-								title: '房屋租赁',
-								path: ''
-							},
-							{
-								img: '/static/image/huang/icon_bjlh.png',
-								title: '搬家拉货',
-								path: ''
-							},
-							{
-								img: '/static/image/huang/icon_yyjj.png',
-								title: '预约寄件',
-								path: ''
-							},
-							{
-								img: '/static/image/huang/icon_sqsq.png',
-								title: '社区商圈',
-								path: '/pages/index/shangquan'
-							},
-							{
-								img: '/static/image/huang/icon_sqtg.png',
-								title: '社区团购',
-								path: ''
-							},
-							{
-								img: '/static/image/huang/icon_sqhd.png',
-								title: '社区活动',
-								path: ''
-							},
-							{
-								img: '/static/image/huang/icon_sqdr.png',
-								title: '社区达人',
-								path: '/pages/index/daren'
-							},
-							{
-								img: '/static/image/huang/icon_sqwy.png',
-								title: '社区物业',
-								path: '/pages/index/wuye'
-							},
-							// {
-							// 	img: '/static/image/icon_jsmm.png',
-							// 	title: '旧书买卖',
-							// 	path: '/pages/index/book',
-							// 	tag: '/static/image/icon_gr.png'
-							// }, {
-							// 	img: '/static/image/icon_es3c.png',
-							// 	title: '宠物买卖',
-							// 	path: '/pages/index/pet',
-							// 	tag: '/static/image/icon_gr.png'
-							// },
-							// {
-							// 	img: '/static/image/tjyy.png',
-							// 	title: '体检预约',
-							// 	path: '/pages/index/tijian',
-							// 	tag: '/static/image/icon_mf.png'
-							// },
-						]
-					}
+				menuList_new: [],
+				menuList: [
+					[{
+							img: '/static/image/icon_bqkd.png',
+							title: '帮取快递',
+							path: '/pages/from/apply?id=0'
+						}, {
+							img: '/static/image/icon_bqwm.png',
+							title: '帮送外卖',
+							path: '/pages/from/apply?id=1'
+						}, {
+							img: '/static/image/icon_bdlj.png',
+							title: '帮丢垃圾',
+							path: '/pages/from/apply?id=2'
+						}, {
+							img: '/static/image/icon_bgw.png',
+							title: '帮购商品',
+							path: '/pages/from/apply?id=3'
+						}, {
+							img: '/static/image/icon_tcps.png',
+							title: '帮取帮送',
+							path: '/pages/from/apply?id=4'
+						},
+						{
+							img: '/static/image/huang/icon_cyd.png',
+							title: '餐饮店',
+							path: '/pages/index/shangquan'
+						},
+						{
+							img: '/static/image/huang/icon_bld.png',
+							title: '便利店',
+							path: '/pages/index/shangquan'
+						},
+						{
+							img: '/static/image/huang/icon_sgd.png',
+							title: '水果店',
+							path: '/pages/index/shangquan'
+						},
+						{
+							img: '/static/image/huang/icon_gxd.png',
+							title: '洗衣店',
+							path: '/pages/index/shangquan'
+						},
+						{
+							img: '/static/image/huang/icon_cwd.png',
+							title: '宠物店',
+							path: '/pages/index/shangquan'
+						},
+						{
+							img: '/static/image/huang/mipmap-mdpi/icon_baojie.png',
+							title: '家政保洁',
+							path: '/pagesA/a_baojie'
+						},
+						{
+							img: '/static/image/huang/mipmap-mdpi/icon_weixiu.png',
+							title: '安装维修',
+							path: '/pagesA/a_weixiu'
+						},
+						{
+							img: '/static/image/huang/mipmap-mdpi/icon_maogou.png',
+							title: '喂猫遛狗',
+							path: '/pagesA/a_maogou'
+						},
+						{
+							img: '/static/image/huang/mipmap-mdpi/icon_peihu.png',
+							title: '陪诊陪护',
+							path: '/pagesA/a_peihu'
+						},
+						{
+							img: '/static/image/huang/mipmap-mdpi/icon_jiachu.png',
+							title: '百味家厨',
+							path: '/pagesA/a_jiachu'
+						},
+					],
+					[{
+							img: '/static/image/huang/icon_jyhs.png',
+							title: '旧衣回收',
+							path: '/pages/from/clothes'
+						},
+						{
+							img: '/static/image/huang/icon_xzmm.png',
+							title: '闲置买卖',
+							path: '/pages/index/xianzhi'
+						},
+						{
+							img: '/static/image/huang/icon_fwzp.png',
+							title: '房屋租赁',
+							path: ''
+						},
+						{
+							img: '/static/image/huang/icon_bjlh.png',
+							title: '搬家拉货',
+							path: ''
+						},
+						{
+							img: '/static/image/huang/icon_yyjj.png',
+							title: '预约寄件',
+							path: ''
+						},
+						{
+							img: '/static/image/huang/icon_sqsq.png',
+							title: '社区商圈',
+							path: '/pages/index/shangquan'
+						},
+						{
+							img: '/static/image/huang/icon_sqtg.png',
+							title: '社区团购',
+							path: ''
+						},
+						{
+							img: '/static/image/huang/icon_sqhd.png',
+							title: '社区活动',
+							path: ''
+						},
+						{
+							img: '/static/image/huang/icon_sqdr.png',
+							title: '社区达人',
+							path: '/pages/index/daren'
+						},
+						{
+							img: '/static/image/huang/icon_sqwy.png',
+							title: '社区物业',
+							path: '/pages/index/wuye'
+						},
+						// {
+						// 	img: '/static/image/icon_jsmm.png',
+						// 	title: '旧书买卖',
+						// 	path: '/pages/index/book',
+						// 	tag: '/static/image/icon_gr.png'
+						// }, {
+						// 	img: '/static/image/icon_es3c.png',
+						// 	title: '宠物买卖',
+						// 	path: '/pages/index/pet',
+						// 	tag: '/static/image/icon_gr.png'
+						// },
+						// {
+						// 	img: '/static/image/tjyy.png',
+						// 	title: '体检预约',
+						// 	path: '/pages/index/tijian',
+						// 	tag: '/static/image/icon_mf.png'
+						// },
+					]
 				],
 				village: {},
 				// 新用户福利
@@ -297,19 +307,16 @@
 					// #endif
 				}
 			}
-
-			// swiper高度适应
-			this.$nextTick(() => {
-				this.setSwiperHeight();
-			});
+			// 需求类别列表
+			this.getTypeList()
 		},
 		onShow() {
 			this.residentialEvent()
 		},
 		methods: {
-			menuClick(item, i, index) {
-				//   index > 9 || i == 1
-				if (item.path == '') {
+			menuClick(item, page, index) {
+				  // item.path == ''
+				if (index > 9 || page == 1) {
 					this.$alert('功能开发中')
 				} else {
 					if (item.path == '/pages/index/shangquan') {
@@ -332,6 +339,21 @@
 						this.$jump(item.path)
 					}
 				}
+			},
+			// 需求类别列表
+			getTypeList() {
+				let that = this
+				this.util.ajax('release/categoryList', {}, (res) => {
+					let arr = []
+					for (let i = 0; i < res.data.list.length / 15; i++) {
+						arr.push(res.data.list.slice(i * 15, i * 15 + 15))
+					}
+					this.menuList_new = arr
+					// swiper高度适应
+					this.$nextTick(() => {
+						this.setSwiperHeight();
+					});
+				})
 			},
 			// 绑定小区
 			residentialEvent() {

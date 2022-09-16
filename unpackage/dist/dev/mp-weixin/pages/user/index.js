@@ -126,10 +126,11 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   var m0 = _vm.userData.head_img !== "" ? _vm.Img(_vm.userData.head_img) : null
-  var g0 = Math.floor(_vm.userData.balance)
-  var g1 = _vm.userData.balance.toFixed(2).split(".")
-  var g2 = Math.floor(_vm.userData.transfer_amount)
-  var g3 = _vm.userData.transfer_amount.toFixed(2).split(".")
+  var g0 = _vm.examine == 0 ? Math.floor(_vm.userData.balance) : null
+  var g1 = _vm.examine == 0 ? _vm.userData.balance.toFixed(2).split(".") : null
+  var g2 = _vm.examine == 0 ? Math.floor(_vm.userData.transfer_amount) : null
+  var g3 =
+    _vm.examine == 0 ? _vm.userData.transfer_amount.toFixed(2).split(".") : null
   _vm.$mp.data = Object.assign(
     {},
     {
@@ -176,6 +177,8 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0; //
+//
+//
 //
 //
 //
@@ -430,8 +433,10 @@ var _default =
       // 店铺审核通知
       popupForm: {
         title: '',
-        content: '' } };
+        content: '' },
 
+      // 审核机制开关
+      examine: 0 };
 
   },
   onShow: function onShow() {
@@ -441,6 +446,7 @@ var _default =
   onLoad: function onLoad() {
     this.htosp = uni.getStorageSync('htop');
     this.userId = uni.getStorageSync('userId');
+    this.examine = uni.getStorageSync('examine');
     this.imageurl = this.globalData.imageurl;
   },
   methods: {
