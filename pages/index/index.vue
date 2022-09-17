@@ -273,12 +273,14 @@
 			this.imageurl = this.globalData.imageurl
 			let that = this
 			// 是否游客
-			if (this.userId != 40) {
+			if (that.userId != 40) {
 				// 是否新用户
 				if (e.new && e.new == 1) {
-					that.getDiscount()
-					that.$refs.popup.open()
-					uni.hideTabBar();
+					this.$nextTick(() => {
+						that.getDiscount()
+						that.$refs.popup.open()
+						uni.hideTabBar();
+					})
 				} else {
 					// 微信订阅弹窗
 					// #ifdef MP-WEIXIN
@@ -306,6 +308,30 @@
 					})
 					// #endif
 				}
+			} else {
+				// #ifdef MP-WEIXIN
+				if (uni.getStorageSync('userInfo')) {
+					this.$nextTick(() => {
+						let phone = uni.getStorageSync('userInfo').phone
+						this.util.ajax('user/login', {
+							"phone": phone,
+						}, json => {
+							// 缓存用户信息
+							uni.setStorageSync('userId', json.data.user_id)
+							uni.setStorageSync('userInfo', json.data);
+							uni.setStorageSync('village', json.data.residentialQuarterVo);
+							// 获取wx token
+							that.util.get_wx_access_token()
+							// 打开websocket链接
+							that.util.weeksort()
+							// 审核机制
+							that.util.ajax('user/closeWithdrawal', {}, res => {
+								uni.setStorageSync('examine', res.data.close_withdrawal)
+							})
+						})
+					})
+				}
+				// #endif
 			}
 			// 需求类别列表
 			this.getTypeList()
@@ -315,7 +341,7 @@
 		},
 		methods: {
 			menuClick(item, page, index) {
-				  // item.path == ''
+				// item.path == ''
 				if (index > 9 || page == 1) {
 					this.$alert('功能开发中')
 				} else {

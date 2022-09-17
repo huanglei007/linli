@@ -7,7 +7,8 @@
 			<swiper :indicator-dots="true" :duration="200" :style="{'height':swiperHeight+'px'}">
 				<swiper-item v-for="(d,i) in  menuList" :key="i">
 					<view class="menuBox flexd">
-						<view id="itemList" class="item" v-for="(item,index) in d" :key="index" @click="typeClick(item)">
+						<view id="itemList" class="item" v-for="(item,index) in d" :key="index"
+							@click="typeClick(item)">
 							<view class="image">
 								<image :src="Img(item.icon)" mode=""></image>
 							</view>
@@ -20,21 +21,21 @@
 			</swiper>
 		</view>
 		<view class="searchType flexd jubetween">
-			<view class="item active">
+			<view class="item" @click="ability='全部';allList()" :class="{'active':ability=='全部'}">
 				全部
 			</view>
-			<view class="item">
+			<view class="item" @click="ability='需求';" :class="{'active':ability=='需求'}">
 				<picker class="picker" @change="bindPickerChange" :value="classfyIndex" :range="classfy"
 					range-key="category_name">
 					<view class="uni-input">{{classfy[classfyIndex].category_name||'需求类别'}}</view>
 				</picker>
 				<image src="/static/image/icon_xw.png" mode="widthFix"></image>
 			</view>
-			<view class="item" @click="commissionSort=commissionSort^1;getNewList()" :class="{'back': commissionSort}">
+			<view class="item" @click="ability='佣金';commissionSort=commissionSort^1;getNewList()" :class="{'active':ability=='佣金'}">
 				佣金
 				<image src="/static/image/icon_xw.png" mode="widthFix"></image>
 			</view>
-			<view class="item">
+			<view class="item" @click="ability='距离';" :class="{'active':ability=='距离'}">
 				<picker class="picker" @change="bindPickerChange2" :value="rangeIndex" :range="range" range-key="name">
 					<view class="uni-input">{{range[rangeIndex].name}}</view>
 				</picker>
@@ -74,7 +75,9 @@
 				commissionSort: 0,
 				isfoot: false,
 				// swiper高度
-				swiperHeight: ''
+				swiperHeight: '',
+				// 功能分类
+				ability:'全部',
 			}
 		},
 		onLoad() {
@@ -101,7 +104,7 @@
 				// 需求列表
 				this.util.ajax('release/releaseList', {
 					"categoryId": this.classfy[this.classfyIndex].id,
-					"commissionSort": 0,
+					"commissionSort":this.commissionSort,
 					"curPage": this.curPage,
 					"distanceValue": this.range[this.rangeIndex].value,
 					"pageSize": 20,
@@ -122,16 +125,16 @@
 									"requirement_introduction": "备注：" + e.leave_message,
 									"user_id": e.user_id,
 									"user_name": e.publisher_name,
-									"now_delivery":e.now_delivery
+									"now_delivery": e.now_delivery,
+									"shop_name":e.shop_name
 								}
 							}))
 						}
 					}, 500)
-
 				})
 			},
 			// 需求类别列表
-			getTypeList(){
+			getTypeList() {
 				let that = this
 				this.util.ajax('release/categoryList', {}, (res) => {
 					that.classfy = that.classfy.concat(res.data.list)
@@ -147,12 +150,12 @@
 				})
 			},
 			// 距离配置列表
-			getDistance(){
+			getDistance() {
 				let that = this
 				this.util.ajax('release/distanceConfigList', {}, (res) => {
 					that.range = that.range.concat(res.data.list)
 				})
-			},
+			},			
 			// 接单类别筛选
 			typeClick(data) {
 				let that = this
@@ -169,6 +172,10 @@
 					}
 				}
 				this.getNewList();
+			},
+			allList() {
+				this.classfyIndex = 0
+				this.getNewList()
 			},
 			bindPickerChange: function(e) {
 				this.classfyIndex = e.target.value

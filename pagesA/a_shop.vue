@@ -90,7 +90,7 @@
 							<text class="font28">起送费</text>
 						</view>
 						<view class="relive-icon">
-							<input v-model="form.initial_delivery_fee" @blur="deliveryChange" />
+							<input v-model="form.initial_delivery_fee" />
 							<image class="icon32" src="/static/image/icon_update.png" mode=""></image>
 						</view>
 					</view>
@@ -144,7 +144,7 @@
 						</view>
 						<view class="relive-icon">
 							<input placeholder-style="color:#CCCCCC" v-model="form.service_content"
-								@blur="serviceContent" placeholder="请填写服务内容" />
+								placeholder="请填写服务内容" />
 							<image class="icon32" src="/static/image/icon_update.png" mode=""></image>
 						</view>
 					</view>
@@ -156,7 +156,7 @@
 						</view>
 						<view class="relive-icon">
 							<input placeholder-style="color:#CCCCCC" v-model="form.service_process"
-								@blur="serviceProcedure" placeholder="请填写服务流程" />
+								placeholder="请填写服务流程" />
 							<image class="icon32" src="/static/image/icon_update.png" mode=""></image>
 						</view>
 					</view>
@@ -168,7 +168,7 @@
 						</view>
 						<view class="relive-icon">
 							<input placeholder-style="color:#CCCCCC" v-model="form.service_guarantee"
-								@blur="serviceGuarantee" placeholder="请填写服务保障" />
+								placeholder="请填写服务保障" />
 							<image class="icon32" src="/static/image/icon_update.png" mode=""></image>
 						</view>
 					</view>
@@ -249,7 +249,7 @@
 						<text class="font36" @click="hoursShow=false">取消</text>
 					</view>
 					<view class="_confirm">
-						<text class="font36" style="color:cornflowerblue" @click="confirmEvent">确认</text>
+						<text class="font36" style="color:cornflowerblue" @click="confirmEvent(false)">确认</text>
 					</view>
 				</view>
 				<view class="content">
@@ -343,7 +343,10 @@
 				deposit_array_index: 0,
 				deposit_array: [],
 				// 防抖
-				onoff: true
+				onoff: true,
+				// 是否审核
+				examine: true,
+				examine_s: null,
 			}
 		},
 		onLoad() {
@@ -352,10 +355,39 @@
 			this.userId = uni.getStorageSync('userId')
 			this.imageurl = this.globalData.imageurl
 		},
+		computed: {
+			newAddRuleForm() {
+				return JSON.parse(JSON.stringify(this.form));
+			},
+		},
 		watch: {
 			imageValue(newVal, oldVal) {
 				this.form.shop_logo = this.Img(newVal[0])
-			}
+			},
+			form: {
+				handler(newVal, oldVal) {},
+				deep: true
+			},
+			newAddRuleForm: {
+				handler(newVal, oldVal) {
+					let that = this
+					if (oldVal.id != undefined) {
+						if (newVal.business_status != oldVal.business_status ||
+							newVal.service_begin_time != oldVal.service_begin_time ||
+							newVal.service_end_time != oldVal.service_end_time ||
+							newVal.initial_delivery_fee != oldVal.initial_delivery_fee ||
+							newVal.service_content != oldVal.service_content ||
+							newVal.service_process != oldVal.service_process ||
+							newVal.service_guarantee != oldVal.service_guarantee) {
+							that.examine = false
+						} else {
+							that.examine = true
+							that.examine_s = true
+						}
+					}
+				},
+				deep: true,
+			},
 		},
 		methods: {
 			// 获取商铺类型
@@ -366,7 +398,6 @@
 					"secondType": 1
 				}, res => {
 					that.shopType = res.data.list
-
 					that.getMyShop()
 				})
 			},
@@ -377,9 +408,12 @@
 					"userId": that.userId
 				}, res => {
 					that.form = res.data
+					let delivery = res.data.initial_delivery_fee
+					if (!delivery|| delivery== 0) {
+						that.form.initial_delivery_fee = 20
+					}
 					that.timeVal_start = res.data.service_begin_time.split(':').map(i => i / 1)
 					that.timeVal_end = res.data.service_end_time.split(':').map(i => i / 1)
-
 					if (res.data.deposit_amount > 0) {
 						that.deposit_index = '1'
 						this.util.ajax('shop/queryShopDepositSet', {}, res => {
@@ -391,6 +425,11 @@
 							}
 						})
 					}
+					for (let a = 0; a < that.shopType.length; a++) {
+						if (res.data.shop_sub_type_id == that.shopType[a].id) {
+							that.typeIndex = a
+						}
+					}
 					for (let i in that.operation) {
 						if (that.operation[i].id == res.data.operation_point_id) {
 							that.operationIndex = i
@@ -401,71 +440,86 @@
 			// 保存我的店铺信息
 			saveEvent() {
 				let that = this
-				this.util.ajax('shop/saveShopSet', that.form, res => {
-					if (that.deposit_index == '1' && that.form.deposit_amount == 0) {
-						this.util.ajax('shop/submitShopDepositOrder', {
-							"amount": that.deposit_array[that.deposit_array_index].amount,
-							"userId": that.userId,
-						}, res => {
-							// #ifdef APP-PLUS
-							let paymentType = 3
-							// #endif
-							// #ifdef MP-WEIXIN
-							let paymentType = 4
-							// #endif
-							that.util.ajax('pay/toPay', {
-								"orderNum": res.data.order_num,
-								"payType": 1,
-								"paymentType": paymentType,
-								"purpose": 5,
-								"subject": "押金",
-								"userId": that.userId
-							}, resx => {
-								uni.hideLoading()
-								// #ifdef APP-PLUS
-								let response = JSON.parse(resx.data)
-								// #endif
-								uni.requestPayment({
-									"provider": "wxpay",
+				if (that.examine == false && that.examine_s != true) {
+					this.notExamine()
+					this.$alert('审核成功')
+					setTimeout(() => {
+						that.$jumpback()
+					}, 1000)
+				} else {
+					this.util.ajax('shop/saveShopSet', that.form, res => {
+						if (res.statusCode != 500) {
+							if (that.examine == false) {
+								this.notExamine()
+							}
+							if (that.deposit_index == '1' && that.form.deposit_amount == 0) {
+								this.util.ajax('shop/submitShopDepositOrder', {
+									"amount": that.deposit_array[that.deposit_array_index].amount,
+									"userId": that.userId,
+								}, res => {
 									// #ifdef APP-PLUS
-									"orderInfo": {
-										"appid": response
-											.appid, // 微信开放平台 - 应用 - AppId，注意和微信小程序、公众号 AppId 可能不一致
-										"noncestr": response.noncestr, // 随机字符串
-										"package": response.package, // 固定值
-										"partnerid": response.partnerid, // 微信支付商户号
-										"prepayid": response.prepayid, // 统一下单订单号 
-										"timestamp": response.timestamp, // 时间戳（单位：秒）
-										"sign": response.sign // 签名，这里用的 MD5 签名
-									},
+									let paymentType = 3
 									// #endif
 									// #ifdef MP-WEIXIN
-									"timeStamp": resx.data.timeStamp,
-									"nonceStr": resx.data.nonceStr,
-									"package": resx.data.packageValue,
-									"signType": 'MD5',
-									"paySign": resx.data.paySign,
+									let paymentType = 4
 									// #endif
-									success(e) {
-										that.$alert('提交成功')
-										setTimeout(() => {
-											that.$jumpback()
-										}, 1000)
-									},
-									fail(e) {
-										that.$alert('支付失败')
-									}
+									that.util.ajax('pay/toPay', {
+										"orderNum": res.data.order_num,
+										"payType": 1,
+										"paymentType": paymentType,
+										"purpose": 5,
+										"subject": "押金",
+										"userId": that.userId
+									}, resx => {
+										uni.hideLoading()
+										// #ifdef APP-PLUS
+										let response = JSON.parse(resx.data)
+										// #endif
+										uni.requestPayment({
+											"provider": "wxpay",
+											// #ifdef APP-PLUS
+											"orderInfo": {
+												"appid": response
+													.appid, // 微信开放平台 - 应用 - AppId，注意和微信小程序、公众号 AppId 可能不一致
+												"noncestr": response.noncestr, // 随机字符串
+												"package": response.package, // 固定值
+												"partnerid": response.partnerid, // 微信支付商户号
+												"prepayid": response.prepayid, // 统一下单订单号 
+												"timestamp": response
+													.timestamp, // 时间戳（单位：秒）
+												"sign": response.sign // 签名，这里用的 MD5 签名
+											},
+											// #endif
+											// #ifdef MP-WEIXIN
+											"timeStamp": resx.data.timeStamp,
+											"nonceStr": resx.data.nonceStr,
+											"package": resx.data.packageValue,
+											"signType": 'MD5',
+											"paySign": resx.data.paySign,
+											// #endif
+											success(e) {
+												that.$alert('提交成功')
+												setTimeout(() => {
+													that.$jumpback()
+												}, 1000)
+											},
+											fail(e) {
+												that.$alert('支付失败')
+											}
+										})
+									})
 								})
-							})
-						})
-					} else {
-						this.$alert('提交成功,请等待审核')
-						setTimeout(() => {
-							that.$jumpback()
-						}, 1000)
-					}
-
-				})
+							} else {
+								this.$alert('提交成功,请等待审核')
+								setTimeout(() => {
+									that.$jumpback()
+								}, 1000)
+							}
+						} else {
+							return
+						}
+					})
+				}
 			},
 			// 获取营业点列表
 			getOperation() {
@@ -474,22 +528,11 @@
 					that.operation = res.data.list
 				})
 			},
-
 			// 监听商家类型变换
 			shopTypeChange(e) {
 				let that = this
 				that.typeIndex = e.detail.value
-			},
-			// 监听营业状态变换
-			shopStatusChange(e) {
-				let that = this
-				that.form.business_status = that.shopStatus[e.detail.value].business_status
-				this.util.ajax('shop/editShopStatus', {
-					"business_status": that.form.business_status + 1,
-					"user_id": that.userId
-				}, res => {
-
-				})
+				that.form.shop_sub_type_id = that.shopType[e.detail.value].id
 			},
 			// 监听营业点变换
 			operationChange(e) {
@@ -509,7 +552,6 @@
 			},
 			// 监听押金金额
 			depositChange(e) {
-				console.log(e)
 				this.deposit_array_index = e.detail.value
 			},
 			// 退还押金
@@ -535,45 +577,27 @@
 					}
 				});
 			},
-			// 监听配送费
-			deliveryChange(e) {
-				let that = this
-				this.util.ajax('shop/editShopStatus', {
-					"initial_delivery_fee": e.detail.value,
-					"user_id": that.userId
-				}, res => {
 
-				})
+			// 监听不需要审核的数据保存
+			notExamine() {
+				let that = this
+				// 营业时间
+				this.confirmEvent()
+
+				this.util.ajax('shop/editShopStatus', {
+					"business_status": that.form.business_status + 1, // 营业状态
+					"initial_delivery_fee": that.form.initial_delivery_fee, // 起送费
+					"service_content": that.form.service_content, // 服务内容
+					"service_process": that.form.service_process, // 服务流程
+					"service_guarantee": that.form.service_guarantee, // 服务保障
+					"user_id": that.userId
+				}, res => {})
+
 			},
-			// 服务内容
-			serviceContent(e) {
+			// 监听营业状态变换
+			shopStatusChange(e) {
 				let that = this
-				this.util.ajax('shop/editShopStatus', {
-					"service_content": e.detail.value,
-					"user_id": that.userId
-				}, res => {
-
-				})
-			},
-			// 服务流程
-			serviceProcedure(e) {
-				let that = this
-				this.util.ajax('shop/editShopStatus', {
-					"service_process": e.detail.value,
-					"user_id": that.userId
-				}, res => {
-
-				})
-			},
-			// 服务保障
-			serviceGuarantee(e) {
-				let that = this
-				this.util.ajax('shop/editShopStatus', {
-					"service_guarantee": e.detail.value,
-					"user_id": that.userId
-				}, res => {
-
-				})
+				that.form.business_status = that.shopStatus[e.detail.value].business_status
 			},
 			// 营业时间
 			// 开始 结束时间监听
@@ -586,23 +610,23 @@
 				that.timeVal_end = e.detail.value
 			},
 			// 确认
-			confirmEvent() {
+			confirmEvent(val) {
 				let that = this
-				let start = this.timeVal_start;
-				let start_h = start[0] < 10 ? '0' + start[0] : String(start[0]);
-				let start_s = start[1] < 10 ? '0' + start[1] : String(start[1]);
-				let end = this.timeVal_end;
-				let end_h = end[0] < 10 ? '0' + end[0] : String(end[0]);
-				let end_s = end[1] < 10 ? '0' + end[1] : String(end[1]);
-				this.util.ajax('shop/editShopStatus', {
-					"service_begin_time": start_h + ':' + start_s,
-					"service_end_time": end_h + ':' + end_s,
-					"user_id": that.userId
-				}, res => {
-
-				})
-				that.form.service_begin_time = start_h + ':' + start_s
-				that.form.service_end_time = end_h + ':' + end_s
+				if (val == true) {
+					let start = this.timeVal_start;
+					let start_h = start[0] < 10 ? '0' + start[0] : String(start[0]);
+					let start_s = start[1] < 10 ? '0' + start[1] : String(start[1]);
+					let end = this.timeVal_end;
+					let end_h = end[0] < 10 ? '0' + end[0] : String(end[0]);
+					let end_s = end[1] < 10 ? '0' + end[1] : String(end[1]);
+					this.util.ajax('shop/editShopStatus', {
+						"service_begin_time": start_h + ':' + start_s,
+						"service_end_time": end_h + ':' + end_s,
+						"user_id": that.userId
+					}, res => {})
+					that.form.service_begin_time = start_h + ':' + start_s
+					that.form.service_end_time = end_h + ':' + end_s
+				}
 				that.hoursShow = false
 			},
 			// 上传店铺头像

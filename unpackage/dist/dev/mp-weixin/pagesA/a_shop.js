@@ -501,7 +501,10 @@ var _default =
       deposit_array_index: 0,
       deposit_array: [],
       // 防抖
-      onoff: true };
+      onoff: true,
+      // 是否审核
+      examine: true,
+      examine_s: null };
 
   },
   onLoad: function onLoad() {
@@ -510,10 +513,39 @@ var _default =
     this.userId = uni.getStorageSync('userId');
     this.imageurl = this.globalData.imageurl;
   },
+  computed: {
+    newAddRuleForm: function newAddRuleForm() {
+      return JSON.parse(JSON.stringify(this.form));
+    } },
+
   watch: {
     imageValue: function imageValue(newVal, oldVal) {
       this.form.shop_logo = this.Img(newVal[0]);
-    } },
+    },
+    form: {
+      handler: function handler(newVal, oldVal) {},
+      deep: true },
+
+    newAddRuleForm: {
+      handler: function handler(newVal, oldVal) {
+        var that = this;
+        if (oldVal.id != undefined) {
+          if (newVal.business_status != oldVal.business_status ||
+          newVal.service_begin_time != oldVal.service_begin_time ||
+          newVal.service_end_time != oldVal.service_end_time ||
+          newVal.initial_delivery_fee != oldVal.initial_delivery_fee ||
+          newVal.service_content != oldVal.service_content ||
+          newVal.service_process != oldVal.service_process ||
+          newVal.service_guarantee != oldVal.service_guarantee) {
+            that.examine = false;
+          } else {
+            that.examine = true;
+            that.examine_s = true;
+          }
+        }
+      },
+      deep: true } },
+
 
   methods: {
     // 获取商铺类型
@@ -524,7 +556,6 @@ var _default =
         "secondType": 1 },
       function (res) {
         that.shopType = res.data.list;
-
         that.getMyShop();
       });
     },
@@ -535,9 +566,12 @@ var _default =
         "userId": that.userId },
       function (res) {
         that.form = res.data;
+        var delivery = res.data.initial_delivery_fee;
+        if (!delivery || delivery == 0) {
+          that.form.initial_delivery_fee = 20;
+        }
         that.timeVal_start = res.data.service_begin_time.split(':').map(function (i) {return i / 1;});
         that.timeVal_end = res.data.service_end_time.split(':').map(function (i) {return i / 1;});
-
         if (res.data.deposit_amount > 0) {
           that.deposit_index = '1';
           _this.util.ajax('shop/queryShopDepositSet', {}, function (res) {
@@ -549,6 +583,11 @@ var _default =
             }
           });
         }
+        for (var a = 0; a < that.shopType.length; a++) {
+          if (res.data.shop_sub_type_id == that.shopType[a].id) {
+            that.typeIndex = a;
+          }
+        }
         for (var i in that.operation) {
           if (that.operation[i].id == res.data.operation_point_id) {
             that.operationIndex = i;
@@ -559,34 +598,43 @@ var _default =
     // 保存我的店铺信息
     saveEvent: function saveEvent() {var _this2 = this;
       var that = this;
-      this.util.ajax('shop/saveShopSet', that.form, function (res) {
-        if (that.deposit_index == '1' && that.form.deposit_amount == 0) {
-          _this2.util.ajax('shop/submitShopDepositOrder', {
-            "amount": that.deposit_array[that.deposit_array_index].amount,
-            "userId": that.userId },
-          function (res) {
+      if (that.examine == false && that.examine_s != true) {
+        this.notExamine();
+        this.$alert('审核成功');
+        setTimeout(function () {
+          that.$jumpback();
+        }, 1000);
+      } else {
+        this.util.ajax('shop/saveShopSet', that.form, function (res) {
+          if (res.statusCode != 500) {
+            if (that.examine == false) {
+              _this2.notExamine();
+            }
+            if (that.deposit_index == '1' && that.form.deposit_amount == 0) {
+              _this2.util.ajax('shop/submitShopDepositOrder', {
+                "amount": that.deposit_array[that.deposit_array_index].amount,
+                "userId": that.userId },
+              function (res) {
 
 
 
 
-            var paymentType = 4;
+                var paymentType = 4;
 
-            that.util.ajax('pay/toPay', {
-              "orderNum": res.data.order_num,
-              "payType": 1,
-              "paymentType": paymentType,
-              "purpose": 5,
-              "subject": "押金",
-              "userId": that.userId },
-            function (resx) {
-              uni.hideLoading();
-
-
-
-              uni.requestPayment({
-                "provider": "wxpay",
+                that.util.ajax('pay/toPay', {
+                  "orderNum": res.data.order_num,
+                  "payType": 1,
+                  "paymentType": paymentType,
+                  "purpose": 5,
+                  "subject": "押金",
+                  "userId": that.userId },
+                function (resx) {
+                  uni.hideLoading();
 
 
+
+                  uni.requestPayment({
+                    "provider": "wxpay",
 
 
 
@@ -598,32 +646,38 @@ var _default =
 
 
 
-                "timeStamp": resx.data.timeStamp,
-                "nonceStr": resx.data.nonceStr,
-                "package": resx.data.packageValue,
-                "signType": 'MD5',
-                "paySign": resx.data.paySign,
 
-                success: function success(e) {
-                  that.$alert('提交成功');
-                  setTimeout(function () {
-                    that.$jumpback();
-                  }, 1000);
-                },
-                fail: function fail(e) {
-                  that.$alert('支付失败');
-                } });
 
-            });
-          });
-        } else {
-          _this2.$alert('提交成功,请等待审核');
-          setTimeout(function () {
-            that.$jumpback();
-          }, 1000);
-        }
 
-      });
+                    "timeStamp": resx.data.timeStamp,
+                    "nonceStr": resx.data.nonceStr,
+                    "package": resx.data.packageValue,
+                    "signType": 'MD5',
+                    "paySign": resx.data.paySign,
+
+                    success: function success(e) {
+                      that.$alert('提交成功');
+                      setTimeout(function () {
+                        that.$jumpback();
+                      }, 1000);
+                    },
+                    fail: function fail(e) {
+                      that.$alert('支付失败');
+                    } });
+
+                });
+              });
+            } else {
+              _this2.$alert('提交成功,请等待审核');
+              setTimeout(function () {
+                that.$jumpback();
+              }, 1000);
+            }
+          } else {
+            return;
+          }
+        });
+      }
     },
     // 获取营业点列表
     getOperation: function getOperation() {
@@ -632,22 +686,11 @@ var _default =
         that.operation = res.data.list;
       });
     },
-
     // 监听商家类型变换
     shopTypeChange: function shopTypeChange(e) {
       var that = this;
       that.typeIndex = e.detail.value;
-    },
-    // 监听营业状态变换
-    shopStatusChange: function shopStatusChange(e) {
-      var that = this;
-      that.form.business_status = that.shopStatus[e.detail.value].business_status;
-      this.util.ajax('shop/editShopStatus', {
-        "business_status": that.form.business_status + 1,
-        "user_id": that.userId },
-      function (res) {
-
-      });
+      that.form.shop_sub_type_id = that.shopType[e.detail.value].id;
     },
     // 监听营业点变换
     operationChange: function operationChange(e) {
@@ -667,7 +710,6 @@ var _default =
     },
     // 监听押金金额
     depositChange: function depositChange(e) {
-      console.log(e);
       this.deposit_array_index = e.detail.value;
     },
     // 退还押金
@@ -693,45 +735,27 @@ var _default =
         } });
 
     },
-    // 监听配送费
-    deliveryChange: function deliveryChange(e) {
-      var that = this;
-      this.util.ajax('shop/editShopStatus', {
-        "initial_delivery_fee": e.detail.value,
-        "user_id": that.userId },
-      function (res) {
 
-      });
+    // 监听不需要审核的数据保存
+    notExamine: function notExamine() {
+      var that = this;
+      // 营业时间
+      this.confirmEvent();
+
+      this.util.ajax('shop/editShopStatus', {
+        "business_status": that.form.business_status + 1, // 营业状态
+        "initial_delivery_fee": that.form.initial_delivery_fee, // 起送费
+        "service_content": that.form.service_content, // 服务内容
+        "service_process": that.form.service_process, // 服务流程
+        "service_guarantee": that.form.service_guarantee, // 服务保障
+        "user_id": that.userId },
+      function (res) {});
+
     },
-    // 服务内容
-    serviceContent: function serviceContent(e) {
+    // 监听营业状态变换
+    shopStatusChange: function shopStatusChange(e) {
       var that = this;
-      this.util.ajax('shop/editShopStatus', {
-        "service_content": e.detail.value,
-        "user_id": that.userId },
-      function (res) {
-
-      });
-    },
-    // 服务流程
-    serviceProcedure: function serviceProcedure(e) {
-      var that = this;
-      this.util.ajax('shop/editShopStatus', {
-        "service_process": e.detail.value,
-        "user_id": that.userId },
-      function (res) {
-
-      });
-    },
-    // 服务保障
-    serviceGuarantee: function serviceGuarantee(e) {
-      var that = this;
-      this.util.ajax('shop/editShopStatus', {
-        "service_guarantee": e.detail.value,
-        "user_id": that.userId },
-      function (res) {
-
-      });
+      that.form.business_status = that.shopStatus[e.detail.value].business_status;
     },
     // 营业时间
     // 开始 结束时间监听
@@ -744,23 +768,23 @@ var _default =
       that.timeVal_end = e.detail.value;
     },
     // 确认
-    confirmEvent: function confirmEvent() {
+    confirmEvent: function confirmEvent(val) {
       var that = this;
-      var start = this.timeVal_start;
-      var start_h = start[0] < 10 ? '0' + start[0] : String(start[0]);
-      var start_s = start[1] < 10 ? '0' + start[1] : String(start[1]);
-      var end = this.timeVal_end;
-      var end_h = end[0] < 10 ? '0' + end[0] : String(end[0]);
-      var end_s = end[1] < 10 ? '0' + end[1] : String(end[1]);
-      this.util.ajax('shop/editShopStatus', {
-        "service_begin_time": start_h + ':' + start_s,
-        "service_end_time": end_h + ':' + end_s,
-        "user_id": that.userId },
-      function (res) {
-
-      });
-      that.form.service_begin_time = start_h + ':' + start_s;
-      that.form.service_end_time = end_h + ':' + end_s;
+      if (val == true) {
+        var start = this.timeVal_start;
+        var start_h = start[0] < 10 ? '0' + start[0] : String(start[0]);
+        var start_s = start[1] < 10 ? '0' + start[1] : String(start[1]);
+        var end = this.timeVal_end;
+        var end_h = end[0] < 10 ? '0' + end[0] : String(end[0]);
+        var end_s = end[1] < 10 ? '0' + end[1] : String(end[1]);
+        this.util.ajax('shop/editShopStatus', {
+          "service_begin_time": start_h + ':' + start_s,
+          "service_end_time": end_h + ':' + end_s,
+          "user_id": that.userId },
+        function (res) {});
+        that.form.service_begin_time = start_h + ':' + start_s;
+        that.form.service_end_time = end_h + ':' + end_s;
+      }
       that.hoursShow = false;
     },
     // 上传店铺头像

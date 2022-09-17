@@ -212,7 +212,6 @@ var _default =
 
 
 
-
     uni.getSystemInfo({
       success: function success(e) {
         var htop = e.statusBarHeight + 20;
@@ -225,8 +224,6 @@ var _default =
           data: htop });
 
       } });
-
-
 
 
     //微信登录
@@ -314,13 +311,13 @@ var _default =
         "phone": this.phone,
         "code": this.msg },
       function (json) {
-        // 缓存用户信息
-        uni.setStorageSync('userId', json.data.user_id);
-        uni.setStorageSync('userInfo', json.data);
-        uni.setStorageSync('village', json.data.residentialQuarterVo);
         if (json.data.user_id != 40) {
           // 打开websocket链接
           that.util.weeksort();
+          // 缓存用户信息
+          uni.setStorageSync('userId', json.data.user_id);
+          uni.setStorageSync('userInfo', json.data);
+          uni.setStorageSync('village', json.data.residentialQuarterVo);
         } else {
           uni.setStorageSync('tourist', true);
         }

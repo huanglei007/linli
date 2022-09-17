@@ -56,12 +56,18 @@
   overflow: hidden;
 }
 .list .item .message .top-box .box-title .title {
-  font-size: 30rpx;
   position: relative;
+  padding-right: 15rpx;
+}
+.list .item .message .top-box .box-title .title .font32 {
   font-weight: bold;
   width: -webkit-fit-content;
   width: fit-content;
-  margin: 0 15rpx 0 0;
+  padding-right: 7rpx;
+}
+.list .item .message .top-box .box-title .title .type {
+  font-size: 24rpx;
+  color: #144ed5;
 }
 .list .item .message .min-box {
   padding: 20rpx 0;

@@ -37,12 +37,16 @@
 						<image src="/static/image/icon_dw.png" mode="widthFix"></image>
 					</view>
 				</view>
-				<view v-if="formdata.shop_order_id">
+				<block v-if="formdata.shop_order_id">
 					<view class="item name flexd flex-center jubetween">
 						<view class="label">店铺名称</view>
 						<view class="text">{{formdata.shopOrder.shop.shop_name}}</view>
 					</view>
-				</view>
+					<view class="item name flexd flex-center jubetween">
+						<view class="label">店铺类别</view>
+						<view class="text">{{shopType}}</view>
+					</view>
+				</block>
 				<view v-if="formdata.distance">
 					<view class="item name flexd flex-center jubetween">
 						<view class="label">距离</view>
@@ -343,7 +347,8 @@
 				// 商品数量
 				takeNum: 0,
 				// 防抖
-				onoff: true
+				onoff: true,
+				shopType: ''
 			}
 		},
 		onLoad(option) {
@@ -384,12 +389,14 @@
 				this.isMore = true;
 				this.moreComm = '';
 			},
+			// 订单详情
 			refresh() {
 				let that = this
 				this.util.ajax('release/getInfoById', {
 					"id": this.id
 				}, res => {
 					that.formdata = res.data
+					that.shopTyoeList(res.data.shopOrder.shop.shop_sub_type_id)
 					if (res.data.images != '') {
 						that.imageValue = res.data.images.split(',')
 					}
@@ -415,19 +422,7 @@
 
 				})
 			},
-			bindPickerChange: function(e) {
-				this.attrIndex = e.target.value
-			},
-			bindTimeChange: function(e) {
-				this.time = e.target.value
-			},
-			bindDateChange: function(e) {
-				this.date = e.target.value
-			},
-			change(e) {
-				this.address = e
-				this.txt = e.data.join('-')
-			},
+
 			// 接单
 			take() {
 				let that = this
@@ -462,6 +457,21 @@
 							console.log('用户点击取消');
 						}
 
+					}
+				})
+			},
+			// 商家类别
+			shopTyoeList(id) {
+				let that = this
+				this.util.ajax('shop/getShopTypeList', {
+					"parentId": 0,
+					"secondType": 1
+				}, (res) => {
+					for (let i = 0; i < res.data.list.length; i++) {
+						if (res.data.list[i].id == id) {
+							that.shopType = res.data.list[i].name
+							return
+						}
 					}
 				})
 			},
@@ -574,9 +584,9 @@
 						that.util.ajax(url, data, res => {
 							that.$alert('订单已取消')
 							that.refresh()
-							setTimeout(()=>{
+							setTimeout(() => {
 								that.$jumpback()
-							},1000)
+							}, 1000)
 						})
 					}
 				})
@@ -595,7 +605,7 @@
 					phoneNumber: e //仅为示例
 				});
 			},
-			//
+			// 导航
 			daohang(name, latitude, longitude) {
 				if (this.userId !== this.formdata.order_receiving_user_id) return
 				let that = this
@@ -607,7 +617,20 @@
 						console.log(res)
 					}
 				})
-			}
+			},
+			bindPickerChange: function(e) {
+				this.attrIndex = e.target.value
+			},
+			bindTimeChange: function(e) {
+				this.time = e.target.value
+			},
+			bindDateChange: function(e) {
+				this.date = e.target.value
+			},
+			change(e) {
+				this.address = e
+				this.txt = e.data.join('-')
+			},
 		}
 	}
 </script>

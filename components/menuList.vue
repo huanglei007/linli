@@ -15,9 +15,10 @@
 						<view class="box-title flexd">
 							<view class="title" :class="{'urgent':item.now_delivery==1}">
 								<text class="font32">{{item.category_name}}</text>
+								<text v-if="item.shop_name" class="type">{{item.shop_name}}</text>
 							</view>
-							<view class="nickname" v-if="item.publisher_name">
-								<text class="font32">{{item.publisher_name}}</text>
+							<view v-if="item.publisher_name">
+								<text class="font30">{{item.publisher_name}}</text>
 							</view>
 						</view>
 						<view class="time">
@@ -121,6 +122,7 @@
 			margin-bottom: 20rpx;
 			background-color: #fff;
 			padding: 30rpx 40rpx;
+
 			.image {
 
 				width: 120rpx;
@@ -147,23 +149,32 @@
 				margin-left: 20rpx;
 
 				.top-box {
-					.box-title{
+					.box-title {
 						flex: 1;
 						margin-right: 30rpx;
 						overflow: hidden;
+
 						.title {
-							font-size: 30rpx;
 							position: relative;
-							font-weight: bold;
-							width: fit-content;
-							margin: 0 15rpx 0 0;
+							padding-right: 15rpx;
+
+							.font32 {
+								font-weight: bold;
+								width: fit-content;
+								padding-right: 7rpx;
+							}
+							.type{
+								font-size: 24rpx;
+								color: #144ed5;
+							}
 						}
 					}
-					
+
 				}
 
 				.min-box {
 					padding: 20rpx 0;
+
 					.price {
 						color: #FF3336;
 
@@ -196,7 +207,8 @@
 			}
 		}
 	}
-	.urgent{
+
+	.urgent {
 		color: #e43d33;
 	}
 </style>

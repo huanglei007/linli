@@ -547,6 +547,10 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
+
+
 {
   components: {
     pickerAddress: pickerAddress,
@@ -567,7 +571,8 @@ __webpack_require__.r(__webpack_exports__);
       // 商品数量
       takeNum: 0,
       // 防抖
-      onoff: true };
+      onoff: true,
+      shopType: '' };
 
   },
   onLoad: function onLoad(option) {
@@ -608,12 +613,14 @@ __webpack_require__.r(__webpack_exports__);
       this.isMore = true;
       this.moreComm = '';
     },
+    // 订单详情
     refresh: function refresh() {var _this = this;
       var that = this;
       this.util.ajax('release/getInfoById', {
         "id": this.id },
       function (res) {
         that.formdata = res.data;
+        that.shopTyoeList(res.data.shopOrder.shop.shop_sub_type_id);
         if (res.data.images != '') {
           that.imageValue = res.data.images.split(',');
         }
@@ -639,19 +646,7 @@ __webpack_require__.r(__webpack_exports__);
 
       });
     },
-    bindPickerChange: function bindPickerChange(e) {
-      this.attrIndex = e.target.value;
-    },
-    bindTimeChange: function bindTimeChange(e) {
-      this.time = e.target.value;
-    },
-    bindDateChange: function bindDateChange(e) {
-      this.date = e.target.value;
-    },
-    change: function change(e) {
-      this.address = e;
-      this.txt = e.data.join('-');
-    },
+
     // 接单
     take: function take() {
       var that = this;
@@ -688,6 +683,21 @@ __webpack_require__.r(__webpack_exports__);
 
         } });
 
+    },
+    // 商家类别
+    shopTyoeList: function shopTyoeList(id) {
+      var that = this;
+      this.util.ajax('shop/getShopTypeList', {
+        "parentId": 0,
+        "secondType": 1 },
+      function (res) {
+        for (var i = 0; i < res.data.list.length; i++) {
+          if (res.data.list[i].id == id) {
+            that.shopType = res.data.list[i].name;
+            return;
+          }
+        }
+      });
     },
     // 完成订单
     finish: function finish() {
@@ -819,7 +829,7 @@ __webpack_require__.r(__webpack_exports__);
         phoneNumber: e //仅为示例
       });
     },
-    //
+    // 导航
     daohang: function daohang(name, latitude, longitude) {
       if (this.userId !== this.formdata.order_receiving_user_id) return;
       var that = this;
@@ -831,6 +841,19 @@ __webpack_require__.r(__webpack_exports__);
           console.log(res);
         } });
 
+    },
+    bindPickerChange: function bindPickerChange(e) {
+      this.attrIndex = e.target.value;
+    },
+    bindTimeChange: function bindTimeChange(e) {
+      this.time = e.target.value;
+    },
+    bindDateChange: function bindDateChange(e) {
+      this.date = e.target.value;
+    },
+    change: function change(e) {
+      this.address = e;
+      this.txt = e.data.join('-');
     } } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 

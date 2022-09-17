@@ -78,7 +78,6 @@
 				})
 			}
 			// #endif
-
 			uni.getSystemInfo({
 				success: function(e) {
 					let htop = e.statusBarHeight + 20;
@@ -92,8 +91,6 @@
 					})
 				}
 			})
-
-
 			// #ifdef MP-WEIXIN
 			//微信登录
 			uni.login({
@@ -180,13 +177,13 @@
 					"phone": this.phone,
 					"code": this.msg,
 				}, json => {
-					// 缓存用户信息
-					uni.setStorageSync('userId', json.data.user_id)
-					uni.setStorageSync('userInfo', json.data);
-					uni.setStorageSync('village', json.data.residentialQuarterVo);
 					if (json.data.user_id != 40) {
 						// 打开websocket链接
 						that.util.weeksort()
+						// 缓存用户信息
+						uni.setStorageSync('userId', json.data.user_id)
+						uni.setStorageSync('userInfo', json.data);
+						uni.setStorageSync('village', json.data.residentialQuarterVo);
 					} else {
 						uni.setStorageSync('tourist', true)
 					}

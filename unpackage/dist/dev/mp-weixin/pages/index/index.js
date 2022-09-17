@@ -459,19 +459,21 @@ var list = function list() {__webpack_require__.e(/*! require.ensure | component
       swiperHeight: '' };
 
   },
-  onLoad: function onLoad(e) {
+  onLoad: function onLoad(e) {var _this = this;
     this.userId = uni.getStorageSync('userId');
     this.htosp = uni.getStorageSync('htop');
     this.village = uni.getStorageSync('village');
     this.imageurl = this.globalData.imageurl;
     var that = this;
     // 是否游客
-    if (this.userId != 40) {
+    if (that.userId != 40) {
       // 是否新用户
       if (e.new && e.new == 1) {
-        that.getDiscount();
-        that.$refs.popup.open();
-        uni.hideTabBar();
+        this.$nextTick(function () {
+          that.getDiscount();
+          that.$refs.popup.open();
+          uni.hideTabBar();
+        });
       } else {
         // 微信订阅弹窗
 
@@ -499,6 +501,30 @@ var list = function list() {__webpack_require__.e(/*! require.ensure | component
 
 
       }
+    } else {
+
+      if (uni.getStorageSync('userInfo')) {
+        this.$nextTick(function () {
+          var phone = uni.getStorageSync('userInfo').phone;
+          _this.util.ajax('user/login', {
+            "phone": phone },
+          function (json) {
+            // 缓存用户信息
+            uni.setStorageSync('userId', json.data.user_id);
+            uni.setStorageSync('userInfo', json.data);
+            uni.setStorageSync('village', json.data.residentialQuarterVo);
+            // 获取wx token
+            that.util.get_wx_access_token();
+            // 打开websocket链接
+            that.util.weeksort();
+            // 审核机制
+            that.util.ajax('user/closeWithdrawal', {}, function (res) {
+              uni.setStorageSync('examine', res.data.close_withdrawal);
+            });
+          });
+        });
+      }
+
     }
     // 需求类别列表
     this.getTypeList();
@@ -507,7 +533,7 @@ var list = function list() {__webpack_require__.e(/*! require.ensure | component
     this.residentialEvent();
   },
   methods: {
-    menuClick: function menuClick(item, page, index) {var _this = this;
+    menuClick: function menuClick(item, page, index) {var _this2 = this;
       // item.path == ''
       if (index > 9 || page == 1) {
         this.$alert('功能开发中');
@@ -520,12 +546,12 @@ var list = function list() {__webpack_require__.e(/*! require.ensure | component
           this.util.ajax('shop/queryWorkTime', {}, function (res) {
             var data = res.data.set;
             var date = new Date();
-            var time = _this.$shijianhour(date.getTime()).split(':')[0];
+            var time = _this2.$shijianhour(date.getTime()).split(':')[0];
             if (parseInt(time) >= data.on_duty_time && parseInt(time) < data.off_duty_time) {
-              _this.$jump(item.path);
+              _this2.$jump(item.path);
             } else {
               var text = data.on_duty_time + '点' + ' 至 ' + data.off_duty_time + '点';
-              _this.$alert('开放时间为 ' + text);
+              _this2.$alert('开放时间为 ' + text);
             }
           });
         } else {
@@ -534,17 +560,17 @@ var list = function list() {__webpack_require__.e(/*! require.ensure | component
       }
     },
     // 需求类别列表
-    getTypeList: function getTypeList() {var _this2 = this;
+    getTypeList: function getTypeList() {var _this3 = this;
       var that = this;
       this.util.ajax('release/categoryList', {}, function (res) {
         var arr = [];
         for (var i = 0; i < res.data.list.length / 15; i++) {
           arr.push(res.data.list.slice(i * 15, i * 15 + 15));
         }
-        _this2.menuList_new = arr;
+        _this3.menuList_new = arr;
         // swiper高度适应
-        _this2.$nextTick(function () {
-          _this2.setSwiperHeight();
+        _this3.$nextTick(function () {
+          _this3.setSwiperHeight();
         });
       });
     },
@@ -575,12 +601,12 @@ var list = function list() {__webpack_require__.e(/*! require.ensure | component
 
     },
     // 获取新人福利跑腿卷
-    getDiscount: function getDiscount() {var _this3 = this;
+    getDiscount: function getDiscount() {var _this4 = this;
       this.util.ajax('release/errandCouponList', {
         "userId": uni.getStorageSync('userId') },
       function (res) {
         for (var i = 0; i < 3; i++) {
-          _this3.coupons.push(res.data.coupon[i]);
+          _this4.coupons.push(res.data.coupon[i]);
         }
       });
     },

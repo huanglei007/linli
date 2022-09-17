@@ -120,8 +120,22 @@ var render = function() {
 
   if (!_vm._isMounted) {
     _vm.e0 = function($event) {
+      _vm.ability = "全部"
+      _vm.allList()
+    }
+
+    _vm.e1 = function($event) {
+      _vm.ability = "需求"
+    }
+
+    _vm.e2 = function($event) {
+      _vm.ability = "佣金"
       _vm.commissionSort = _vm.commissionSort ^ 1
       _vm.getNewList()
+    }
+
+    _vm.e3 = function($event) {
+      _vm.ability = "距离"
     }
   }
 
@@ -217,6 +231,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
 {
   components: {
     list: list },
@@ -242,7 +257,9 @@ __webpack_require__.r(__webpack_exports__);
       commissionSort: 0,
       isfoot: false,
       // swiper高度
-      swiperHeight: '' };
+      swiperHeight: '',
+      // 功能分类
+      ability: '全部' };
 
   },
   onLoad: function onLoad() {
@@ -269,7 +286,7 @@ __webpack_require__.r(__webpack_exports__);
       // 需求列表
       this.util.ajax('release/releaseList', {
         "categoryId": this.classfy[this.classfyIndex].id,
-        "commissionSort": 0,
+        "commissionSort": this.commissionSort,
         "curPage": this.curPage,
         "distanceValue": this.range[this.rangeIndex].value,
         "pageSize": 20,
@@ -290,12 +307,12 @@ __webpack_require__.r(__webpack_exports__);
                 "requirement_introduction": "备注：" + e.leave_message,
                 "user_id": e.user_id,
                 "user_name": e.publisher_name,
-                "now_delivery": e.now_delivery };
+                "now_delivery": e.now_delivery,
+                "shop_name": e.shop_name };
 
             }));
           }
         }, 500);
-
       });
     },
     // 需求类别列表
@@ -336,6 +353,10 @@ __webpack_require__.r(__webpack_exports__);
           }
         }
       }
+      this.getNewList();
+    },
+    allList: function allList() {
+      this.classfyIndex = 0;
       this.getNewList();
     },
     bindPickerChange: function bindPickerChange(e) {

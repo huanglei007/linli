@@ -25,7 +25,6 @@ function ajax(url, data, cb, header, flag) {
 		data: data,
 		header: header,
 		success: function(res) {
-			// uni.hideLoading();
 			if (res.statusCode == 200) {
 				if (res.data.code == 1 || res.data.code == 200) {
 					cb(res.data)
