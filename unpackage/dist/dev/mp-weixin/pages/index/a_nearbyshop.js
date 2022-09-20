@@ -360,6 +360,13 @@ var _default =
         "userId": this.userId //用户ID
       }, function (res) {
         var array = [];
+        // 是否分页
+        if (that.curPage !== res.data.page.curPage) {
+          that.isfoot = true;
+          that.shopList = that.shopList.concat(array);
+        } else {// 根据商家类型查询商家列表
+          _this2.screenTypeEvent(array);
+        }
         // 筛选营业中的商家
         if (res.data.list.length > 0) {
           for (var a = 0; a < res.data.list.length; a++) {
@@ -371,15 +378,6 @@ var _default =
           that.shopList = [];
           return;
         }
-        // 是否分页
-        if (that.curPage !== res.data.page.curPage) {
-          that.isfoot = true;
-          that.shopList = that.shopList.concat(array);
-        }
-        // 根据商家类型查询商家列表
-        else {
-            _this2.screenTypeEvent(array);
-          }
       });
     },
     // 筛选商家

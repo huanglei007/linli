@@ -121,19 +121,18 @@ __webpack_require__.r(__webpack_exports__);
 
   },
   onShow: function onShow() {var _this = this;
+
     // 定时更新wx token
     setInterval(function () {
       _this.util.get_wx_access_token();
     }, 6000000);
 
+
     // wx更新版本
     var updateManager = uni.getUpdateManager();
-
     updateManager.onCheckForUpdate(function (res) {
-      // 请求完新版本信息的回调
       console.log('新版本', res.hasUpdate);
     });
-
     updateManager.onUpdateReady(function (res) {
       uni.showModal({
         title: '更新提示',

@@ -426,7 +426,6 @@
 			"path": "pages/chooselocation/index"
 		}
 	],
-
 	"subPackages": [{
 			"root": "pagesA",
 			"name": "pagesA",
@@ -617,6 +616,7 @@
 		}
 
 	],
+
 	"globalStyle": {
 		"navigationStyle": "custom",
 		"navigationBarTextStyle": "black",

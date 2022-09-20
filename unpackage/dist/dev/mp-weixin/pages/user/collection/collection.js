@@ -99,6 +99,17 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
+  if (!_vm._isMounted) {
+    _vm.e0 = function($event, index) {
+      var _temp = arguments[arguments.length - 1].currentTarget.dataset,
+        _temp2 = _temp.eventParams || _temp["event-params"],
+        index = _temp2.index
+
+      var _temp, _temp2
+
+      _vm.typeIndex = index
+    }
+  }
 }
 var recyclableRender = false
 var staticRenderFns = []
@@ -144,6 +155,12 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
 
 
 
+
+
+
+
+
+
 {
   components: {
     shop: shop,
@@ -152,7 +169,7 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
   data: function data() {
     return {
       typeList: ['商家', '达人'],
-      typeIndex: 1 };
+      typeIndex: 0 };
 
   },
   methods: {} };exports.default = _default;

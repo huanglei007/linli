@@ -36,6 +36,9 @@
   background: #fff;
   color: #888888;
 }
+.row .addressColor {
+  color: #212121;
+}
 .row view {
   width: 200rpx;
   margin: auto 0;

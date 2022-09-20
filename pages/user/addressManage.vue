@@ -6,13 +6,13 @@
 		</view>
 		<view class="row flexd">
 			<view>手机号</view>
-			<input ref="phone_input" class="input" v-model="phone" type="number" placeholder="手机号码"
-				placeholder-style="color:#888888" @input="phonechange" />
+			<input ref="phone_input" class="input" :value="phone" type="number" placeholder="手机号码"
+				placeholder-style="color:#888888" @input="phonechange($event,'foppname')" />
 		</view>
 		<view class="row flexd">
 			<view>所在地区</view>
-			<pickerAddress class="flex1-textLeft" @change="change" :data="location"
-				style='font-size: 28rpx;line-height: 110rpx;'>{{txt}}
+			<pickerAddress class="flex1-textLeft" :class="{'addressColor':txt!='省市区县、乡镇等'}" @change="change"
+				:data="location" style='font-size: 28rpx;line-height: 110rpx;'>{{txt}}
 			</pickerAddress>
 
 			<!-- app -->
@@ -33,8 +33,8 @@
 		</view> -->
 		<view class="row flexd">
 			<view>详细地址</view>
-			<input class="input" type="text" v-model="street" placeholder="街道、牌楼号等" placeholder-style="color:#888888"
-				@input="streetchange" />
+			<input class="input" type="text" :value="street" placeholder="街道、牌楼号等" placeholder-style="color:#888888"
+				@input="streetchange($event,'foppname')" />
 		</view>
 		<view class="row flexd jubetween" style="margin-top: 16rpx;">
 			<view>设为默认</view>
@@ -124,12 +124,24 @@
 				this.area_id = e.index[2]
 			},
 			// 监听手机号输入 优化体验
-			phonechange(e) {
-				this.phone = e.target.value;
+			phonechange(e, flag) {
+				switch (flag) {
+					case 'phone': {
+						setTimeout(() => {
+							this.phone = e.target.value;
+						}, 0)
+					}
+				}
 			},
 			// 监听详细地址 优化体验
-			streetchange(e) {
-				this.street = e.target.value;
+			streetchange(e,flag) {
+				switch (flag) {
+					case 'street': {
+						setTimeout(() => {
+							this.street = e.target.value;
+						}, 0)
+					}
+				}
 			},
 			// 微信定位
 			onChooseLocation2() {
@@ -276,6 +288,10 @@
 		min-height: 110upx;
 		background: #fff;
 		color: #888888;
+
+		.addressColor {
+			color: #212121;
+		}
 
 		view {
 			width: 200rpx;

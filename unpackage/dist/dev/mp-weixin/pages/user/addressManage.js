@@ -263,12 +263,24 @@ __webpack_require__.r(__webpack_exports__);
       this.area_id = e.index[2];
     },
     // 监听手机号输入 优化体验
-    phonechange: function phonechange(e) {
-      this.phone = e.target.value;
+    phonechange: function phonechange(e, flag) {var _this = this;
+      switch (flag) {
+        case 'phone':{
+            setTimeout(function () {
+              _this.phone = e.target.value;
+            }, 0);
+          }}
+
     },
     // 监听详细地址 优化体验
-    streetchange: function streetchange(e) {
-      this.street = e.target.value;
+    streetchange: function streetchange(e, flag) {var _this2 = this;
+      switch (flag) {
+        case 'street':{
+            setTimeout(function () {
+              _this2.street = e.target.value;
+            }, 0);
+          }}
+
     },
     // 微信定位
     onChooseLocation2: function onChooseLocation2() {

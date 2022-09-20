@@ -4,13 +4,14 @@
 			<view class='gray texcenter' v-if="!shopList.length" style="padding-top: 200rpx;">
 				你还没有关注过商家
 			</view>
-			<view class="item flexd" v-for="(item,index) in shopList" :key="index" @click="$jump('/pages/index/shopDetail?id='+item.id)">
-				
+			<view class="item flexd" v-for="(item,index) in shopList" :key="index"
+				@click="$jump('/pages/index/shopDetail?id='+item.id)">
+
 				<view class="image flexd">
 					<image :src="Img(item.shop_logo)" mode=""></image>
 				</view>
 				<view class="message">
-					<view class="title">
+					<view class="title flexd flex-center">
 						{{item.shop_name}}
 						<view class="tage">
 							{{item.shop_type_name}}
@@ -18,10 +19,10 @@
 					</view>
 					<view class="mgb flexd ">
 						<view class="star flexd">
-							<image v-for="n in 5" :key="n" :src="n<item.score?'/static/image/icon_xx.png':'/static/image/icon_wxzxx.png'" mode=""></image>
+							<uni-rate v-model="item.score" :size="20" :readonly="true"/>
 						</view>
 					</view>
-					<view class="mgb flexd jubetween flex-center">
+					<view class="mgb flexd jubetween">
 						<view class="nickname">
 							{{item.address}}
 						</view>
@@ -58,15 +59,15 @@
 				isfoot: false,
 				classfyId: 0,
 				classTitle: '',
-				searchParam:''
+				searchParam: ''
 			}
 		},
 		mounted(e) {
-			this.userId=uni.getStorageSync('userId')
+			this.userId = uni.getStorageSync('userId')
 			this.getlist()
 		},
 		onReachBottom() {
-			if(!this.isfoot){
+			if (!this.isfoot) {
 				this.curPage++
 				this.getlist()
 			}
@@ -76,22 +77,22 @@
 				this.rangeIndex = e.target.value
 				this.getNewList()
 			},
-			getlist(){
-				let that=this
-				this.util.ajax('collection/collectList',{
-				  userId: this.userId,
-				  type: 1,
-				  "curPage": 1,
-				},(res)=>{
-					if(that.curPage!==res.data.page.curPage) that.isfoot=true
-					if(that.curPage==res.data.page.curPage){
-						that.shopList=that.shopList.concat(res.data.list)
+			getlist() {
+				let that = this
+				this.util.ajax('collection/collectList', {
+					userId: this.userId,
+					type: 1,
+					"curPage": 1,
+				}, (res) => {
+					if (that.curPage !== res.data.page.curPage) that.isfoot = true
+					if (that.curPage == res.data.page.curPage) {
+						that.shopList = that.shopList.concat(res.data.list)
 					}
 				})
 			},
-			getNewList(){
-				this.shopList=[]
-				this.curPage=1
+			getNewList() {
+				this.shopList = []
+				this.curPage = 1
 				this.getlist()
 			}
 		}
@@ -101,23 +102,24 @@
 <style lang="scss">
 	.list {
 		margin-top: 30rpx;
-	
+
 		.item {
 			margin-bottom: 10rpx;
 			background-color: #fff;
 			padding: 30rpx;
-	
+
 			.image {
-	
+
 				width: 150rpx;
 				overflow: hidden;
 				position: relative;
+
 				image {
 					width: 150rpx;
 					height: 150rpx;
 					border-radius: 10rpx;
 				}
-	
+
 				.renzhen {
 					width: 60rpx;
 					height: 30rpx;
@@ -126,66 +128,69 @@
 					top: 0;
 				}
 			}
-	
+
 			.message {
 				width: 500rpx;
 				margin-left: 20rpx;
-	
+
 				.title {
 					font-size: 32rpx;
 					position: relative;
 					width: fit-content;
 					margin-bottom: 10rpx;
-					.tage{
-						position: absolute;
-						left: 110%;
-						bottom: 0;
+
+					.tage {
+						width: 35px;
 						line-height: 1.3;
+						padding: 0 14rpx;
+						margin-left: 10rpx;
+						border-radius: 10rpx;
+						text-align: center;
 						color: #FF7827;
 						border: 1rpx solid #FF7827;
-						border-radius: 10rpx;
 						background-color: rgba($color: #FF7827, $alpha: .08);
-						width: fit-content;
-						padding: 0 14rpx;
 					}
 				}
-				
-				.star{
-					image{
-						width:28rpx;
+
+				.star {
+					image {
+						width: 28rpx;
 						height: 28rpx;
 						margin-right: 6rpx;
 					}
 				}
+
 				.nickname {
+					flex: 1;
 					color: #888
 				}
-	
+
 				.price {
 					color: #888;
 				}
-	
+
 				.range {
 					color: #888;
-	
+
 					image {
 						width: 20rpx;
 						height: 20rpx;
 						margin-right: 6rpx;
 					}
 				}
-	
+
 				.mgb {
 					margin-bottom: 10rpx;
 				}
-	
+
 				.text {
 					color: #888;
 					max-width: 400rpx;
 				}
-	
+
 				.voucher {
 					flex-wrap: wrap;
+
 					.piece {
 						line-height: 2.2;
 						padding: 0 40rpx;
@@ -198,13 +203,14 @@
 						color: #FF7827;
 					}
 				}
-				.taketo{
-					image{
+
+				.taketo {
+					image {
 						width: 32rpx;
 						height: 32rpx;
 					}
 				}
-	
+
 				.jineng {
 					.piece {
 						padding: 0 10rpx;
@@ -217,7 +223,7 @@
 						line-height: 1.5;
 					}
 				}
-	
+
 				.btn {
 					line-height: 2;
 					font-size: 28rpx;

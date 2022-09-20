@@ -396,7 +396,9 @@
 					"id": this.id
 				}, res => {
 					that.formdata = res.data
-					that.shopTyoeList(res.data.shopOrder.shop.shop_sub_type_id)
+					if (res.data.shopOrder) {
+						that.shopTyoeList(res.data.shopOrder.shop.shop_sub_type_id)
+					}
 					if (res.data.images != '') {
 						that.imageValue = res.data.images.split(',')
 					}

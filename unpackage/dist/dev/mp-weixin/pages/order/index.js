@@ -232,6 +232,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
 {
   components: {
     list: list },
@@ -262,6 +263,12 @@ __webpack_require__.r(__webpack_exports__);
       ability: '全部' };
 
   },
+  mounted: function mounted() {var _this = this;
+    // swiper高度适应
+    this.$nextTick(function () {
+      _this.setSwiperHeight();
+    });
+  },
   onLoad: function onLoad() {
     this.htosp = uni.getStorageSync('htop');
     this.userId = uni.getStorageSync('userId');
@@ -283,7 +290,6 @@ __webpack_require__.r(__webpack_exports__);
     // 获取列表数据
     getlist: function getlist() {
       var that = this;
-      // 需求列表
       this.util.ajax('release/releaseList', {
         "categoryId": this.classfy[this.classfyIndex].id,
         "commissionSort": this.commissionSort,
@@ -292,31 +298,30 @@ __webpack_require__.r(__webpack_exports__);
         "pageSize": 20,
         "userId": this.userId },
       function (res) {
-        setTimeout(function () {
-          if (that.curPage !== res.data.page.curPage) that.isfoot = true;
-          if (that.curPage == res.data.page.curPage) {
-            that.shopList = that.shopList.concat(res.data.list.map(function (e) {
-              return {
-                "category_name": e.category_name,
-                "commission": e.commission,
-                "createtime": that.$shijian(e.createtime),
-                "distance": e.distance,
-                "id": e.id,
-                "image": e.head_img,
-                "publisher_name": e.publisher_name,
-                "requirement_introduction": "备注：" + e.leave_message,
-                "user_id": e.user_id,
-                "user_name": e.publisher_name,
-                "now_delivery": e.now_delivery,
-                "shop_name": e.shop_name };
+        if (that.curPage !== res.data.page.curPage) that.isfoot = true;
+        if (that.curPage == res.data.page.curPage) {
+          that.shopList = that.shopList.concat(res.data.list.map(function (e) {
+            return {
+              "category_name": e.category_name,
+              "commission": e.commission,
+              "createtime": that.$shijian(e.createtime),
+              "distance": e.distance,
+              "id": e.id,
+              "image": e.head_img,
+              "publisher_name": e.publisher_name,
+              "requirement_introduction": "备注：" + e.leave_message,
+              "user_id": e.user_id,
+              "user_name": e.publisher_name,
+              "now_delivery": e.now_delivery,
+              "shop_name": e.shop_name };
 
-            }));
-          }
-        }, 500);
+          }));
+        }
+        uni.setStorageSync('orderList', that.shopList);
       });
     },
     // 需求类别列表
-    getTypeList: function getTypeList() {var _this = this;
+    getTypeList: function getTypeList() {var _this2 = this;
       var that = this;
       this.util.ajax('release/categoryList', {}, function (res) {
         that.classfy = that.classfy.concat(res.data.list);
@@ -324,11 +329,7 @@ __webpack_require__.r(__webpack_exports__);
         for (var i = 0; i < res.data.list.length / 15; i++) {
           arr.push(res.data.list.slice(i * 15, i * 15 + 15));
         }
-        _this.menuList = arr;
-        // swiper高度适应
-        _this.$nextTick(function () {
-          _this.setSwiperHeight();
-        });
+        _this2.menuList = arr;
       });
     },
     // 距离配置列表
@@ -368,9 +369,15 @@ __webpack_require__.r(__webpack_exports__);
       this.getNewList();
     },
     getNewList: function getNewList() {
-      this.shopList = [];
-      this.curPage = 1;
-      this.getlist();
+      var that = this;
+      var datas = uni.getStorageSync('orderList');
+      if (datas[0] && that.classfyIndex == 0) {
+        that.shopList = datas;
+      } else {
+        that.shopList = [];
+        that.curPage = 1;
+        that.getlist();
+      }
     },
     // swiper高度适应
     setSwiperHeight: function setSwiperHeight() {
@@ -379,7 +386,9 @@ __webpack_require__.r(__webpack_exports__);
       query.select('#itemList').boundingClientRect();
       query.exec(function (res) {
         if (res && res[0]) {
-          that.swiperHeight = (res[0].height + 2) * 3;
+
+
+
 
           that.swiperHeight = (res[0].height + 5) * 3;
 

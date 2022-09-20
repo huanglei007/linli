@@ -142,8 +142,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
-
 {
   components: {
     list: list },
@@ -187,10 +185,12 @@ __webpack_require__.r(__webpack_exports__);
               "distance": e.distance,
               "id": e.id,
               "image": e.head_img,
-              //"publisher_name": e.publisher_name,
-              "requirement_introduction": "备注：" + e.requirement_introduction,
+              "publisher_name": e.publisher_name,
+              "requirement_introduction": "备注：" + e.leave_message,
               "user_id": e.user_id,
-              "user_name": e.publisher_name };
+              "user_name": e.publisher_name,
+              "now_delivery": e.now_delivery,
+              "shop_name": e.shop_name };
 
           }));
         }

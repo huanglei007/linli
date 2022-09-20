@@ -210,10 +210,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 var _default =
 {
   components: {},
-
   data: function data() {
     return {
       firsa: false,
@@ -222,10 +222,21 @@ var _default =
       iima: [],
       imaga: '',
       htosp: 0,
-      list: [
-      { title: '账号', fixs: '1233123211', url: '' },
-      { title: '昵称', fixs: '1233123211', url: '' },
-      { title: '修改登录密码', fixs: '', url: './pass' }],
+      list: [{
+        title: '账号',
+        fixs: '1233123211',
+        url: '' },
+
+      {
+        title: '昵称',
+        fixs: '1233123211',
+        url: '' },
+
+      {
+        title: '修改登录密码',
+        fixs: '',
+        url: './pass' }],
+
 
       userinfo: {},
       newNick: '',
@@ -238,8 +249,7 @@ var _default =
     this.getlist();
     this.imageurl = this.globalData.imageurl;
   },
-  onShow: function onShow() {
-  },
+  onShow: function onShow() {},
   computed: {},
 
 
@@ -301,10 +311,16 @@ var _default =
             uni.removeStorageSync('userId');
             uni.removeStorageSync('userInfo');
             uni.removeStorageSync('access_token');
-            uni.reLaunch({
-              url: '/pages/login/login' });
 
-            // console.log('用户点击确定');
+            uni.reLaunch({
+              url: '/pages/index/index' });
+
+
+
+
+
+
+
           } else if (res.cancel) {
             // console.log('用户点击取消');
           }
@@ -323,11 +339,16 @@ var _default =
             uni.removeStorageSync('userId');
             uni.removeStorageSync('userInfo');
             uni.removeStorageSync('access_token');
+
             uni.reLaunch({
-              url: '/pages/login/login' });
+              url: '/pages/index/index' });
 
 
-            // console.log('用户点击确定');
+
+
+
+
+
           } else if (res.cancel) {
             // console.log('用户点击取消');
           }

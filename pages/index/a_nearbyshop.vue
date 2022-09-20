@@ -162,6 +162,13 @@
 					"userId": this.userId //用户ID
 				}, (res) => {
 					let array = []
+					// 是否分页
+					if (that.curPage !== res.data.page.curPage) {
+						that.isfoot = true
+						that.shopList = that.shopList.concat(array)
+					}else {// 根据商家类型查询商家列表
+						this.screenTypeEvent(array)
+					}
 					// 筛选营业中的商家
 					if (res.data.list.length > 0) {
 						for (let a = 0; a < res.data.list.length; a++) {
@@ -172,15 +179,6 @@
 					} else {
 						that.shopList = []
 						return
-					}
-					// 是否分页
-					if (that.curPage !== res.data.page.curPage) {
-						that.isfoot = true
-						that.shopList = that.shopList.concat(array)
-					}
-					// 根据商家类型查询商家列表
-					else {
-						this.screenTypeEvent(array)
 					}
 				})
 			},

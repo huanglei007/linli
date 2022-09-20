@@ -24,7 +24,7 @@
 		<!-- #endif -->
 
 		<!-- #ifdef MP-WEIXIN -->
-		<view v-if="tourist" class="content">
+		<view v-if="open" class="content">
 			<view class="logo">
 				<view class="img">
 					<image src="/static/image/120x120.png" mode=""></image>
@@ -63,14 +63,13 @@
 				score: null,
 				// wx
 				code: '',
-				tourist: false,
+				open: false,
 			}
 		},
 		onLoad() {
 			let that = this
 			// #ifdef APP-PLUS || H5
 			that.phone = '';
-			that.pass = '';
 			that.checkRule = false;
 			if (uni.getStorageSync('userId')) {
 				uni.switchTab({
@@ -98,8 +97,8 @@
 					that.code = res.code
 				}
 			})
-			if (uni.getStorageSync('tourist')) {
-				that.tourist = true
+			if (uni.getStorageSync('examine') == 0||uni.getStorageSync('tourist')) {
+				that.open = true
 			} else {
 				// 游客模式
 				that.phone = '18100000000'
@@ -180,17 +179,14 @@
 					if (json.data.user_id != 40) {
 						// 打开websocket链接
 						that.util.weeksort()
-						// 缓存用户信息
-						uni.setStorageSync('userId', json.data.user_id)
-						uni.setStorageSync('userInfo', json.data);
-						uni.setStorageSync('village', json.data.residentialQuarterVo);
 					} else {
+						// 游客模式
 						uni.setStorageSync('tourist', true)
 					}
-					// 审核机制开关
-					that.util.ajax('user/closeWithdrawal', {}, res => {
-						uni.setStorageSync('examine', res.data.close_withdrawal)
-					})
+					// 缓存用户信息
+					uni.setStorageSync('userId', json.data.user_id)
+					uni.setStorageSync('userInfo', json.data);
+					uni.setStorageSync('village', json.data.residentialQuarterVo);
 					setTimeout(e => {
 						uni.hideLoading()
 						uni.reLaunch({
@@ -218,10 +214,6 @@
 						that.util.weeksort()
 						// 清除游客模式
 						uni.removeStorageSync('tourist');
-						// 审核机制开关
-						that.util.ajax('user/closeWithdrawal', {}, res => {
-							uni.setStorageSync('examine', res.data.close_withdrawal)
-						})
 						if (!json.data.residentialQuarterVo.address) {
 							that.$jumpLa('/pages/index/changeVillage')
 						} else {

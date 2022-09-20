@@ -4,7 +4,7 @@
 			接单大厅
 		</view>
 		<view class="menu">
-			<swiper :indicator-dots="true" :duration="200" :style="{'height':swiperHeight+'px'}">
+			<swiper :indicator-dots="true" :duration="200" style="min-height: 264px;" :style="{'height':swiperHeight+'px'}">
 				<swiper-item v-for="(d,i) in  menuList" :key="i">
 					<view class="menuBox flexd">
 						<view id="itemList" class="item" v-for="(item,index) in d" :key="index"
@@ -31,7 +31,8 @@
 				</picker>
 				<image src="/static/image/icon_xw.png" mode="widthFix"></image>
 			</view>
-			<view class="item" @click="ability='佣金';commissionSort=commissionSort^1;getNewList()" :class="{'active':ability=='佣金'}">
+			<view class="item" @click="ability='佣金';commissionSort=commissionSort^1;getNewList()"
+				:class="{'active':ability=='佣金'}">
 				佣金
 				<image src="/static/image/icon_xw.png" mode="widthFix"></image>
 			</view>
@@ -77,8 +78,14 @@
 				// swiper高度
 				swiperHeight: '',
 				// 功能分类
-				ability:'全部',
+				ability: '全部',
 			}
+		},
+		mounted() {
+			// swiper高度适应
+			this.$nextTick(() => {
+				this.setSwiperHeight();
+			});
 		},
 		onLoad() {
 			this.htosp = uni.getStorageSync('htop');
@@ -101,36 +108,34 @@
 			// 获取列表数据
 			getlist() {
 				let that = this
-				// 需求列表
 				this.util.ajax('release/releaseList', {
 					"categoryId": this.classfy[this.classfyIndex].id,
-					"commissionSort":this.commissionSort,
+					"commissionSort": this.commissionSort,
 					"curPage": this.curPage,
 					"distanceValue": this.range[this.rangeIndex].value,
 					"pageSize": 20,
 					"userId": this.userId
 				}, (res) => {
-					setTimeout(() => {
-						if (that.curPage !== res.data.page.curPage) that.isfoot = true
-						if (that.curPage == res.data.page.curPage) {
-							that.shopList = that.shopList.concat(res.data.list.map((e) => {
-								return {
-									"category_name": e.category_name,
-									"commission": e.commission,
-									"createtime": that.$shijian(e.createtime),
-									"distance": e.distance,
-									"id": e.id,
-									"image": e.head_img,
-									"publisher_name": e.publisher_name,
-									"requirement_introduction": "备注：" + e.leave_message,
-									"user_id": e.user_id,
-									"user_name": e.publisher_name,
-									"now_delivery": e.now_delivery,
-									"shop_name":e.shop_name
-								}
-							}))
-						}
-					}, 500)
+					if (that.curPage !== res.data.page.curPage) that.isfoot = true
+					if (that.curPage == res.data.page.curPage) {
+						that.shopList = that.shopList.concat(res.data.list.map((e) => {
+							return {
+								"category_name": e.category_name,
+								"commission": e.commission,
+								"createtime": that.$shijian(e.createtime),
+								"distance": e.distance,
+								"id": e.id,
+								"image": e.head_img,
+								"publisher_name": e.publisher_name,
+								"requirement_introduction": "备注：" + e.leave_message,
+								"user_id": e.user_id,
+								"user_name": e.publisher_name,
+								"now_delivery": e.now_delivery,
+								"shop_name": e.shop_name
+							}
+						}))
+					}
+					uni.setStorageSync('orderList', that.shopList)
 				})
 			},
 			// 需求类别列表
@@ -143,10 +148,6 @@
 						arr.push(res.data.list.slice(i * 15, i * 15 + 15))
 					}
 					this.menuList = arr
-					// swiper高度适应
-					this.$nextTick(() => {
-						this.setSwiperHeight();
-					});
 				})
 			},
 			// 距离配置列表
@@ -155,7 +156,7 @@
 				this.util.ajax('release/distanceConfigList', {}, (res) => {
 					that.range = that.range.concat(res.data.list)
 				})
-			},			
+			},
 			// 接单类别筛选
 			typeClick(data) {
 				let that = this
@@ -186,9 +187,15 @@
 				this.getNewList()
 			},
 			getNewList() {
-				this.shopList = []
-				this.curPage = 1
-				this.getlist()
+				let that = this
+				let datas = uni.getStorageSync('orderList')
+				if (datas[0]&&that.classfyIndex==0) {
+					that.shopList = datas
+				} else {
+					that.shopList = []
+					that.curPage = 1
+					that.getlist()
+				}
 			},
 			// swiper高度适应
 			setSwiperHeight() {
@@ -197,7 +204,9 @@
 				query.select('#itemList').boundingClientRect();
 				query.exec(res => {
 					if (res && res[0]) {
+						// #ifdef APP-PLUS || H5
 						that.swiperHeight = (res[0].height + 2) * 3
+						// #endif
 						// #ifdef MP-WEIXIN
 						that.swiperHeight = (res[0].height + 5) * 3
 						// #endif
@@ -229,7 +238,6 @@
 			/* #ifdef MP-WEIXIN */
 			padding-bottom: 0;
 			/* #endif */
-
 			.menuBox {
 				flex-wrap: wrap;
 			}

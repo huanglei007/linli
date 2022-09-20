@@ -480,6 +480,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 var _default =
 {
   data: function data() {
@@ -505,7 +506,7 @@ var _default =
     bindDateChange: function bindDateChange(e, item, key) {
       item[key] = e.target.value;
     },
-    getList: function getList() {
+    getList: function getList() {// 券列表
       this.list = [{
         left: '',
         right: '',
@@ -527,9 +528,7 @@ var _default =
                 end: item.expiration_time }, _defineProperty(_ref, "begin",
               date + '-' + that.$shijiandate(item.begin_time)), _defineProperty(_ref, "end",
               date + '-' + that.$shijiandate(item.expiration_time)), _defineProperty(_ref, "id",
-
-
-              item.id), _defineProperty(_ref, "isDelect",
+              item.id), _defineProperty(_ref, "isDelete",
               0), _ref;
 
             });
@@ -546,71 +545,82 @@ var _default =
                 right: item.amount,
                 begin: date + '-' + that.$shijiandate(item.begin_time),
                 end: date + '-' + that.$shijiandate(item.expiration_time),
-                // begin: that.$shijiandate(item.begin_time),
-                // end: that.$shijiandate(item.expiration_time),
-                id: item.id };
+                id: item.id,
+                isDelete: 0 };
 
             });
           }
         });
       }
     },
-    newArr: function newArr() {
+    newArr: function newArr() {// 添加券
       this.list.push({
         left: '',
         right: '',
         begin: '开始时间',
-        end: '结束时间' });
+        end: '结束时间',
+        isDelete: 0 });
 
     },
-    del: function del(e) {
-      if (this.list[e].id) {
-        this.list[e].isDelect = 1;
+    del: function del(e) {// 删除券
+      var that = this;
+      if (that.list[e].id) {
+        that.list[e].isDelete = 1;
       } else {
-        this.list.splice(e, 1);
+        that.list.splice(e, 1);
       }
     },
-    submit: function submit() {
+    submit: function submit() {// 保存券
+      var that = this;
+      var data = [];
+      var url = '';
+      var open = false;
+      if (that.typeIndex == 0) {
+        url = 'shop/saveVoucher';
+        data = that.list.map(function (item) {
+          if (item.begin == '开始时间' || item.end == '结束时间' || !item.right || !item.left) {
+            open = true;
+          } else {
+            open = false;
+            return {
+              beginTime: item.begin,
+              expirationTime: item.end,
+              isDelete: item.isDelete,
+              originalPrice: item.right,
+              presentPrice: item.left,
+              voucherName: '',
+              id: item.id };
 
-      if (this.typeIndex == 0) {
-        var list = this.list.map(function (item) {
-          return {
-            beginTime: item.begin,
-            expirationTime: item.end,
-            isDelete: item.isDelect,
-            originalPrice: item.right,
-            presentPrice: item.left,
-            voucherName: '',
-            id: item.id };
-
+          }
         });
-        var that = this;
-        this.util.ajax('shop/saveVoucher', {
-          list: list,
-          userId: this.userId },
+      } else {
+        url = 'shop/saveCoupon';
+        data = that.list.map(function (item) {
+          if (item.begin == '开始时间' || item.end == '结束时间' || !item.right || !item.left) {
+            open = true;
+          } else {
+            open = false;
+            return {
+              beginTime: item.begin,
+              expirationTime: item.end,
+              isDelete: item.isDelete,
+              amount: item.right,
+              minOrderAmount: item.left,
+              couponName: '',
+              id: item.id };
+
+          }
+        });
+      }
+      if (open == true) {
+        this.$alert('请输入完成');
+      } else {
+        this.util.ajax(url, {
+          list: data,
+          userId: that.userId },
         function (res) {
           that.$alert(res.msg);
           that.getList();
-        });
-      } else {
-        var _list = this.list.map(function (item) {
-          return {
-            beginTime: item.begin,
-            expirationTime: item.end,
-            isDelete: item.isDelect,
-            amount: item.right,
-            minOrderAmount: item.left,
-            couponName: '',
-            id: item.id };
-
-        });
-        var _that = this;
-        this.util.ajax('shop/saveCoupon', {
-          list: _list,
-          userId: this.userId },
-        function (res) {
-          _that.$alert(res.msg);
-          _that.getList();
         });
       }
     } } };exports.default = _default;

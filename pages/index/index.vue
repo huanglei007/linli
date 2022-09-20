@@ -13,7 +13,8 @@
 			</view>
 		</view>
 		<view class="menu">
-			<swiper :indicator-dots="true" :duration="200" :style="{'height':swiperHeight+'px'}">
+			<swiper :indicator-dots="true" :duration="200" style="min-height: 264px;"
+				:style="{'height':swiperHeight+'px'}">
 				<swiper-item v-for="(d,i) in  menuList_new" :key="i">
 					<view class="menuBox flexd">
 						<view id="itemList" class="item" v-for="(item,index) in d" :key="index"
@@ -28,25 +29,9 @@
 					</view>
 				</swiper-item>
 			</swiper>
-			<!-- <swiper :indicator-dots="true" :duration="200" :style="{'height':swiperHeight+'px'}">
-				<swiper-item v-for="(d,i) in  menuList" :key="i">
-					<view class="menuBox flexd">
-						<view id="itemList" class="item" v-for="(item,index) in d.list" :key="index"
-							@click="menuClick(item,i,index)">
-							<view class="image">
-								<image :src="item.img" mode=""></image>
-								<image v-if="item.tag" class="tag" :src="item.tag" mode="widthFix"></image>
-							</view>
-							<view class="title">
-								<text>{{item.title}}</text>
-							</view>
-						</view>
-					</view>
-				</swiper-item>
-			</swiper> -->
 		</view>
 		<!-- 附近商家 -->
-		<nearbyshop></nearbyshop>
+		<nearbyshop :type="shopType_index"></nearbyshop>
 		<!-- 微信订阅消息弹窗 -->
 		<uni-popup ref="wxMessage" type="dialog" :mask-click="false">
 			<uni-popup-dialog type="info" cancelText="关闭" confirmText="同意" title="通知" :content="wxMessage_text"
@@ -263,8 +248,16 @@
 				// 微信订阅消息
 				wxMessage_text: '为了及时获取订单状态，您是否想接收订单状态的消息提醒？',
 				// swiper高度
-				swiperHeight: ''
+				swiperHeight: '',
+				// 当前商家类别
+				shopType_index: ''
 			}
+		},
+		mounted() {
+			// swiper高度适应
+			this.$nextTick(() => {
+				this.setSwiperHeight();
+			});
 		},
 		onLoad(e) {
 			this.userId = uni.getStorageSync('userId');
@@ -308,36 +301,17 @@
 					})
 					// #endif
 				}
-			} else {
-				// #ifdef MP-WEIXIN
-				if (uni.getStorageSync('userInfo')) {
-					this.$nextTick(() => {
-						let phone = uni.getStorageSync('userInfo').phone
-						this.util.ajax('user/login', {
-							"phone": phone,
-						}, json => {
-							// 缓存用户信息
-							uni.setStorageSync('userId', json.data.user_id)
-							uni.setStorageSync('userInfo', json.data);
-							uni.setStorageSync('village', json.data.residentialQuarterVo);
-							// 获取wx token
-							that.util.get_wx_access_token()
-							// 打开websocket链接
-							that.util.weeksort()
-							// 审核机制
-							that.util.ajax('user/closeWithdrawal', {}, res => {
-								uni.setStorageSync('examine', res.data.close_withdrawal)
-							})
-						})
-					})
-				}
-				// #endif
 			}
 			// 需求类别列表
 			this.getTypeList()
 		},
 		onShow() {
+			this.setSwiperHeight();
 			this.residentialEvent()
+			// 审核机制开关
+			this.util.ajax('user/closeWithdrawal', {}, res => {
+				uni.setStorageSync('examine', res.data.close_withdrawal)
+			})
 		},
 		methods: {
 			menuClick(item, page, index) {
@@ -346,9 +320,10 @@
 					this.$alert('功能开发中')
 				} else {
 					if (item.path == '/pages/index/shangquan') {
-						wx.reLaunch({
-							url: item.path + '?type=' + item.title,
-						})
+						this.shopType_index = item.title
+						// wx.reLaunch({
+						// 	url: item.path + '?type=' + item.title,
+						// })
 					} else if (index < 5) {
 						this.util.ajax('shop/queryWorkTime', {}, res => {
 							let data = res.data.set
@@ -375,10 +350,6 @@
 						arr.push(res.data.list.slice(i * 15, i * 15 + 15))
 					}
 					this.menuList_new = arr
-					// swiper高度适应
-					this.$nextTick(() => {
-						this.setSwiperHeight();
-					});
 				})
 			},
 			// 绑定小区
@@ -435,7 +406,9 @@
 				query.select('#itemList').boundingClientRect();
 				query.exec(res => {
 					if (res && res[0]) {
+						// #ifdef APP-PLUS || H5
 						that.swiperHeight = (res[0].height + 2) * 3
+						// #endif
 						// #ifdef MP-WEIXIN
 						that.swiperHeight = (res[0].height + 5) * 3
 						// #endif

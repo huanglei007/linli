@@ -33,10 +33,16 @@ function ajax(url, data, cb, header, flag) {
 					if (thias == 'staffId参数不能为空') {
 						thias = '请登录'
 					}
-					uni.showToast({
-						title: thias,
-						icon: 'none'
-					})
+					if (thias == '用户ID不存在,请重新登录' || thias == '用户ID不能为空') {
+						uni.reLaunch({
+							url: '/pages/login/login',
+						})
+					} else {
+						uni.showToast({
+							title: thias,
+							icon: 'none'
+						})
+					}
 				}
 			} else if (res.statusCode == 404) {
 				uni.showModal({
@@ -361,7 +367,7 @@ module.exports = {
 							}
 						})
 					}
-					
+
 					// 消息类别 1 => 图片
 					if (infos.data.messageType == 1) {
 						if (userid) {

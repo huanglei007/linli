@@ -7,9 +7,10 @@
 			</view>
 		</view>
 		<view class="list">
-			<view class="item" v-for="(item,i) in list" :key="i" :class="item.isDelect==1?'hide':''">
+			<view class="item" v-for="(item,i) in list" :key="i" :class="item.isDelect==1?'hide':''"
+				v-if="item.isDelete == 0">
 				<view class="flexd juend">
-					<image @click="del(i)" class="jian" src="/static/image/icon_jian.png" mode="widthFix"></image>
+					<image @click="del(i)" class="icon32" src="/static/image/icon_jian.png" mode="widthFix"></image>
 				</view>
 				<view class="itemBox flexd jucenter flex-center">
 					<view class="input">
@@ -40,7 +41,7 @@
 		</view>
 		<view class="foot">
 			<view class="btn" @click="$shake(submit)">
-				提交审核
+				保存
 			</view>
 		</view>
 	</view>
@@ -60,7 +61,7 @@
 					end: '结束时间'
 				}],
 				// 防抖
-				onoff:true
+				onoff: true
 			}
 		},
 		mounted() {
@@ -71,7 +72,7 @@
 			bindDateChange: function(e, item, key) {
 				item[key] = e.target.value
 			},
-			getList() {
+			getList() { // 券列表
 				this.list = [{
 					left: '',
 					right: '',
@@ -93,10 +94,8 @@
 									end: item.expiration_time,
 									begin: date + '-' + that.$shijiandate(item.begin_time),
 									end: date + '-' + that.$shijiandate(item.expiration_time),
-									// begin: that.$shijiandate(item.begin_time),
-									// end: that.$shijiandate(item.expiration_time),
 									id: item.id,
-									isDelect: 0,
+									isDelete: 0,
 								}
 							})
 						}
@@ -112,68 +111,79 @@
 									right: item.amount,
 									begin: date + '-' + that.$shijiandate(item.begin_time),
 									end: date + '-' + that.$shijiandate(item.expiration_time),
-									// begin: that.$shijiandate(item.begin_time),
-									// end: that.$shijiandate(item.expiration_time),
-									id: item.id
+									id: item.id,
+									isDelete: 0,
 								}
 							})
 						}
 					})
 				}
 			},
-			newArr() {
+			newArr() { // 添加券
 				this.list.push({
 					left: '',
 					right: '',
 					begin: '开始时间',
-					end: '结束时间'
+					end: '结束时间',
+					isDelete: 0,
 				})
 			},
-			del(e) {
-				if (this.list[e].id) {
-					this.list[e].isDelect = 1
+			del(e) { // 删除券
+				let that = this
+				if (that.list[e].id) {
+					that.list[e].isDelete = 1
 				} else {
-					this.list.splice(e, 1)
+					that.list.splice(e, 1)
 				}
 			},
-			submit() {
-
-				if (this.typeIndex == 0) {
-					let list = this.list.map(item => {
-						return {
-							beginTime: item.begin,
-							expirationTime: item.end,
-							isDelete: item.isDelect,
-							originalPrice: item.right,
-							presentPrice: item.left,
-							voucherName: '',
-							id: item.id
+			submit() { // 保存券
+				let that = this
+				let data = []
+				let url = ''
+				let open = false
+				if (that.typeIndex == 0) {
+					url = 'shop/saveVoucher'
+					data = that.list.map(item => {
+						if (item.begin == '开始时间' || item.end == '结束时间' || !item.right || !item.left) {
+							open = true
+						} else {
+							open = false
+							return {
+								beginTime: item.begin,
+								expirationTime: item.end,
+								isDelete: item.isDelete,
+								originalPrice: item.right,
+								presentPrice: item.left,
+								voucherName: '',
+								id: item.id
+							}
 						}
-					})
-					let that = this
-					this.util.ajax('shop/saveVoucher', {
-						list: list,
-						userId: this.userId
-					}, res => {
-						that.$alert(res.msg)
-						that.getList()
 					})
 				} else {
-					let list = this.list.map(item => {
-						return {
-							beginTime: item.begin,
-							expirationTime: item.end,
-							isDelete: item.isDelect,
-							amount: item.right,
-							minOrderAmount: item.left,
-							couponName: '',
-							id: item.id
+					url = 'shop/saveCoupon'
+					data = that.list.map(item => {
+						if (item.begin == '开始时间' || item.end == '结束时间' || !item.right || !item.left) {
+							open = true
+						} else {
+							open = false
+							return {
+								beginTime: item.begin,
+								expirationTime: item.end,
+								isDelete: item.isDelete,
+								amount: item.right,
+								minOrderAmount: item.left,
+								couponName: '',
+								id: item.id
+							}
 						}
 					})
-					let that = this
-					this.util.ajax('shop/saveCoupon', {
-						list: list,
-						userId: this.userId
+				}
+				if (open == true) {
+					this.$alert('请输入完成')
+				} else {
+					this.util.ajax(url, {
+						list: data,
+						userId: that.userId
 					}, res => {
 						that.$alert(res.msg)
 						that.getList()
@@ -215,8 +225,7 @@
 			padding: 10rpx;
 			margin-bottom: 20rpx;
 
-			.jian {
-				width: 40rpx;
+			.icon32 {
 				margin-bottom: 10rpx;
 			}
 

@@ -197,12 +197,11 @@ var _default =
       score: null,
       // wx
       code: '',
-      tourist: false };
+      open: false };
 
   },
   onLoad: function onLoad() {
     var that = this;
-
 
 
 
@@ -232,8 +231,8 @@ var _default =
         that.code = res.code;
       } });
 
-    if (uni.getStorageSync('tourist')) {
-      that.tourist = true;
+    if (uni.getStorageSync('examine') == 0 || uni.getStorageSync('tourist')) {
+      that.open = true;
     } else {
       // 游客模式
       that.phone = '18100000000';
@@ -314,17 +313,14 @@ var _default =
         if (json.data.user_id != 40) {
           // 打开websocket链接
           that.util.weeksort();
-          // 缓存用户信息
-          uni.setStorageSync('userId', json.data.user_id);
-          uni.setStorageSync('userInfo', json.data);
-          uni.setStorageSync('village', json.data.residentialQuarterVo);
         } else {
+          // 游客模式
           uni.setStorageSync('tourist', true);
         }
-        // 审核机制开关
-        that.util.ajax('user/closeWithdrawal', {}, function (res) {
-          uni.setStorageSync('examine', res.data.close_withdrawal);
-        });
+        // 缓存用户信息
+        uni.setStorageSync('userId', json.data.user_id);
+        uni.setStorageSync('userInfo', json.data);
+        uni.setStorageSync('village', json.data.residentialQuarterVo);
         setTimeout(function (e) {
           uni.hideLoading();
           uni.reLaunch({
@@ -352,10 +348,6 @@ var _default =
           that.util.weeksort();
           // 清除游客模式
           uni.removeStorageSync('tourist');
-          // 审核机制开关
-          that.util.ajax('user/closeWithdrawal', {}, function (res) {
-            uni.setStorageSync('examine', res.data.close_withdrawal);
-          });
           if (!json.data.residentialQuarterVo.address) {
             that.$jumpLa('/pages/index/changeVillage');
           } else {

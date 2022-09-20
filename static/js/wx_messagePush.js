@@ -45,7 +45,7 @@ export const send_msg = async (tmplId, params) => {
 			data: {
 				...params //自己选择模版的参数 'key':{value:'...'}
 			},
-			miniprogram_state: "developer", //developer为开发版；trial为体验版；formal为正式版；非必传
+			miniprogram_state: "formal", //developer为开发版；trial为体验版；formal为正式版；非必传
 		}
 	})
 }

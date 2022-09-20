@@ -275,21 +275,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 var _wx_messagePush = __webpack_require__(/*! @/static/js/wx_messagePush.js */ 17);
 
 
@@ -376,24 +361,24 @@ var _a_nearbyshop = _interopRequireDefault(__webpack_require__(/*! @/pages/index
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 // 微信订阅消息
 // 附近商家
-var list = function list() {__webpack_require__.e(/*! require.ensure | components/menuList */ "components/menuList").then((function () {return resolve(__webpack_require__(/*! @/components/menuList.vue */ 604));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default = { components: { list: list, nearbyshop: _a_nearbyshop.default }, data: function data() {return { imageurl: '', userId: '', htosp: 0, menuList_new: [], menuList: [[{ img: '/static/image/icon_bqkd.png', title: '帮取快递', path: '/pages/from/apply?id=0' }, { img: '/static/image/icon_bqwm.png', title: '帮送外卖', path: '/pages/from/apply?id=1' }, { img: '/static/image/icon_bdlj.png', title: '帮丢垃圾', path: '/pages/from/apply?id=2' }, { img: '/static/image/icon_bgw.png', title: '帮购商品', path: '/pages/from/apply?id=3' }, { img: '/static/image/icon_tcps.png', title: '帮取帮送', path: '/pages/from/apply?id=4' }, { img: '/static/image/huang/icon_cyd.png', title: '餐饮店', path: '/pages/index/shangquan' }, { img: '/static/image/huang/icon_bld.png', title: '便利店', path: '/pages/index/shangquan' }, { img: '/static/image/huang/icon_sgd.png', title: '水果店', path: '/pages/index/shangquan' }, { img: '/static/image/huang/icon_gxd.png', title: '洗衣店', path: '/pages/index/shangquan' }, { img: '/static/image/huang/icon_cwd.png', title: '宠物店', path: '/pages/index/shangquan' }, { img: '/static/image/huang/mipmap-mdpi/icon_baojie.png', title: '家政保洁', path: '/pagesA/a_baojie' }, { img: '/static/image/huang/mipmap-mdpi/icon_weixiu.png', title: '安装维修', path: '/pagesA/a_weixiu' }, { img: '/static/image/huang/mipmap-mdpi/icon_maogou.png', title: '喂猫遛狗', path: '/pagesA/a_maogou' }, { img: '/static/image/huang/mipmap-mdpi/icon_peihu.png', title: '陪诊陪护', path: '/pagesA/a_peihu' }, { img: '/static/image/huang/mipmap-mdpi/icon_jiachu.png', title: '百味家厨', path: '/pagesA/a_jiachu' }], [{ img: '/static/image/huang/icon_jyhs.png', title: '旧衣回收', path: '/pages/from/clothes' }, { img: '/static/image/huang/icon_xzmm.png', title: '闲置买卖', path: '/pages/index/xianzhi' }, { img: '/static/image/huang/icon_fwzp.png', title: '房屋租赁',
+var list = function list() {__webpack_require__.e(/*! require.ensure | components/menuList */ "components/menuList").then((function () {return resolve(__webpack_require__(/*! @/components/menuList.vue */ 604));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default = { components: { list: list, nearbyshop: _a_nearbyshop.default }, data: function data() {return { imageurl: '', userId: '', htosp: 0, menuList_new: [], menuList: [[{ img: '/static/image/icon_bqkd.png', title: '帮取快递', path: '/pages/from/apply?id=0' }, { img: '/static/image/icon_bqwm.png', title: '帮送外卖', path: '/pages/from/apply?id=1' }, { img: '/static/image/icon_bdlj.png', title: '帮丢垃圾', path: '/pages/from/apply?id=2' }, { img: '/static/image/icon_bgw.png', title: '帮购商品', path: '/pages/from/apply?id=3' }, { img: '/static/image/icon_tcps.png', title: '帮取帮送', path: '/pages/from/apply?id=4' }, { img: '/static/image/huang/icon_cyd.png', title: '餐饮店', path: '/pages/index/shangquan' }, { img: '/static/image/huang/icon_bld.png', title: '便利店', path: '/pages/index/shangquan' }, { img: '/static/image/huang/icon_sgd.png', title: '水果店', path: '/pages/index/shangquan' }, { img: '/static/image/huang/icon_gxd.png', title: '洗衣店', path: '/pages/index/shangquan' }, { img: '/static/image/huang/icon_cwd.png', title: '宠物店', path: '/pages/index/shangquan' }, { img: '/static/image/huang/mipmap-mdpi/icon_baojie.png', title: '家政保洁', path: '/pagesA/a_baojie' }, { img: '/static/image/huang/mipmap-mdpi/icon_weixiu.png', title: '安装维修', path: '/pagesA/a_weixiu' }, { img: '/static/image/huang/mipmap-mdpi/icon_maogou.png', title: '喂猫遛狗', path: '/pagesA/a_maogou' }, { img: '/static/image/huang/mipmap-mdpi/icon_peihu.png', title: '陪诊陪护', path: '/pagesA/a_peihu' }, { img: '/static/image/huang/mipmap-mdpi/icon_jiachu.png', title: '百味家厨', path: '/pagesA/a_jiachu' }],
+
+
+      [{
+        img: '/static/image/huang/icon_jyhs.png',
+        title: '旧衣回收',
+        path: '/pages/from/clothes' },
+
+      {
+        img: '/static/image/huang/icon_xzmm.png',
+        title: '闲置买卖',
+        path: '/pages/index/xianzhi' },
+
+      {
+        img: '/static/image/huang/icon_fwzp.png',
+        title: '房屋租赁',
         path: '' },
 
       {
@@ -456,10 +441,18 @@ var list = function list() {__webpack_require__.e(/*! require.ensure | component
       // 微信订阅消息
       wxMessage_text: '为了及时获取订单状态，您是否想接收订单状态的消息提醒？',
       // swiper高度
-      swiperHeight: '' };
+      swiperHeight: '',
+      // 当前商家类别
+      shopType_index: '' };
 
   },
-  onLoad: function onLoad(e) {var _this = this;
+  mounted: function mounted() {var _this = this;
+    // swiper高度适应
+    this.$nextTick(function () {
+      _this.setSwiperHeight();
+    });
+  },
+  onLoad: function onLoad(e) {
     this.userId = uni.getStorageSync('userId');
     this.htosp = uni.getStorageSync('htop');
     this.village = uni.getStorageSync('village');
@@ -501,36 +494,17 @@ var list = function list() {__webpack_require__.e(/*! require.ensure | component
 
 
       }
-    } else {
-
-      if (uni.getStorageSync('userInfo')) {
-        this.$nextTick(function () {
-          var phone = uni.getStorageSync('userInfo').phone;
-          _this.util.ajax('user/login', {
-            "phone": phone },
-          function (json) {
-            // 缓存用户信息
-            uni.setStorageSync('userId', json.data.user_id);
-            uni.setStorageSync('userInfo', json.data);
-            uni.setStorageSync('village', json.data.residentialQuarterVo);
-            // 获取wx token
-            that.util.get_wx_access_token();
-            // 打开websocket链接
-            that.util.weeksort();
-            // 审核机制
-            that.util.ajax('user/closeWithdrawal', {}, function (res) {
-              uni.setStorageSync('examine', res.data.close_withdrawal);
-            });
-          });
-        });
-      }
-
     }
     // 需求类别列表
     this.getTypeList();
   },
   onShow: function onShow() {
+    this.setSwiperHeight();
     this.residentialEvent();
+    // 审核机制开关
+    this.util.ajax('user/closeWithdrawal', {}, function (res) {
+      uni.setStorageSync('examine', res.data.close_withdrawal);
+    });
   },
   methods: {
     menuClick: function menuClick(item, page, index) {var _this2 = this;
@@ -539,9 +513,10 @@ var list = function list() {__webpack_require__.e(/*! require.ensure | component
         this.$alert('功能开发中');
       } else {
         if (item.path == '/pages/index/shangquan') {
-          wx.reLaunch({
-            url: item.path + '?type=' + item.title });
-
+          this.shopType_index = item.title;
+          // wx.reLaunch({
+          // 	url: item.path + '?type=' + item.title,
+          // })
         } else if (index < 5) {
           this.util.ajax('shop/queryWorkTime', {}, function (res) {
             var data = res.data.set;
@@ -568,10 +543,6 @@ var list = function list() {__webpack_require__.e(/*! require.ensure | component
           arr.push(res.data.list.slice(i * 15, i * 15 + 15));
         }
         _this3.menuList_new = arr;
-        // swiper高度适应
-        _this3.$nextTick(function () {
-          _this3.setSwiperHeight();
-        });
       });
     },
     // 绑定小区
@@ -628,7 +599,9 @@ var list = function list() {__webpack_require__.e(/*! require.ensure | component
       query.select('#itemList').boundingClientRect();
       query.exec(function (res) {
         if (res && res[0]) {
-          that.swiperHeight = (res[0].height + 2) * 3;
+
+
+
 
           that.swiperHeight = (res[0].height + 5) * 3;
 
@@ -981,6 +954,13 @@ var _default =
         "userId": this.userId //用户ID
       }, function (res) {
         var array = [];
+        // 是否分页
+        if (that.curPage !== res.data.page.curPage) {
+          that.isfoot = true;
+          that.shopList = that.shopList.concat(array);
+        } else {// 根据商家类型查询商家列表
+          _this2.screenTypeEvent(array);
+        }
         // 筛选营业中的商家
         if (res.data.list.length > 0) {
           for (var a = 0; a < res.data.list.length; a++) {
@@ -992,15 +972,6 @@ var _default =
           that.shopList = [];
           return;
         }
-        // 是否分页
-        if (that.curPage !== res.data.page.curPage) {
-          that.isfoot = true;
-          that.shopList = that.shopList.concat(array);
-        }
-        // 根据商家类型查询商家列表
-        else {
-            _this2.screenTypeEvent(array);
-          }
       });
     },
     // 筛选商家

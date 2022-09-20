@@ -49,8 +49,7 @@
   padding: 10rpx;
   margin-bottom: 20rpx;
 }
-.list .item .jian {
-  width: 40rpx;
+.list .item .icon32 {
   margin-bottom: 10rpx;
 }
 .list .item .itemBox {

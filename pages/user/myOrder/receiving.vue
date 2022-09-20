@@ -1,10 +1,8 @@
 <template>
 	<view>
 		<view class="typeBox flexd jubetween">
-			<view class="item"
-			v-for="(item,i) in typeList" :key="i"
-			@click="typeIndex=i;getNewList()"
-			:class="typeIndex==i?'active':''">
+			<view class="item" v-for="(item,i) in typeList" :key="i" @click="typeIndex=i;getNewList()"
+				:class="typeIndex==i?'active':''">
 				{{item}}
 			</view>
 		</view>
@@ -23,7 +21,7 @@
 		data() {
 			return {
 				userId: '',
-				typeList: ['待完成','已完成'],
+				typeList: ['待完成', '已完成'],
 				typeIndex: 0,
 				list: [],
 				curPage: 1,
@@ -31,27 +29,27 @@
 			}
 		},
 		mounted(e) {
-			this.userId=uni.getStorageSync('userId')
+			this.userId = uni.getStorageSync('userId')
 			this.getlist()
 		},
 		onReachBottom() {
-			if(!this.isfoot){
+			if (!this.isfoot) {
 				this.curPage++
 				this.getlist()
 			}
 		},
 		methods: {
-			getlist(){
-				let that=this
-				this.util.ajax('myOrder/myOrderList',{
+			getlist() {
+				let that = this
+				this.util.ajax('myOrder/myOrderList', {
 					"curPage": this.curPage,
 					"orderStatus": this.typeIndex,
 					"pageSize": 20,
 					"userId": this.userId
-				},(res)=>{
-					if(that.curPage!==res.data.page.curPage) that.isfoot=true
-					if(that.curPage==res.data.page.curPage){
-						that.list=that.list.concat(res.data.list.map((e)=>{
+				}, (res) => {
+					if (that.curPage !== res.data.page.curPage) that.isfoot = true
+					if (that.curPage == res.data.page.curPage) {
+						that.list = that.list.concat(res.data.list.map((e) => {
 							return {
 								"category_name": e.category_name,
 								"commission": e.commission,
@@ -59,18 +57,20 @@
 								"distance": e.distance,
 								"id": e.id,
 								"image": e.head_img,
-								//"publisher_name": e.publisher_name,
-								"requirement_introduction": "备注："+e.requirement_introduction,
+								"publisher_name": e.publisher_name,
+								"requirement_introduction": "备注：" + e.leave_message,
 								"user_id": e.user_id,
 								"user_name": e.publisher_name,
+								"now_delivery": e.now_delivery,
+								"shop_name": e.shop_name
 							}
 						}))
 					}
 				})
 			},
-			getNewList(){
-				this.list=[]
-				this.curPage=1
+			getNewList() {
+				this.list = []
+				this.curPage = 1
 				this.getlist()
 			}
 		}
@@ -78,48 +78,58 @@
 </script>
 
 <style lang="scss">
-	.typeBox{
+	.typeBox {
 		padding: 30rpx 150rpx;
-		.item{
+
+		.item {
 			line-height: 2.3;
 			padding: 0 40rpx;
 			border-radius: 50rpx;
 			background-color: #fff;
 			color: #959595;
 			font-size: 28rpx;
-			&.active{
+
+			&.active {
 				color: #212121;
 				background-color: $uni-color-primary;
 			}
 		}
 	}
-	.list{
-		.item{
+
+	.list {
+		.item {
 			background-color: #fff;
 			border-bottom: 1rpx solid #eee;
 			padding: 30rpx;
-			.img{
+
+			.img {
 				width: 80rpx;
 				height: 80rpx;
 				border-radius: 50%;
 			}
-			.mess{
+
+			.mess {
 				width: 580rpx;
-				.title{
+
+				.title {
 					font-size: 30rpx;
 					font-weight: bold;
 				}
-				.price{
+
+				.price {
 					color: #FF3336;
-					text{
+
+					text {
 						font-size: 32rpx;
 					}
 				}
-				.nickname{
+
+				.nickname {
 					font-size: 30rpx;
 				}
-				.address{
-					image{
+
+				.address {
+					image {
 						width: 26rpx;
 						margin-right: 10rpx;
 					}
