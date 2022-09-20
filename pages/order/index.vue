@@ -4,7 +4,7 @@
 			接单大厅
 		</view>
 		<view class="menu">
-			<swiper :indicator-dots="true" :duration="200" style="min-height: 264px;" :style="{'height':swiperHeight+'px'}">
+			<swiper :indicator-dots="true" :duration="200" :style="{'height':swiperHeight+'px'}">
 				<swiper-item v-for="(d,i) in  menuList" :key="i">
 					<view class="menuBox flexd">
 						<view id="itemList" class="item" v-for="(item,index) in d" :key="index"
@@ -81,17 +81,15 @@
 				ability: '全部',
 			}
 		},
-		mounted() {
-			// swiper高度适应
-			this.$nextTick(() => {
-				this.setSwiperHeight();
-			});
-		},
 		onLoad() {
 			this.htosp = uni.getStorageSync('htop');
 			this.userId = uni.getStorageSync('userId');
 			this.getTypeList()
 			this.getDistance()
+			// swiper高度适应
+			setTimeout(() => {
+				this.setSwiperHeight()
+			}, 500)
 		},
 		onShow() {
 			this.classfyIndex = 0
@@ -189,7 +187,7 @@
 			getNewList() {
 				let that = this
 				let datas = uni.getStorageSync('orderList')
-				if (datas[0]&&that.classfyIndex==0) {
+				if (datas[0] && that.classfyIndex == 0) {
 					that.shopList = datas
 				} else {
 					that.shopList = []
@@ -238,6 +236,11 @@
 			/* #ifdef MP-WEIXIN */
 			padding-bottom: 0;
 			/* #endif */
+			
+			swiper {
+				transition: height 0.3s linear;
+			}
+
 			.menuBox {
 				flex-wrap: wrap;
 			}

@@ -13,8 +13,7 @@
 			</view>
 		</view>
 		<view class="menu">
-			<swiper :indicator-dots="true" :duration="200" style="min-height: 264px;"
-				:style="{'height':swiperHeight+'px'}">
+			<swiper :indicator-dots="true" :duration="200" :style="{'height':swiperHeight+'px'}">
 				<swiper-item v-for="(d,i) in  menuList_new" :key="i">
 					<view class="menuBox flexd">
 						<view id="itemList" class="item" v-for="(item,index) in d" :key="index"
@@ -253,12 +252,6 @@
 				shopType_index: ''
 			}
 		},
-		mounted() {
-			// swiper高度适应
-			this.$nextTick(() => {
-				this.setSwiperHeight();
-			});
-		},
 		onLoad(e) {
 			this.userId = uni.getStorageSync('userId');
 			this.htosp = uni.getStorageSync('htop');
@@ -304,9 +297,12 @@
 			}
 			// 需求类别列表
 			this.getTypeList()
+			// swiper高度适应
+			setTimeout(() => {
+				this.setSwiperHeight()
+			}, 500)
 		},
 		onShow() {
-			this.setSwiperHeight();
 			this.residentialEvent()
 			// 审核机制开关
 			this.util.ajax('user/closeWithdrawal', {}, res => {
@@ -461,6 +457,10 @@
 			/* #ifdef MP-WEIXIN */
 			padding-bottom: 0;
 			/* #endif */
+			
+			swiper {
+				transition: height 0.3s linear;
+			}
 
 			.menuBox {
 				flex-wrap: wrap;
