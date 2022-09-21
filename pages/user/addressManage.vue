@@ -6,7 +6,7 @@
 		</view>
 		<view class="row flexd">
 			<view>手机号</view>
-			<input class="input" type="number" v-model="phone" :value="phone" placeholder="手机号码"
+			<input class="input" type="number" :value="phone" placeholder="手机号码"
 				placeholder-style="color:#888888;fontSize:32rpx;" maxlength="11" @input="inputchange($event, 'phone')" />
 		</view>
 		<view class="row flexd">
@@ -34,7 +34,7 @@
 		</view> -->
 		<view class="row flexd">
 			<view>详细地址</view>
-			<input class="input" type="text" v-model="street" :value="street" placeholder="街道、牌楼号等"
+			<input class="input" type="text" :value="street" placeholder="街道、牌楼号等"
 				placeholder-style="color:#888888" @input="inputchange($event, 'street')" />
 		</view>
 		<view class="row flexd jubetween" style="margin-top: 16rpx;">
