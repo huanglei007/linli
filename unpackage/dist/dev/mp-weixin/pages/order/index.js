@@ -278,6 +278,7 @@ __webpack_require__.r(__webpack_exports__);
   onShow: function onShow() {
     this.classfyIndex = 0;
     this.getNewList();
+    this.setSwiperHeight();
   },
   onReachBottom: function onReachBottom() {
     if (!this.isfoot) {

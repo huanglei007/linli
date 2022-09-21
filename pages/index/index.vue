@@ -13,8 +13,7 @@
 			</view>
 		</view>
 		<view class="menu">
-			<swiper :indicator-dots="true" :duration="200" style="min-height: 264px;"
-				:style="{'height':swiperHeight+'px'}">
+			<swiper :indicator-dots="true" :duration="200" :style="{'height':swiperHeight+'px'}">
 				<swiper-item v-for="(d,i) in  menuList_new" :key="i">
 					<view class="menuBox flexd">
 						<view id="itemList" class="item" v-for="(item,index) in d" :key="index"
