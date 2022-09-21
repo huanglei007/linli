@@ -137,7 +137,7 @@
 							that.myList.residential_quarter_name = ''
 							that.$alert('已解绑')
 							setTimeout(() => {
-								that.$jumpback()
+								that.$jumpsw('/pages/index/index')
 							}, 1000)
 						})
 					},
@@ -175,7 +175,7 @@
 				}, res => {
 					that.$alert('绑定成功')
 					setTimeout(() => {
-						that.$jumpback()
+						that.$jumpsw('/pages/index/index')
 					}, 1000)
 				})
 			},

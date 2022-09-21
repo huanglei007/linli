@@ -302,7 +302,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   onShow: function onShow() {
     if (this.$refs.address) {
-      // this.$refs.address.refresh()
+      this.$refs.address.refresh();
     }
   },
   methods: {

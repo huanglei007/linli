@@ -49,11 +49,13 @@
 		methods: {
 			getList() {
 				let that = this
-				that.util.ajax('address/myAddress', {
-					userId: that.userId
-				}, function(res) {
-					that.list = res.data.list
-				})
+				if (that.userId) {
+					that.util.ajax('address/myAddress', {
+						userId: that.userId
+					}, function(res) {
+						that.list = res.data.list
+					})
+				}
 			},
 			urlChange(url) {
 				let that = this
@@ -62,9 +64,9 @@
 					events: {
 						// 为指定事件添加一个监听器，获取被打开页面传送到当前页面的数据
 						acceptDataFromOpenedPage: function(data) {
-							setTimeout(()=>{
+							setTimeout(() => {
 								that.getList()
-							},500)
+							}, 500)
 						}
 					}
 				});

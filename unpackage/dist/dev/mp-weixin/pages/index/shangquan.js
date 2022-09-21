@@ -627,8 +627,6 @@ var _default =
         if (that.curPage !== res.data.page.curPage) {
           that.isfoot = true;
           that.shopList = that.shopList.concat(array);
-        } else {// 根据商家类型查询商家列表
-          _this2.screenTypeEvent(array);
         }
         // 筛选营业中的商家
         if (res.data.list.length > 0) {
@@ -637,6 +635,8 @@ var _default =
               array.push(res.data.list[a]);
             }
           }
+          // 根据商家类型查询商家列表
+          _this2.screenTypeEvent(array);
         } else {
           that.shopList = [];
           return;

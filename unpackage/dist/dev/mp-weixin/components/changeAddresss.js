@@ -165,11 +165,13 @@ var _default =
   methods: {
     getList: function getList() {
       var that = this;
-      that.util.ajax('address/myAddress', {
-        userId: that.userId },
-      function (res) {
-        that.list = res.data.list;
-      });
+      if (that.userId) {
+        that.util.ajax('address/myAddress', {
+          userId: that.userId },
+        function (res) {
+          that.list = res.data.list;
+        });
+      }
     },
     urlChange: function urlChange(url) {
       var that = this;

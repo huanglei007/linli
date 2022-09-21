@@ -186,6 +186,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
 {
   components: {
     pickerAddress: pickerAddress },
@@ -363,7 +364,16 @@ __webpack_require__.r(__webpack_exports__);
           }, function (res) {
             that.$alert(res.msg);
             that.$emit('refresh');
-            that.$jumpback();
+
+
+
+
+            var eventChannel = that.getOpenerEventChannel();
+
+            eventChannel.emit('acceptDataFromOpenedPage', true);
+            setTimeout(function () {
+              that.$jumpback();
+            }, 500);
           });
         } else {
           that.util.ajax('address/addAddress', {
@@ -382,18 +392,19 @@ __webpack_require__.r(__webpack_exports__);
             // "longitude": that.location.point.longitude,
           }, function (res) {
             that.$alert('保存地址成功');
+
+
+
+
+
+            var eventChannel = that.getOpenerEventChannel();
+
+            eventChannel.emit('acceptDataFromOpenedPage', true);
             setTimeout(function () {
               that.$jumpback();
-            }, 1000);
+            }, 500);
           });
         }
-
-
-
-
-        var eventChannel = that.getOpenerEventChannel();
-
-        eventChannel.emit('acceptDataFromOpenedPage', true);
       });
     } } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))

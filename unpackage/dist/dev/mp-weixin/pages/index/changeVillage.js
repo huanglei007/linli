@@ -212,7 +212,7 @@ var _default =
             that.myList.residential_quarter_name = '';
             that.$alert('已解绑');
             setTimeout(function () {
-              that.$jumpback();
+              that.$jumpsw('/pages/index/index');
             }, 1000);
           });
         },
@@ -250,7 +250,7 @@ var _default =
       function (res) {
         that.$alert('绑定成功');
         setTimeout(function () {
-          that.$jumpback();
+          that.$jumpsw('/pages/index/index');
         }, 1000);
       });
     } } };exports.default = _default;
