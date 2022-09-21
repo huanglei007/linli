@@ -182,9 +182,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
 var _a_nearbyshop = _interopRequireDefault(__webpack_require__(/*! @/pages/index/a_nearbyshop.vue */ 56));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };} //
-//
 //
 //
 //
@@ -235,7 +233,13 @@ var _a_nearbyshop = _interopRequireDefault(__webpack_require__(/*! @/pages/index
 // 附近商家
 var _default = { components: { nearbyshop: _a_nearbyshop.default }, data: function data() {return { imageurl: '', userId: '', htosp: 0, // 商家类型
       shopType_sq: '', //  商家类型图标
-      shopType_icon: [{ page: 1, list: [{ img: '/static/image/huang/icon_cyd.png', title: '餐饮店', path: '/pages/index/shangquan' }, { img: '/static/image/huang/icon_bld.png', title: '便利店', path: '/pages/index/shangquan' }, { img: '/static/image/huang/icon_sgd.png', title: '水果店', path: '/pages/index/shangquan' }, { img: '/static/image/huang/icon_gxd.png', title: '洗衣店', path: '/pages/index/shangquan' }, { img: '/static/image/huang/icon_cwd.png', title: '宠物店', path: '/pages/index/shangquan' }] }] };}, onLoad: function onLoad(e) {this.userId = uni.getStorageSync('userId');this.htosp = uni.getStorageSync('htop');this.imageurl = this.globalData.imageurl;if (e.type) {this.shopType_sq = e.type;}}, mounted: function mounted() {
+      shopType_icon: [{ page: 1, list: [{ img: '/static/image/huang/icon_cyd.png', title: '餐饮店', path: '/pages/index/shangquan' }, { img: '/static/image/huang/icon_bld.png', title: '便利店', path: '/pages/index/shangquan' }, { img: '/static/image/huang/icon_sgd.png', title: '水果店', path: '/pages/index/shangquan' }, { img: '/static/image/huang/icon_gxd.png', title: '洗衣店', path: '/pages/index/shangquan' }, { img: '/static/image/huang/icon_cwd.png', title: '宠物店', path: '/pages/index/shangquan' }] }] };}, onLoad: function onLoad(e) {this.userId = uni.getStorageSync('userId');this.htosp = uni.getStorageSync('htop');this.imageurl = this.globalData.imageurl;if (e.type) {this.shopType_sq = e.type;}},
+  onShow: function onShow() {var _this = this;
+    setTimeout(function () {
+      _this.$refs.ref_nearbyshop.getNewList();
+    }, 500);
+  },
+  mounted: function mounted() {
     if (this.shopType_sq) {
       this.$refs.ref_nearbyshop.getType(this.shopType_sq);
     }
@@ -559,9 +563,7 @@ var _default =
       //商铺列表
       shopList: [],
       //商铺类型
-      shopType: [{}],
-
-
+      shopType: [],
       shopTypeList: [],
       //当前商铺类型
       shopTypeIndex: 0,
@@ -576,7 +578,7 @@ var _default =
   onReachBottom: function onReachBottom() {
     if (!this.isfoot) {
       this.curPage++;
-      this.getlist();
+      this.getType();
     }
   },
   created: function created() {
@@ -678,7 +680,7 @@ var _default =
     getNewList: function getNewList() {
       this.shopList = [];
       this.curPage = 1;
-      this.getlist();
+      this.getType();
     },
     // 获取当前页面路由
     getUrlIndex: function getUrlIndex() {

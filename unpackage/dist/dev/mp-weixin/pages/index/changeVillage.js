@@ -177,22 +177,42 @@ var _default =
   },
   methods: {
     jiebang: function jiebang() {
-      this.myList.residential_quarter_name = '';
+      var that = this;
+      uni.showModal({
+        title: '提示',
+        content: '解绑后部分功能不能使用',
+        cancelText: '取消',
+        confirmText: '确认',
+        success: function success(res) {
+          that.util.ajax('residentialQuarter/unbound', {
+            "userId": that.userId },
+          function (res) {
+            that.myList.residential_quarter_name = '';
+            that.$alert('已解绑');
+            setTimeout(function () {
+              that.$jumpback();
+            }, 1000);
+          });
+        },
+        fail: function fail(res) {
+          console.log('取消');
+        } });
+
     },
-    getList: function getList() {var _this = this;
+    getList: function getList() {
       var that = this;
       this.util.ajax('residentialQuarter/listPage', {
-        "cityId": this.cityId,
-        "curPage": this.latitude,
-        "latitude": this.latitude,
-        "longitude": this.longitude,
+        "cityId": that.cityId,
+        "curPage": that.latitude,
+        "latitude": that.latitude,
+        "longitude": that.longitude,
         "pageSize": 20,
-        "residential_quarter_name": this.residential_quarter_name,
-        "userId": this.userId },
+        "residential_quarter_name": that.residential_quarter_name,
+        "userId": that.userId },
       function (res) {
         if (that.curPage !== res.data.page.curPage) that.isfoot = true;
         that.myList = res.data.myXQ;
-        that.list = _this.list.concat(res.data.list);
+        that.list = that.list.concat(res.data.list);
       });
     },
     getNewList: function getNewList() {
@@ -204,10 +224,10 @@ var _default =
       var that = this;
       this.util.ajax('residentialQuarter/binding', {
         "residential_quarter_id": id,
-        "userId": this.userId },
+        "userId": that.userId },
       function (res) {
         that.$alert('绑定成功');
-        setTimeout(function (e) {
+        setTimeout(function () {
           that.$jumpback();
         }, 1000);
       });

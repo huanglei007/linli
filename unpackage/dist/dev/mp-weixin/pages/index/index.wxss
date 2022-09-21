@@ -36,6 +36,7 @@
   align-items: center;
 }
 .nearbyshop-segmented .screen text {
+  height: 40rpx;
   line-height: 40rpx;
   font-size: 25rpx;
   color: #333333;

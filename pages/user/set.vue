@@ -72,15 +72,12 @@
 		onLoad() {
 			this.htosp = uni.getStorageSync('htop');
 			this.userId = uni.getStorageSync('userId');
-			this.getlist()
+			this.userinfo = uni.getStorageSync('userInfo');
 			this.imageurl = this.globalData.imageurl;
 		},
 		onShow() {},
-		computed: {
-
-		},
 		methods: {
-			changeNick() {
+			changeNick() { // 修改名称
 				let that = this
 				if (this.newNick !== '') {
 					this.util.ajax('user/updateNickName', {
@@ -94,7 +91,7 @@
 				}
 				that.isNick = false
 			},
-			getlist() {
+			getlist() { // 个人信息
 				let that = this
 				this.util.ajax('user/getUserInfo', {
 					"userId": this.userId
@@ -103,7 +100,7 @@
 					uni.setStorageSync('userInfo', res.data)
 				})
 			},
-			onimg() {
+			onimg() { // 修改头像
 				let that = this
 				this.iima = [];
 				this.util.sendimage(1, this.iima, () => {
@@ -120,18 +117,12 @@
 					})
 				})
 			},
-			navto(item, index) {
-				if (item.title != '账号') {
-					this.$jump(item.url)
-				}
-			},
-			// 退出登录
-			send() {
+			send() { // 退出登录
 				let that = this;
 				uni.showModal({
 					title: '提示',
-				 content: '是否退出登录',
-				 showCancel: true,
+					content: '是否退出登录',
+					showCancel: true,
 					success: function(res) {
 						if (res.confirm) {
 							uni.removeStorageSync('userId');
@@ -153,8 +144,7 @@
 					}
 				})
 			},
-			// 注销帐号
-			cancellation() {
+			cancellation() { // 注销帐号
 				let that = this;
 				uni.showModal({
 					title: '提示',

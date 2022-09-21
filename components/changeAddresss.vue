@@ -52,7 +52,6 @@
 				that.util.ajax('address/myAddress', {
 					userId: that.userId
 				}, function(res) {
-					console.log(res.data)
 					that.list = res.data.list
 				})
 			},

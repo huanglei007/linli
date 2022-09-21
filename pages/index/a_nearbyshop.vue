@@ -98,9 +98,7 @@
 				//商铺列表
 				shopList: [],
 				//商铺类型
-				shopType: [{
-
-				}],
+				shopType: [],
 				shopTypeList: [],
 				//当前商铺类型
 				shopTypeIndex: 0,
@@ -115,7 +113,7 @@
 		onReachBottom() {
 			if (!this.isfoot) {
 				this.curPage++
-				this.getlist()
+				this.getType()
 			}
 		},
 		created() {
@@ -166,7 +164,7 @@
 					if (that.curPage !== res.data.page.curPage) {
 						that.isfoot = true
 						that.shopList = that.shopList.concat(array)
-					}else {// 根据商家类型查询商家列表
+					} else { // 根据商家类型查询商家列表
 						this.screenTypeEvent(array)
 					}
 					// 筛选营业中的商家
@@ -217,7 +215,7 @@
 			getNewList() {
 				this.shopList = []
 				this.curPage = 1
-				this.getlist()
+				this.getType()
 			},
 			// 获取当前页面路由
 			getUrlIndex() {
@@ -301,6 +299,7 @@
 			align-items: center;
 
 			text {
+				height: 40rpx;
 				line-height: 40rpx;
 				font-size: 25rpx;
 				color: #333333;
@@ -320,6 +319,7 @@
 		padding: 10rpx 30rpx;
 		/* #endif */
 		padding-top: 0;
+
 		.item {
 			margin-bottom: 10rpx;
 			background-color: #fff;

@@ -258,27 +258,28 @@ __webpack_require__.r(__webpack_exports__);
       commissionSort: 0,
       isfoot: false,
       // swiper高度
-      swiperHeight: '',
+      swiperHeight: '0',
       // 功能分类
       ability: '全部' };
 
   },
-  mounted: function mounted() {var _this = this;
-    // swiper高度适应
-    this.$nextTick(function () {
-      _this.setSwiperHeight();
-    });
-  },
-  onLoad: function onLoad() {
+  onLoad: function onLoad() {var _this = this;
     this.htosp = uni.getStorageSync('htop');
     this.userId = uni.getStorageSync('userId');
-    this.getTypeList();
     this.getDistance();
+    this.getTypeList();
+    // swiper高度适应
+    if (uni.getStorageSync('swiper')) {
+      this.swiperHeight = uni.getStorageSync('swiper');
+    } else {
+      setTimeout(function () {
+        _this.setSwiperHeight();
+      }, 500);
+    }
   },
   onShow: function onShow() {
     this.classfyIndex = 0;
     this.getNewList();
-    this.setSwiperHeight();
   },
   onReachBottom: function onReachBottom() {
     if (!this.isfoot) {
@@ -299,26 +300,33 @@ __webpack_require__.r(__webpack_exports__);
         "pageSize": 20,
         "userId": this.userId },
       function (res) {
-        if (that.curPage !== res.data.page.curPage) that.isfoot = true;
-        if (that.curPage == res.data.page.curPage) {
-          that.shopList = that.shopList.concat(res.data.list.map(function (e) {
-            return {
-              "category_name": e.category_name,
-              "commission": e.commission,
-              "createtime": that.$shijian(e.createtime),
-              "distance": e.distance,
-              "id": e.id,
-              "image": e.head_img,
-              "publisher_name": e.publisher_name,
-              "requirement_introduction": "备注：" + e.leave_message,
-              "user_id": e.user_id,
-              "user_name": e.publisher_name,
-              "now_delivery": e.now_delivery,
-              "shop_name": e.shop_name };
+        var datas = uni.getStorageSync('orderList');
+        var list = res.data.list;
+        if (datas[0] && list[0] && datas[0].id == list[0].id) {
+          that.shopList = datas;
+        } else {
+          if (that.curPage !== res.data.page.curPage) that.isfoot = true;
+          if (that.curPage == res.data.page.curPage) {
+            that.shopList = that.shopList.concat(list.map(function (e) {
+              return {
+                "category_name": e.category_name,
+                "commission": e.commission,
+                "createtime": that.$shijian(e.createtime),
+                "distance": e.distance,
+                "id": e.id,
+                "image": e.head_img,
+                "publisher_name": e.publisher_name,
+                "requirement_introduction": "备注：" + e.leave_message,
+                "user_id": e.user_id,
+                "user_name": e.publisher_name,
+                "now_delivery": e.now_delivery,
+                "shop_name": e.shop_name };
 
-          }));
+            }));
+          }
+          uni.setStorageSync('orderList', that.shopList);
         }
-        uni.setStorageSync('orderList', that.shopList);
+
       });
     },
     // 需求类别列表
@@ -371,14 +379,9 @@ __webpack_require__.r(__webpack_exports__);
     },
     getNewList: function getNewList() {
       var that = this;
-      var datas = uni.getStorageSync('orderList');
-      if (datas[0] && that.classfyIndex == 0) {
-        that.shopList = datas;
-      } else {
-        that.shopList = [];
-        that.curPage = 1;
-        that.getlist();
-      }
+      that.shopList = [];
+      that.curPage = 1;
+      that.getlist();
     },
     // swiper高度适应
     setSwiperHeight: function setSwiperHeight() {

@@ -97,7 +97,7 @@
 					that.code = res.code
 				}
 			})
-			if (uni.getStorageSync('examine') == 0||uni.getStorageSync('tourist')) {
+			if (uni.getStorageSync('tourist')) {
 				that.open = true
 			} else {
 				// 游客模式
@@ -187,12 +187,16 @@
 					uni.setStorageSync('userId', json.data.user_id)
 					uni.setStorageSync('userInfo', json.data);
 					uni.setStorageSync('village', json.data.residentialQuarterVo);
-					setTimeout(e => {
-						uni.hideLoading()
-						uni.reLaunch({
-							url: '/pages/index/index' + '?new=' + json.data.is_new
-						})
-					}, 1000)
+					if (!json.data.residentialQuarterVo.address) {
+						that.$jumpLa('/pages/index/changeVillage')
+					} else {
+						setTimeout(e => {
+							uni.hideLoading()
+							uni.reLaunch({
+								url: '/pages/index/index' + '?new=' + json.data.is_new
+							})
+						}, 1000)
+					}
 				})
 			},
 			// wx 一键登录

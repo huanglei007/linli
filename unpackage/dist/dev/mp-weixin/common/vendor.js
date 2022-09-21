@@ -766,8 +766,8 @@ function populateParameters(result) {var _result$brand =
     appVersion: "1.0.18",
     appVersionCode: "1018",
     appLanguage: getAppLanguage(hostLanguage),
-    uniCompileVersion: "3.5.3",
-    uniRuntimeVersion: "3.5.3",
+    uniCompileVersion: "3.6.3",
+    uniRuntimeVersion: "3.6.3",
     uniPlatform: undefined || "mp-weixin",
     deviceBrand: deviceBrand,
     deviceModel: model,
@@ -1222,11 +1222,12 @@ function getPushClientId(args) {
   var hasSuccess = isFn(success);
   var hasFail = isFn(fail);
   var hasComplete = isFn(complete);
+
   Promise.resolve().then(function () {
     if (typeof enabled === 'undefined') {
       enabled = false;
       cid = '';
-      cidErrMsg = 'unipush is not enabled';
+      cidErrMsg = 'uniPush is not enabled';
     }
     getPushCidCallbacks.push(function (cid, errMsg) {
       var res;
@@ -1289,7 +1290,17 @@ var customize = cached(function (str) {
 function initTriggerEvent(mpInstance) {
   var oldTriggerEvent = mpInstance.triggerEvent;
   var newTriggerEvent = function newTriggerEvent(event) {for (var _len3 = arguments.length, args = new Array(_len3 > 1 ? _len3 - 1 : 0), _key3 = 1; _key3 < _len3; _key3++) {args[_key3 - 1] = arguments[_key3];}
-    return oldTriggerEvent.apply(mpInstance, [customize(event)].concat(args));
+    // 事件名统一转驼峰格式，仅处理：当前组件为 vue 组件、当前组件为 vue 组件子组件
+    if (this.$vm || this.dataset && this.dataset.comType) {
+      event = customize(event);
+    } else {
+      // 针对微信/QQ小程序单独补充驼峰格式事件，以兼容历史项目
+      var newEvent = customize(event);
+      if (newEvent !== event) {
+        oldTriggerEvent.apply(this, [newEvent].concat(args));
+      }
+    }
+    return oldTriggerEvent.apply(this, [event].concat(args));
   };
   try {
     // 京东小程序 triggerEvent 为只读
@@ -1388,6 +1399,29 @@ function initHooks(mpOptions, hooks, vueOptions) {
   });
 }
 
+function initUnknownHooks(mpOptions, vueOptions) {var excludes = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : [];
+  findHooks(vueOptions).forEach(function (hook) {return initHook$1(mpOptions, hook, excludes);});
+}
+
+function findHooks(vueOptions) {var hooks = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
+  if (vueOptions) {
+    Object.keys(vueOptions).forEach(function (name) {
+      if (name.indexOf('on') === 0 && isFn(vueOptions[name])) {
+        hooks.push(name);
+      }
+    });
+  }
+  return hooks;
+}
+
+function initHook$1(mpOptions, hook, excludes) {
+  if (excludes.indexOf(hook) === -1 && !hasOwn(mpOptions, hook)) {
+    mpOptions[hook] = function (args) {
+      return this.$vm && this.$vm.__call_hook(hook, args);
+    };
+  }
+}
+
 function initVueComponent(Vue, vueOptions) {
   vueOptions = vueOptions.default || vueOptions;
   var VueComponent;
@@ -1430,7 +1464,7 @@ function initData(vueOptions, context) {
     try {
       data = data.call(context); // 支持 Vue.prototype 上挂的数据
     } catch (e) {
-      if (Object({"VUE_APP_NAME":"阾里","VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG) {
+      if (Object({"NODE_ENV":"development","VUE_APP_NAME":"阾里","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
         console.warn('根据 Vue 的 data 函数初始化小程序 data 失败，请尽量确保 data 函数中不访问 vm 对象，否则可能影响首次数据渲染速度。', data);
       }
     }
@@ -1673,7 +1707,7 @@ function getExtraValue(vm, dataPathsArray) {
   return context;
 }
 
-function processEventExtra(vm, extra, event) {
+function processEventExtra(vm, extra, event, __args__) {
   var extraObj = {};
 
   if (Array.isArray(extra) && extra.length) {
@@ -1696,11 +1730,7 @@ function processEventExtra(vm, extra, event) {
           if (dataPath === '$event') {// $event
             extraObj['$' + index] = event;
           } else if (dataPath === 'arguments') {
-            if (event.detail && event.detail.__args__) {
-              extraObj['$' + index] = event.detail.__args__;
-            } else {
-              extraObj['$' + index] = [event];
-            }
+            extraObj['$' + index] = event.detail ? event.detail.__args__ || __args__ : __args__;
           } else if (dataPath.indexOf('$event.') === 0) {// $event.target.value
             extraObj['$' + index] = vm.__get_value(dataPath.replace('$event.', ''), event);
           } else {
@@ -1727,6 +1757,12 @@ function getObjByArray(arr) {
 
 function processEventArgs(vm, event) {var args = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : [];var extra = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : [];var isCustom = arguments.length > 4 ? arguments[4] : undefined;var methodName = arguments.length > 5 ? arguments[5] : undefined;
   var isCustomMPEvent = false; // wxcomponent 组件，传递原始 event 对象
+
+  // fixed 用户直接触发 mpInstance.triggerEvent
+  var __args__ = isPlainObject(event.detail) ?
+  event.detail.__args__ || [event.detail] :
+  [event.detail];
+
   if (isCustom) {// 自定义事件
     isCustomMPEvent = event.currentTarget &&
     event.currentTarget.dataset &&
@@ -1735,11 +1771,11 @@ function processEventArgs(vm, event) {var args = arguments.length > 2 && argumen
       if (isCustomMPEvent) {
         return [event];
       }
-      return event.detail.__args__ || event.detail;
+      return __args__;
     }
   }
 
-  var extraObj = processEventExtra(vm, extra, event);
+  var extraObj = processEventExtra(vm, extra, event, __args__);
 
   var ret = [];
   args.forEach(function (arg) {
@@ -1748,7 +1784,7 @@ function processEventArgs(vm, event) {var args = arguments.length > 2 && argumen
         ret.push(event.target.value);
       } else {
         if (isCustom && !isCustomMPEvent) {
-          ret.push(event.detail.__args__[0]);
+          ret.push(__args__[0]);
         } else {// wxcomponent 组件或内置组件
           ret.push(event);
         }
@@ -2055,6 +2091,7 @@ function parseBaseApp(vm, _ref3)
   initAppLocale(_vue.default, vm, normalizeLocale(wx.getSystemInfoSync().language) || LOCALE_EN);
 
   initHooks(appOptions, hooks);
+  initUnknownHooks(appOptions, vm.$options);
 
   return appOptions;
 }
@@ -2333,6 +2370,7 @@ function parseBasePage(vuePageOptions, _ref6)
     this.$vm.$mp.query = query; // 兼容 mpvue
     this.$vm.__call_hook('onLoad', query);
   };
+  initUnknownHooks(pageOptions.methods, vuePageOptions, ['onReady']);
 
   return pageOptions;
 }
@@ -11484,7 +11522,7 @@ function type(obj) {
 
 function flushCallbacks$1(vm) {
     if (vm.__next_tick_callbacks && vm.__next_tick_callbacks.length) {
-        if (Object({"VUE_APP_NAME":"阾里","VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG) {
+        if (Object({"NODE_ENV":"development","VUE_APP_NAME":"阾里","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
             var mpInstance = vm.$scope;
             console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + vm._uid +
                 ']:flushCallbacks[' + vm.__next_tick_callbacks.length + ']');
@@ -11505,14 +11543,14 @@ function nextTick$1(vm, cb) {
     //1.nextTick 之前 已 setData 且 setData 还未回调完成
     //2.nextTick 之前存在 render watcher
     if (!vm.__next_tick_pending && !hasRenderWatcher(vm)) {
-        if(Object({"VUE_APP_NAME":"阾里","VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG){
+        if(Object({"NODE_ENV":"development","VUE_APP_NAME":"阾里","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG){
             var mpInstance = vm.$scope;
             console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + vm._uid +
                 ']:nextVueTick');
         }
         return nextTick(cb, vm)
     }else{
-        if(Object({"VUE_APP_NAME":"阾里","VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG){
+        if(Object({"NODE_ENV":"development","VUE_APP_NAME":"阾里","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG){
             var mpInstance$1 = vm.$scope;
             console.log('[' + (+new Date) + '][' + (mpInstance$1.is || mpInstance$1.route) + '][' + vm._uid +
                 ']:nextMPTick');
@@ -11598,7 +11636,7 @@ var patch = function(oldVnode, vnode) {
     });
     var diffData = this.$shouldDiffData === false ? data : diff(data, mpData);
     if (Object.keys(diffData).length) {
-      if (Object({"VUE_APP_NAME":"阾里","VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG) {
+      if (Object({"NODE_ENV":"development","VUE_APP_NAME":"阾里","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
         console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + this._uid +
           ']差量更新',
           JSON.stringify(diffData));
@@ -11784,9 +11822,12 @@ function internalMixin(Vue) {
 
   Vue.prototype.$emit = function(event) {
     if (this.$scope && event) {
-      (this.$scope['_triggerEvent'] || this.$scope['triggerEvent']).call(this.$scope, event, {
-        __args__: toArray(arguments, 1)
-      });
+      var triggerEvent = this.$scope['_triggerEvent'] || this.$scope['triggerEvent'];
+      if (triggerEvent) {
+        triggerEvent.call(this.$scope, event, {
+          __args__: toArray(arguments, 1)
+        });
+      }
     }
     return oldEmit.apply(this, arguments)
   };
@@ -11953,7 +11994,8 @@ var LIFECYCLE_HOOKS$1 = [
     // 'onReady', // 兼容旧版本，应该移除该事件
     'onPageShow',
     'onPageHide',
-    'onPageResize'
+    'onPageResize',
+    'onUploadDouyinVideo'
 ];
 function lifecycleMixin$1(Vue) {
 
@@ -13295,7 +13337,7 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
 var sys = uni.getSystemInfoSync();
 
 // 访问开始即启动小程序，访问结束结分为：进入后台超过5min、在前台无任何操作超过30min、在新的来源打开小程序；
-var STAT_VERSION = "3.5.3";
+var STAT_VERSION = "3.6.3";
 var STAT_URL = 'https://tongji.dcloud.io/uni/stat';
 var STAT_H5_URL = 'https://tongji.dcloud.io/uni/stat.gif';
 var PAGE_PVER_TIME = 1800; // 页面在前台无操作结束访问时间 单位s
@@ -13303,6 +13345,8 @@ var APP_PVER_TIME = 300; // 应用在后台结束访问时间 单位s
 var OPERATING_TIME = 10; // 数据上报时间 单位s
 var DIFF_TIME = 60 * 1000 * 60 * 24;
 
+// 获取 manifest.json 中统计配置
+var uniStatisticsConfig = {"enable":true};
 var statConfig = {
   appid: "__UNI__767C2E9" };
 
@@ -13739,7 +13783,7 @@ var is_debug = debug;
                        * 日志输出
                        * @param {*} data
                        */
-var log = function log(data) {
+var log = function log(data, type) {
   var msg_type = '';
   switch (data.lt) {
     case '1':
@@ -13762,11 +13806,52 @@ var log = function log(data) {
       msg_type = 'PUSH';
       break;}
 
+
+
+
+
+
+
+
+
+  if (type) {
+    console.log("=== \u7EDF\u8BA1\u961F\u5217\u6570\u636E\u4E0A\u62A5 ===");
+    console.log(data);
+    console.log("=== \u4E0A\u62A5\u7ED3\u675F ===");
+    return;
+  }
+
   if (msg_type) {
     console.log("=== \u7EDF\u8BA1\u6570\u636E\u91C7\u96C6\uFF1A".concat(msg_type, " ==="));
     console.log(data);
     console.log("=== \u91C7\u96C6\u7ED3\u675F ===");
   }
+};
+
+/**
+    * 获取上报时间间隔
+    * @param {*} defaultTime 默认上报间隔时间 单位s
+    */
+var get_report_Interval = function get_report_Interval(defaultTime) {
+  var time = uniStatisticsConfig.reportInterval;
+  // 如果上报时间配置为0 相当于立即上报
+  if (Number(time) === 0) return 0;
+  time = time || defaultTime;
+  var reg = /(^[1-9]\d*$)/;
+  // 如果不是整数，则默认为上报间隔时间
+  if (!reg.test(time)) return defaultTime;
+  return Number(time);
+};
+
+/**
+    * 获取隐私协议配置
+    */
+var is_push_clientid = function is_push_clientid() {
+  if (uniStatisticsConfig.collectItems) {
+    var ClientID = uniStatisticsConfig.collectItems.uniPushClientID;
+    return typeof ClientID === 'boolean' ? ClientID : false;
+  }
+  return false;
 };
 
 var appid = "__UNI__767C2E9"; // 做应用隔离
@@ -13940,6 +14025,7 @@ var get_residence_time = function get_residence_time(type) {
 
 };
 
+var eport_Interval = get_report_Interval(OPERATING_TIME);
 // 统计数据默认值
 var statData = {
   uuid: get_uuid(), // 设备标识
@@ -14406,7 +14492,7 @@ Report = /*#__PURE__*/function () {"use strict";
         log(data);
       }
       // 判断时候到达上报时间 ，默认 10 秒上报
-      if (page_residence_time < OPERATING_TIME && !type) return;
+      if (page_residence_time < eport_Interval && !type) return;
 
       // 时间超过，重新获取时间戳
       set_page_residence_time();
@@ -14456,9 +14542,7 @@ Report = /*#__PURE__*/function () {"use strict";
             data: optionsData,
             success: function success() {
               if (is_debug) {
-                console.log("=== \u7EDF\u8BA1\u961F\u5217\u6570\u636E\u4E0A\u62A5 ===");
-                console.log(optionsData);
-                console.log("=== \u4E0A\u62A5\u7ED3\u675F ===");
+                log(optionsData, true);
               }
             },
             fail: function fail(e) {
@@ -14486,9 +14570,7 @@ Report = /*#__PURE__*/function () {"use strict";
         var options = get_sgin(get_encodeURIComponent_options(data)).options;
         image.src = STAT_H5_URL + '?' + options;
         if (is_debug) {
-          console.log("=== \u7EDF\u8BA1\u961F\u5217\u6570\u636E\u4E0A\u62A5 ===");
-          console.log(data);
-          console.log("=== \u4E0A\u62A5\u7ED3\u675F ===");
+          log(data, true);
         }
       });
     } }, { key: "sendEvent", value: function sendEvent(
@@ -14527,7 +14609,8 @@ Stat = /*#__PURE__*/function (_Report) {"use strict";_inherits(Stat, _Report);va
      * 获取推送id
      */_createClass(Stat, [{ key: "pushEvent", value: function pushEvent(
     options) {var _this7 = this;
-      if (uni.getPushClientId) {
+      var ClientID = is_push_clientid();
+      if (uni.getPushClientId && ClientID) {
         uni.getPushClientId({
           success: function success(res) {
             var cid = res.cid || false;
@@ -16467,7 +16550,7 @@ module.exports = JSON.parse("{\"uni-datetime-picker.selectDate\":\"選擇日期\
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _default = { "pages": { "pages/login/login": { "usingComponents": {}, "usingAutoImportComponents": {} }, "pages/login/register": { "usingComponents": {}, "usingAutoImportComponents": {} }, "pages/agreement/secret": { "navigationStyle": "default", "navigationBarTitleText": "用户协议", "usingComponents": {}, "usingAutoImportComponents": {} }, "pages/index/index": { "enablePullDownRefresh": true, "usingComponents": { "list": "/components/menuList", "nearbyshop": "/pages/index/a_nearbyshop" }, "usingAutoImportComponents": { "uni-popup": "/uni_modules/uni-popup/components/uni-popup/uni-popup", "uni-popup-dialog": "/uni_modules/uni-popup/components/uni-popup-dialog/uni-popup-dialog", "uni-icons": "/uni_modules/uni-icons/components/uni-icons/uni-icons", "uni-dateformat": "/uni_modules/uni-dateformat/components/uni-dateformat/uni-dateformat" } }, "pages/index/search": { "usingComponents": { "list": "/components/menuList" }, "usingAutoImportComponents": {} }, "pages/index/daren": { "navigationStyle": "default", "navigationBarTitleText": "社区达人", "usingComponents": {}, "usingAutoImportComponents": { "uni-link": "/uni_modules/uni-link/components/uni-link/uni-link" } }, "pages/index/applyDaren": { "usingComponents": {}, "usingAutoImportComponents": {} }, "pages/index/tijian": { "usingComponents": {}, "usingAutoImportComponents": {} }, "pages/index/changeVillage": { "usingComponents": {}, "usingAutoImportComponents": {} }, "pages/index/changeCity": { "usingComponents": { "txl": "/components/yt-txl/index" }, "usingAutoImportComponents": {} }, "pages/index/shangquan": { "usingComponents": { "nearbyshop": "/pages/index/a_nearbyshop" }, "usingAutoImportComponents": {} }, "pages/index/bookSearch": { "usingComponents": { "list": "/components/menuList" }, "usingAutoImportComponents": {} }, "pages/index/shopDetail": { "usingComponents": {}, "usingAutoImportComponents": {} }, "pages/index/darenDetail": { "usingComponents": {}, "usingAutoImportComponents": {} }, "pages/index/xianzhi": { "navigationStyle": "default", "navigationBarTitleText": "闲置买卖", "usingComponents": { "list": "/components/menuList" }, "usingAutoImportComponents": {} }, "pages/index/shopOrder": { "navigationStyle": "default", "navigationBarTitleText": "订单详情", "usingComponents": { "change-addresss": "/components/changeAddresss" }, "usingAutoImportComponents": {} }, "pages/from/xianzhi": { "navigationStyle": "default", "navigationBarTitleText": "闲置买卖", "usingComponents": { "picker-address": "/components/changeAddresss" }, "usingAutoImportComponents": { "uni-forms": "/uni_modules/uni-forms/components/uni-forms/uni-forms", "uni-forms-item": "/uni_modules/uni-forms/components/uni-forms-item/uni-forms-item", "uni-easyinput": "/uni_modules/uni-easyinput/components/uni-easyinput/uni-easyinput" } }, "pages/from/pet": { "navigationStyle": "default", "navigationBarTitleText": "宠物买卖", "usingComponents": { "picker-address": "/components/changeAddresss" }, "usingAutoImportComponents": { "uni-forms": "/uni_modules/uni-forms/components/uni-forms/uni-forms", "uni-forms-item": "/uni_modules/uni-forms/components/uni-forms-item/uni-forms-item", "uni-easyinput": "/uni_modules/uni-easyinput/components/uni-easyinput/uni-easyinput" } }, "pages/index/pet": { "navigationStyle": "default", "navigationBarTitleText": "宠物买卖", "usingComponents": { "list": "/components/menuList" }, "usingAutoImportComponents": { "uni-link": "/uni_modules/uni-link/components/uni-link/uni-link" } }, "pages/from/book": { "navigationStyle": "default", "navigationBarTitleText": "旧书出售", "usingComponents": { "picker-address": "/components/changeAddresss" }, "usingAutoImportComponents": { "uni-forms": "/uni_modules/uni-forms/components/uni-forms/uni-forms", "uni-forms-item": "/uni_modules/uni-forms/components/uni-forms-item/uni-forms-item", "uni-easyinput": "/uni_modules/uni-easyinput/components/uni-easyinput/uni-easyinput" } }, "pages/index/book": { "navigationStyle": "default", "navigationBarTitleText": "旧书出售", "usingComponents": { "list": "/components/menuList" }, "usingAutoImportComponents": { "uni-link": "/uni_modules/uni-link/components/uni-link/uni-link" } }, "pages/from/clothes": { "navigationStyle": "default", "navigationBarTitleText": "旧衣出售", "usingComponents": { "picker-address": "/components/changeAddresss" }, "usingAutoImportComponents": { "uni-forms": "/uni_modules/uni-forms/components/uni-forms/uni-forms", "uni-forms-item": "/uni_modules/uni-forms/components/uni-forms-item/uni-forms-item", "uni-easyinput": "/uni_modules/uni-easyinput/components/uni-easyinput/uni-easyinput", "uni-datetime-picker": "/uni_modules/uni-datetime-picker/components/uni-datetime-picker/uni-datetime-picker" } }, "pages/index/shopList": { "navigationStyle": "default", "navigationBarTitleText": "商铺", "usingComponents": {}, "usingAutoImportComponents": {} }, "pages/index/darenList": { "navigationStyle": "default", "navigationBarTitleText": "达人", "usingComponents": {}, "usingAutoImportComponents": {} }, "pages/index/wuye": { "navigationStyle": "default", "navigationBarTitleText": "社区物业", "usingComponents": {}, "usingAutoImportComponents": {} }, "pages/index/a_nearbyshop": { "navigationStyle": "default", "navigationBarTitleText": "附近商家", "usingComponents": {}, "usingAutoImportComponents": { "uni-popup": "/uni_modules/uni-popup/components/uni-popup/uni-popup" } }, "pages/from/apply": { "usingComponents": { "get-express": "/pages/from/getExpress", "food": "/pages/from/food", "trash": "/pages/from/trash", "buy": "/pages/from/buy", "get": "/pages/from/get" }, "usingAutoImportComponents": {} }, "pages/from/currency": { "usingComponents": { "picker-address": "/components/changeAddresss" }, "usingAutoImportComponents": { "uni-forms": "/uni_modules/uni-forms/components/uni-forms/uni-forms", "uni-forms-item": "/uni_modules/uni-forms/components/uni-forms-item/uni-forms-item", "uni-easyinput": "/uni_modules/uni-easyinput/components/uni-easyinput/uni-easyinput" } }, "pages/order/index": { "usingComponents": { "list": "/components/menuList" }, "usingAutoImportComponents": {} }, "pages/order/orderList": { "usingComponents": { "list": "/components/menuList" }, "usingAutoImportComponents": {} }, "pages/order/orderDetail": { "enablePullDownRefresh": true, "onReachBottomDistance": 50, "usingComponents": { "picker-address": "/components/wangding-pickerAddres/wangding-pickerAddress", "a-order-detail": "/pages/order/a_order_detail" }, "usingAutoImportComponents": { "uni-easyinput": "/uni_modules/uni-easyinput/components/uni-easyinput/uni-easyinput" } }, "pages/order/shop": { "usingComponents": { "picker-address": "/components/wangding-pickerAddres/wangding-pickerAddress" }, "usingAutoImportComponents": {} }, "pages/order/get": { "usingComponents": { "picker-address": "/components/wangding-pickerAddres/wangding-pickerAddress" }, "usingAutoImportComponents": {} }, "pages/chat/index": { "usingComponents": {}, "usingAutoImportComponents": {} }, "pages/chat/HM-chat": { "usingComponents": {}, "usingAutoImportComponents": {} }, "pages/user/index": { "usingComponents": {}, "usingAutoImportComponents": { "uni-popup": "/uni_modules/uni-popup/components/uni-popup/uni-popup", "uni-popup-dialog": "/uni_modules/uni-popup/components/uni-popup-dialog/uni-popup-dialog" } }, "pages/user/applyShop": { "usingComponents": { "picker-address": "/components/wangding-pickerAddres/wangding-pickerAddress", "time-picker": "/components/timePicker" }, "usingAutoImportComponents": {} }, "pages/user/ticket": { "usingComponents": {}, "usingAutoImportComponents": {} }, "pages/user/wallet": { "usingComponents": { "dy-date-picker": "/components/dy-Date/dy-Date" }, "usingAutoImportComponents": {} }, "pages/user/tixian": { "usingComponents": {}, "usingAutoImportComponents": {} }, "pages/user/address": { "navigationStyle": "default", "navigationBarTitleText": "地址管理", "usingComponents": {}, "usingAutoImportComponents": { "uni-swipe-action": "/uni_modules/uni-swipe-action/components/uni-swipe-action/uni-swipe-action", "uni-swipe-action-item": "/uni_modules/uni-swipe-action/components/uni-swipe-action-item/uni-swipe-action-item" } }, "pages/user/addressManage": { "navigationStyle": "default", "navigationBarTitleText": "新增地址", "usingComponents": { "picker-address": "/components/wangding-pickerAddres/wangding-pickerAddress" }, "usingAutoImportComponents": {} }, "pages/user/shopSet/shopSet": { "navigationStyle": "default", "navigationBarTitleText": "我的店铺", "usingComponents": { "fuli": "/pages/user/shopSet/fuli", "message": "/pages/user/shopSet/message", "product": "/pages/user/shopSet/product" }, "usingAutoImportComponents": { "uni-popup": "/uni_modules/uni-popup/components/uni-popup/uni-popup", "uni-popup-dialog": "/uni_modules/uni-popup/components/uni-popup-dialog/uni-popup-dialog" } }, "pages/user/shopSet/fuli": { "navigationStyle": "default", "navigationBarTitleText": "优惠券管理", "usingComponents": {}, "usingAutoImportComponents": {} }, "pages/user/darenSet/darenSet": { "navigationStyle": "default", "navigationBarTitleText": "达人设置", "usingComponents": { "message": "/pages/user/darenSet/message", "product": "/pages/user/darenSet/product" }, "usingAutoImportComponents": {} }, "pages/user/set": { "navigationStyle": "default", "navigationBarTitleText": "设置", "usingComponents": {}, "usingAutoImportComponents": { "uni-easyinput": "/uni_modules/uni-easyinput/components/uni-easyinput/uni-easyinput" } }, "pages/user/pass": { "navigationStyle": "default", "navigationBarTitleText": "修改密码", "usingComponents": {}, "usingAutoImportComponents": { "uni-easyinput": "/uni_modules/uni-easyinput/components/uni-easyinput/uni-easyinput" } }, "pages/user/about": { "navigationStyle": "default", "navigationBarTitleText": "关于我们", "usingComponents": {}, "usingAutoImportComponents": {} }, "pages/user/tickitDetail": { "navigationStyle": "default", "navigationBarTitleText": "代金券详情", "navigationBarBackgroundColor": "#ffac46", "usingComponents": {}, "usingAutoImportComponents": { "uni-rate": "/uni_modules/uni-rate/components/uni-rate/uni-rate" } }, "pages/user/myOrder/myOrder": { "usingComponents": { "my-apply": "/pages/user/myOrder/myApply", "receiving": "/pages/user/myOrder/receiving", "order": "/pages/user/myOrder/order" }, "usingAutoImportComponents": {} }, "pages/user/orderDetail": { "navigationStyle": "default", "navigationBarTitleText": "订单详情", "usingComponents": {}, "usingAutoImportComponents": { "uni-dateformat": "/uni_modules/uni-dateformat/components/uni-dateformat/uni-dateformat" } }, "pages/user/yuyue/yuyue": { "navigationStyle": "default", "navigationBarTitleText": "我的预约", "usingComponents": {}, "usingAutoImportComponents": {} }, "pages/user/collection/collection": { "navigationStyle": "default", "navigationBarTitleText": "我的收藏", "usingComponents": { "shop": "/pages/user/collection/shop", "daren": "/pages/user/collection/daren" }, "usingAutoImportComponents": {} }, "pages/chooselocation/index": { "usingComponents": {}, "usingAutoImportComponents": {} }, "pagesA/a_baojie": { "navigationStyle": "default", "navigationBarTitleText": "家政保洁", "usingComponents": {}, "usingAutoImportComponents": { "a-order": "/components/a_components/a-order" } }, "pagesA/a_baojie_yuyue": { "navigationStyle": "default", "navigationBarTitleText": "家政保洁", "usingComponents": {}, "usingAutoImportComponents": { "a-up-address": "/components/a_components/a-upAddress", "a-up-time": "/components/a_components/a-upTime", "a-discount": "/components/a_components/a-discount", "a-remarks": "/components/a_components/a-remarks", "a-submit": "/components/a_components/a-submit" } }, "pagesA/a_weixiu": { "navigationStyle": "default", "navigationBarTitleText": "安装维修", "usingComponents": {}, "usingAutoImportComponents": { "a-up-address": "/components/a_components/a-upAddress", "a-up-time": "/components/a_components/a-upTime", "a-discount": "/components/a_components/a-discount", "a-remarks": "/components/a_components/a-remarks", "a-submit": "/components/a_components/a-submit" } }, "pagesA/a_maogou": { "navigationStyle": "default", "navigationBarTitleText": "喂猫喂狗", "usingComponents": {}, "usingAutoImportComponents": { "a-order": "/components/a_components/a-order" } }, "pagesA/a_maogou_yuyue": { "navigationStyle": "default", "navigationBarTitleText": "喂猫喂狗", "usingComponents": {}, "usingAutoImportComponents": { "a-up-address": "/components/a_components/a-upAddress", "uni-datetime-picker": "/uni_modules/uni-datetime-picker/components/uni-datetime-picker/uni-datetime-picker", "a-discount": "/components/a_components/a-discount", "a-remarks": "/components/a_components/a-remarks", "a-submit": "/components/a_components/a-submit" } }, "pagesA/a_peihu": { "navigationStyle": "default", "navigationBarTitleText": "陪护看病", "usingComponents": {}, "usingAutoImportComponents": { "a-order": "/components/a_components/a-order" } }, "pagesA/a_peihu_yuyue": { "navigationStyle": "default", "navigationBarTitleText": "陪护看病", "usingComponents": {}, "usingAutoImportComponents": { "a-up-address": "/components/a_components/a-upAddress", "a-up-time": "/components/a_components/a-upTime", "a-discount": "/components/a_components/a-discount", "a-remarks": "/components/a_components/a-remarks", "a-submit": "/components/a_components/a-submit" } }, "pagesA/a_peihu_yuyue_obj": { "navigationStyle": "default", "navigationBarTitleText": "服务对象", "usingComponents": {}, "usingAutoImportComponents": {} }, "pagesA/a_jiachu": { "navigationStyle": "default", "navigationBarTitleText": "私厨预约", "usingComponents": {}, "usingAutoImportComponents": { "uni-number-box": "/uni_modules/uni-number-box/components/uni-number-box/uni-number-box", "a-up-address": "/components/a_components/a-upAddress", "a-up-time": "/components/a_components/a-upTime", "a-discount": "/components/a_components/a-discount", "a-remarks": "/components/a_components/a-remarks", "a-submit": "/components/a_components/a-submit" } }, "pagesA/a_orderDetail_cancel": { "navigationStyle": "default", "navigationBarTitleText": "取消订单", "usingComponents": {}, "usingAutoImportComponents": {} }, "pagesA/a_orderDetail_evaluate": { "navigationStyle": "default", "navigationBarTitleText": "评价", "usingComponents": {}, "usingAutoImportComponents": { "uni-rate": "/uni_modules/uni-rate/components/uni-rate/uni-rate" } }, "pagesA/a_product": { "navigationStyle": "default", "navigationBarTitleText": "商品管理", "usingComponents": {}, "usingAutoImportComponents": { "uni-search-bar": "/uni_modules/uni-search-bar/components/uni-search-bar/uni-search-bar", "uni-popup": "/uni_modules/uni-popup/components/uni-popup/uni-popup" } }, "pagesA/a_shop": { "navigationStyle": "default", "navigationBarTitleText": "店铺管理", "usingComponents": {}, "usingAutoImportComponents": {} }, "pagesA/a_myWelfare": { "navigationStyle": "default", "navigationBarTitleText": "我的福利", "usingComponents": {}, "usingAutoImportComponents": { "uni-segmented-control": "/uni_modules/uni-segmented-control/components/uni-segmented-control/uni-segmented-control", "uni-dateformat": "/uni_modules/uni-dateformat/components/uni-dateformat/uni-dateformat" } } }, "globalStyle": { "navigationStyle": "custom", "navigationBarTextStyle": "black", "navigationBarTitleText": "邻里", "navigationBarBackgroundColor": "#fff", "backgroundColor": "#FFFFFF" } };exports.default = _default;
+Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _default = { "pages": { "pages/login/login": { "usingComponents": {}, "usingAutoImportComponents": {} }, "pages/login/register": { "usingComponents": {}, "usingAutoImportComponents": {} }, "pages/agreement/secret": { "navigationStyle": "default", "navigationBarTitleText": "用户协议", "usingComponents": {}, "usingAutoImportComponents": {} }, "pages/index/index": { "usingComponents": { "list": "/components/menuList", "nearbyshop": "/pages/index/a_nearbyshop" }, "usingAutoImportComponents": { "uni-popup": "/uni_modules/uni-popup/components/uni-popup/uni-popup", "uni-popup-dialog": "/uni_modules/uni-popup/components/uni-popup-dialog/uni-popup-dialog", "uni-icons": "/uni_modules/uni-icons/components/uni-icons/uni-icons", "uni-dateformat": "/uni_modules/uni-dateformat/components/uni-dateformat/uni-dateformat" } }, "pages/index/search": { "usingComponents": { "list": "/components/menuList" }, "usingAutoImportComponents": {} }, "pages/index/daren": { "navigationStyle": "default", "navigationBarTitleText": "社区达人", "usingComponents": {}, "usingAutoImportComponents": { "uni-link": "/uni_modules/uni-link/components/uni-link/uni-link" } }, "pages/index/applyDaren": { "usingComponents": {}, "usingAutoImportComponents": {} }, "pages/index/tijian": { "usingComponents": {}, "usingAutoImportComponents": {} }, "pages/index/changeVillage": { "usingComponents": {}, "usingAutoImportComponents": {} }, "pages/index/changeCity": { "usingComponents": { "txl": "/components/yt-txl/index" }, "usingAutoImportComponents": {} }, "pages/index/shangquan": { "usingComponents": { "nearbyshop": "/pages/index/a_nearbyshop" }, "usingAutoImportComponents": {} }, "pages/index/bookSearch": { "usingComponents": { "list": "/components/menuList" }, "usingAutoImportComponents": {} }, "pages/index/shopDetail": { "usingComponents": {}, "usingAutoImportComponents": {} }, "pages/index/darenDetail": { "usingComponents": {}, "usingAutoImportComponents": {} }, "pages/index/xianzhi": { "navigationStyle": "default", "navigationBarTitleText": "闲置买卖", "usingComponents": { "list": "/components/menuList" }, "usingAutoImportComponents": {} }, "pages/index/shopOrder": { "navigationStyle": "default", "navigationBarTitleText": "订单详情", "usingComponents": { "change-addresss": "/components/changeAddresss" }, "usingAutoImportComponents": {} }, "pages/from/xianzhi": { "navigationStyle": "default", "navigationBarTitleText": "闲置买卖", "usingComponents": { "picker-address": "/components/changeAddresss" }, "usingAutoImportComponents": { "uni-forms": "/uni_modules/uni-forms/components/uni-forms/uni-forms", "uni-forms-item": "/uni_modules/uni-forms/components/uni-forms-item/uni-forms-item", "uni-easyinput": "/uni_modules/uni-easyinput/components/uni-easyinput/uni-easyinput" } }, "pages/from/pet": { "navigationStyle": "default", "navigationBarTitleText": "宠物买卖", "usingComponents": { "picker-address": "/components/changeAddresss" }, "usingAutoImportComponents": { "uni-forms": "/uni_modules/uni-forms/components/uni-forms/uni-forms", "uni-forms-item": "/uni_modules/uni-forms/components/uni-forms-item/uni-forms-item", "uni-easyinput": "/uni_modules/uni-easyinput/components/uni-easyinput/uni-easyinput" } }, "pages/index/pet": { "navigationStyle": "default", "navigationBarTitleText": "宠物买卖", "usingComponents": { "list": "/components/menuList" }, "usingAutoImportComponents": { "uni-link": "/uni_modules/uni-link/components/uni-link/uni-link" } }, "pages/from/book": { "navigationStyle": "default", "navigationBarTitleText": "旧书出售", "usingComponents": { "picker-address": "/components/changeAddresss" }, "usingAutoImportComponents": { "uni-forms": "/uni_modules/uni-forms/components/uni-forms/uni-forms", "uni-forms-item": "/uni_modules/uni-forms/components/uni-forms-item/uni-forms-item", "uni-easyinput": "/uni_modules/uni-easyinput/components/uni-easyinput/uni-easyinput" } }, "pages/index/book": { "navigationStyle": "default", "navigationBarTitleText": "旧书出售", "usingComponents": { "list": "/components/menuList" }, "usingAutoImportComponents": { "uni-link": "/uni_modules/uni-link/components/uni-link/uni-link" } }, "pages/from/clothes": { "navigationStyle": "default", "navigationBarTitleText": "旧衣出售", "usingComponents": { "picker-address": "/components/changeAddresss" }, "usingAutoImportComponents": { "uni-forms": "/uni_modules/uni-forms/components/uni-forms/uni-forms", "uni-forms-item": "/uni_modules/uni-forms/components/uni-forms-item/uni-forms-item", "uni-easyinput": "/uni_modules/uni-easyinput/components/uni-easyinput/uni-easyinput", "uni-datetime-picker": "/uni_modules/uni-datetime-picker/components/uni-datetime-picker/uni-datetime-picker" } }, "pages/index/shopList": { "navigationStyle": "default", "navigationBarTitleText": "商铺", "usingComponents": {}, "usingAutoImportComponents": {} }, "pages/index/darenList": { "navigationStyle": "default", "navigationBarTitleText": "达人", "usingComponents": {}, "usingAutoImportComponents": {} }, "pages/index/wuye": { "navigationStyle": "default", "navigationBarTitleText": "社区物业", "usingComponents": {}, "usingAutoImportComponents": {} }, "pages/index/a_nearbyshop": { "navigationStyle": "default", "navigationBarTitleText": "附近商家", "usingComponents": {}, "usingAutoImportComponents": { "uni-popup": "/uni_modules/uni-popup/components/uni-popup/uni-popup" } }, "pages/from/apply": { "usingComponents": { "get-express": "/pages/from/getExpress", "food": "/pages/from/food", "trash": "/pages/from/trash", "buy": "/pages/from/buy", "get": "/pages/from/get" }, "usingAutoImportComponents": {} }, "pages/from/currency": { "usingComponents": { "picker-address": "/components/changeAddresss" }, "usingAutoImportComponents": { "uni-forms": "/uni_modules/uni-forms/components/uni-forms/uni-forms", "uni-forms-item": "/uni_modules/uni-forms/components/uni-forms-item/uni-forms-item", "uni-easyinput": "/uni_modules/uni-easyinput/components/uni-easyinput/uni-easyinput" } }, "pages/order/index": { "usingComponents": { "list": "/components/menuList" }, "usingAutoImportComponents": {} }, "pages/order/orderList": { "usingComponents": { "list": "/components/menuList" }, "usingAutoImportComponents": {} }, "pages/order/orderDetail": { "enablePullDownRefresh": true, "onReachBottomDistance": 50, "usingComponents": { "picker-address": "/components/wangding-pickerAddres/wangding-pickerAddress", "a-order-detail": "/pages/order/a_order_detail" }, "usingAutoImportComponents": { "uni-easyinput": "/uni_modules/uni-easyinput/components/uni-easyinput/uni-easyinput" } }, "pages/order/shop": { "usingComponents": { "picker-address": "/components/wangding-pickerAddres/wangding-pickerAddress" }, "usingAutoImportComponents": {} }, "pages/order/get": { "usingComponents": { "picker-address": "/components/wangding-pickerAddres/wangding-pickerAddress" }, "usingAutoImportComponents": {} }, "pages/chat/index": { "usingComponents": {}, "usingAutoImportComponents": {} }, "pages/chat/HM-chat": { "usingComponents": {}, "usingAutoImportComponents": {} }, "pages/user/index": { "usingComponents": {}, "usingAutoImportComponents": { "uni-popup": "/uni_modules/uni-popup/components/uni-popup/uni-popup", "uni-popup-dialog": "/uni_modules/uni-popup/components/uni-popup-dialog/uni-popup-dialog" } }, "pages/user/applyShop": { "usingComponents": { "picker-address": "/components/wangding-pickerAddres/wangding-pickerAddress", "time-picker": "/components/timePicker" }, "usingAutoImportComponents": {} }, "pages/user/ticket": { "usingComponents": {}, "usingAutoImportComponents": {} }, "pages/user/wallet": { "usingComponents": { "dy-date-picker": "/components/dy-Date/dy-Date" }, "usingAutoImportComponents": {} }, "pages/user/tixian": { "usingComponents": {}, "usingAutoImportComponents": {} }, "pages/user/address": { "navigationStyle": "default", "navigationBarTitleText": "地址管理", "usingComponents": {}, "usingAutoImportComponents": { "uni-swipe-action": "/uni_modules/uni-swipe-action/components/uni-swipe-action/uni-swipe-action", "uni-swipe-action-item": "/uni_modules/uni-swipe-action/components/uni-swipe-action-item/uni-swipe-action-item" } }, "pages/user/addressManage": { "navigationStyle": "default", "navigationBarTitleText": "新增地址", "usingComponents": { "picker-address": "/components/wangding-pickerAddres/wangding-pickerAddress" }, "usingAutoImportComponents": {} }, "pages/user/shopSet/shopSet": { "navigationStyle": "default", "navigationBarTitleText": "我的店铺", "usingComponents": { "fuli": "/pages/user/shopSet/fuli", "message": "/pages/user/shopSet/message", "product": "/pages/user/shopSet/product" }, "usingAutoImportComponents": { "uni-popup": "/uni_modules/uni-popup/components/uni-popup/uni-popup", "uni-popup-dialog": "/uni_modules/uni-popup/components/uni-popup-dialog/uni-popup-dialog" } }, "pages/user/shopSet/fuli": { "navigationStyle": "default", "navigationBarTitleText": "优惠券管理", "usingComponents": {}, "usingAutoImportComponents": {} }, "pages/user/darenSet/darenSet": { "navigationStyle": "default", "navigationBarTitleText": "达人设置", "usingComponents": { "message": "/pages/user/darenSet/message", "product": "/pages/user/darenSet/product" }, "usingAutoImportComponents": {} }, "pages/user/set": { "navigationStyle": "default", "navigationBarTitleText": "设置", "usingComponents": {}, "usingAutoImportComponents": { "uni-easyinput": "/uni_modules/uni-easyinput/components/uni-easyinput/uni-easyinput" } }, "pages/user/pass": { "navigationStyle": "default", "navigationBarTitleText": "修改密码", "usingComponents": {}, "usingAutoImportComponents": { "uni-easyinput": "/uni_modules/uni-easyinput/components/uni-easyinput/uni-easyinput" } }, "pages/user/about": { "navigationStyle": "default", "navigationBarTitleText": "关于我们", "usingComponents": {}, "usingAutoImportComponents": {} }, "pages/user/tickitDetail": { "navigationStyle": "default", "navigationBarTitleText": "代金券详情", "navigationBarBackgroundColor": "#ffac46", "usingComponents": {}, "usingAutoImportComponents": { "uni-rate": "/uni_modules/uni-rate/components/uni-rate/uni-rate" } }, "pages/user/myOrder/myOrder": { "usingComponents": { "my-apply": "/pages/user/myOrder/myApply", "receiving": "/pages/user/myOrder/receiving", "order": "/pages/user/myOrder/order" }, "usingAutoImportComponents": {} }, "pages/user/orderDetail": { "navigationStyle": "default", "navigationBarTitleText": "订单详情", "usingComponents": {}, "usingAutoImportComponents": { "uni-dateformat": "/uni_modules/uni-dateformat/components/uni-dateformat/uni-dateformat" } }, "pages/user/yuyue/yuyue": { "navigationStyle": "default", "navigationBarTitleText": "我的预约", "usingComponents": {}, "usingAutoImportComponents": {} }, "pages/user/collection/collection": { "navigationStyle": "default", "navigationBarTitleText": "我的收藏", "usingComponents": { "shop": "/pages/user/collection/shop", "daren": "/pages/user/collection/daren" }, "usingAutoImportComponents": {} }, "pages/chooselocation/index": { "usingComponents": {}, "usingAutoImportComponents": {} }, "pagesA/a_baojie": { "navigationStyle": "default", "navigationBarTitleText": "家政保洁", "usingComponents": {}, "usingAutoImportComponents": { "a-order": "/components/a_components/a-order" } }, "pagesA/a_baojie_yuyue": { "navigationStyle": "default", "navigationBarTitleText": "家政保洁", "usingComponents": {}, "usingAutoImportComponents": { "a-up-address": "/components/a_components/a-upAddress", "a-up-time": "/components/a_components/a-upTime", "a-discount": "/components/a_components/a-discount", "a-remarks": "/components/a_components/a-remarks", "a-submit": "/components/a_components/a-submit" } }, "pagesA/a_weixiu": { "navigationStyle": "default", "navigationBarTitleText": "安装维修", "usingComponents": {}, "usingAutoImportComponents": { "a-up-address": "/components/a_components/a-upAddress", "a-up-time": "/components/a_components/a-upTime", "a-discount": "/components/a_components/a-discount", "a-remarks": "/components/a_components/a-remarks", "a-submit": "/components/a_components/a-submit" } }, "pagesA/a_maogou": { "navigationStyle": "default", "navigationBarTitleText": "喂猫喂狗", "usingComponents": {}, "usingAutoImportComponents": { "a-order": "/components/a_components/a-order" } }, "pagesA/a_maogou_yuyue": { "navigationStyle": "default", "navigationBarTitleText": "喂猫喂狗", "usingComponents": {}, "usingAutoImportComponents": { "a-up-address": "/components/a_components/a-upAddress", "uni-datetime-picker": "/uni_modules/uni-datetime-picker/components/uni-datetime-picker/uni-datetime-picker", "a-discount": "/components/a_components/a-discount", "a-remarks": "/components/a_components/a-remarks", "a-submit": "/components/a_components/a-submit" } }, "pagesA/a_peihu": { "navigationStyle": "default", "navigationBarTitleText": "陪护看病", "usingComponents": {}, "usingAutoImportComponents": { "a-order": "/components/a_components/a-order" } }, "pagesA/a_peihu_yuyue": { "navigationStyle": "default", "navigationBarTitleText": "陪护看病", "usingComponents": {}, "usingAutoImportComponents": { "a-up-address": "/components/a_components/a-upAddress", "a-up-time": "/components/a_components/a-upTime", "a-discount": "/components/a_components/a-discount", "a-remarks": "/components/a_components/a-remarks", "a-submit": "/components/a_components/a-submit" } }, "pagesA/a_peihu_yuyue_obj": { "navigationStyle": "default", "navigationBarTitleText": "服务对象", "usingComponents": {}, "usingAutoImportComponents": {} }, "pagesA/a_jiachu": { "navigationStyle": "default", "navigationBarTitleText": "私厨预约", "usingComponents": {}, "usingAutoImportComponents": { "uni-number-box": "/uni_modules/uni-number-box/components/uni-number-box/uni-number-box", "a-up-address": "/components/a_components/a-upAddress", "a-up-time": "/components/a_components/a-upTime", "a-discount": "/components/a_components/a-discount", "a-remarks": "/components/a_components/a-remarks", "a-submit": "/components/a_components/a-submit" } }, "pagesA/a_orderDetail_cancel": { "navigationStyle": "default", "navigationBarTitleText": "取消订单", "usingComponents": {}, "usingAutoImportComponents": {} }, "pagesA/a_orderDetail_evaluate": { "navigationStyle": "default", "navigationBarTitleText": "评价", "usingComponents": {}, "usingAutoImportComponents": { "uni-rate": "/uni_modules/uni-rate/components/uni-rate/uni-rate" } }, "pagesA/a_product": { "navigationStyle": "default", "navigationBarTitleText": "商品管理", "usingComponents": {}, "usingAutoImportComponents": { "uni-search-bar": "/uni_modules/uni-search-bar/components/uni-search-bar/uni-search-bar", "uni-popup": "/uni_modules/uni-popup/components/uni-popup/uni-popup" } }, "pagesA/a_shop": { "navigationStyle": "default", "navigationBarTitleText": "店铺管理", "usingComponents": {}, "usingAutoImportComponents": {} }, "pagesA/a_myWelfare": { "navigationStyle": "default", "navigationBarTitleText": "我的福利", "usingComponents": {}, "usingAutoImportComponents": { "uni-segmented-control": "/uni_modules/uni-segmented-control/components/uni-segmented-control/uni-segmented-control", "uni-dateformat": "/uni_modules/uni-dateformat/components/uni-dateformat/uni-dateformat" } } }, "globalStyle": { "navigationStyle": "custom", "navigationBarTextStyle": "black", "navigationBarTitleText": "邻里", "navigationBarBackgroundColor": "#fff", "backgroundColor": "#FFFFFF" } };exports.default = _default;
 
 /***/ }),
 

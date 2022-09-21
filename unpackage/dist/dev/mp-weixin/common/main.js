@@ -121,12 +121,10 @@ __webpack_require__.r(__webpack_exports__);
 
   },
   onShow: function onShow() {var _this = this;
-
     // 定时更新wx token
     setInterval(function () {
       _this.util.get_wx_access_token();
     }, 6000000);
-
 
     // wx更新版本
     var updateManager = uni.getUpdateManager();

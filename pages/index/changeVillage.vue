@@ -15,7 +15,8 @@
 			</view>
 			<view class="searchBox flexd jubetween flex-center">
 				<image src="/static/image/icon_ss.png" mode=""></image>
-				<input class="input" v-model="residential_quarter_name" type="text" value="" placeholder="请输入达人/商家名称" placeholder-style="font-size:28rpx;color:#888"/>
+				<input class="input" v-model="residential_quarter_name" type="text" value="" placeholder="请输入达人/商家名称"
+					placeholder-style="font-size:28rpx;color:#888" />
 				<view class="btn" @click="getNewList()">
 					搜索
 				</view>
@@ -32,7 +33,7 @@
 							{{myList.residential_quarter_name}}
 						</view>
 						<view class="address">
-							{{myList.address}} 
+							{{myList.address}}
 						</view>
 					</view>
 					<view>
@@ -48,8 +49,7 @@
 				附近小区
 			</view>
 			<view class="list">
-				<view class="item flexd jubetween flex-center"
-				v-for="(item,i) in list" :key="i">
+				<view class="item flexd jubetween flex-center" v-for="(item,i) in list" :key="i">
 					<view>
 						<view class="village">
 							{{item.residential_quarter_name}}
@@ -87,31 +87,31 @@
 			}
 		},
 		onReachBottom() {
-			if(!this.isfoot){
+			if (!this.isfoot) {
 				this.curPage++
 				this.getList()
 			}
 		},
 		onShow() {
-			let that=this
-			uni.$on('city',res=>{
-				that.cityId=res.id
-				that.city=res.text
+			let that = this
+			uni.$on('city', res => {
+				that.cityId = res.id
+				that.city = res.text
 				that.getNewList()
 			})
 		},
-		onLoad(){
+		onLoad() {
 			this.htosp = uni.getStorageSync('htop');
 			this.userId = uni.getStorageSync('userId');
-			let that=this
+			let that = this
 			uni.getLocation({
 				type: 'gcj02',
 				geocode: true,
 				success(e) {
-					that.longitude=e.longitude
-					that.latitude=e.latitude
-					if(e.address){
-						that.city=e.address.city.substring(0,e.address.city.lastIndexOf('市'))
+					that.longitude = e.longitude
+					that.latitude = e.latitude
+					if (e.address) {
+						that.city = e.address.city.substring(0, e.address.city.lastIndexOf('市'))
 					}
 					that.getList()
 					console.info(e)
@@ -123,81 +123,110 @@
 			})
 		},
 		methods: {
-			jiebang(){
-				this.myList.residential_quarter_name=''
+			jiebang() {
+				let that = this
+				uni.showModal({
+					title: '提示',
+					content: '解绑后部分功能不能使用',
+					cancelText: '取消',
+					confirmText: '确认',
+					success: res => {
+						that.util.ajax('residentialQuarter/unbound', {
+							"userId": that.userId
+						}, res => {
+							that.myList.residential_quarter_name = ''
+							that.$alert('已解绑')
+							setTimeout(() => {
+								that.$jumpback()
+							}, 1000)
+						})
+					},
+					fail: res => {
+						console.log('取消')
+					},
+				});
 			},
-			getList(){
-				let that=this
-				this.util.ajax('residentialQuarter/listPage',{
-					"cityId": this.cityId,
-					"curPage": this.latitude,
-					"latitude": this.latitude,
-					"longitude": this.longitude,
+			getList() {
+				let that = this
+				this.util.ajax('residentialQuarter/listPage', {
+					"cityId": that.cityId,
+					"curPage": that.latitude,
+					"latitude": that.latitude,
+					"longitude": that.longitude,
 					"pageSize": 20,
-					"residential_quarter_name": this.residential_quarter_name,
-					"userId": this.userId
-				},res=>{
-					if(that.curPage!==res.data.page.curPage) that.isfoot=true
-					that.myList=res.data.myXQ
-					that.list=this.list.concat(res.data.list)
+					"residential_quarter_name": that.residential_quarter_name,
+					"userId": that.userId
+				}, res => {
+					if (that.curPage !== res.data.page.curPage) that.isfoot = true
+					that.myList = res.data.myXQ
+					that.list = that.list.concat(res.data.list)
 				})
 			},
-			getNewList(){
-				this.list=[]
-				this.curPage=1
+			getNewList() {
+				this.list = []
+				this.curPage = 1
 				this.getList()
 			},
-			change(id){
-				let that=this
-				this.util.ajax('residentialQuarter/binding',{
+			change(id) {
+				let that = this
+				this.util.ajax('residentialQuarter/binding', {
 					"residential_quarter_id": id,
-					"userId": this.userId
-				},res=>{
+					"userId": that.userId
+				}, res => {
 					that.$alert('绑定成功')
-					setTimeout(e=>{
+					setTimeout(() => {
 						that.$jumpback()
-					},1000)
+					}, 1000)
 				})
-			}
+			},
 		}
 	}
 </script>
 
 <style lang="scss">
-	page{
+	page {
 		background-color: #f3f3f3;
 	}
-	.head{
+
+	.head {
 		padding: 20rpx 30rpx 20rpx 0;
 		background-color: #fff;
-		.left{
+
+		.left {
 			font-size: 32rpx;
-			font-weight:  bold;
-			image{
+			font-weight: bold;
+
+			image {
 				margin-right: 10rpx;
 			}
 		}
 	}
-	.search{
+
+	.search {
 		padding: 30rpx;
-		.city{
+
+		.city {
 			font-weight: bold;
 			font-size: 30rpx;
 		}
-		.searchBox{
+
+		.searchBox {
 			background-color: #fff;
 			border-radius: 30rpx;
 			line-height: 2;
 			width: 570rpx;
-			image{
+
+			image {
 				width: 30rpx;
 				height: 30rpx;
 				margin: 0 20rpx;
 			}
-			input{
+
+			input {
 				width: 350rpx;
 			}
-			.btn{
+
+			.btn {
 				width: 130rpx;
 				text-align: center;
 				background-color: $uni-color-primary;
@@ -206,30 +235,36 @@
 			}
 		}
 	}
-	.mine{
+
+	.mine {
 		margin: 0 30rpx;
 		background-color: #fff;
 		border-radius: 10rpx;
 		padding: 20rpx;
-		.title{
+
+		.title {
 			font-size: 30rpx;
 			margin-bottom: 20rpx;
 		}
-		.list{
-			.item{
+
+		.list {
+			.item {
 				margin-bottom: 10rpx;
 				//background-color: #F3F3F8;
 				padding: 30rpx 0;
 				border-radius: 10rpx;
-				.village{
+
+				.village {
 					font-size: 32rpx;
 					margin-bottom: 10rpx;
 				}
-				.address{
+
+				.address {
 					color: #989898;
 					max-width: 460rpx;
 				}
-				.btn{
+
+				.btn {
 					line-height: 2.3;
 					background-color: #03CA7D;
 					color: #fff;
@@ -239,27 +274,33 @@
 			}
 		}
 	}
-	.villageBox{
+
+	.villageBox {
 		margin: 30rpx;
-		.title{
+
+		.title {
 			font-size: 32rpx;
 			margin-bottom: 20rpx;
 		}
-		.list{
-			.item{
+
+		.list {
+			.item {
 				margin-bottom: 10rpx;
 				background-color: #fff;
 				padding: 30rpx 20rpx;
 				border-radius: 10rpx;
-				.village{
+
+				.village {
 					font-size: 32rpx;
 					margin-bottom: 10rpx;
 				}
-				.address{
+
+				.address {
 					color: #989898;
 					max-width: 460rpx;
 				}
-				.btn{
+
+				.btn {
 					line-height: 2.3;
 					background-color: $uni-color-primary;
 					padding: 0 30rpx;

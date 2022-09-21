@@ -43,7 +43,6 @@
 
 		<!-- 附近商家 -->
 		<nearbyshop ref="ref_nearbyshop" :type='shopType_sq'></nearbyshop>
-
 	</view>
 </template>
 
@@ -100,6 +99,11 @@
 			if (e.type) {
 				this.shopType_sq = e.type
 			}
+		},
+		onShow() {
+			setTimeout(() => {
+				this.$refs.ref_nearbyshop.getNewList()
+			}, 500)
 		},
 		mounted() {
 			if (this.shopType_sq) {

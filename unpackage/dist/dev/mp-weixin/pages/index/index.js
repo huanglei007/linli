@@ -274,6 +274,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
 var _wx_messagePush = __webpack_require__(/*! @/static/js/wx_messagePush.js */ 17);
 
 
@@ -359,10 +360,10 @@ var _a_nearbyshop = _interopRequireDefault(__webpack_require__(/*! @/pages/index
 //
 //
 //
+//
 // 微信订阅消息
 // 附近商家
-var list = function list() {__webpack_require__.e(/*! require.ensure | components/menuList */ "components/menuList").then((function () {return resolve(__webpack_require__(/*! @/components/menuList.vue */ 604));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default = { components: { list: list, nearbyshop: _a_nearbyshop.default }, data: function data() {return { imageurl: '', userId: '', htosp: 0, menuList_new: [], menuList: [[{ img: '/static/image/icon_bqkd.png', title: '帮取快递', path: '/pages/from/apply?id=0' }, { img: '/static/image/icon_bqwm.png', title: '帮送外卖', path: '/pages/from/apply?id=1' }, { img: '/static/image/icon_bdlj.png', title: '帮丢垃圾', path: '/pages/from/apply?id=2' }, { img: '/static/image/icon_bgw.png', title: '帮购商品', path: '/pages/from/apply?id=3' }, { img: '/static/image/icon_tcps.png', title: '帮取帮送', path: '/pages/from/apply?id=4' }, { img: '/static/image/huang/icon_cyd.png', title: '餐饮店', path: '/pages/index/shangquan' }, { img: '/static/image/huang/icon_bld.png', title: '便利店', path: '/pages/index/shangquan' }, { img: '/static/image/huang/icon_sgd.png', title: '水果店', path: '/pages/index/shangquan' }, { img: '/static/image/huang/icon_gxd.png', title: '洗衣店', path: '/pages/index/shangquan' }, { img: '/static/image/huang/icon_cwd.png', title: '宠物店', path: '/pages/index/shangquan' }, { img: '/static/image/huang/mipmap-mdpi/icon_baojie.png', title: '家政保洁', path: '/pagesA/a_baojie' }, { img: '/static/image/huang/mipmap-mdpi/icon_weixiu.png', title: '安装维修', path: '/pagesA/a_weixiu' }, { img: '/static/image/huang/mipmap-mdpi/icon_maogou.png', title: '喂猫遛狗', path: '/pagesA/a_maogou' }, { img: '/static/image/huang/mipmap-mdpi/icon_peihu.png', title: '陪诊陪护', path: '/pagesA/a_peihu' }, { img: '/static/image/huang/mipmap-mdpi/icon_jiachu.png', title: '百味家厨',
-        path: '/pagesA/a_jiachu' }],
+var list = function list() {__webpack_require__.e(/*! require.ensure | components/menuList */ "components/menuList").then((function () {return resolve(__webpack_require__(/*! @/components/menuList.vue */ 604));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default = { components: { list: list, nearbyshop: _a_nearbyshop.default }, data: function data() {return { imageurl: '', userId: '', htosp: 0, menuList_new: [], menuList: [[{ img: '/static/image/icon_bqkd.png', title: '帮取快递', path: '/pages/from/apply?id=0' }, { img: '/static/image/icon_bqwm.png', title: '帮送外卖', path: '/pages/from/apply?id=1' }, { img: '/static/image/icon_bdlj.png', title: '帮丢垃圾', path: '/pages/from/apply?id=2' }, { img: '/static/image/icon_bgw.png', title: '帮购商品', path: '/pages/from/apply?id=3' }, { img: '/static/image/icon_tcps.png', title: '帮取帮送', path: '/pages/from/apply?id=4' }, { img: '/static/image/huang/icon_cyd.png', title: '餐饮店', path: '/pages/index/shangquan' }, { img: '/static/image/huang/icon_bld.png', title: '便利店', path: '/pages/index/shangquan' }, { img: '/static/image/huang/icon_sgd.png', title: '水果店', path: '/pages/index/shangquan' }, { img: '/static/image/huang/icon_gxd.png', title: '洗衣店', path: '/pages/index/shangquan' }, { img: '/static/image/huang/icon_cwd.png', title: '宠物店', path: '/pages/index/shangquan' }, { img: '/static/image/huang/mipmap-mdpi/icon_baojie.png', title: '家政保洁', path: '/pagesA/a_baojie' }, { img: '/static/image/huang/mipmap-mdpi/icon_weixiu.png', title: '安装维修', path: '/pagesA/a_weixiu' }, { img: '/static/image/huang/mipmap-mdpi/icon_maogou.png', title: '喂猫遛狗', path: '/pagesA/a_maogou' }, { img: '/static/image/huang/mipmap-mdpi/icon_peihu.png', title: '陪诊陪护', path: '/pagesA/a_peihu' }, { img: '/static/image/huang/mipmap-mdpi/icon_jiachu.png', title: '百味家厨', path: '/pagesA/a_jiachu' }],
 
 
       [{
@@ -440,22 +441,17 @@ var list = function list() {__webpack_require__.e(/*! require.ensure | component
       // 微信订阅消息
       wxMessage_text: '为了及时获取订单状态，您是否想接收订单状态的消息提醒？',
       // swiper高度
-      swiperHeight: '',
+      swiperHeight: '0',
       // 当前商家类别
       shopType_index: '' };
 
   },
-  mounted: function mounted() {var _this = this;
-    // swiper高度适应
-    this.$nextTick(function () {
-      _this.setSwiperHeight();
-    });
-  },
-  onLoad: function onLoad(e) {
+  onLoad: function onLoad(e) {var _this = this;
     this.userId = uni.getStorageSync('userId');
     this.htosp = uni.getStorageSync('htop');
     this.village = uni.getStorageSync('village');
     this.imageurl = this.globalData.imageurl;
+    this.getUserInfo();
     var that = this;
     // 是否游客
     if (that.userId != 40) {
@@ -496,17 +492,27 @@ var list = function list() {__webpack_require__.e(/*! require.ensure | component
     }
     // 需求类别列表
     this.getTypeList();
+    // swiper高度适应
+    if (uni.getStorageSync('swiper')) {
+      this.swiperHeight = uni.getStorageSync('swiper');
+    } else {
+      setTimeout(function () {
+        _this.setSwiperHeight();
+      }, 500);
+    }
   },
-  onShow: function onShow() {
-    this.setSwiperHeight();
-    this.residentialEvent();
+  onShow: function onShow() {var _this2 = this;
+    this.getUserInfo();
+    setTimeout(function () {
+      _this2.$refs.nearbyshop.getNewList();
+    }, 500);
     // 审核机制开关
     this.util.ajax('user/closeWithdrawal', {}, function (res) {
       uni.setStorageSync('examine', res.data.close_withdrawal);
     });
   },
   methods: {
-    menuClick: function menuClick(item, page, index) {var _this2 = this;
+    menuClick: function menuClick(item, page, index) {var _this3 = this;
       // item.path == ''
       if (index > 9 || page == 1) {
         this.$alert('功能开发中');
@@ -520,12 +526,12 @@ var list = function list() {__webpack_require__.e(/*! require.ensure | component
           this.util.ajax('shop/queryWorkTime', {}, function (res) {
             var data = res.data.set;
             var date = new Date();
-            var time = _this2.$shijianhour(date.getTime()).split(':')[0];
+            var time = _this3.$shijianhour(date.getTime()).split(':')[0];
             if (parseInt(time) >= data.on_duty_time && parseInt(time) < data.off_duty_time) {
-              _this2.$jump(item.path);
+              _this3.$jump(item.path);
             } else {
               var text = data.on_duty_time + '点' + ' 至 ' + data.off_duty_time + '点';
-              _this2.$alert('开放时间为 ' + text);
+              _this3.$alert('开放时间为 ' + text);
             }
           });
         } else {
@@ -534,31 +540,14 @@ var list = function list() {__webpack_require__.e(/*! require.ensure | component
       }
     },
     // 需求类别列表
-    getTypeList: function getTypeList() {var _this3 = this;
+    getTypeList: function getTypeList() {var _this4 = this;
       var that = this;
       this.util.ajax('release/categoryList', {}, function (res) {
         var arr = [];
         for (var i = 0; i < res.data.list.length / 15; i++) {
           arr.push(res.data.list.slice(i * 15, i * 15 + 15));
         }
-        _this3.menuList_new = arr;
-      });
-    },
-    // 绑定小区
-    residentialEvent: function residentialEvent() {
-      var that = this;
-      this.util.ajax('user/getUserInfo', {
-        "userId": that.userId },
-      function (res) {
-        that.userData = res.data;
-        uni.setStorageSync('userInfo', res.data);
-        that.village = res.data.residentialQuarterVo;
-        if (!res.data.residentialQuarterVo.residential_quarter_name) {
-          that.$alert('请先绑定小区');
-          setTimeout(function (e) {
-            that.$jump('/pages/index/changeVillage');
-          }, 1000);
-        }
+        _this4.menuList_new = arr;
       });
     },
     //关闭新人福利弹窗
@@ -571,12 +560,12 @@ var list = function list() {__webpack_require__.e(/*! require.ensure | component
 
     },
     // 获取新人福利跑腿卷
-    getDiscount: function getDiscount() {var _this4 = this;
+    getDiscount: function getDiscount() {var _this5 = this;
       this.util.ajax('release/errandCouponList', {
         "userId": uni.getStorageSync('userId') },
       function (res) {
         for (var i = 0; i < 3; i++) {
-          _this4.coupons.push(res.data.coupon[i]);
+          _this5.coupons.push(res.data.coupon[i]);
         }
       });
     },
@@ -604,7 +593,17 @@ var list = function list() {__webpack_require__.e(/*! require.ensure | component
 
           that.swiperHeight = (res[0].height + 5) * 3;
 
+          uni.setStorageSync('swiper', that.swiperHeight);
         }
+      });
+    },
+    getUserInfo: function getUserInfo() {// 个人信息
+      var that = this;
+      this.util.ajax('user/getUserInfo', {
+        "userId": this.userId },
+      function (res) {
+        that.village = res.data.residentialQuarterVo;
+        uni.setStorageSync('userInfo', res.data);
       });
     } } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
@@ -889,9 +888,7 @@ var _default =
       //商铺列表
       shopList: [],
       //商铺类型
-      shopType: [{}],
-
-
+      shopType: [],
       shopTypeList: [],
       //当前商铺类型
       shopTypeIndex: 0,
@@ -906,7 +903,7 @@ var _default =
   onReachBottom: function onReachBottom() {
     if (!this.isfoot) {
       this.curPage++;
-      this.getlist();
+      this.getType();
     }
   },
   created: function created() {
@@ -1008,7 +1005,7 @@ var _default =
     getNewList: function getNewList() {
       this.shopList = [];
       this.curPage = 1;
-      this.getlist();
+      this.getType();
     },
     // 获取当前页面路由
     getUrlIndex: function getUrlIndex() {

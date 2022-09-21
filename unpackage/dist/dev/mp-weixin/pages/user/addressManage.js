@@ -94,20 +94,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "recyclableRender", function() { return recyclableRender; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "components", function() { return components; });
-var components
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  if (!_vm._isMounted) {
-    _vm.e0 = function($event) {
-      _vm.is_default ^= 1
-    }
-  }
-}
-var recyclableRender = false
+var render = function () {}
 var staticRenderFns = []
-render._withStripped = true
+var recyclableRender
+var components
 
 
 
@@ -138,6 +128,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var pickerAddress = function pickerAddress() {Promise.all(/*! require.ensure | components/wangding-pickerAddres/wangding-pickerAddress */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/wangding-pickerAddres/wangding-pickerAddress")]).then((function () {return resolve(__webpack_require__(/*! @/components/wangding-pickerAddres/wangding-pickerAddress.vue */ 702));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
+
 
 
 
@@ -262,26 +253,6 @@ __webpack_require__.r(__webpack_exports__);
       this.city_id = e.index[1];
       this.area_id = e.index[2];
     },
-    // 监听手机号输入 优化体验
-    phonechange: function phonechange(e, flag) {var _this = this;
-      switch (flag) {
-        case 'phone':{
-            setTimeout(function () {
-              _this.phone = e.target.value;
-            }, 0);
-          }}
-
-    },
-    // 监听详细地址 优化体验
-    streetchange: function streetchange(e, flag) {var _this2 = this;
-      switch (flag) {
-        case 'street':{
-            setTimeout(function () {
-              _this2.street = e.target.value;
-            }, 0);
-          }}
-
-    },
     // 微信定位
     onChooseLocation2: function onChooseLocation2() {
       var that = this;
@@ -317,6 +288,15 @@ __webpack_require__.r(__webpack_exports__);
       uni.navigateTo({
         url: '/pages/chooselocation/index' });
 
+    },
+    // 输入框监听
+    inputchange: function inputchange(e, flag) {
+      var that = this;
+      if (flag == 'phone') {
+        that.phone = e.target.value;
+      } else if (flag == 'street') {
+        that.street = e.target.value;
+      }
     },
     // 保存地址
     tijiao: function tijiao() {

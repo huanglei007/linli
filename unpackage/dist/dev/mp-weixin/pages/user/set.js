@@ -246,15 +246,12 @@ var _default =
   onLoad: function onLoad() {
     this.htosp = uni.getStorageSync('htop');
     this.userId = uni.getStorageSync('userId');
-    this.getlist();
+    this.userinfo = uni.getStorageSync('userInfo');
     this.imageurl = this.globalData.imageurl;
   },
   onShow: function onShow() {},
-  computed: {},
-
-
   methods: {
-    changeNick: function changeNick() {var _this = this;
+    changeNick: function changeNick() {var _this = this; // 修改名称
       var that = this;
       if (this.newNick !== '') {
         this.util.ajax('user/updateNickName', {
@@ -268,7 +265,7 @@ var _default =
       }
       that.isNick = false;
     },
-    getlist: function getlist() {
+    getlist: function getlist() {// 个人信息
       var that = this;
       this.util.ajax('user/getUserInfo', {
         "userId": this.userId },
@@ -277,7 +274,7 @@ var _default =
         uni.setStorageSync('userInfo', res.data);
       });
     },
-    onimg: function onimg() {var _this2 = this;
+    onimg: function onimg() {var _this2 = this; // 修改头像
       var that = this;
       this.iima = [];
       this.util.sendimage(1, this.iima, function () {
@@ -294,13 +291,7 @@ var _default =
         });
       });
     },
-    navto: function navto(item, index) {
-      if (item.title != '账号') {
-        this.$jump(item.url);
-      }
-    },
-    // 退出登录
-    send: function send() {
+    send: function send() {// 退出登录
       var that = this;
       uni.showModal({
         title: '提示',
@@ -327,8 +318,7 @@ var _default =
         } });
 
     },
-    // 注销帐号
-    cancellation: function cancellation() {
+    cancellation: function cancellation() {// 注销帐号
       var that = this;
       uni.showModal({
         title: '提示',

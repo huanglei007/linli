@@ -440,7 +440,7 @@ var _default =
 
   },
   onShow: function onShow() {
-    this.loadmore();
+    this.userData = uni.getStorageSync('userInfo');
     this.getMyShop();
   },
   onLoad: function onLoad() {
@@ -450,15 +450,6 @@ var _default =
     this.imageurl = this.globalData.imageurl;
   },
   methods: {
-    loadmore: function loadmore() {
-      var that = this;
-      that.util.ajax('user/getUserInfo', {
-        "userId": that.userId },
-      function (res) {
-        that.userData = res.data;
-        uni.setStorageSync('userInfo', res.data);
-      });
-    },
     // 获取我的店铺信息
     getMyShop: function getMyShop() {var _this = this;
       this.util.ajax('shop/getShopInfo', {

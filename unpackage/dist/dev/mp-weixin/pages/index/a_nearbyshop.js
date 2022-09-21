@@ -296,9 +296,7 @@ var _default =
       //商铺列表
       shopList: [],
       //商铺类型
-      shopType: [{}],
-
-
+      shopType: [],
       shopTypeList: [],
       //当前商铺类型
       shopTypeIndex: 0,
@@ -313,7 +311,7 @@ var _default =
   onReachBottom: function onReachBottom() {
     if (!this.isfoot) {
       this.curPage++;
-      this.getlist();
+      this.getType();
     }
   },
   created: function created() {
@@ -415,7 +413,7 @@ var _default =
     getNewList: function getNewList() {
       this.shopList = [];
       this.curPage = 1;
-      this.getlist();
+      this.getType();
     },
     // 获取当前页面路由
     getUrlIndex: function getUrlIndex() {

@@ -220,15 +220,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
-
-
-
 var _fuli = _interopRequireDefault(__webpack_require__(/*! ./fuli.vue */ 369));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };} //
-//
-//
-//
-//
 //
 //
 //
@@ -293,13 +285,21 @@ var message = function message() {__webpack_require__.e(/*! require.ensure | pag
       form: {}, // 店铺状态
       shopStatus: [{ label: '休息', business_status: 0 }, { label: '营业', business_status: 1 }], // 店铺审核通知
       popupForm: { title: '', content: '' } };}, onShow: function onShow() {this.getMyShop();}, methods: { // 获取我的店铺信息
-    getMyShop: function getMyShop() {var _this = this;this.util.ajax('shop/getShopInfo', { "userId": uni.getStorageSync('userId') }, function (res) {_this.form = res.data;});}, // 监听营业状态变换
-    shopStatusChange: function shopStatusChange(e) {var that = this;that.form.business_status = that.shopStatus[e.detail.value].business_status;that.util.ajax('shop/editShopStatus', { "business_status": that.shopStatus[e.detail.value].business_status, "user_id": uni.getStorageSync('userId') }, function (res) {that.$alert('营业状态已保存');});}, // 路由跳转
+    getMyShop: function getMyShop() {var _this = this;this.util.ajax('shop/getShopInfo', { "userId": uni.getStorageSync('userId') }, function (res) {_this.form = res.data;});}, // 路由跳转
     urlchange: function urlchange(url) {// 审核状态(-1申请入驻审核中 -2申请入驻被拒绝 0商家设置审核中 1审核通过 2商家设置被拒绝)
       // 1、商家入驻：等于null或-2时，可以申请，其余提示已入驻
       // 2、商家管理：等于0时提示审核中，其余可以进入 
-      if (this.form.status == 0) {if (url == 'a_product') {this.popupForm.title = '商品审核中';} else {this.popupForm.title = '店铺管理审核中';}this.popupForm.content = '请耐心等待，预计1个工作日';this.$refs.alertDialog.open();} else {// this.$jump(url)
-        uni.navigateTo({ url: url });}}, //店铺审核弹窗
+      // if (this.form.status == 0) {
+      // 	if (url == 'a_product') {
+      // 		this.popupForm.title = '商品审核中'
+      // 	} else {
+      // 		this.popupForm.title = '店铺管理审核中'
+      // 	}
+      // 	this.popupForm.content = '请耐心等待，预计1个工作日'
+      // 	this.$refs.alertDialog.open()
+      // } else {
+      uni.navigateTo({ url: url }); // }
+    }, //店铺审核弹窗
     //确认
     dialogConfirm: function dialogConfirm() {this.$refs.alertDialog.open();} } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))

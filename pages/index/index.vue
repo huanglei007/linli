@@ -4,7 +4,8 @@
 			<view class="flexd jubetween">
 				<view class="city flexd flex-center" @click="$jump('/pages/index/changeVillage')">
 					<image src="/static/image/icon_dw.png" mode=""></image>
-					{{village.residential_quarter_name}}
+					<text v-if="userId==40">请选择小区</text>
+					<text v-else>{{village.residential_quarter_name?village.residential_quarter_name:'请选择小区'}}</text>
 					<image src="/static/image/icon_gd.png" mode=""></image>
 				</view>
 				<view class="village flexd" @click="$jump('/pages/index/search')">
@@ -30,7 +31,7 @@
 			</swiper>
 		</view>
 		<!-- 附近商家 -->
-		<nearbyshop :type="shopType_index"></nearbyshop>
+		<nearbyshop :type="shopType_index" ref="nearbyshop"></nearbyshop>
 		<!-- 微信订阅消息弹窗 -->
 		<uni-popup ref="wxMessage" type="dialog" :mask-click="false">
 			<uni-popup-dialog type="info" cancelText="关闭" confirmText="同意" title="通知" :content="wxMessage_text"
@@ -247,22 +248,17 @@
 				// 微信订阅消息
 				wxMessage_text: '为了及时获取订单状态，您是否想接收订单状态的消息提醒？',
 				// swiper高度
-				swiperHeight: '',
+				swiperHeight: '0',
 				// 当前商家类别
 				shopType_index: ''
 			}
-		},
-		mounted() {
-			// swiper高度适应
-			this.$nextTick(() => {
-				this.setSwiperHeight();
-			});
 		},
 		onLoad(e) {
 			this.userId = uni.getStorageSync('userId');
 			this.htosp = uni.getStorageSync('htop');
 			this.village = uni.getStorageSync('village');
 			this.imageurl = this.globalData.imageurl
+			this.getUserInfo()
 			let that = this
 			// 是否游客
 			if (that.userId != 40) {
@@ -303,10 +299,20 @@
 			}
 			// 需求类别列表
 			this.getTypeList()
+			// swiper高度适应
+			if (uni.getStorageSync('swiper')) {
+				this.swiperHeight = uni.getStorageSync('swiper')
+			} else {
+				setTimeout(() => {
+					this.setSwiperHeight()
+				}, 500)
+			}
 		},
 		onShow() {
-			this.setSwiperHeight();
-			this.residentialEvent()
+			this.getUserInfo()
+			setTimeout(() => {
+				this.$refs.nearbyshop.getNewList()
+			}, 500)
 			// 审核机制开关
 			this.util.ajax('user/closeWithdrawal', {}, res => {
 				uni.setStorageSync('examine', res.data.close_withdrawal)
@@ -349,23 +355,6 @@
 						arr.push(res.data.list.slice(i * 15, i * 15 + 15))
 					}
 					this.menuList_new = arr
-				})
-			},
-			// 绑定小区
-			residentialEvent() {
-				let that = this
-				this.util.ajax('user/getUserInfo', {
-					"userId": that.userId
-				}, function(res) {
-					that.userData = res.data
-					uni.setStorageSync('userInfo', res.data)
-					that.village = res.data.residentialQuarterVo
-					if (!res.data.residentialQuarterVo.residential_quarter_name) {
-						that.$alert('请先绑定小区')
-						setTimeout(e => {
-							that.$jump('/pages/index/changeVillage')
-						}, 1000)
-					}
 				})
 			},
 			//关闭新人福利弹窗
@@ -411,8 +400,18 @@
 						// #ifdef MP-WEIXIN
 						that.swiperHeight = (res[0].height + 5) * 3
 						// #endif
+						uni.setStorageSync('swiper', that.swiperHeight)
 					}
 				});
+			},
+			getUserInfo() { // 个人信息
+				let that = this
+				this.util.ajax('user/getUserInfo', {
+					"userId": this.userId
+				}, res => {
+					that.village = res.data.residentialQuarterVo
+					uni.setStorageSync('userInfo', res.data)
+				})
 			},
 		}
 	}
@@ -460,6 +459,10 @@
 			/* #ifdef MP-WEIXIN */
 			padding-bottom: 0;
 			/* #endif */
+
+			swiper {
+				// transition: height 0.5s linear;
+			}
 
 			.menuBox {
 				flex-wrap: wrap;

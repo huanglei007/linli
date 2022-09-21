@@ -6,13 +6,14 @@
 		</view>
 		<view class="row flexd">
 			<view>手机号</view>
-			<input ref="phone_input" class="input" :value="phone" type="number" placeholder="手机号码"
-				placeholder-style="color:#888888" @input="phonechange($event,'foppname')" />
+			<input class="input" type="number" v-model="phone" :value="phone" placeholder="手机号码"
+				placeholder-style="color:#888888;fontSize:32rpx;" maxlength="11" @input="inputchange($event, 'phone')" />
 		</view>
 		<view class="row flexd">
 			<view>所在地区</view>
 			<pickerAddress class="flex1-textLeft" :class="{'addressColor':txt!='省市区县、乡镇等'}" @change="change"
-				:data="location" style='font-size: 28rpx;line-height: 110rpx;'>{{txt}}
+				:data="location" style='line-height:110rpx;'>
+				<text>{{txt}}</text>
 			</pickerAddress>
 
 			<!-- app -->
@@ -33,8 +34,8 @@
 		</view> -->
 		<view class="row flexd">
 			<view>详细地址</view>
-			<input class="input" type="text" :value="street" placeholder="街道、牌楼号等" placeholder-style="color:#888888"
-				@input="streetchange($event,'foppname')" />
+			<input class="input" type="text" v-model="street" :value="street" placeholder="街道、牌楼号等"
+				placeholder-style="color:#888888" @input="inputchange($event, 'street')" />
 		</view>
 		<view class="row flexd jubetween" style="margin-top: 16rpx;">
 			<view>设为默认</view>
@@ -123,26 +124,6 @@
 				this.city_id = e.index[1]
 				this.area_id = e.index[2]
 			},
-			// 监听手机号输入 优化体验
-			phonechange(e, flag) {
-				switch (flag) {
-					case 'phone': {
-						setTimeout(() => {
-							this.phone = e.target.value;
-						}, 0)
-					}
-				}
-			},
-			// 监听详细地址 优化体验
-			streetchange(e,flag) {
-				switch (flag) {
-					case 'street': {
-						setTimeout(() => {
-							this.street = e.target.value;
-						}, 0)
-					}
-				}
-			},
 			// 微信定位
 			onChooseLocation2() {
 				let that = this
@@ -178,6 +159,15 @@
 				uni.navigateTo({
 					url: '/pages/chooselocation/index',
 				});
+			},
+			// 输入框监听
+			inputchange(e, flag) {
+				let that = this
+				if (flag == 'phone') {
+					that.phone = e.target.value
+				} else if (flag == 'street') {
+					that.street = e.target.value
+				}
 			},
 			// 保存地址
 			tijiao() {
@@ -288,13 +278,16 @@
 		min-height: 110upx;
 		background: #fff;
 		color: #888888;
-
+		.flex1-textLeft{
+			font-size: 32rpx;
+			font-weight: 400;
+		}
 		.addressColor {
 			color: #212121;
 		}
 
 		view {
-			width: 200rpx;
+			width: 180rpx;
 			margin: auto 0;
 			font-size: 32rpx;
 			font-family: PingFang SC;
@@ -306,7 +299,9 @@
 			font-size: 32rpx;
 			color: #212121;
 			margin: auto 0;
-
+			.uni-input-placeholder{
+				font-size: 32rpx !important;
+			}
 			&.gray {
 				color: #808080;
 			}

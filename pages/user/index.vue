@@ -262,7 +262,7 @@
 			}
 		},
 		onShow() {
-			this.loadmore();
+			this.userData = uni.getStorageSync('userInfo')
 			this.getMyShop()
 		},
 		onLoad() {
@@ -272,15 +272,6 @@
 			this.imageurl = this.globalData.imageurl
 		},
 		methods: {
-			loadmore() {
-				let that = this;
-				that.util.ajax('user/getUserInfo', {
-					"userId": that.userId
-				}, function(res) {
-					that.userData = res.data
-					uni.setStorageSync('userInfo', res.data)
-				})
-			},
 			// 获取我的店铺信息
 			getMyShop() {
 				this.util.ajax('shop/getShopInfo', {

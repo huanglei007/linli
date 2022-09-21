@@ -10,16 +10,12 @@
 					<view class="name">
 						<text>{{form.shop_name}}</text>
 					</view>
-					<!-- <picker mode="selector" @change="shopStatusChange" :value="form.business_status" :range="shopStatus"
-						range-key="label"> -->
 					<view class="status" v-if="shopStatus[form.business_status]">
 						<view class="status-switch">
 							<text class="switch" :class="{'shut':form.business_status==0}"></text>
 							<text class="text">{{shopStatus[form.business_status].label}}</text>
-							<!-- <image class="icon22" src="/static/img/icon_Hdown.png" mode=""></image> -->
 						</view>
 					</view>
-					<!-- </picker> -->
 				</view>
 			</view>
 			<view class="my-shop-right">
@@ -106,36 +102,24 @@
 					this.form = res.data
 				})
 			},
-			// 监听营业状态变换
-			shopStatusChange(e) {
-				let that = this
-				that.form.business_status = that.shopStatus[e.detail.value].business_status
-				that.util.ajax('shop/editShopStatus', {
-					"business_status": that.shopStatus[e.detail.value].business_status,
-					"user_id": uni.getStorageSync('userId')
-				}, res => {
-					that.$alert('营业状态已保存')
-				})
-			},
 			// 路由跳转
 			urlchange(url) {
 				// 审核状态(-1申请入驻审核中 -2申请入驻被拒绝 0商家设置审核中 1审核通过 2商家设置被拒绝)
 				// 1、商家入驻：等于null或-2时，可以申请，其余提示已入驻
 				// 2、商家管理：等于0时提示审核中，其余可以进入 
-				if (this.form.status == 0) {
-					if (url == 'a_product') {
-						this.popupForm.title = '商品审核中'
-					} else {
-						this.popupForm.title = '店铺管理审核中'
-					}
-					this.popupForm.content = '请耐心等待，预计1个工作日'
-					this.$refs.alertDialog.open()
-				} else {
-					// this.$jump(url)
+				// if (this.form.status == 0) {
+				// 	if (url == 'a_product') {
+				// 		this.popupForm.title = '商品审核中'
+				// 	} else {
+				// 		this.popupForm.title = '店铺管理审核中'
+				// 	}
+				// 	this.popupForm.content = '请耐心等待，预计1个工作日'
+				// 	this.$refs.alertDialog.open()
+				// } else {
 					uni.navigateTo({
 						url: url
 					})
-				}
+				// }
 			},
 			//店铺审核弹窗
 			//确认

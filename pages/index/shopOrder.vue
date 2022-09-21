@@ -30,9 +30,11 @@
 								</view>
 								<view>x{{item.count}}</view>
 							</view>
-							<view class="shengray texright">共{{item.count}}件商品，合计 <text
-									class="reda">{{proType==0?'￥':'积分'}}
-									{{(item.count*item.pro_price).toFixed(2)}}</text></view>
+							<view class="shengray texright">
+								共{{item.count}}件商品，合计
+								<text
+									class="reda">{{proType==0?'￥':'积分'}}{{(item.count*item.pro_price).toFixed(2)}}</text>
+							</view>
 						</view>
 					</view>
 				</view>
@@ -40,7 +42,11 @@
 			<view class="list">
 				<view class="lists flexd jubetween">
 					<view>优惠券</view>
-					<view class="reda">-￥{{preferentialPrice}}</view>
+					<view class="reda">
+						<text v-if="preferentialPrice">-￥</text>
+						<text v-if="preferentialPrice">{{preferentialPrice}}</text>
+						<text v-else class="fontColor-999">暂无</text>
+					</view>
 				</view>
 			</view>
 			<view class="list">
@@ -104,7 +110,7 @@
 				shopId: 0,
 				imageurl: '',
 				// 防抖
-				onoff:true
+				onoff: true
 			}
 		},
 		onLoad(option) {
