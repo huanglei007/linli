@@ -2,7 +2,7 @@
 	<view class="content">
 		<view class="head flexd jubetween flex-center" :style="{paddingTop: htosp+'px'}">
 			<view class="left flexd flex-center">
-				<image @click="$jumpback()" class="backs" src="/static/image/icon_gb.png" mode=""></image>
+				<image @click="$jumpsw('/pages/index/index')" class="backs" src="/static/image/icon_gb.png" mode=""></image>
 				选择小区
 			</view>
 			<view class="city" @click="$jump('/pages/index/changeCity')">
