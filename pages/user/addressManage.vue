@@ -6,8 +6,9 @@
 		</view>
 		<view class="row flexd">
 			<view>手机号</view>
-			<input class="input" type="number" v-model="phone" :value="phone" placeholder="手机号码"
-				placeholder-style="color:#888888;fontSize:32rpx;" maxlength="11" @input="inputchange($event, 'phone')" />
+			<input class="input" type="number" :value="phone" placeholder="手机号码"
+				placeholder-style="color:#888888;fontSize:32rpx;" maxlength="11"
+				@input="inputchange($event, 'phone')" />
 		</view>
 		<view class="row flexd">
 			<view>所在地区</view>
@@ -34,8 +35,8 @@
 		</view> -->
 		<view class="row flexd">
 			<view>详细地址</view>
-			<input class="input" type="text" v-model="street" :value="street" placeholder="街道、牌楼号等"
-				placeholder-style="color:#888888" @input="inputchange($event, 'street')" />
+			<input class="input" type="text" :value="street" placeholder="街道、牌楼号等" placeholder-style="color:#888888"
+				@input="inputchange($event, 'street')" />
 		</view>
 		<view class="row flexd jubetween" style="margin-top: 16rpx;">
 			<view>设为默认</view>
@@ -226,7 +227,16 @@
 						}, function(res) {
 							that.$alert(res.msg)
 							that.$emit('refresh')
-							that.$jumpback()
+							// #ifdef APP-NVUE
+							const eventChannel = that.$scope.eventChannel; // 兼容APP-NVUE
+							// #endif
+							// #ifndef APP-NVUE
+							const eventChannel = that.getOpenerEventChannel();
+							// #endif
+							eventChannel.emit('acceptDataFromOpenedPage', true);
+							setTimeout(() => {
+								that.$jumpback()
+							}, 500)
 						})
 					} else {
 						that.util.ajax('address/addAddress', {
@@ -245,18 +255,19 @@
 							// "longitude": that.location.point.longitude,
 						}, function(res) {
 							that.$alert('保存地址成功')
+
+							// #ifdef APP-NVUE
+							const eventChannel = that.$scope.eventChannel; // 兼容APP-NVUE
+							// #endif
+							// #ifndef APP-NVUE
+							const eventChannel = that.getOpenerEventChannel();
+							// #endif
+							eventChannel.emit('acceptDataFromOpenedPage', true);
 							setTimeout(function() {
 								that.$jumpback()
-							}, 1000);
+							}, 500);
 						})
 					}
-					// #ifdef APP-NVUE
-					const eventChannel = that.$scope.eventChannel; // 兼容APP-NVUE
-					// #endif
-					// #ifndef APP-NVUE
-					const eventChannel = that.getOpenerEventChannel();
-					// #endif
-					eventChannel.emit('acceptDataFromOpenedPage', true);
 				});
 			}
 		}
@@ -278,10 +289,12 @@
 		min-height: 110upx;
 		background: #fff;
 		color: #888888;
-		.flex1-textLeft{
+
+		.flex1-textLeft {
 			font-size: 32rpx;
 			font-weight: 400;
 		}
+
 		.addressColor {
 			color: #212121;
 		}
@@ -299,9 +312,11 @@
 			font-size: 32rpx;
 			color: #212121;
 			margin: auto 0;
-			.uni-input-placeholder{
+
+			.uni-input-placeholder {
 				font-size: 32rpx !important;
 			}
+
 			&.gray {
 				color: #808080;
 			}
