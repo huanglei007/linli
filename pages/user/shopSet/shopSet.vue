@@ -116,9 +116,9 @@
 				// 	this.popupForm.content = '请耐心等待，预计1个工作日'
 				// 	this.$refs.alertDialog.open()
 				// } else {
-					uni.navigateTo({
-						url: url
-					})
+				uni.navigateTo({
+					url: url
+				})
 				// }
 			},
 			//店铺审核弹窗
@@ -136,8 +136,8 @@
 		justify-content: space-between;
 
 		.my-shop-left {
+			flex: 1;
 			display: flex;
-			justify-content: space-between;
 
 			.my-shop-left-img {
 				width: 120rpx;
@@ -156,6 +156,12 @@
 				justify-content: space-between;
 
 				.name {
+					overflow: hidden;
+					word-break: break-all;
+					text-overflow: ellipsis;
+					display: -webkit-box;
+					-webkit-box-orient: vertical;
+					-webkit-line-clamp: 1;
 					text {
 						font-size: 36rpx;
 					}
@@ -167,12 +173,13 @@
 					}
 
 					.status-switch {
-						padding: 8rpx 19rpx;
+						width: 140rpx;
+						padding: 8rpx 0;
 						border-radius: 25rpx;
 						background-color: #F6F6F6;
 						display: flex;
 						align-items: center;
-						text-align: center;
+						justify-content: center;
 
 
 						.switch {

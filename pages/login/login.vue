@@ -97,12 +97,17 @@
 					that.code = res.code
 				}
 			})
-			if (uni.getStorageSync('tourist')) {
-				that.open = true
-			} else {
-				// 游客模式
-				that.phone = '18100000000'
+
+			if (uni.getStorageSync('userInfo')) { // 缓存登录
+				that.phone = uni.getStorageSync('userInfo').phone
 				that.appLogin()
+			} else {
+				if (uni.getStorageSync('tourist')) { //wx一键登录
+					that.open = true
+				} else { // 游客模式
+					that.phone = '18100000000'
+					that.appLogin()
+				}
 			}
 			// #endif
 		},

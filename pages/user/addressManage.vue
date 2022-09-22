@@ -4,11 +4,12 @@
 			<view>姓名</view>
 			<input class="input" type="text" v-model="username" placeholder="请输入姓名" placeholder-style="color:#888888" />
 		</view>
-		<view class="row flexd">
+		<view class="row flexd flex-center">
 			<view>手机号</view>
-			<input class="input" type="number" :value="phone" placeholder="手机号码"
-				placeholder-style="color:#888888;fontSize:32rpx;" maxlength="11"
-				@input="inputchange($event, 'phone')" />
+			<!-- <input ref="phone_input" class="input" type="number" placeholder="手机号码" placeholder-style="color:#888888;"
+				maxlength="11" @input="inputchange($event, 'phone')" /> -->
+			<input class="input" type="number" :value="phone" placeholder="手机号码" placeholder-style="color:#888888;"
+				maxlength="11" @input="inputchange($event, 'phone')" />
 		</view>
 		<view class="row flexd">
 			<view>所在地区</view>
@@ -35,6 +36,8 @@
 		</view> -->
 		<view class="row flexd">
 			<view>详细地址</view>
+			<!-- <input ref="phone_street" class="input" type="text" placeholder="街道、牌楼号等" placeholder-style="color:#888888"
+				@input="inputchange($event, 'street')" /> -->
 			<input class="input" type="text" :value="street" placeholder="街道、牌楼号等" placeholder-style="color:#888888"
 				@input="inputchange($event, 'street')" />
 		</view>
@@ -93,19 +96,24 @@
 				this.util.ajax('address/queryAddressById', {
 					id: that.id
 				}, function(res) {
-					that.username = res.data.name
-					that.phone = res.data.phone
-					that.is_default = res.data.is_default
-					that.location = {
-						point: {
-							longitude: res.data.longitude,
-							latitude: res.data.latitude,
-						},
-						address: res.data.address,
-						name: res.data.address_abbreviation
-					}
-					that.geted = true
-					that.street = res.data.address_detail
+					// setTimeout(() => {
+						that.username = res.data.name
+						that.phone = res.data.phone
+						that.is_default = res.data.is_default
+						that.location = {
+							point: {
+								longitude: res.data.longitude,
+								latitude: res.data.latitude,
+							},
+							address: res.data.address,
+							name: res.data.address_abbreviation
+						}
+						that.geted = true
+						that.street = res.data.address_detail
+						// input优化
+						// that.$refs.phone_input.value = res.data.phone
+						// that.$refs.phone_street.value = res.data.address_detail
+					// }, 500)
 				})
 			};
 		},
@@ -314,6 +322,7 @@
 			margin: auto 0;
 
 			.uni-input-placeholder {
+				font-weight: 400;
 				font-size: 32rpx !important;
 			}
 
@@ -329,7 +338,6 @@
 			background: #E9E9EA;
 			margin: auto 0;
 
-			// padding: 4rpx;
 			.yuan {
 				width: 50rpx;
 				height: 50rpx;

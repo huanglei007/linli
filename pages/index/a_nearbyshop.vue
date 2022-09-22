@@ -159,18 +159,18 @@
 					"pageSize": 20, //分页大小,示例值(20)
 					"userId": this.userId //用户ID
 				}, (res) => {
-					let array = []
-					// 是否分页
-					if (that.curPage !== res.data.page.curPage) {
-						that.isfoot = true
-						that.shopList = that.shopList.concat(array)
-					}
-					// 筛选营业中的商家
 					if (res.data.list.length > 0) {
+						let array = []
+						// 筛选营业中的商家
 						for (let a = 0; a < res.data.list.length; a++) {
 							if (res.data.list[a].business_status != 0) {
 								array.push(res.data.list[a])
 							}
+						}
+						// 是否分页
+						if (that.curPage !== res.data.page.curPage) {
+							that.isfoot = true
+							that.shopList = that.shopList.concat(array)
 						}
 						// 根据商家类型查询商家列表
 						this.screenTypeEvent(array)
@@ -233,7 +233,6 @@
 			// 筛选弹出层
 			// 打开
 			openpop() {
-				// this.$alert('开发中')
 				this.$refs.popup.open()
 				uni.hideTabBar();
 			},
@@ -276,6 +275,7 @@
 				border-radius: 10rpx;
 
 				.title {
+					height: 40rpx;
 					line-height: 40rpx;
 					font-size: 28rpx;
 					padding: 12rpx 0rpx;
@@ -355,6 +355,7 @@
 					font-size: 32rpx;
 					position: relative;
 					padding-bottom: 10rpx;
+					margin-right: 155rpx;
 				}
 
 				.nickname {

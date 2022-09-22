@@ -9,10 +9,10 @@
 		<!-- 商品标签 商品类别 商品信息 -->
 		<view class="product-list">
 			<!-- 标签 -->
-			<view class="searchType flex-center flexd jubetween">
-				<view class="item" v-for="(item,i) in statusList" :key="i"
-					:class="statusIndex==item.isvalid?'active':''" @click="statusIndex=item.isvalid">
-					{{item.status}}
+			<view class="searchType">
+				<view class="item" v-for="(data,i) in statusList" :key="i"
+					:class="statusIndex==data.isvalid?'active':''" @click="statusIndex=data.isvalid">
+					{{data.status}}
 					<image class="icon" src="/static/img/icon_xuanzhong.png" mode="widthFix"></image>
 				</view>
 			</view>
@@ -20,12 +20,12 @@
 			<view class="product-list-box">
 				<!-- 类别 -->
 				<view class="type">
-					<view class="type-list" :class="shopTypeIndex==index?'active':''" v-for="(item,index) in shopType"
+					<view class="type-list" :class="shopTypeIndex==index?'active':''" v-for="(d,index) in shopType"
 						:key="index" @click="shopTypeIndex = index">
-						<text>{{item.category_name}}</text>
+						<text>{{d.category_name}}</text>
 
 						<image v-show="shopTypeIndex == index&&statusIndex==1"
-							@click="shopTypeHandlePop('edit',item.category_name)" src="/static/image/icon_update.png"
+							@click="shopTypeHandlePop('edit',d.category_name)" src="/static/image/icon_update.png"
 							class="edit" mode=""></image>
 
 						<image v-show="shopTypeIndex == index&&statusIndex==1" @click="shopTypeHandlePop('delete')"
@@ -48,47 +48,43 @@
 						<text>暂无</text>
 					</view>
 					<view v-else class="product-box">
-						<view v-if="statusIndex==item.isvalid" class="products"
-							v-for="(item,index) in shopType[shopTypeIndex].productVos" :key="index">
-							<!-- 审核中 -->
-							<!-- <view v-if="item.is_prepare==1" class="audit-layers">
-								<text class="font36">审核中</text>
-							</view> -->
-							<!-- 商品图片 -->
-							<view class="product-logo" @click="updateImg(index)">
-								<image class="logo" :src="item.images?item.images:Img(item.images)" mode=""></image>
-								<view class="black" v-if="statusIndex==3&&item.isvalid==3">
-									<text>售罄</text>
-								</view>
-							</view>
-							<view class="product-news">
-								<input type="text" v-model="item.name"
-									:placeholder="'请输入'+(userinfo.user_type==3?'商品':'服务')+'名称'"
-									placeholder-class="placeholder" />
-								<view class="stock">
-									<text>库存</text>
-									<!-- <uni-number-box v-model="item.stock"></uni-number-box> -->
-									<view class="del" @click.stop="stockEvent('del',index)">-</view>
-									<input class="input" type="number" v-model="item.stock" placeholder="" />
-									<view class="add" @click.stop="stockEvent('add',index)">+</view>
-								</view>
-								<input class="price-input" type="text" v-model="item.selling_price"
-									@focus="priceEvent(item.selling_price,index)"
-									@blur="item.selling_price = inputIndex" />
-								<view class="meth">
-									<view class="sale">
-										<text class="font22">月销 {{item.month_sale?item.month_sale:0}}</text>
+						<block v-for="(item,index) in shopType[shopTypeIndex].productVos" :key="index">
+							<!-- v-if="statusIndex==item.isvalid&&item.stock>0||statusIndex==4&&item.stock<1" -->
+							<view v-if="statusIndex==item.isvalid" class="products">
+								<!-- 商品图片 -->
+								<view class="product-logo" @click="updateImg(index)">
+									<image class="logo" :src="item.images?item.images:Img(item.images)" mode=""></image>
+									<view class="black" v-if="item.stock<1">
+										<text>售罄</text>
 									</view>
-									<view v-if="statusIndex!=3" class="handel">
-										<text class="delete" @click="productPopEvent('delete',index)">删除</text>
-										<text v-if="statusIndex==1" class="shelf"
-											@click="productPopEvent('shelf',index)">下架</text>
-										<text v-else-if="statusIndex==2" class="shelf"
-											@click="productPopEvent('upshelf',index)">上架</text>
+								</view>
+								<view class="product-news">
+									<input type="text" v-model="item.name"
+										:placeholder="'请输入'+(userinfo.user_type==3?'商品':'服务')+'名称'"
+										placeholder-class="placeholder" />
+									<view class="stock">
+										<text>库存</text>
+										<view class="del" @click.stop="stockEvent('del',index)">-</view>
+										<input class="input" type="number" v-model="item.stock" placeholder="" />
+										<view class="add" @click.stop="stockEvent('add',index)">+</view>
+									</view>
+									<input class="price-input" type="number" v-model="item.selling_price"
+										@focus="priceEvent($event,index)" @blur="priceBlur($event,index)" />
+									<view class="meth">
+										<view class="sale">
+											<text class="font22">月销 {{item.month_sale?item.month_sale:0}}</text>
+										</view>
+										<view v-if="statusIndex!=3" class="handel">
+											<text class="delete" @click="productPopEvent('delete',index)">删除</text>
+											<text v-if="statusIndex==1" class="shelf"
+												@click="productPopEvent('shelf',index)">下架</text>
+											<text v-else-if="statusIndex==2" class="shelf"
+												@click="productPopEvent('upshelf',index)">上架</text>
+										</view>
 									</view>
 								</view>
 							</view>
-						</view>
+						</block>
 						<view class="add-product" @click="productHandle('add')">
 							<image class="icon32" src="/static/img/icon_+.png" mode=""></image>
 							<text>添加商品</text>
@@ -159,15 +155,17 @@
 				searchVal: '',
 				// 商品分类
 				statusList: [{
-					status: '已上架',
-					isvalid: 1
-				}, {
-					status: '已下架',
-					isvalid: 2
-				}, {
-					status: '已售罄',
-					isvalid: 3
-				}],
+						status: '已上架',
+						isvalid: 1
+					}, {
+						status: '已下架',
+						isvalid: 2
+					},
+					// {
+					// 	status: '已售罄',
+					// 	isvalid: 4
+					// }
+				],
 				statusIndex: 1,
 				// 商品列表
 				shopType: [],
@@ -210,29 +208,31 @@
 		methods: {
 			// 获取商品列表
 			getList() {
-				this.util.ajax('shop/getShopProducts', {
-					"userId": this.userId,
-					"searchType": this.statusIndex
-				}, res => {
-					if (res.data.categoryVos[0]) {
-						this.shopType = res.data.categoryVos
-					} else {
-						if (this.statusIndex != 1) {
+				if (this.statusIndex != 4) {
+					this.util.ajax('shop/getShopProducts', {
+						"userId": this.userId,
+						"searchType": this.statusIndex
+					}, res => {
+						if (res.data.categoryVos[0]) {
 							this.shopType = res.data.categoryVos
-						} else if (!this.shopType[0]) {
-							this.shopType.push({
-								"category_name": "类别1",
-								"productVos": [{
-									"images": "",
-									"isvalid": 1,
-									"name": "",
-									"selling_price": 0,
-									"stock": 0
-								}]
-							})
+						} else {
+							if (this.statusIndex != 1) {
+								this.shopType = res.data.categoryVos
+							} else if (!this.shopType[0]) {
+								this.shopType.push({
+									"category_name": "类别1",
+									"productVos": [{
+										"images": "",
+										"isvalid": 1,
+										"name": "",
+										"selling_price": 0,
+										"stock": 0
+									}]
+								})
+							}
 						}
-					}
-				})
+					})
+				}
 			},
 			// 保存商品信息
 			saveEvent() {
@@ -240,7 +240,7 @@
 					"categoryVos": this.shopType,
 					"userId": this.userId
 				}, res => {
-					this.$alert('保存成功')
+					this.$alert('成功')
 				})
 			},
 			// 商品类别
@@ -296,12 +296,11 @@
 				let that = this
 				let arr = that.shopType[that.shopTypeIndex].productVos
 				if (that.productShelf == 'delete') { // 删除
-					arr.splice(that.productIndex, 1)
+					arr[that.productIndex].isvalid = 3
 				} else if (that.productShelf == 'shelf') { // 下架
 					arr[that.productIndex].isvalid = 2
 				} else { // 上架
 					arr[that.productIndex].isvalid = 1
-
 				}
 				this.saveEvent()
 				this.$refs.productPopup.close()
@@ -351,10 +350,16 @@
 				}, 2000)
 			},
 			// 商品价格监听
-			priceEvent(val, index) {
-				let that = this;
-				that.inputIndex = val
+			priceEvent(e, index) {
+				let that = this
+				that.inputIndex = e.detail.value
 				that.shopType[that.shopTypeIndex].productVos[index].selling_price = ''
+			},
+			priceBlur(e, index) {
+				let that = this
+				if (!e.detail.value || e.detail.value == '0') {
+					that.shopType[that.shopTypeIndex].productVos[index].selling_price = that.inputIndex
+				}
 			},
 			// 库存加减
 			stockEvent(type, index) {
@@ -389,6 +394,9 @@
 			padding-top: 1rpx solid #F5F5F5;
 			background-color: #fff;
 			padding: 8rpx 0;
+			display: flex;
+			align-items: center;
+			justify-content: space-around;
 
 			.item {
 				line-height: 100rpx;
@@ -488,21 +496,6 @@
 					margin-bottom: 70rpx;
 					position: relative;
 
-					.audit-layers {
-						position: absolute;
-						top: 0;
-						left: 0;
-						bottom: 0;
-						right: 0;
-						color: #fff;
-						background-color: rgba(0, 0, 0, 0.7);
-						z-index: 2;
-						border-radius: 10rpx;
-						display: flex;
-						align-items: center;
-						justify-content: center;
-					}
-
 					.product-logo {
 						width: 120rpx;
 						height: 120rpx;
@@ -536,6 +529,7 @@
 
 							text {
 								color: #fff;
+								letter-spacing: 8rpx;
 							}
 						}
 					}

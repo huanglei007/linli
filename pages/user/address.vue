@@ -95,7 +95,7 @@
 					uni.navigateBack({
 						delta: 1
 					})
-				}else{
+				} else {
 					return
 				}
 				// this.$jump(localRoute+'?addressId='+id)
@@ -147,8 +147,8 @@
 				}
 
 				.shengray {
-					width: 558rpx;
 					margin-top: 28rpx;
+					margin-right: 30px;
 				}
 
 				.bianji {

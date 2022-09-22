@@ -6,7 +6,8 @@
 		<view class="head" :style="{paddingTop: htosp+'px'}">
 			<view class="flexd jubetween flex-center">
 				<view class="left flexd flex-center">
-					<image @click="$jumpsw('/pages/index/index')" class="backs icon22" src="/static/image/icon_fh.png" mode=""></image>
+					<image @click="$jumpsw('/pages/index/index')" class="backs icon22" src="/static/image/icon_fh.png"
+						mode=""></image>
 				</view>
 				<view class="flexd jubetween shareBox">
 					<image @click="collect" v-if="info.collected" src="/static/image/icon_sc.png" mode="widthFix">
@@ -77,8 +78,15 @@
 					</scroll-view>
 					<scroll-view :scroll-y="isBottom" class="right">
 						<view class="item flexd jubetween" v-for="(item,i) in List" :key="i">
+							<!-- 售罄 -->
+							<!-- <view v-if="item.stock<1" class="audit-layers">
+								<text class="font36">售罄</text>
+							</view> -->
 							<view class="image">
 								<image class="product-img" :src="Img(item.images)" mode=""></image>
+								<view class="black" v-if="item.stock<1">
+									<text>售罄</text>
+								</view>
 							</view>
 							<view class="message">
 								<view class="title">{{item.name}}</view>
@@ -89,11 +97,13 @@
 										<!-- {{item.selling_price.toString().indexOf('.')!==-1?'.':''}}{{item.selling_price.toString().split('.')[1]}} -->
 									</view>
 									<view class="btnBox flexd jubetween flex-center">
-										<image src="/static/image/icon_j.png" @click="reduce(i)" mode="widthFix">
-										</image>
-										<view class="num">{{item.count||0}}</view>
-										<image src="/static/image/icon_jia.png" @click="addPro(i)" mode="widthFix">
-										</image>
+										<block v-if="item.stock>0">
+											<image src="/static/image/icon_j.png" @click="reduce(i)" mode="widthFix">
+											</image>
+											<view class="num">{{item.count||0}}</view>
+											<image src="/static/image/icon_jia.png" @click="addPro(i)" mode="widthFix">
+											</image>
+										</block>
 									</view>
 								</view>
 							</view>
@@ -186,7 +196,7 @@
 		</swiper>
 		<view v-show="typeIndex==0" class="foot flexd jubetween flex-center">
 			<view class="cost">
-				费用 <text>{{sumPrice}}元</text>
+				费用 <text>{{sumPrice.toFixed(2)}}元</text>
 			</view>
 			<view class="btn" @click="$shake(orderto)">
 				下单
@@ -231,7 +241,7 @@
 				sumPrice: 0,
 				id: 0,
 				// 防抖
-				onoff:true
+				onoff: true
 			}
 		},
 		// 分享给朋友
@@ -363,8 +373,6 @@
 						})
 					}
 				})
-
-
 			},
 			// 收藏
 			collect() {
@@ -433,7 +441,7 @@
 					shareTitle: this.info.shop_name,
 					shareContent: this.info.address,
 					shareImg: this.Img(this.info.shop_logo),
-					appId : "wx6ae9f157d9b35d24", // 默认不传type的时候，必须传appId和appPath才会显示小程序图标
+					appId: "wx6ae9f157d9b35d24", // 默认不传type的时候，必须传appId和appPath才会显示小程序图标
 					appPath: "pages/index/shopDetail?id=" + this.info.shop_type_id,
 					//appWebUrl : "https://kemean.com/",
 				}
@@ -671,6 +679,25 @@
 			.item {
 				padding: 30rpx;
 				border-bottom: 1rpx solid #ddd;
+				position: relative;
+				// .audit-layers {
+				// 	position: absolute;
+				// 	top: 0;
+				// 	left: 0;
+				// 	bottom: 0;
+				// 	right: 0;
+				// 	color: #fff;
+				// 	background-color: rgba(0, 0, 0, 0.4);
+				// 	z-index: 2;
+				// 	display: flex;
+				// 	align-items: center;
+				// 	justify-content: center;
+
+				// 	text {
+				// 		font-size: 41rpx;
+				// 		letter-spacing: 15rpx;
+				// 	}
+				// }
 
 				.image {
 					width: 160rpx;
@@ -688,6 +715,25 @@
 						width: 70rpx;
 						top: 0;
 						right: 0;
+					}
+
+					.black {
+						width: 100%;
+						height: 100%;
+						background: rgba(51, 51, 51, 0.5500);
+						position: absolute;
+						left: 0;
+						top: 0;
+						display: flex;
+						align-items: center;
+						justify-content: center;
+						border-radius: 12rpx;
+
+						text {
+							color: #fff;
+							font-size: 41rpx;
+							letter-spacing: 8rpx;
+						}
 					}
 				}
 
