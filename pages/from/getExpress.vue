@@ -177,7 +177,7 @@
 		mounted(option) {
 			this.htosp = uni.getStorageSync('htop');
 			this.userId = uni.getStorageSync('userId');
-
+			this.initTime()
 			let that = this
 			// 取件数量列表
 			this.util.ajax('release/getExpressNumberList', {}, res => {

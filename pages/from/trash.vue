@@ -141,11 +141,7 @@
 		mounted(option) {
 			this.htosp = uni.getStorageSync('htop');
 			this.userId = uni.getStorageSync('userId');
-			
-			this.formdata.deliveryStartTime = this.$shijianhour(new Date().getTime())
-			this.formdata.deliveryEndTime = this.$shijianhour(new Date().getTime() + (3600000 * 2))
-			this.formdata.delivery_date = this.$shijian(new Date()).split(' ')[0]
-			
+			this.initTime()
 			let that = this
 			this.util.ajax('release/throwGarbageCycleList', {}, res => {
 				that.timeList = res.data.list
