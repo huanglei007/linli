@@ -58,8 +58,8 @@
   margin-left: 21rpx;
 }
 .list .swipe .wrapper .shengray {
-  width: 558rpx;
   margin-top: 28rpx;
+  margin-right: 30px;
 }
 .list .swipe .wrapper .bianji {
   width: 32rpx;

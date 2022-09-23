@@ -226,9 +226,9 @@ __webpack_require__.r(__webpack_exports__);
       uni.setNavigationBarTitle({
         title: '修改地址' });
 
-      this.id = option.id;
       var that = this;
-      this.util.ajax('address/queryAddressById', {
+      that.id = option.id;
+      that.util.ajax('address/queryAddressById', {
         id: that.id },
       function (res) {
         that.username = res.data.name;
@@ -245,7 +245,7 @@ __webpack_require__.r(__webpack_exports__);
         that.geted = true;
         that.street = res.data.address_detail;
       });
-    };
+    }
   },
   onShow: function onShow() {
 

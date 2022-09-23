@@ -206,7 +206,7 @@ exports.install = function(Vue, options) {
 		let hh = date.getHours() < 10 ? '0' + date.getHours() : date.getHours();
 		let mf = date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes();
 		let ss = date.getSeconds() < 10 ? '0' + date.getSeconds() : date.getSeconds();
-		return hh + ":" + mf + ":" + ss;
+		return hh + ":" + mf;
 	}
 
 	// 获取当前月

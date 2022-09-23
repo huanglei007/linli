@@ -11,6 +11,9 @@
   padding-top: 1rpx solid #F5F5F5;
   background-color: #fff;
   padding: 8rpx 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
 }
 .product-list .searchType .item {
   line-height: 100rpx;
@@ -95,20 +98,6 @@
   margin-bottom: 70rpx;
   position: relative;
 }
-.product-list .product-list-box .right-box .products .audit-layers {
-  position: absolute;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
-  color: #fff;
-  background-color: rgba(0, 0, 0, 0.7);
-  z-index: 2;
-  border-radius: 10rpx;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
 .product-list .product-list-box .right-box .products .product-logo {
   width: 120rpx;
   height: 120rpx;
@@ -140,6 +129,7 @@
 }
 .product-list .product-list-box .right-box .products .product-logo .black text {
   color: #fff;
+  letter-spacing: 8rpx;
 }
 .product-list .product-list-box .right-box .products .product-news {
   flex: 1;

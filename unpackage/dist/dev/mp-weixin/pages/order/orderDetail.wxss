@@ -190,18 +190,11 @@
   width: 44rpx;
   height: 44rpx;
 }
-.foot .btn {
-  line-height: 4vh;
-  font-size: 30rpx;
-  border-radius: 10rpx;
-  padding: 0 40rpx;
-  background: linear-gradient(180deg, #FDEC7E 0%, #F9D448 100%);
-}
 .foot .btnWhite {
   line-height: 4vh;
   font-size: 30rpx;
   border-radius: 10rpx;
-  padding: 10rpx 40rpx;
+  padding: 0 40rpx;
   margin-left: 20rpx;
   background: linear-gradient(180deg, #FDEC7E 0%, #F9D448 100%);
 }

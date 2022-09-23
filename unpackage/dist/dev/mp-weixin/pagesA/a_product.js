@@ -144,14 +144,14 @@ var render = function() {
     : null
 
   if (!_vm._isMounted) {
-    _vm.e0 = function($event, item) {
+    _vm.e0 = function($event, data) {
       var _temp = arguments[arguments.length - 1].currentTarget.dataset,
         _temp2 = _temp.eventParams || _temp["event-params"],
-        item = _temp2.item
+        data = _temp2.data
 
       var _temp, _temp2
 
-      _vm.statusIndex = item.isvalid
+      _vm.statusIndex = data.isvalid
     }
 
     _vm.e1 = function($event, index) {
@@ -162,16 +162,6 @@ var render = function() {
       var _temp3, _temp4
 
       _vm.shopTypeIndex = index
-    }
-
-    _vm.e2 = function($event, item) {
-      var _temp5 = arguments[arguments.length - 1].currentTarget.dataset,
-        _temp6 = _temp5.eventParams || _temp5["event-params"],
-        item = _temp6.item
-
-      var _temp5, _temp6
-
-      item.selling_price = _vm.inputIndex
     }
   }
 
@@ -362,10 +352,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
 var _default =
 {
   data: function data() {
@@ -381,11 +367,13 @@ var _default =
         isvalid: 1 },
       {
         status: '已下架',
-        isvalid: 2 },
-      {
-        status: '已售罄',
-        isvalid: 3 }],
+        isvalid: 2 }
 
+      // {
+      // 	status: '已售罄',
+      // 	isvalid: 4
+      // }
+      ],
       statusIndex: 1,
       // 商品列表
       shopType: [],
@@ -428,29 +416,31 @@ var _default =
   methods: {
     // 获取商品列表
     getList: function getList() {var _this = this;
-      this.util.ajax('shop/getShopProducts', {
-        "userId": this.userId,
-        "searchType": this.statusIndex },
-      function (res) {
-        if (res.data.categoryVos[0]) {
-          _this.shopType = res.data.categoryVos;
-        } else {
-          if (_this.statusIndex != 1) {
+      if (this.statusIndex != 4) {
+        this.util.ajax('shop/getShopProducts', {
+          "userId": this.userId,
+          "searchType": this.statusIndex },
+        function (res) {
+          if (res.data.categoryVos[0]) {
             _this.shopType = res.data.categoryVos;
-          } else if (!_this.shopType[0]) {
-            _this.shopType.push({
-              "category_name": "类别1",
-              "productVos": [{
-                "images": "",
-                "isvalid": 1,
-                "name": "",
-                "selling_price": 0,
-                "stock": 0 }] });
+          } else {
+            if (_this.statusIndex != 1) {
+              _this.shopType = res.data.categoryVos;
+            } else if (!_this.shopType[0]) {
+              _this.shopType.push({
+                "category_name": "类别1",
+                "productVos": [{
+                  "images": "",
+                  "isvalid": 1,
+                  "name": "",
+                  "selling_price": 0,
+                  "stock": 0 }] });
 
 
+            }
           }
-        }
-      });
+        });
+      }
     },
     // 保存商品信息
     saveEvent: function saveEvent() {var _this2 = this;
@@ -458,7 +448,7 @@ var _default =
         "categoryVos": this.shopType,
         "userId": this.userId },
       function (res) {
-        _this2.$alert('保存成功');
+        _this2.$alert('成功');
       });
     },
     // 商品类别
@@ -514,12 +504,11 @@ var _default =
       var that = this;
       var arr = that.shopType[that.shopTypeIndex].productVos;
       if (that.productShelf == 'delete') {// 删除
-        arr.splice(that.productIndex, 1);
+        arr[that.productIndex].isvalid = 3;
       } else if (that.productShelf == 'shelf') {// 下架
         arr[that.productIndex].isvalid = 2;
       } else {// 上架
         arr[that.productIndex].isvalid = 1;
-
       }
       this.saveEvent();
       this.$refs.productPopup.close();
@@ -569,10 +558,16 @@ var _default =
       }, 2000);
     },
     // 商品价格监听
-    priceEvent: function priceEvent(val, index) {
+    priceEvent: function priceEvent(e, index) {
       var that = this;
-      that.inputIndex = val;
+      that.inputIndex = e.detail.value;
       that.shopType[that.shopTypeIndex].productVos[index].selling_price = '';
+    },
+    priceBlur: function priceBlur(e, index) {
+      var that = this;
+      if (!e.detail.value || e.detail.value == '0') {
+        that.shopType[that.shopTypeIndex].productVos[index].selling_price = that.inputIndex;
+      }
     },
     // 库存加减
     stockEvent: function stockEvent(type, index) {

@@ -145,8 +145,9 @@
 						<view class="label" v-if="formdata.categoryId == 2">上门时间</view>
 						<view class="label" v-else>配送时间</view>
 						<view class="text">
-							<text
-								v-if="formdata.delivery_date">{{formdata.delivery_date.split('-')[1]+'月'+formdata.delivery_date.split('-')[2]+'日'}}</text>
+							<block v-if="formdata.delivery_date">
+								<text>{{formdata.delivery_date.split('-')[1]+'月'+formdata.delivery_date.split('-')[2]+'日'}}</text>
+							</block>
 							<text v-if="formdata.startTime">
 								{{formdata.startTime+'-'+formdata.endTime}}
 							</text>
@@ -284,7 +285,7 @@
 			</view> -->
 			<text class="font42 fontColor-FF6000">￥{{formdata.commission}}</text>
 			<view class="flexd flex-center">
-				<view class="btn" @click="take"
+				<view class="btnWhite" @click="take"
 					v-if="formdata.dataStatus==1&&userId!=formdata.userId&&formdata.categoryId!=6&&formdata.categoryId!=7">
 					接单
 				</view>
@@ -292,7 +293,7 @@
 					v-if="formdata.dataStatus==2&&userId==formdata.userId">
 					申请售后
 				</view>
-				<view class="btn" @click="finish" v-if="formdata.dataStatus==2&&userId==formdata.userId">
+				<view class="btnWhite" @click="finish" v-if="formdata.dataStatus==2&&userId==formdata.userId">
 					完成订单
 				</view>
 				<!-- <view class="btnWhite" @click="showComm"
@@ -843,21 +844,11 @@
 			}
 		}
 
-
-		.btn {
-			line-height: 4vh;
-			font-size: 30rpx;
-			border-radius: 10rpx;
-			padding: 0 40rpx;
-			// background-image: $uni-bg-color;
-			background: linear-gradient(180deg, #FDEC7E 0%, #F9D448 100%);
-		}
-
 		.btnWhite {
 			line-height: 4vh;
 			font-size: 30rpx;
 			border-radius: 10rpx;
-			padding: 10rpx 40rpx;
+			padding: 0 40rpx;
 			margin-left: 20rpx;
 			// background-image: $uni-bg-color;
 			background: linear-gradient(180deg, #FDEC7E 0%, #F9D448 100%);

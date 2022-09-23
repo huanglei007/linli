@@ -171,16 +171,12 @@
 					value: '1'
 				}],
 				// 防抖
-				onoff:true
+				onoff: true
 			}
 		},
 		mounted(option) {
 			this.htosp = uni.getStorageSync('htop');
 			this.userId = uni.getStorageSync('userId');
-
-			this.formdata.deliveryStartTime = this.$shijianhour(new Date().getTime())
-			this.formdata.deliveryEndTime = this.$shijianhour(new Date().getTime() + (3600000 * 2))
-			this.formdata.delivery_date = this.$shijian(new Date()).split(' ')[0]
 
 			let that = this
 			// 取件数量列表
@@ -284,6 +280,13 @@
 					}
 				}
 			},
+			// 初始化配送时间(两小时内)
+			initTime() {
+				let that = this
+				that.formdata.deliveryStartTime = this.$dateshifen(new Date().getTime())
+				that.formdata.deliveryEndTime = this.$dateshifen(new Date().getTime() + (3600000 * 2))
+				that.formdata.delivery_date = this.$shijian(new Date()).split(' ')[0]
+			},
 			// 筛选可用卷
 			screenEvent(list) {
 				let that = this
@@ -361,7 +364,10 @@
 				// 	return
 				// }
 				let that = this
-				this.$refs.form.validate().then(res => {
+				if (that.radio_time == 0) {
+					that.initTime()
+				}
+				that.$refs.form.validate().then(res => {
 					uni.showLoading({
 						title: ''
 					})
@@ -444,6 +450,7 @@
 					that.disable = false
 				})
 			},
+			// 刷新地址
 			refresh() {
 				if (this.isAddress) {
 					this.$refs.add.refresh()

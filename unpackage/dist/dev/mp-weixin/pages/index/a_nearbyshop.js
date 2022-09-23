@@ -357,18 +357,18 @@ var _default =
         "pageSize": 20, //分页大小,示例值(20)
         "userId": this.userId //用户ID
       }, function (res) {
-        var array = [];
-        // 是否分页
-        if (that.curPage !== res.data.page.curPage) {
-          that.isfoot = true;
-          that.shopList = that.shopList.concat(array);
-        }
-        // 筛选营业中的商家
         if (res.data.list.length > 0) {
+          var array = [];
+          // 筛选营业中的商家
           for (var a = 0; a < res.data.list.length; a++) {
             if (res.data.list[a].business_status != 0) {
               array.push(res.data.list[a]);
             }
+          }
+          // 是否分页
+          if (that.curPage !== res.data.page.curPage) {
+            that.isfoot = true;
+            that.shopList = that.shopList.concat(array);
           }
           // 根据商家类型查询商家列表
           _this2.screenTypeEvent(array);
@@ -431,7 +431,6 @@ var _default =
     // 筛选弹出层
     // 打开
     openpop: function openpop() {
-      // this.$alert('开发中')
       this.$refs.popup.open();
       uni.hideTabBar();
     },

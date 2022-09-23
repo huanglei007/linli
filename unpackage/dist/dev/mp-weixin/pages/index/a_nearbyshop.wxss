@@ -17,6 +17,7 @@
   border-radius: 10rpx;
 }
 .nearbyshop-segmented .scroll-view .scroll-view-item .title {
+  height: 40rpx;
   line-height: 40rpx;
   font-size: 28rpx;
   padding: 12rpx 0rpx;
@@ -81,6 +82,7 @@
   font-size: 32rpx;
   position: relative;
   padding-bottom: 10rpx;
+  margin-right: 155rpx;
 }
 .list .item .message .nickname {
   color: #888;

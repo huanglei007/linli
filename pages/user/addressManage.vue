@@ -6,8 +6,6 @@
 		</view>
 		<view class="row flexd flex-center">
 			<view>手机号</view>
-			<!-- <input ref="phone_input" class="input" type="number" placeholder="手机号码" placeholder-style="color:#888888;"
-				maxlength="11" @input="inputchange($event, 'phone')" /> -->
 			<input class="input" type="number" :value="phone" placeholder="手机号码" placeholder-style="color:#888888;"
 				maxlength="11" @input="inputchange($event, 'phone')" />
 		</view>
@@ -36,8 +34,6 @@
 		</view> -->
 		<view class="row flexd">
 			<view>详细地址</view>
-			<!-- <input ref="phone_street" class="input" type="text" placeholder="街道、牌楼号等" placeholder-style="color:#888888"
-				@input="inputchange($event, 'street')" /> -->
 			<input class="input" type="text" :value="street" placeholder="街道、牌楼号等" placeholder-style="color:#888888"
 				@input="inputchange($event, 'street')" />
 		</view>
@@ -91,31 +87,26 @@
 				uni.setNavigationBarTitle({
 					title: '修改地址'
 				});
-				this.id = option.id
 				let that = this
-				this.util.ajax('address/queryAddressById', {
+				that.id = option.id
+				that.util.ajax('address/queryAddressById', {
 					id: that.id
 				}, function(res) {
-					// setTimeout(() => {
-						that.username = res.data.name
-						that.phone = res.data.phone
-						that.is_default = res.data.is_default
-						that.location = {
-							point: {
-								longitude: res.data.longitude,
-								latitude: res.data.latitude,
-							},
-							address: res.data.address,
-							name: res.data.address_abbreviation
-						}
-						that.geted = true
-						that.street = res.data.address_detail
-						// input优化
-						// that.$refs.phone_input.value = res.data.phone
-						// that.$refs.phone_street.value = res.data.address_detail
-					// }, 500)
+					that.username = res.data.name
+					that.phone = res.data.phone
+					that.is_default = res.data.is_default
+					that.location = {
+						point: {
+							longitude: res.data.longitude,
+							latitude: res.data.latitude,
+						},
+						address: res.data.address,
+						name: res.data.address_abbreviation
+					}
+					that.geted = true
+					that.street = res.data.address_detail
 				})
-			};
+			}
 		},
 		onShow() {
 			// #ifdef APP-PLUS

@@ -387,6 +387,13 @@ __webpack_require__.r(__webpack_exports__);
         }
       }
     },
+    // 初始化配送时间(两小时内)
+    initTime: function initTime() {
+      var that = this;
+      that.formdata.deliveryStartTime = this.$dateshifen(new Date().getTime());
+      that.formdata.deliveryEndTime = this.$dateshifen(new Date().getTime() + 3600000 * 2);
+      that.formdata.delivery_date = this.$shijian(new Date()).split(' ')[0];
+    },
     // 筛选可用卷
     screenEvent: function screenEvent(list) {
       var that = this;
@@ -448,7 +455,10 @@ __webpack_require__.r(__webpack_exports__);
         return;
       }
       var that = this;
-      this.$refs.form.validate().then(function (res) {
+      if (that.radio_time == 0) {
+        that.initTime();
+      }
+      that.$refs.form.validate().then(function (res) {
         uni.showLoading({
           title: '' });
 

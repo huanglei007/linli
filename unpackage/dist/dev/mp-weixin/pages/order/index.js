@@ -302,7 +302,7 @@ __webpack_require__.r(__webpack_exports__);
       function (res) {
         var datas = uni.getStorageSync('orderList');
         var list = res.data.list;
-        if (datas[0] && list[0] && datas[0].id == list[0].id) {
+        if (datas[0] && list[0] && datas[0].id == list[0].id && datas.length == list.length) {
           that.shopList = datas;
         } else {
           if (that.curPage !== res.data.page.curPage) that.isfoot = true;
@@ -326,7 +326,6 @@ __webpack_require__.r(__webpack_exports__);
           }
           uni.setStorageSync('orderList', that.shopList);
         }
-
       });
     },
     // 需求类别列表

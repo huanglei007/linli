@@ -54,7 +54,7 @@
 				} else {
 					this.notfirst = true
 				}
-			}, 1000)
+			}, 500)
 		},
 		onLoad(e) {
 			this.htosp = uni.getStorageSync('htop')
@@ -73,15 +73,15 @@
 		methods: {
 			refresh() {
 				if (this.typeIndex == 0) {
-					// this.$refs.getExpress.refresh()
+					this.$refs.getExpress.refresh()
 				} else if (this.typeIndex == 1) {
-					// this.$refs.food.refresh()
+					this.$refs.food.refresh()
 				} else if (this.typeIndex == 2) {
-					// this.$refs.trash.refresh()
+					this.$refs.trash.refresh()
 				} else if (this.typeIndex == 3) {
-					// this.$refs.buy.refresh()
+					this.$refs.buy.refresh()
 				} else {
-					// this.$refs.get.refresh()
+					this.$refs.get.refresh()
 				}
 			},
 			// 获取跑腿卷
