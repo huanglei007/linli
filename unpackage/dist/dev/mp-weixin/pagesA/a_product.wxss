@@ -162,10 +162,11 @@
 }
 .product-list .product-list-box .right-box .products .product-news .price-input:before {
   content: '¥';
-  width: 20rpx;
-  height: 20rpx;
+  display: flex;
+  align-items: center;
   position: absolute;
-  top: 6rpx;
+  height: 100%;
+  top: 0rpx;
   left: 5rpx;
 }
 .product-list .product-list-box .right-box .products .product-news .meth {

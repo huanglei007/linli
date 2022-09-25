@@ -22,7 +22,7 @@ exports.install = function(Vue, options) {
 			}, 1500)
 		} else {
 			//如果一直走else分支可能是你没有在页面的data下面挂载onoff:true,不然一直都会走else
-			this.$alert("请稍后点击")
+			// this.$alert("请稍后点击")
 		}
 	}
 	// 提示弹窗

@@ -249,19 +249,19 @@
 						<text class="font36" @click="hoursShow=false">取消</text>
 					</view>
 					<view class="_confirm">
-						<text class="font36" style="color:cornflowerblue" @click="confirmEvent(false)">确认</text>
+						<text class="font36" style="color:cornflowerblue" @click="confirmEvent">确认</text>
 					</view>
 				</view>
 				<view class="content">
 					<picker-view :value="timeVal_start" @change="bindChange_start" class="picker-view"
 						style="height:600rpx;flex: 1;">
 						<picker-view-column>
-							<view class="item" v-for="(item,index) in 23" :key="index">
+							<view class="item" v-for="(item,index) in 24" :key="index">
 								<text>{{index<10?'0'+index:index}}时</text>
 							</view>
 						</picker-view-column>
 						<picker-view-column>
-							<view class="item" v-for="(item,index) in 59" :key="index">
+							<view class="item" v-for="(item,index) in 60" :key="index">
 								{{index<10?'0'+index:index}}分
 							</view>
 						</picker-view-column>
@@ -272,12 +272,12 @@
 					<picker-view :value="timeVal_end" @change="bindChange_end" class="picker-view"
 						style="height:600rpx;flex: 1;">
 						<picker-view-column>
-							<view class="item" v-for="(item,index) in 23" :key="index">
+							<view class="item" v-for="(item,index) in 24" :key="index">
 								{{index<10?'0'+index:index}}时
 							</view>
 						</picker-view-column>
 						<picker-view-column>
-							<view class="item" v-for="(item,index) in 59" :key="index">
+							<view class="item" v-for="(item,index) in 60" :key="index">
 								{{index<10?'0'+index:index}}分
 							</view>
 						</picker-view-column>
@@ -409,7 +409,7 @@
 				}, res => {
 					that.form = res.data
 					let delivery = res.data.initial_delivery_fee
-					if (!delivery|| delivery== 0) {
+					if (!delivery || delivery == 0) {
 						that.form.initial_delivery_fee = 20
 					}
 					that.timeVal_start = res.data.service_begin_time.split(':').map(i => i / 1)
@@ -582,7 +582,7 @@
 			notExamine() {
 				let that = this
 				// 营业时间
-				this.confirmEvent()
+				// this.confirmEvent(true)
 
 				this.util.ajax('shop/editShopStatus', {
 					"business_status": that.form.business_status + 1, // 营业状态
@@ -590,9 +590,10 @@
 					"service_content": that.form.service_content, // 服务内容
 					"service_process": that.form.service_process, // 服务流程
 					"service_guarantee": that.form.service_guarantee, // 服务保障
+					"service_begin_time": that.form.service_begin_time,
+					"service_end_time": that.form.service_end_time,
 					"user_id": that.userId
 				}, res => {})
-
 			},
 			// 监听营业状态变换
 			shopStatusChange(e) {
@@ -612,21 +613,18 @@
 			// 确认
 			confirmEvent(val) {
 				let that = this
-				if (val == true) {
-					let start = this.timeVal_start;
-					let start_h = start[0] < 10 ? '0' + start[0] : String(start[0]);
-					let start_s = start[1] < 10 ? '0' + start[1] : String(start[1]);
-					let end = this.timeVal_end;
-					let end_h = end[0] < 10 ? '0' + end[0] : String(end[0]);
-					let end_s = end[1] < 10 ? '0' + end[1] : String(end[1]);
-					this.util.ajax('shop/editShopStatus', {
-						"service_begin_time": start_h + ':' + start_s,
-						"service_end_time": end_h + ':' + end_s,
-						"user_id": that.userId
-					}, res => {})
-					that.form.service_begin_time = start_h + ':' + start_s
-					that.form.service_end_time = end_h + ':' + end_s
-				}
+				
+				let start = this.timeVal_start;
+				let start_h = start[0] < 10 ? '0' + start[0] : String(start[0]);
+				let start_s = start[1] < 10 ? '0' + start[1] : String(start[1]);
+				
+				let end = this.timeVal_end;
+				let end_h = end[0] < 10 ? '0' + end[0] : String(end[0]);
+				let end_s = end[1] < 10 ? '0' + end[1] : String(end[1]);
+				
+				that.form.service_begin_time = start_h + ':' + start_s
+				that.form.service_end_time = end_h + ':' + end_s
+				
 				that.hoursShow = false
 			},
 			// 上传店铺头像

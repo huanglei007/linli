@@ -68,8 +68,9 @@
 										<input class="input" type="number" v-model="item.stock" placeholder="" />
 										<view class="add" @click.stop="stockEvent('add',index)">+</view>
 									</view>
-									<input class="price-input" type="number" v-model="item.selling_price"
-										@focus="priceEvent($event,index)" @blur="priceBlur($event,index)" />
+									<input class="price-input" type="digit" v-model="item.selling_price"
+										placeholder="请输入商品价格" placeholder-class="placeholder"
+										@input="checkNum($event,index)" />
 									<view class="meth">
 										<view class="sale">
 											<text class="font22">月销 {{item.month_sale?item.month_sale:0}}</text>
@@ -236,12 +237,33 @@
 			},
 			// 保存商品信息
 			saveEvent() {
-				this.util.ajax('shop/saveShopProduct', {
-					"categoryVos": this.shopType,
-					"userId": this.userId
-				}, res => {
-					this.$alert('成功')
-				})
+				let that = this
+				if (that.searchList() == true) {
+					that.util.ajax('shop/saveShopProduct', {
+						"categoryVos": that.shopType,
+						"userId": that.userId
+					}, res => {
+						that.$alert('成功')
+					})
+				} else {
+					that.$alert('名称与价格不能为空')
+				}
+			},
+			searchList() {
+				let that = this
+				for (let i = 0; i < that.shopType.length; i++) {
+					for (let a = 0; a < that.shopType[i].productVos.length; a++) {
+						let data = that.shopType[i].productVos[a]
+						if (!data.name || !data.selling_price) {
+							return false
+						} else {
+							let arr = that.shopType
+							if (i == arr.length - 1 && a == arr[i].productVos.length - 1) {
+								return true
+							}
+						}
+					}
+				}
 			},
 			// 商品类别
 			// (添加 删除 更改)弹窗
@@ -349,16 +371,20 @@
 					uni.hideLoading()
 				}, 2000)
 			},
-			// 商品价格监听
-			priceEvent(e, index) {
-				let that = this
-				that.inputIndex = e.detail.value
-				that.shopType[that.shopTypeIndex].productVos[index].selling_price = ''
-			},
-			priceBlur(e, index) {
-				let that = this
-				if (!e.detail.value || e.detail.value == '0') {
-					that.shopType[that.shopTypeIndex].productVos[index].selling_price = that.inputIndex
+			// 商品价格格式化
+			checkNum(e, index) {
+				let data = this.shopType[this.shopTypeIndex].productVos
+				let num = e.detail.value
+				let dot = num.indexOf('.')
+				let dotLast = num.lastIndexOf('.')
+				if (dot == 0) {
+					this.$nextTick(() => {
+						data[index].selling_price = num.slice(0, dot)
+					})
+				} else if (dot !== dotLast) {
+					this.$nextTick(() => {
+						data[index].selling_price = num.slice(0, dotLast)
+					})
 				}
 			},
 			// 库存加减
@@ -569,10 +595,11 @@
 
 							&:before {
 								content: '¥';
-								width: 20rpx;
-								height: 20rpx;
+								display: flex;
+								align-items: center;
 								position: absolute;
-								top: 6rpx;
+								height: 100%;
+								top: 0rpx;
 								left: 5rpx;
 
 							}
