@@ -228,10 +228,16 @@
 						placeholder-style="color:#878787" placeholder="请给接单者留言" />
 				</view>
 			</view>
-			<view class="form">
-				<view class="item" v-if="formdata.leaveMessage">
+			<view class="form" v-if="formdata.leaveMessage">
+				<view class="item">
 					<textarea class="textarea" disabled v-model="formdata.leaveMessage"
 						placeholder-style="color:#878787" placeholder="请给接单者留言" />
+				</view>
+			</view>
+			<view class="form" v-if="formdata.shopOrder">
+				<view class="item">
+					<textarea class="textarea" disabled v-model="formdata.shopOrder.order.remarks"
+						placeholder-style="color:#878787" placeholder="备注" />
 				</view>
 			</view>
 			<view class="form" v-if="imageValue.length">
