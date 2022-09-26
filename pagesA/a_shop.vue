@@ -34,8 +34,8 @@
 						<view class="relive-title">
 							<text class="font28">店铺头像</text>
 						</view>
-						<view class="relive-icon" @click="updateImg">
-							<image class="icon60" :src="form.shop_logo?form.shop_logo:Img(imageValue[0])" mode="">
+						<view class="relive-icon" @click="updateImg('logo')">
+							<image class="icon60" :src="form.shop_logo?form.shop_logo:Img(imageValue_logo[0])" mode="">
 							</image>
 							<image class="icon22" src="/static/image/icon_gd.png" mode=""></image>
 						</view>
@@ -222,13 +222,22 @@
 						<image class="icon22" src="/static/image/icon_gd.png" mode=""></image>
 					</view>
 				</view>
-
+				<view>
+					<view class="peop" v-if="form.business_license!=''">
+						<image class="icon60"
+							:src="form.business_license?Img(form.business_license):Img(imageValue_license[0])" mode="">
+							<image @click="delImg" src="/static/image/icon_jian.png" mode="" class="del">
+					</view>
+					<view v-if="!form.business_license" class="peop" @click="updateImg('license')">
+						<image src="/static/image/icon_tj.png" mode="" style="border-radius: 0;"></image>
+					</view>
+				</view>
 			</view>
 		</view>
 		<!-- 设置 -->
 		<view class="shop-setting">
 			<text class="font24">设置</text>
-			<view class="setting-relive flex-center view-diy">
+			<view class="setting-relive flex-center view-diy" @click="relieve">
 				<view class="relive-title">
 					<text class="font28">申请解除合作</text>
 				</view>
@@ -304,7 +313,8 @@
 				userId: '',
 				// 我的店铺信息
 				form: {},
-				imageValue: [],
+				imageValue_logo: [],
+				imageValue_license: [],
 				// 店铺类型
 				shopType: [{
 					"icon": "", //图标
@@ -363,6 +373,13 @@
 		watch: {
 			imageValue(newVal, oldVal) {
 				this.form.shop_logo = this.Img(newVal[0])
+			},
+			imageValue_license(newVal, oldVal) {
+				if (newVal[0]) {
+					this.form.business_license = this.Img(newVal[0])
+				} else {
+					this.form.business_license = ''
+				}
 			},
 			form: {
 				handler(newVal, oldVal) {},
@@ -613,23 +630,33 @@
 			// 确认
 			confirmEvent(val) {
 				let that = this
-				
+
 				let start = this.timeVal_start;
 				let start_h = start[0] < 10 ? '0' + start[0] : String(start[0]);
 				let start_s = start[1] < 10 ? '0' + start[1] : String(start[1]);
-				
+
 				let end = this.timeVal_end;
 				let end_h = end[0] < 10 ? '0' + end[0] : String(end[0]);
 				let end_s = end[1] < 10 ? '0' + end[1] : String(end[1]);
-				
+
 				that.form.service_begin_time = start_h + ':' + start_s
 				that.form.service_end_time = end_h + ':' + end_s
-				
+
 				that.hoursShow = false
 			},
-			// 上传店铺头像
-			updateImg() {
-				this.util.sendimage(5 - this.imageValue.length, this.imageValue)
+			// 上传 -店铺头像 -营业资质
+			updateImg(val) {
+				if (val == 'logo') {
+					this.util.sendimage(5 - this.imageValue_logo.length, this.imageValue_logo)
+				} else if (val == 'license') {
+					this.util.sendimage(5 - this.imageValue_license.length, this.imageValue_license)
+				}
+			},
+			delImg(index) {
+				this.form.business_license = ''
+				if (this.imageValue_license[0]) {
+					this.imageValue_license.splice(0, 1)
+				}
 			},
 			// 营业资质
 			doBusiness() {
@@ -642,6 +669,22 @@
 					urls: img,
 				});
 			},
+			// 解除合作
+			relieve() {
+				uni.showModal({
+					title: '提示',
+					content: '确定解除合作吗',
+					cancelText: '取消',
+					confirmText: '确认',
+					success: res => {
+						if (res.confirm) {
+							this.$alert('解除合作申请已提交，请等待运营点审核！')
+						} else if (res.cancel) {
+							console.log('用户点击取消');
+						}
+					}
+				});
+			}
 		}
 	}
 </script>
@@ -807,6 +850,29 @@
 			padding: 10rpx 80rpx;
 			background: linear-gradient(180deg, #FDEC7E 0%, #F9D448 100%);
 			border-radius: 7px;
+		}
+	}
+
+	.peop {
+		width: 154rpx;
+		height: 154rpx;
+		margin: 20rpx 0;
+		margin-right: 12rpx;
+		position: relative;
+
+		image,
+		video {
+			width: 100%;
+			height: 100%;
+			border-radius: 8rpx;
+		}
+
+		.del {
+			width: 30rpx;
+			height: 30rpx;
+			position: absolute;
+			top: 2rpx;
+			right: 2rpx;
 		}
 	}
 </style>

@@ -38,11 +38,6 @@
 								<view>{{item.text}}</view>
 							</label>
 						</radio-group>
-						<!-- <time-picker @change="bindTimeChange">
-							<view class="flexd">
-								<view class="uni-input">{{timeTxt}}</view>
-							</view>
-						</time-picker> -->
 					</view>
 				</view>
 				<view class="item flexd flex-center">
@@ -144,7 +139,6 @@
 					"number": '请选择取件数量'
 				}],
 				take_index: 0,
-				// timeTxt: '请选择配送时间',
 				formdata: {
 					categoryId: 1,
 					publisherName: '',
@@ -177,7 +171,6 @@
 		mounted(option) {
 			this.htosp = uni.getStorageSync('htop');
 			this.userId = uni.getStorageSync('userId');
-			this.initTime()
 			let that = this
 			// 取件数量列表
 			this.util.ajax('release/getExpressNumberList', {}, res => {
@@ -214,12 +207,6 @@
 			},
 			getAdd(e) {
 				this[this.addIndex] = e
-			},
-			bindTimeChange: function(e) {
-				// this.formdata.deliveryStartTime = e.star
-				// this.formdata.deliveryEndTime = e.end
-				// this.timeTxt = e.text
-				// this.formdata.delivery_date = e.date
 			},
 			change(e) {
 				this.address = e
@@ -283,8 +270,8 @@
 			// 初始化配送时间(两小时内)
 			initTime() {
 				let that = this
-				that.formdata.deliveryStartTime = this.$dateshifen(new Date().getTime())
-				that.formdata.deliveryEndTime = this.$dateshifen(new Date().getTime() + (3600000 * 2))
+				that.formdata.deliveryStartTime = this.$shijian(new Date().getTime()).split(' ')[1]
+				that.formdata.deliveryEndTime = this.$shijian(new Date().getTime() + (3600000 * 2)).split(' ')[1]
 				that.formdata.delivery_date = this.$shijian(new Date()).split(' ')[0]
 			},
 			// 筛选可用卷
@@ -358,15 +345,9 @@
 					this.disable = false;
 					return
 				}
-				// if (this.timeTxt == '请选择配送时间') {
-				// 	this.$alert('请选择配送时间')
-				// 	this.disable = false;
-				// 	return
-				// }
+				// 初始化起始时间
+				this.initTime()
 				let that = this
-				if (that.radio_time == 0) {
-					that.initTime()
-				}
 				that.$refs.form.validate().then(res => {
 					uni.showLoading({
 						title: ''

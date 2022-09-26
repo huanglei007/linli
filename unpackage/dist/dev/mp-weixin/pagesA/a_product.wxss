@@ -92,6 +92,10 @@
   overflow-y: scroll;
   padding-bottom: 100rpx;
 }
+.product-list .product-list-box .right-box .noData {
+  text-align: center;
+  padding-top: 100rpx;
+}
 .product-list .product-list-box .right-box .products {
   display: flex;
   justify-content: space-between;
@@ -204,6 +208,7 @@
   align-items: center;
   justify-content: center;
   box-shadow: 0 -2px 5px -1px #888888;
+  z-index: 2;
 }
 .add-product {
   width: calc(100vw - 212rpx);

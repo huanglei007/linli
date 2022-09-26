@@ -130,4 +130,24 @@
   background: linear-gradient(180deg, #FDEC7E 0%, #F9D448 100%);
   border-radius: 7px;
 }
+.peop {
+  width: 154rpx;
+  height: 154rpx;
+  margin: 20rpx 0;
+  margin-right: 12rpx;
+  position: relative;
+}
+.peop image,
+.peop video {
+  width: 100%;
+  height: 100%;
+  border-radius: 8rpx;
+}
+.peop .del {
+  width: 30rpx;
+  height: 30rpx;
+  position: absolute;
+  top: 2rpx;
+  right: 2rpx;
+}
 

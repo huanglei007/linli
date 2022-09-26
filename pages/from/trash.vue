@@ -14,7 +14,7 @@
 					</view>
 				</view>
 			</view>
-			
+
 			<view class="form">
 				<view class="item flexd flex-center">
 					<view class="label">上门时间</view>
@@ -31,7 +31,7 @@
 					</view>
 				</view>
 			</view>
-			
+
 			<view class="form">
 				<view class="item flexd flex-center jubetween">
 					<view class="label">跑腿劵</view>
@@ -119,7 +119,7 @@
 					delivery_date: '',
 					deliveryStartTime: '',
 					deliveryEndTime: '',
-					now_delivery:0
+					now_delivery: 0
 				},
 				// 跑腿卷
 				couponform: {},
@@ -135,13 +135,12 @@
 					value: '1'
 				}],
 				// 防抖
-				onoff:true
+				onoff: true
 			}
 		},
 		mounted(option) {
 			this.htosp = uni.getStorageSync('htop');
 			this.userId = uni.getStorageSync('userId');
-			this.initTime()
 			let that = this
 			this.util.ajax('release/throwGarbageCycleList', {}, res => {
 				that.timeList = res.data.list
@@ -222,8 +221,8 @@
 			// 初始化配送时间(两小时内)
 			initTime() {
 				let that = this
-				that.formdata.deliveryStartTime = this.$dateshifen(new Date().getTime())
-				that.formdata.deliveryEndTime = this.$dateshifen(new Date().getTime() + (3600000 * 2))
+				that.formdata.deliveryStartTime = this.$shijian(new Date().getTime()).split(' ')[1]
+				that.formdata.deliveryEndTime = this.$shijian(new Date().getTime() + (3600000 * 2)).split(' ')[1]
 				that.formdata.delivery_date = this.$shijian(new Date()).split(' ')[0]
 			},
 			// 筛选可用卷
@@ -239,7 +238,7 @@
 			// 选择跑腿卷
 			selectEvent() {
 				let that = this
-				if(that.couponlist.length > 0){
+				if (that.couponlist.length > 0) {
 					let number = that.timeList[that.timeIndex]
 					let param = '?price=' + number.commission
 					if (that.couponform.amount) {
@@ -264,7 +263,7 @@
 										that.commission = number.commission + 1 - data.data.amount
 									} else {
 										that.couponform = {}
-										that.commission = number.commission + 1 
+										that.commission = number.commission + 1
 									}
 								}
 							}
@@ -286,10 +285,9 @@
 					this.disable = false;
 					return
 				}
+				// 初始化起始时间
+				this.initTime()
 				let that = this
-				if (that.radio_time == 0) {
-					that.initTime()
-				}
 				that.$refs.form.validate().then(res => {
 					uni.showLoading({
 						title: ''
@@ -387,10 +385,11 @@
 
 			.item {
 				padding: 20rpx 40rpx;
-				
-				.label{
+
+				.label {
 					width: 120rpx;
 				}
+
 				.textarea {
 					height: 100rpx;
 				}

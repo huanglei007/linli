@@ -2,7 +2,7 @@
 	<view>
 		<view class="typeBox flexd jucenter">
 			<view class="item" v-for="(item,i) in typeList" :key="i" :class="typeIndex==i?'active':''"
-				@click="typeIndex=i;getList()">
+				@click="typeIndex=i">
 				{{item}}
 			</view>
 		</view>
@@ -54,12 +54,7 @@
 				userId: '',
 				typeList: ['代金券', '优惠券'],
 				typeIndex: 0,
-				list: [{
-					left: '',
-					right: '',
-					begin: '开始时间',
-					end: '结束时间'
-				}],
+				list: [],
 				// 防抖
 				onoff: true
 			}
@@ -68,17 +63,18 @@
 			this.userId = uni.getStorageSync('userId')
 			this.getList()
 		},
+		watch: {
+			typeIndex(newVal, oldVal) {
+				this.typeIndex = newVal
+				this.getList()
+			}
+		},
 		methods: {
 			bindDateChange: function(e, item, key) {
 				item[key] = e.target.value
 			},
 			getList() { // 券列表
-				this.list = [{
-					left: '',
-					right: '',
-					begin: '开始时间',
-					end: '结束时间'
-				}]
+				this.list = []
 				let that = this
 				let date = new Date().getFullYear()
 				if (this.typeIndex == 0) {

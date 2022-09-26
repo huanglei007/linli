@@ -11,7 +11,7 @@
 			<!-- 标签 -->
 			<view class="searchType">
 				<view class="item" v-for="(data,i) in statusList" :key="i"
-					:class="statusIndex==data.isvalid?'active':''" @click="statusIndex=data.isvalid">
+					:class="statusIndex==data.isvalid?'active':''" @click="statusIndex=data.isvalid;shopTypeIndex=0">
 					{{data.status}}
 					<image class="icon" src="/static/img/icon_xuanzhong.png" mode="widthFix"></image>
 				</view>
@@ -28,7 +28,7 @@
 							@click="shopTypeHandlePop('edit',d.category_name)" src="/static/image/icon_update.png"
 							class="edit" mode=""></image>
 
-						<image v-show="shopTypeIndex == index&&statusIndex==1" @click="shopTypeHandlePop('delete')"
+						<image v-show="shopTypeIndex == index" @click="shopTypeHandlePop('delete')"
 							src="/static/img/icon_delete.png" class="delete" mode=""></image>
 					</view>
 					<view v-show="statusIndex==1">
@@ -38,23 +38,22 @@
 						</view>
 					</view>
 
-					<view class="add-product save-product" @click="saveEvent">
+					<view class="add-product save-product" v-if="shopType[shopTypeIndex]" @click="saveEvent">
 						<text>保存</text>
 					</view>
 				</view>
 				<!-- 信息 -->
-				<view class="right-box">
-					<view v-if="!shopType[0]" class="fontColor-ccc" style="text-align:center;">
+				<view class="right-box" v-if="shopType[shopTypeIndex]">
+					<view v-if="!shopType[shopTypeIndex].productVos[0]" class="fontColor-ccc noData">
 						<text>暂无</text>
 					</view>
 					<view v-else class="product-box">
 						<block v-for="(item,index) in shopType[shopTypeIndex].productVos" :key="index">
-							<!-- v-if="statusIndex==item.isvalid&&item.stock>0||statusIndex==4&&item.stock<1" -->
 							<view v-if="statusIndex==item.isvalid" class="products">
 								<!-- 商品图片 -->
 								<view class="product-logo" @click="updateImg(index)">
 									<image class="logo" :src="item.images?item.images:Img(item.images)" mode=""></image>
-									<view class="black" v-if="item.stock<1">
+									<view class="black" v-if="item.stock<1&&item.id">
 										<text>售罄</text>
 									</view>
 								</view>
@@ -70,7 +69,7 @@
 									</view>
 									<input class="price-input" type="digit" v-model="item.selling_price"
 										placeholder="请输入商品价格" placeholder-class="placeholder"
-										@input="checkNum($event,index)" />
+										@input="checkNum($event,index)" @focus="focusPrice($event,index)" />
 									<view class="meth">
 										<view class="sale">
 											<text class="font22">月销 {{item.month_sale?item.month_sale:0}}</text>
@@ -86,10 +85,10 @@
 								</view>
 							</view>
 						</block>
-						<view class="add-product" @click="productHandle('add')">
-							<image class="icon32" src="/static/img/icon_+.png" mode=""></image>
-							<text>添加商品</text>
-						</view>
+					</view>
+					<view class="add-product" @click="productHandle('add')">
+						<image class="icon32" src="/static/img/icon_+.png" mode=""></image>
+						<text>添加商品</text>
 					</view>
 				</view>
 			</view>
@@ -214,22 +213,24 @@
 						"userId": this.userId,
 						"searchType": this.statusIndex
 					}, res => {
+
+						this.shopType = res.data.categoryVos
 						if (res.data.categoryVos[0]) {
 							this.shopType = res.data.categoryVos
 						} else {
 							if (this.statusIndex != 1) {
 								this.shopType = res.data.categoryVos
 							} else if (!this.shopType[0]) {
-								this.shopType.push({
-									"category_name": "类别1",
-									"productVos": [{
-										"images": "",
-										"isvalid": 1,
-										"name": "",
-										"selling_price": 0,
-										"stock": 0
-									}]
-								})
+								// this.shopType.push({
+								// 	"category_name": "类别1",
+								// 	"productVos": [{
+								// 		"images": "",
+								// 		"isvalid": 1,
+								// 		"name": "",
+								// 		"selling_price": 0,
+								// 		"stock": 0
+								// 	}]
+								// })
 							}
 						}
 					})
@@ -238,32 +239,15 @@
 			// 保存商品信息
 			saveEvent() {
 				let that = this
-				if (that.searchList() == true) {
-					that.util.ajax('shop/saveShopProduct', {
-						"categoryVos": that.shopType,
-						"userId": that.userId
-					}, res => {
-						that.$alert('成功')
-					})
-				} else {
-					that.$alert('名称与价格不能为空')
-				}
-			},
-			searchList() {
-				let that = this
-				for (let i = 0; i < that.shopType.length; i++) {
-					for (let a = 0; a < that.shopType[i].productVos.length; a++) {
-						let data = that.shopType[i].productVos[a]
-						if (!data.name || !data.selling_price) {
-							return false
-						} else {
-							let arr = that.shopType
-							if (i == arr.length - 1 && a == arr[i].productVos.length - 1) {
-								return true
-							}
-						}
-					}
-				}
+				that.util.ajax('shop/saveShopProduct', {
+					"categoryVos": that.shopType,
+					"userId": that.userId
+				}, res => {
+					that.$alert('成功')
+					setTimeout(() => {
+						that.getList()
+					}, 1000)
+				})
 			},
 			// 商品类别
 			// (添加 删除 更改)弹窗
@@ -277,6 +261,7 @@
 			},
 			// 取消
 			cancelEvent_type() {
+				this.addVal = ''
 				this.$refs.typePopup.close()
 			},
 			// 确认
@@ -285,19 +270,26 @@
 				if (that.handleIndex == 'edit') {
 					that.shopType[that.shopTypeIndex].category_name = that.editVal
 				} else if (that.handleIndex == 'delete') {
-					that.shopType.splice(that.shopTypeIndex, 1)
+					let arr = that.shopType[that.shopTypeIndex].productVos
+					for (let i = 0; i < arr.length; i++) {
+						arr[i].isvalid = 3
+					}
 					that.shopTypeIndex = 0
+					that.saveEvent()
 				} else {
 					that.shopType.push({
 						"category_name": that.addVal,
-						"productVos": [{
-							"isvalid": that.statusIndex,
-							"name": "",
-							"selling_price": 0,
-							"stock": 0,
-						}]
+						"productVos": [
+							// 	{
+							// 	"isvalid": that.statusIndex,
+							// 	"name": "",
+							// 	"selling_price": 0,
+							// 	"stock": 0,
+							// },
+						]
 					})
 				}
+				this.addVal = ''
 				// 关闭弹窗
 				this.$refs.typePopup.close()
 			},
@@ -335,7 +327,7 @@
 						"images": "",
 						"isvalid": that.statusIndex,
 						"name": "",
-						"selling_price": 0,
+						"selling_price": '',
 						"stock": 0,
 						"month_sale": 0
 					})
@@ -385,6 +377,13 @@
 					this.$nextTick(() => {
 						data[index].selling_price = num.slice(0, dotLast)
 					})
+				}
+			},
+			focusPrice(e, index) {
+				let val = e.detail.value
+				let data = this.shopType[this.shopTypeIndex].productVos
+				if (val == '0') {
+					data[index].selling_price = ''
 				}
 			},
 			// 库存加减
@@ -515,6 +514,11 @@
 				background-color: #fff;
 				overflow-y: scroll;
 				padding-bottom: 100rpx;
+
+				.noData {
+					text-align: center;
+					padding-top: 100rpx;
+				}
 
 				.products {
 					display: flex;
@@ -653,7 +657,7 @@
 		align-items: center;
 		justify-content: center;
 		box-shadow: 0 -2px 5px -1px #888888;
-
+		z-index: 2;
 	}
 
 	.add-product {
