@@ -74,7 +74,7 @@
 					}, res => {
 					that.$alert('已评价')
 					setTimeout(() => {
-						that.$jump('/pages/user/orderDetail?type=0&id=' + that.orderId)
+						that.$jump('/pages/user/myOrder/myOrder?type=2')
 					}, 1000)
 					})
 				}

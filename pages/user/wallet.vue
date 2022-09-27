@@ -81,12 +81,12 @@
 			}
 		},
 		computed: {
-			startDate() {
-				// return this.getDate('start');
-			},
-			endDate() {
-				// return this.getDate('end');
-			}
+			// startDate() {
+			// 	return this.getDate('start');
+			// },
+			// endDate() {
+			// 	return this.getDate('end');
+			// }
 		},
 		onLoad() {
 			this.htosp=uni.getStorageSync('htop')

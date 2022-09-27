@@ -85,7 +85,7 @@
 				}, res => {
 					that.$alert('已取消订单')
 					setTimeout(() => {
-						that.$jump('/pages/user/orderDetail?id=' + that.orderId)
+						that.$jump('/pages/user/myOrder/myOrder?type=2')
 					}, 1000)
 				})
 			},

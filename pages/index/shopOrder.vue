@@ -12,7 +12,9 @@
 				<view class="addre flexd jubetween" v-if="isAdd">
 					<view class="flexd flex-center">
 						<view class="moren">地址</view>
-						<view class="dress">{{address.address_abbreviation}}{{''}}{{address.address_detail}}</view>
+						<view class="dress">
+							{{address.address_abbreviation?address.address_abbreviation:address.address}}{{''}}{{address.address_detail}}
+						</view>
 					</view>
 					<image src="/static/image/icon_jfmx.png" mode=""></image>
 				</view>
@@ -130,7 +132,15 @@
 					that.shopId = res.data.shopId
 					that.totalCount = res.data.totalCount
 					that.totalPrice = res.data.totalPrice
+
+					let address = that.address.address
+					if (address.split(' ').length == 3) {
+						that.address.address = address.split(' ')[0] + '省' + address.split(' ')[1] + '市' + address.split(' ')[2]
+					} else if (address.split(' ').length == 2) {
+						that.address.address = address.split(' ')[0] + '市' + address.split(' ')[1]
+					}
 				})
+
 			}
 		},
 		onShow() {

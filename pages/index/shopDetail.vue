@@ -198,8 +198,15 @@
 			<view class="cost">
 				费用 <text>{{sumPrice.toFixed(2)}}元</text>
 			</view>
-			<view class="btn" @click="$shake(orderto)">
-				下单
+			<view class="right flexd flex-center">
+				<block v-if="sumPrice.toFixed(2)<info.initial_delivery_fee">
+					<text class="differ fontColor-666">差￥{{info.initial_delivery_fee-sumPrice.toFixed(2)}}起送</text>
+				</block>
+				<block v-else>
+					<view class="btn" :class="{'btn-no':sumPrice.toFixed(2)<info.initial_delivery_fee}">
+						<text @click="$shake(orderto)">下单</text>
+					</view>
+				</block>
 			</view>
 		</view>
 	</view>
@@ -640,12 +647,25 @@
 			}
 		}
 
-		.btn {
-			line-height: 5vh;
-			font-size: 32rpx;
-			background-image: $uni-bg-color;
-			border-radius: 10rpx;
-			padding: 0 70rpx;
+		.right {
+			.differ {
+				margin-right: 20rpx;
+				line-height: 5vh;
+			}
+
+			.btn {
+				line-height: 5vh;
+				font-size: 32rpx;
+				background-image: $uni-bg-color;
+				border-radius: 10rpx;
+				padding: 0 70rpx;
+			}
+
+			.btn-no {
+				color: #fff;
+				background-color: #999;
+				background-image: none;
+			}
 		}
 	}
 

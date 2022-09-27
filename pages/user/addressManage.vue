@@ -6,7 +6,7 @@
 		</view>
 		<view class="row flexd flex-center">
 			<view>手机号</view>
-			<input class="input" type="number" :value="phone" placeholder="手机号码" placeholder-style="color:#888888;"
+			<input class="input" type="number" step='1' :value="phone" placeholder="手机号码" placeholder-style="color:#888888;"
 				maxlength="11" @input="inputchange($event, 'phone')" />
 		</view>
 		<view class="row flexd">
