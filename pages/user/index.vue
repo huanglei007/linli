@@ -72,7 +72,7 @@
 				</view>
 			</view>
 			<view class="order-wrapper">
-				<view class="order-hd flexd jubetween">
+				<view class="order-hd flexd jubetween" @click="$jump('/pages/user/myOrder/myOrder?type=0')">
 					<view class="left">我的订单</view>
 					<view class="right flexd" @click="$jump('/pages/user/myOrder/myOrder')">
 						<image src="/static/image/icon_gd.png" mode=""></image>

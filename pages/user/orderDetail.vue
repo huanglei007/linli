@@ -100,20 +100,32 @@
 						</text>
 					</view>
 				</view>
-				<!-- 待配送 -->
+				<!-- 待配送 配送中 -->
 				<view class="handel font32" v-if="statusIndex==2||statusIndex==3">
-					<text @click="cancelEvent">取消订单</text>
-					<text v-if="type == 1 && statusIndex == 2" @click="startEvent">开始配送</text>
-					<text v-else-if="type == 1 && statusIndex == 3" @click="confirmEvent">确认送达</text>
-					<text v-else @click="handelEvent('提醒配送')">提醒配送</text>
+					<text v-if="statusIndex==2" @click="cancelEvent">取消订单</text>
+					<!-- 用户操作 -->
+					<block v-if="type==0">
+						<block v-if="statusIndex==2">
+							<text @click="handelEvent('提醒配送')">提醒配送</text>
+						</block>
+						<text v-else-if="statusIndex==3" @click="confirmEvent">确认送达</text>
+					</block>
+					<!-- 商家操作 -->
+					<block v-if="type==1">
+						<text v-if="statusIndex==2" @click="startEvent">开始配送</text>
+					</block>
 				</view>
 				<!-- 已完成 -->
-				<view class="handel font32"
-					v-if="statusIndex==4&&type==0||statusIndex==6&&type==0||statusIndex==5&&type==0">
-					<text @click="deleteEvent">删除订单</text>
-					<text v-if="statusIndex==4" @click="handelEvent('评论')"
-						style="border:none;background: linear-gradient(180deg, #F9D448 0%, #FFCA00 100%, #D8D8D8 100%);">评论</text>
-				</view>
+				<block v-if="type==0">
+					<block v-if="statusIndex==4||statusIndex==5||statusIndex==6">
+						<view class="handel font32">
+							<text @click="deleteEvent">删除订单</text>
+							<block v-if="statusIndex==4">
+								<text class="comment" @click="handelEvent('评论')">评论</text>
+							</block>
+						</view>
+					</block>
+				</block>
 			</view>
 		</view>
 		<!-- 下单时间 备注 -->
@@ -122,13 +134,13 @@
 				<text>下单时间：</text>
 				<uni-dateformat :date="form.order.createtime" format='yyyy-MM-dd hh:mm'></uni-dateformat>
 			</view>
-			<view class="remarks font24 fontColor-666" v-if="statusIndex!=5">
+			<view v-if="statusIndex!=5" class="remarks font24 fontColor-666">
 				<text>备注：</text>
 				<text>{{form.order.remarks}}</text>
 			</view>
-			<view class="remarks font24 fontColor-666" v-else>
+			<view v-else class="remarks font24 fontColor-666">
 				<text>退款原因：</text>
-				<text>不想要了/临时有事</text>
+				<text>{{form.order.cancal_remark}}</text>
 			</view>
 		</view>
 		<!-- 已取消 -->
@@ -293,7 +305,8 @@
 					content: '确认取消订单?',
 					success: function(e) {
 						if (e.confirm) {
-							that.$jump(url + that.type + '&id=' + that.orderId + '&price=' + that.form.order.pro_price)
+							that.$jump(url + that.type + '&id=' + that.orderId + '&price=' + that.form.order
+								.pro_price)
 						} else if (e.cancel) {
 							console.log('用户点击取消');
 						}
@@ -339,9 +352,10 @@
 
 <style lang="scss">
 	// 2022-8-22
-	.content{
+	.content {
 		padding: 0 25rpx 100rpx 25rpx;
 	}
+
 	//
 	// 2022-7-28
 	// 
@@ -455,7 +469,7 @@
 	}
 
 	.price-box {
-		padding: 41rpx;
+		padding: 30rpx;
 		border-top: 1px solid #E5E5E5;
 		text-align: right;
 
@@ -523,5 +537,10 @@
 		image {
 			margin-right: 10rpx;
 		}
+	}
+
+	.comment {
+		border: none;
+		background: linear-gradient(180deg, #F9D448 0%, #FFCA00 100%, #D8D8D8 100%);
 	}
 </style>

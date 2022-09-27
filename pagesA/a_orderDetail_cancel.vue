@@ -15,9 +15,9 @@
 			<view class="radio-box">
 				<radio-group @change="radioChange">
 					<label class="radios flexd jubetween" v-for="(item, index) in reasonlist" :key="index">
-						<view>{{item.label}}</view>
+						<view>{{item.reason}}</view>
 						<view>
-							<radio :value="item.value" :checked="index === current" />
+							<radio :value="item.reason" :checked="index === current" />
 						</view>
 					</label>
 				</radio-group>
@@ -58,20 +58,18 @@
 			this.orderId = e.id
 			this.type = e.type + 1
 			this.price = e.price
-			// 设置默认原因
-			this.setDefaultCancel()
-			// 获取原因
-			// this.cancellist()
+			// 取消订单原因
+			this.cancellist()
 		},
 		methods: {
 			// 取消原因列表
 			cancellist() {
 				let that = this
 				that.util.ajax('order/cancelReasons', {
-					"type": that.type
+					"type": 1
 				}, res => {
-					if (res.data) {
-						that.reasonlist = res.data
+					if (res.data.list[0]) {
+						that.reasonlist = res.data.list
 					} else {
 						return
 					}
@@ -101,51 +99,6 @@
 					}
 				}
 			},
-			// 设置默认取消原因
-			setDefaultCancel() {
-				let that = this
-				if (that.type == 1) {
-					that.reasonlist = [{
-						id: 1,
-						value: '1',
-						label: '不想要了/临时有事'
-					}, {
-						id: 2,
-						value: '2',
-						label: '点错了/点多了/点少了'
-					}, {
-						id: 3,
-						value: '3',
-						label: '地址/电话填错了'
-					}, {
-						id: 4,
-						value: '4',
-						label: '忘记写备注'
-					}, {
-						id: 5,
-						value: '5',
-						label: '其他原因'
-					}]
-				} else {
-					that.reasonlist = [{
-						id: 1,
-						value: '1',
-						label: '商品已售完'
-					}, {
-						id: 2,
-						value: '2',
-						label: '联系不上用户'
-					}, {
-						id: 3,
-						value: '3',
-						label: '地址无法配送'
-					}, {
-						id: 4,
-						value: '4',
-						label: '店铺已打烊'
-					}]
-				}
-			}
 		}
 	}
 </script>

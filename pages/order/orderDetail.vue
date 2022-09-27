@@ -291,17 +291,22 @@
 			</view> -->
 			<text class="font42 fontColor-FF6000">￥{{formdata.commission}}</text>
 			<view class="flexd flex-center">
-				<view class="btnWhite" @click="take"
+				<block
 					v-if="formdata.dataStatus==1&&userId!=formdata.userId&&formdata.categoryId!=6&&formdata.categoryId!=7">
-					接单
-				</view>
-				<view class="btnWhite" @click="phone(kf_hotline)"
-					v-if="formdata.dataStatus==2&&userId==formdata.userId">
-					申请售后
-				</view>
-				<view class="btnWhite" @click="finish" v-if="formdata.dataStatus==2&&userId==formdata.userId">
-					完成订单
-				</view>
+					<view class="btnWhite" @click="take">
+						接单
+					</view>
+				</block>
+				<block v-if="formdata.dataStatus==2&&userId==formdata.userId">
+					<view class="btnWhite" @click="phone(kf_hotline)">
+						申请售后
+					</view>
+				</block>
+				<block v-if="formdata.dataStatus==2&&userId==formdata.userId">
+					<view class="btnWhite" @click="finish">
+						完成订单
+					</view>
+				</block>
 				<!-- <view class="btnWhite" @click="showComm"
 					v-if="formdata.dataStatus==1&&userId==formdata.userId&&formdata.categoryId!=6&&formdata.categoryId!=7">
 					加佣
