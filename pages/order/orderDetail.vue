@@ -307,10 +307,10 @@
 						完成订单
 					</view>
 				</block>
-				<!-- <view class="btnWhite" @click="showComm"
+				<view class="btnWhite" @click="showComm"
 					v-if="formdata.dataStatus==1&&userId==formdata.userId&&formdata.categoryId!=6&&formdata.categoryId!=7">
 					加佣
-				</view> -->
+				</view>
 				<view class="btnWhite" @click="cancel" v-if="formdata.dataStatus==1&&userId==formdata.userId">
 					取消订单
 				</view>
