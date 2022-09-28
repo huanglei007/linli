@@ -42,8 +42,10 @@
 		<view class="form">
 			<view class="item flexd flex-center">
 				<text class="label">分类</text>
-				<picker @change="bindPickerChange" :value="classIndex" :range="classArray" range-key="service_type_name">
-					<text style="color: rgb(135, 135, 135);">{{classArray[classIndex]?classArray[classIndex].service_type_name:''}}</text>
+				<picker @change="bindPickerChange" :value="classIndex" :range="classArray"
+					range-key="service_type_name">
+					<text
+						style="color: rgb(135, 135, 135);">{{classArray[classIndex]?classArray[classIndex].service_type_name:''}}</text>
 				</picker>
 			</view>
 		</view>
@@ -138,12 +140,12 @@
 					"photo": "",
 					"refuse_reason": "",
 					"service_begin_time": "",
-					"service_content": "",
 					"service_distance": 0,
 					"service_end_time": "",
+					"service_content": "",
 					"service_guarantee": "",
 					"service_process": "",
-					"talent_name": 0,
+					"talent_name": '',
 					"talent_phone": "",
 					"skillIds": ''
 				},
@@ -154,7 +156,7 @@
 					id: 0,
 				}],
 				// 防抖
-				onoff:true
+				onoff: true
 			}
 		},
 		mounted() {
@@ -236,8 +238,8 @@
 							}
 							that.refreshskilltext()
 						}
-						for(let i in that.classArray){
-							if(that.classArray[i].id == res.data.service_type_id){
+						for (let i in that.classArray) {
+							if (that.classArray[i].id == res.data.service_type_id) {
 								that.classIndex = i
 							}
 						}
@@ -297,17 +299,22 @@
 				})
 			},
 			submit() {
-				let arr = []
-				for (let i = 0; i < this.classfy.length; i++) {
-					if (this.classfy[i].checked) {
-						arr.push(this.classfy[i].id)
-					}
-				}
+				// let arr = []
+				// for (let i = 0; i < this.classfy.length; i++) {
+				// 	if (this.classfy[i].checked) {
+				// 		arr.push(this.classfy[i].id)
+				// 	}
+				// }
 				// if (arr.length == 0) {
 				// 	this.$alert('请选择擅长技能')
 				// 	return
 				// }
-				this.detail.skillIds = arr.join()
+				// this.detail.skillIds = arr.join()
+				if (this.classIndex == 0) {
+					this.$alert('请选择服务分类')
+					return
+				}
+				this.detail.skillIds = this.classArray[this.classIndex].id
 				this.detail.images = this.imageValue.join()
 				this.detail.userId = this.userId
 

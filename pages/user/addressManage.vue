@@ -4,10 +4,16 @@
 			<view>姓名</view>
 			<input class="input" type="text" v-model="username" placeholder="请输入姓名" placeholder-style="color:#888888" />
 		</view>
-		<view class="row flexd flex-center">
+		<!-- <view class="row flexd flex-center">
 			<view>手机号</view>
 			<input class="input" type="number" step='1' :value="phone" placeholder="手机号码" placeholder-style="color:#888888;"
 				maxlength="11" @input="inputchange($event, 'phone')" />
+		</view> -->
+		<view class="row flexd flex-center">
+			<view>手机号</view>
+			<view @click="phoneClick(true)" v-if="!phoneInput" style="flex:1;#212121">{{phone}}</view>
+			<input v-if="phoneInput" class="input" :focus="phoneInput_focus" type="number" step='1' placeholder="手机号码"
+				placeholder-style="color:#888888;" maxlength="11" @input="inputchange($event, 'phone')" />
 		</view>
 		<view class="row flexd">
 			<view>所在地区</view>
@@ -77,6 +83,9 @@
 					name: '请选择地图定位'
 				},
 				geted: false,
+				// 
+				phoneInput: false, //false=>DIV  true=>手机框
+				phoneInput_focus: false, //手机框焦点
 			}
 		},
 		onLoad(option) {
@@ -84,6 +93,7 @@
 			this.userId = uni.getStorageSync('userId');
 			this.imageurl = this.globalData.imageurl;
 			if (option.id) {
+				this.phoneInput = false
 				uni.setNavigationBarTitle({
 					title: '修改地址'
 				});
@@ -106,6 +116,8 @@
 					that.geted = true
 					that.street = res.data.address_detail
 				})
+			} else {
+				this.phoneInput = true
 			}
 		},
 		onShow() {
@@ -168,6 +180,11 @@
 				} else if (flag == 'street') {
 					that.street = e.target.value
 				}
+			},
+			phoneClick(val) { // false=>DIV  true=>输入框
+				let that = this
+				that.phoneInput = val
+				that.phoneInput_focus = val
 			},
 			// 保存地址
 			tijiao() {

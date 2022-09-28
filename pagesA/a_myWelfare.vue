@@ -7,36 +7,38 @@
 		</view>
 		<view class="body">
 			<radio-group>
-				<label class="listbox" v-for="(item,index) in coupons" :key="index" @click="listClickEvent(index)">
-					<view class="list flexd flex-center jubetween" :key="index"
-						:class="{'out-text':item.use_status != 0}">
-						<view class="status" :class="{'out-status':item.use_status != 0}">
-							<text v-if="item.use_status == 1">已使用</text>
-							<text v-else-if="item.use_status == 2">已过期</text>
-							<text v-else>未使用</text>
-						</view>
-						<view class="list-left">
-							<text>￥</text>
-							<text style="font-size:70rpx;">{{item.amount}}</text>
-						</view>
-						<view class="list-right">
-							<view class="title">
-								<text class="font36">{{item.coupon_name}}</text>
+				<block v-for="(item,index) in coupons" :key="index">
+					<label v-if="item.use_status == 0" class="listbox" @click="listClickEvent(index)">
+						<view class="list flexd flex-center jubetween" :key="index"
+							:class="{'out-text':item.use_status != 0}">
+							<view class="status" :class="{'out-status':item.use_status != 0}">
+								<text v-if="item.use_status == 1">已使用</text>
+								<text v-else-if="item.use_status == 2">已过期</text>
+								<text v-else>未使用</text>
 							</view>
-							<view class="time">
-								<uni-dateformat class="font24 fontColor-999" :date="item.expiration_time"
-									format="yyyy/MM/dd"></uni-dateformat>
-								<text class="font24 fontColor-999">到期</text>
+							<view class="list-left">
+								<text>￥</text>
+								<text style="font-size:70rpx;">{{item.amount}}</text>
 							</view>
-							<view class="type">
-								<text class="font24 fontColor-999">帮送外卖/帮取快递/帮丢垃圾</text>
+							<view class="list-right">
+								<view class="title">
+									<text class="font36">{{item.coupon_name}}</text>
+								</view>
+								<view class="time">
+									<uni-dateformat class="font24 fontColor-999" :date="item.expiration_time"
+										format="yyyy/MM/dd"></uni-dateformat>
+									<text class="font24 fontColor-999">到期</text>
+								</view>
+								<view class="type">
+									<text class="font24 fontColor-999">帮送外卖/帮取快递/帮丢垃圾</text>
+								</view>
 							</view>
 						</view>
-					</view>
-					<view v-if="select">
-						<radio :value="String(item.id)" :checked="index === current" />
-					</view>
-				</label>
+						<view v-if="select">
+							<radio :value="String(item.id)" :checked="index === current" />
+						</view>
+					</label>
+				</block>
 			</radio-group>
 		</view>
 
