@@ -49,6 +49,16 @@
 				</picker>
 			</view>
 		</view>
+		<view class="form">
+			<view class="item flexd flex-center">
+				<text class="label">运营点</text>
+				<picker @change="bindPickerChange_operation" :value="operationIndex" :range="operation"
+					range-key="operation_point_name">
+					<text
+						style="color: rgb(135, 135, 135);">{{operation[operationIndex]?operation[operationIndex].operation_point_name:''}}</text>
+				</picker>
+			</view>
+		</view>
 		<!-- <view class="form">
 			<view class="item flexd flex-center">
 				<view class="label">擅长技能</view>
@@ -155,6 +165,12 @@
 					service_type_name: '请选择分类',
 					id: 0,
 				}],
+				// 运营点
+				operationIndex: 0,
+				operation: [{
+					operation_point_name: '请选择运营点',
+					id: 0
+				}],
 				// 防抖
 				onoff: true
 			}
@@ -163,17 +179,23 @@
 			this.htosp = uni.getStorageSync('htop');
 			this.userId = uni.getStorageSync('userId')
 			this.userInfo = uni.getStorageSync('userInfo')
+
+			let that = this
+			// 服务分类
+			this.util.ajax('talent/getTalentServiceTypes', {}, (res) => {
+				that.classArray = that.classArray.concat(res.data.list)
+			})
+			// 运营点
+			this.util.ajax('common/operationPointList', {}, res => {
+				that.operation = that.operation.concat(res.data.list)
+			})
 			if (this.userInfo.user_type == 4) {
 				uni.setNavigationBarTitle({
 					title: '达人设置'
 				})
 			}
+			// 达人信息
 			this.loadmore()
-			// 服务分类
-			let that = this
-			this.util.ajax('talent/getTalentServiceTypes', {}, (res) => {
-				that.classArray = that.classArray.concat(res.data.list)
-			})
 		},
 		methods: {
 			refreshskilltext() {
@@ -184,7 +206,6 @@
 						text += this.classfy[i].name + '、'
 					}
 				}
-				console.log(text)
 				this.skilltext = text || '请选择擅长技能（可多选）'
 			},
 			openSkill() {
@@ -238,9 +259,14 @@
 							}
 							that.refreshskilltext()
 						}
-						for (let i in that.classArray) {
+						for (let i in that.classArray) { // 分类
 							if (that.classArray[i].id == res.data.service_type_id) {
 								that.classIndex = i
+							}
+						}
+						for (let i in that.operation) { // 运营点
+							if (that.operation[i].id == res.data.operation_point_id) {
+								that.operationIndex = i
 							}
 						}
 					})
@@ -314,19 +340,23 @@
 					this.$alert('请选择服务分类')
 					return
 				}
-				this.detail.skillIds = this.classArray[this.classIndex].id
+				this.detail.service_type_id = this.classArray[this.classIndex].id
+				this.detail.skillIds = this.classArray[this.classIndex].id.toString()
 				this.detail.images = this.imageValue.join()
 				this.detail.userId = this.userId
 
 				let that = this
 				this.util.ajax('talent/saveTalentSet', this.detail, (res) => {
-					that.$alert(res.msg)
-
-					this.loadmore()
-					uni.pageScrollTo({
-						duration: 0, //过渡时间必须为0，uniapp bug，否则运行到手机会报错
-						scrollTop: 0, //滚动到实际距离是元素距离顶部的距离减去最外层盒子的滚动距离
-					})
+					that.$alert('审核中')
+					setTimeout(() => {
+						that.$jumpsw('/pages/user/index')
+					},500)
+					// that.$alert(res.msg)
+					// this.loadmore()
+					// uni.pageScrollTo({
+					// 	duration: 0, //过渡时间必须为0，uniapp bug，否则运行到手机会报错
+					// 	scrollTop: 0, //滚动到实际距离是元素距离顶部的距离减去最外层盒子的滚动距离
+					// })
 				})
 			},
 			// 监听服务分类
@@ -334,6 +364,12 @@
 				let that = this
 				that.classIndex = e.detail.value
 				that.detail.service_type_id = that.classArray[that.classIndex].id
+			},
+			// 监听运营点
+			bindPickerChange_operation(e) {
+				let that = this
+				that.operationIndex = e.detail.value
+				that.detail.operation_point_id = that.operation[that.operationIndex].id
 			}
 		}
 	}

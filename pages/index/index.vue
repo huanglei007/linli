@@ -253,6 +253,27 @@
 				shopType_index: ''
 			}
 		},
+		// 分享给朋友
+		onShareAppMessage(res) {
+			if (res.from === 'button') {
+				console.log(res.target)
+			}
+			return {
+				title: '阾里',
+				path: 'pages/index/index',
+				mpId: 'wx6ae9f157d9b35d24',
+				// imageUrl: '@/'
+			}
+		},
+		//分享到朋友圈
+		onShareTimeline(res) {
+			return {
+				title: '阾里',
+				type: 0,
+				summary: "",
+				// imageUrl: this.info.shop_logo
+			}
+		},
 		onLoad(e) {
 			this.userId = uni.getStorageSync('userId');
 			this.htosp = uni.getStorageSync('htop');

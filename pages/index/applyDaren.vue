@@ -106,8 +106,8 @@
 					id: 0
 				}],
 				operationIndex: 0,
-				saleType: ['请选择达人类型','服务','商品'],
-				saleIndex: 0,
+				// saleType: ['请选择达人类型','服务','商品'],
+				// saleIndex: 0,
 				shopTpye: [{
 					service_type_name: '请选择分类',
 					id:0,
@@ -138,7 +138,7 @@
 				  "idcardBack": "",
 				  "idcardFront": "",
 				  "operationPointId": 0,
-				  "serviceDistance": '',
+				  "serviceDistance": '50',
 				  "skillCertificate": "",
 				  "skillIds": "",
 				  "talentName": "",
@@ -153,9 +153,11 @@
 			this.imageurl = this.globalData.imageurl
 			this.formdata.userId=this.userId
 			let that=this
+			// 分类
 			this.util.ajax('talent/getTalentServiceTypes',{},(res)=>{
 				that.shopTpye=that.shopTpye.concat(res.data.list)
 			})
+			// 运营点
 			this.util.ajax('common/operationPointList',{},res=>{
 				that.operation=that.operation.concat(res.data.list) 
 			})
@@ -197,7 +199,8 @@
 				this.operationIndex = e.target.value
 			},
 			bindPickerChange3: function(e) {
-				this.saleIndex = e.target.value
+				// this.saleIndex = e.target.value
+				this.shopIndex = e.target.value
 			},
 			bindPickerChange2: function(e) {
 				this.rangeIndex = e.target.value
@@ -230,10 +233,10 @@
 					this.$alert('请输入达人联系方式')
 					return
 				}
-				if(this.rangeIndex==0){
-					this.$alert('请选择上门服务距离')
-					return
-				}
+				// if(this.rangeIndex==0){
+				// 	this.$alert('请选择上门服务距离')
+				// 	return
+				// }
 				if(this.operationIndex==0){
 					this.$alert('请选择运营点')
 					return
@@ -246,7 +249,7 @@
 					this.$alert('请上传身份证正反面')
 					return
 				}
-				this.formdata.serviceDistance=this.range[this.rangeIndex].value
+				// this.formdata.serviceDistance=this.range[this.rangeIndex].value
 				//this.formdata.sale_nature=this.saleIndex
 				this.formdata.service_type_id=this.shopTpye[this.shopIndex].id
 				this.formdata.operationPointId=this.operation[this.operationIndex].id
