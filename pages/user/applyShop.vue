@@ -94,8 +94,8 @@
 		<view class="form">
 			<view class="item flexd flex-center">
 				<view class="label">联系方式</view>
-				<input class="input" type="number" v-model="formdata.contactPhone" placeholder="请输入联系方式"
-					placeholder-style="color:#878787" />
+				<input class="input" type="number" step='1' placeholder="请输入联系方式" placeholder-style="color:#878787;"
+					maxlength="11" @input="inputchange($event, 'contactPhone')" />
 			</view>
 		</view>
 		<view class="picBox">
@@ -190,7 +190,7 @@
 				deposit_array_index: 0,
 				deposit_array: [],
 				// 防抖
-				onoff:true
+				onoff: true,
 			}
 		},
 		onShow() {
@@ -241,8 +241,14 @@
 			},
 			// 监听押金金额
 			depositChange(e) {
-				console.log(e)
 				this.deposit_array_index = e.detail.value
+			},
+			// 输入框监听
+			inputchange(e, val) {
+				let that = this
+				if (val == 'contactPhone') { // 联系方式
+					that.formdata.contactPhone = e.detail.value
+				}
 			},
 			//
 			bindPickerChange2: function(e) {
@@ -352,13 +358,13 @@
 				obj.shopSubTypeId = this.saleType[this.saleIndex].id //商家子类型
 				obj.shopTypeId = this.typeList[this.typeIndex].id //商家类型
 				obj.userId = this.userId //用户id
-				let that = this
 				uni.showLoading({
 					title: ''
 				})
-				this.util.ajax('shop/saveShopSettled', obj, res => {
-					if (this.deposit_index == '1') {
-						this.util.ajax('shop/submitShopDepositOrder', {
+				let that = this
+				that.util.ajax('shop/saveShopSettled', obj, res => {
+					if (that.deposit_index == '1') {
+						that.util.ajax('shop/submitShopDepositOrder', {
 							amount: that.deposit_array[that.deposit_array_index].amount,
 							userId: that.userId,
 						}, res => {

@@ -130,8 +130,10 @@
 							<text class="font28">联系方式</text>
 						</view>
 						<view class="relive-icon">
-							<input placeholder-style="color:#CCCCCC" v-model="form.contact_phone"
-								placeholder="请填写联系方式" />
+							<view @click="phoneClick(true)" v-if="!phoneInput" style="flex:1;color:#666666">{{form.contact_phone}}</view>
+							<input v-if="phoneInput" class="input" :focus="phoneInput_focus" type="number" step='1'
+								placeholder="请输入联系方式" placeholder-style="color:#CCCCCC;" maxlength="11"
+								@input="inputchange($event, 'contact_phone')" />
 							<image class="icon32" src="/static/image/icon_update.png" mode=""></image>
 						</view>
 					</view>
@@ -357,6 +359,9 @@
 				// 是否审核
 				examine: true,
 				examine_s: null,
+				// 手机号输入框
+				phoneInput: false, //false=>DIV  true=>手机框
+				phoneInput_focus: false, //手机框焦点
 			}
 		},
 		onLoad() {
@@ -555,7 +560,19 @@
 			operationChange(e) {
 				let that = this
 				that.operationIndex = e.detail.value
-				that.form.operation_point_id = e.detail.operation_point_id
+				that.form.operation_point_id = that.operation[that.operationIndex].id
+			},
+			// 输入框监听
+			inputchange(e, flag) {
+				let that = this
+				if (flag == 'contact_phone') {
+					that.form.contact_phone = e.target.value
+				}
+			},
+			phoneClick(val) { // false=>DIV  true=>输入框
+				let that = this
+				that.phoneInput = val
+				that.phoneInput_focus = val
 			},
 			// 监听是否交押金
 			radioChange(e) {
@@ -678,7 +695,7 @@
 					confirmText: '确认',
 					success: res => {
 						if (res.confirm) {
-							this.$alert('解除合作申请已提交，请等待运营点审核！')
+							this.$alert('请于运营点联系解除合作事宜！')
 						} else if (res.cancel) {
 							console.log('用户点击取消');
 						}

@@ -67,9 +67,15 @@
 										<input class="input" type="number" v-model="item.stock" placeholder="" />
 										<view class="add" @click.stop="stockEvent('add',index)">+</view>
 									</view>
-									<input class="price-input" type="digit" v-model="item.selling_price"
-										placeholder="请输入商品价格" placeholder-class="placeholder"
-										@input="checkNum($event,index)" @focus="focusPrice($event,index)" />
+									<block>
+										<view v-if="!input_price" class="price_sub price-input"
+											@click="priceSubClick(true)">
+											<text>{{item.selling_price}}</text>
+										</view>
+										<input v-else class="price-input" type="digit" :focus="inputFocus_price"
+											placeholder="请输入商品价格" placeholder-class="placeholder"
+											@input="checkNum($event,index)" />
+									</block>
 									<view class="meth">
 										<view class="sale">
 											<text class="font22">月销 {{item.month_sale?item.month_sale:0}}</text>
@@ -180,8 +186,9 @@
 				// 商品图片
 				imageValue: [],
 				imageIndex: null,
-				// 当前点击输入框
-				inputIndex: ''
+				// 价格输入框
+				input_price: false,
+				inputFocus_price: false,
 			}
 		},
 		onLoad() {
@@ -364,6 +371,11 @@
 				}, 2000)
 			},
 			// 商品价格格式化
+			priceSubClick(val) {
+				let that = this
+				that.input_price = val;
+				that.inputFocus_price = val
+			},
 			checkNum(e, index) {
 				let data = this.shopType[this.shopTypeIndex].productVos
 				let num = e.detail.value
@@ -377,13 +389,6 @@
 					this.$nextTick(() => {
 						data[index].selling_price = num.slice(0, dotLast)
 					})
-				}
-			},
-			focusPrice(e, index) {
-				let val = e.detail.value
-				let data = this.shopType[this.shopTypeIndex].productVos
-				if (val == '0') {
-					data[index].selling_price = ''
 				}
 			},
 			// 库存加减
@@ -589,6 +594,12 @@
 							text {
 								margin-right: 10rpx;
 							}
+						}
+
+						.price_sub {
+							line-height: 1.4em;
+							padding: 6rpx 15rpx;
+							background-color: #f5f5f5;
 						}
 
 						.price-input {

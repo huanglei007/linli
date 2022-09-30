@@ -34,8 +34,10 @@
 		<view class="form">
 			<view class="item flexd flex-center">
 				<view class="label">联系电话</view>
-				<input class="input" type="number" v-model="detail.talent_phone" placeholder="请输入联系方式"
-					placeholder-style="color:#878787" />
+				<view @click="phoneClick(true)" v-if="!phoneInput" style="flex:1;#212121">{{detail.talent_phone}}</view>
+				<input v-if="phoneInput" class="input" :focus="phoneInput_focus" type="number" step='1'
+					placeholder="请输入联系方式" placeholder-style="color:#888888;" maxlength="11"
+					@input="inputchange($event, 'talent_phone')" />
 			</view>
 		</view>
 
@@ -172,7 +174,10 @@
 					id: 0
 				}],
 				// 防抖
-				onoff: true
+				onoff: true,
+				// 手机号输入框
+				phoneInput: false, //false=>DIV  true=>手机框
+				phoneInput_focus: false, //手机框焦点
 			}
 		},
 		mounted() {
@@ -198,8 +203,20 @@
 			this.loadmore()
 		},
 		methods: {
+			// 输入框监听
+			inputchange(e, flag) {
+				let that = this
+				if (flag == 'talent_phone') {
+					that.detail.talent_phone = e.target.value
+				}
+			},
+			phoneClick(val) { // false=>DIV  true=>输入框
+				let that = this
+				that.phoneInput = val
+				that.phoneInput_focus = val
+			},
+			//更新擅长技能文本
 			refreshskilltext() {
-				//更新擅长技能文本
 				let text = ''
 				for (let i = 0; i < this.classfy.length; i++) {
 					if (this.classfy[i].checked) {
@@ -350,7 +367,7 @@
 					that.$alert('审核中')
 					setTimeout(() => {
 						that.$jumpsw('/pages/user/index')
-					},500)
+					}, 500)
 					// that.$alert(res.msg)
 					// this.loadmore()
 					// uni.pageScrollTo({

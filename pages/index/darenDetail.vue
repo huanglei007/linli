@@ -265,7 +265,7 @@
 			},
 			onShare(){
 				let shareData = {
-					shareUrl:"https://kemean.com/",
+					shareUrl:"/pages/index/darenDetail?id="+this.id,
 					shareTitle:this.info.talent_name,
 					shareContent:this.info.talent_phone,
 					shareImg: this.Img(this.info.photo),

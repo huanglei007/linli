@@ -442,14 +442,13 @@
 			// 分享
 			onShare() {
 				// 调用
-				// #ifdef APP-PLUS
 				let shareData = {
-					// shareUrl: "pages/index/shopDetail?id=" + this.info.shop_type_id,
+					shareUrl: "pages/index/shopDetail?id=" + this.info.shop_id,
 					shareTitle: this.info.shop_name,
 					shareContent: this.info.address,
 					shareImg: this.Img(this.info.shop_logo),
 					appId: "wx6ae9f157d9b35d24", // 默认不传type的时候，必须传appId和appPath才会显示小程序图标
-					appPath: "pages/index/shopDetail?id=" + this.info.shop_type_id,
+					appPath: "pages/index/shopDetail?id=" + this.info.shop_id,
 					//appWebUrl : "https://kemean.com/",
 				}
 				let shareObj = appShare(shareData, res => {
@@ -462,7 +461,6 @@
 					// 第二种关闭弹窗的方式
 					shareObj.close()
 				}, 5000)
-				// #endif
 			},
 			orderto() {
 				let obj = []

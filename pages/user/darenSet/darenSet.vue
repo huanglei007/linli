@@ -30,9 +30,7 @@
 				typeIndex: 0,
 			}
 		},
-		methods: {
-			
-		}
+		methods: {}
 	}
 </script>
 

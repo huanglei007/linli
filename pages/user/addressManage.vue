@@ -4,11 +4,6 @@
 			<view>姓名</view>
 			<input class="input" type="text" v-model="username" placeholder="请输入姓名" placeholder-style="color:#888888" />
 		</view>
-		<!-- <view class="row flexd flex-center">
-			<view>手机号</view>
-			<input class="input" type="number" step='1' :value="phone" placeholder="手机号码" placeholder-style="color:#888888;"
-				maxlength="11" @input="inputchange($event, 'phone')" />
-		</view> -->
 		<view class="row flexd flex-center">
 			<view>手机号</view>
 			<view @click="phoneClick(true)" v-if="!phoneInput" style="flex:1;#212121">{{phone}}</view>
@@ -83,7 +78,7 @@
 					name: '请选择地图定位'
 				},
 				geted: false,
-				// 
+				// 手机号输入框
 				phoneInput: false, //false=>DIV  true=>手机框
 				phoneInput_focus: false, //手机框焦点
 			}
