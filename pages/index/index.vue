@@ -341,8 +341,8 @@
 		},
 		methods: {
 			menuClick(item, page, index) {
-				// item.path == ''
-				if (index > 9 || page == 1) {
+				// index > 9 || page == 1
+				if (item.path == '') {
 					this.$alert('功能开发中')
 				} else {
 					if (item.path == '/pages/index/shangquan') {
