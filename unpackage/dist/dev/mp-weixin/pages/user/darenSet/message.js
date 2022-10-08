@@ -114,7 +114,21 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;function _defineProperty(obj, key, value) {if (key in obj) {Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });} else {obj[key] = value;}return obj;}var timePicker = function timePicker() {__webpack_require__.e(/*! require.ensure | components/timePicker */ "components/timePicker").then((function () {return resolve(__webpack_require__(/*! @/components/timePicker.vue */ 717));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var pickerAddress = function pickerAddress() {Promise.all(/*! require.ensure | components/wangding-pickerAddres/wangding-pickerAddress */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/wangding-pickerAddres/wangding-pickerAddress")]).then((function () {return resolve(__webpack_require__(/*! @/components/wangding-pickerAddres/wangding-pickerAddress.vue */ 702));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _methods;function _defineProperty(obj, key, value) {if (key in obj) {Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });} else {obj[key] = value;}return obj;}var timePicker = function timePicker() {__webpack_require__.e(/*! require.ensure | components/timePicker */ "components/timePicker").then((function () {return resolve(__webpack_require__(/*! @/components/timePicker.vue */ 717));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var pickerAddress = function pickerAddress() {Promise.all(/*! require.ensure | components/wangding-pickerAddres/wangding-pickerAddress */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/wangding-pickerAddres/wangding-pickerAddress")]).then((function () {return resolve(__webpack_require__(/*! @/components/wangding-pickerAddres/wangding-pickerAddress.vue */ 702));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -254,12 +268,12 @@ __webpack_require__.r(__webpack_exports__);
         "photo": "",
         "refuse_reason": "",
         "service_begin_time": "",
-        "service_content": "",
         "service_distance": 0,
         "service_end_time": "",
+        "service_content": "",
         "service_guarantee": "",
         "service_process": "",
-        "talent_name": 0,
+        "talent_name": '',
         "talent_phone": "",
         "skillIds": '' },
 
@@ -269,36 +283,62 @@ __webpack_require__.r(__webpack_exports__);
         service_type_name: '请选择分类',
         id: 0 }],
 
-      // 防抖
-      onoff: true };
+      // 运营点
+      operationIndex: 0,
+      operation: [{
+        operation_point_name: '请选择运营点',
+        id: 0 }],
 
+      // 防抖
+      onoff: true,
+      // 手机号输入框
+      phoneInput: false, //false=>DIV  true=>手机框
+      phoneInput_focus: false //手机框焦点
+    };
   },
   mounted: function mounted() {
     this.htosp = uni.getStorageSync('htop');
     this.userId = uni.getStorageSync('userId');
     this.userInfo = uni.getStorageSync('userInfo');
+
+    var that = this;
+    // 服务分类
+    this.util.ajax('talent/getTalentServiceTypes', {}, function (res) {
+      that.classArray = that.classArray.concat(res.data.list);
+    });
+    // 运营点
+    this.util.ajax('common/operationPointList', {}, function (res) {
+      that.operation = that.operation.concat(res.data.list);
+    });
     if (this.userInfo.user_type == 4) {
       uni.setNavigationBarTitle({
         title: '达人设置' });
 
     }
+    // 达人信息
     this.loadmore();
-    // 服务分类
-    var that = this;
-    this.util.ajax('talent/getTalentServiceTypes', {}, function (res) {
-      that.classArray = that.classArray.concat(res.data.list);
-    });
   },
-  methods: _defineProperty({
+  methods: (_methods = {
+    // 输入框监听
+    inputchange: function inputchange(e, flag) {
+      var that = this;
+      if (flag == 'talent_phone') {
+        that.detail.talent_phone = e.target.value;
+      }
+    },
+    phoneClick: function phoneClick(val) {// false=>DIV  true=>输入框
+      var that = this;
+      that.phoneInput = val;
+      that.phoneInput_focus = val;
+    },
+    //更新擅长技能文本
     refreshskilltext: function refreshskilltext() {
-      //更新擅长技能文本
       var text = '';
       for (var i = 0; i < this.classfy.length; i++) {
         if (this.classfy[i].checked) {
           text += this.classfy[i].name + '、';
         }
       }
-      console.log(text);
       this.skilltext = text || '请选择擅长技能（可多选）';
     },
     openSkill: function openSkill() {
@@ -352,9 +392,14 @@ __webpack_require__.r(__webpack_exports__);
             }
             that.refreshskilltext();
           }
-          for (var _i2 in that.classArray) {
+          for (var _i2 in that.classArray) {// 分类
             if (that.classArray[_i2].id == res.data.service_type_id) {
               that.classIndex = _i2;
+            }
+          }
+          for (var _i3 in that.operation) {// 运营点
+            if (that.operation[_i3].id == res.data.operation_point_id) {
+              that.operationIndex = _i3;
             }
           }
         });
@@ -412,38 +457,53 @@ __webpack_require__.r(__webpack_exports__);
         that.$forceUpdate();
       });
     },
-    submit: function submit() {var _this = this;
-      var arr = [];
-      for (var i = 0; i < this.classfy.length; i++) {
-        if (this.classfy[i].checked) {
-          arr.push(this.classfy[i].id);
-        }
-      }
+    submit: function submit() {
+      // let arr = []
+      // for (let i = 0; i < this.classfy.length; i++) {
+      // 	if (this.classfy[i].checked) {
+      // 		arr.push(this.classfy[i].id)
+      // 	}
+      // }
       // if (arr.length == 0) {
       // 	this.$alert('请选择擅长技能')
       // 	return
       // }
-      this.detail.skillIds = arr.join();
+      // this.detail.skillIds = arr.join()
+      if (this.classIndex == 0) {
+        this.$alert('请选择服务分类');
+        return;
+      }
+      this.detail.service_type_id = this.classArray[this.classIndex].id;
+      this.detail.skillIds = this.classArray[this.classIndex].id.toString();
       this.detail.images = this.imageValue.join();
       this.detail.userId = this.userId;
 
       var that = this;
       this.util.ajax('talent/saveTalentSet', this.detail, function (res) {
-        that.$alert(res.msg);
-
-        _this.loadmore();
-        uni.pageScrollTo({
-          duration: 0, //过渡时间必须为0，uniapp bug，否则运行到手机会报错
-          scrollTop: 0 //滚动到实际距离是元素距离顶部的距离减去最外层盒子的滚动距离
-        });
+        that.$alert('审核中');
+        setTimeout(function () {
+          that.$jumpsw('/pages/user/index');
+        }, 500);
+        // that.$alert(res.msg)
+        // this.loadmore()
+        // uni.pageScrollTo({
+        // 	duration: 0, //过渡时间必须为0，uniapp bug，否则运行到手机会报错
+        // 	scrollTop: 0, //滚动到实际距离是元素距离顶部的距离减去最外层盒子的滚动距离
+        // })
       });
-    } }, "bindPickerChange", function bindPickerChange(
+    } }, _defineProperty(_methods, "bindPickerChange", function bindPickerChange(
 
   e) {
     var that = this;
     that.classIndex = e.detail.value;
     that.detail.service_type_id = that.classArray[that.classIndex].id;
-  }) };exports.default = _default;
+  }), _defineProperty(_methods, "bindPickerChange_operation", function bindPickerChange_operation(
+
+  e) {
+    var that = this;
+    that.operationIndex = e.detail.value;
+    that.detail.operation_point_id = that.operation[that.operationIndex].id;
+  }), _methods) };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 
 /***/ }),

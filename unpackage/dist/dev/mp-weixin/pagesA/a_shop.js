@@ -472,6 +472,19 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 var _default =
 {
   components: {},
@@ -504,8 +517,8 @@ var _default =
       // 营业时间
       hoursShow: false,
       businessHours: ['开始时间', '结束时间'],
-      timeVal_start: [9, 9],
-      timeVal_end: [15, 15],
+      timeVal_start: [9, 0],
+      timeVal_end: [15, 0],
       // 运营点
       operation: [],
       operationIndex: 0,
@@ -524,8 +537,11 @@ var _default =
       onoff: true,
       // 是否审核
       examine: true,
-      examine_s: null };
-
+      examine_s: null,
+      // 手机号输入框
+      phoneInput: false, //false=>DIV  true=>手机框
+      phoneInput_focus: false //手机框焦点
+    };
   },
   onLoad: function onLoad() {
     this.getTypeList();
@@ -561,6 +577,7 @@ var _default =
           newVal.service_begin_time != oldVal.service_begin_time ||
           newVal.service_end_time != oldVal.service_end_time ||
           newVal.initial_delivery_fee != oldVal.initial_delivery_fee ||
+          newVal.delivery_fee != oldVal.delivery_fee ||
           newVal.service_content != oldVal.service_content ||
           newVal.service_process != oldVal.service_process ||
           newVal.service_guarantee != oldVal.service_guarantee) {
@@ -723,7 +740,19 @@ var _default =
     operationChange: function operationChange(e) {
       var that = this;
       that.operationIndex = e.detail.value;
-      that.form.operation_point_id = e.detail.operation_point_id;
+      that.form.operation_point_id = that.operation[that.operationIndex].id;
+    },
+    // 输入框监听
+    inputchange: function inputchange(e, flag) {
+      var that = this;
+      if (flag == 'contact_phone') {
+        that.form.contact_phone = e.target.value;
+      }
+    },
+    phoneClick: function phoneClick(val) {// false=>DIV  true=>输入框
+      var that = this;
+      that.phoneInput = val;
+      that.phoneInput_focus = val;
     },
     // 监听是否交押金
     radioChange: function radioChange(e) {
@@ -772,6 +801,7 @@ var _default =
       this.util.ajax('shop/editShopStatus', {
         "business_status": that.form.business_status + 1, // 营业状态
         "initial_delivery_fee": that.form.initial_delivery_fee, // 起送费
+        "delivery_fee": that.form.delivery_fee, // 配送费
         "service_content": that.form.service_content, // 服务内容
         "service_process": that.form.service_process, // 服务流程
         "service_guarantee": that.form.service_guarantee, // 服务保障
@@ -846,7 +876,7 @@ var _default =
         confirmText: '确认',
         success: function success(res) {
           if (res.confirm) {
-            _this3.$alert('解除合作申请已提交，请等待运营点审核！');
+            _this3.$alert('请于运营点联系解除合作事宜！');
           } else if (res.cancel) {
             console.log('用户点击取消');
           }

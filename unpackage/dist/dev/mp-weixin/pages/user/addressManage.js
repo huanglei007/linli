@@ -188,6 +188,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
 {
   components: {
     pickerAddress: pickerAddress },
@@ -215,14 +216,18 @@ __webpack_require__.r(__webpack_exports__);
         address: '请选择地图定位',
         name: '请选择地图定位' },
 
-      geted: false };
-
+      geted: false,
+      // 手机号输入框
+      phoneInput: false, //false=>DIV  true=>手机框
+      phoneInput_focus: false //手机框焦点
+    };
   },
   onLoad: function onLoad(option) {
     this.htosp = uni.getStorageSync('htop');
     this.userId = uni.getStorageSync('userId');
     this.imageurl = this.globalData.imageurl;
     if (option.id) {
+      this.phoneInput = false;
       uni.setNavigationBarTitle({
         title: '修改地址' });
 
@@ -245,6 +250,8 @@ __webpack_require__.r(__webpack_exports__);
         that.geted = true;
         that.street = res.data.address_detail;
       });
+    } else {
+      this.phoneInput = true;
     }
   },
   onShow: function onShow() {
@@ -307,6 +314,11 @@ __webpack_require__.r(__webpack_exports__);
       } else if (flag == 'street') {
         that.street = e.target.value;
       }
+    },
+    phoneClick: function phoneClick(val) {// false=>DIV  true=>输入框
+      var that = this;
+      that.phoneInput = val;
+      that.phoneInput_focus = val;
     },
     // 保存地址
     tijiao: function tijiao() {

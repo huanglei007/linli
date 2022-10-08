@@ -102,7 +102,7 @@ var render = function() {
   var l0 = _vm.__map(_vm.orderMenus, function(item, index) {
     var $orig = _vm.__get_orig(item)
 
-    var m0 = _vm.Img(item.pro_image)
+    var m0 = _vm.Img(item.pro_image.split(",")[0])
     var g0 = (item.count * item.pro_price).toFixed(2)
     return {
       $orig: $orig,
@@ -255,6 +255,8 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
 {
   components: {
     changeAddresss: changeAddresss },
@@ -299,7 +301,15 @@ __webpack_require__.r(__webpack_exports__);
         that.shopId = res.data.shopId;
         that.totalCount = res.data.totalCount;
         that.totalPrice = res.data.totalPrice;
+
+        var address = that.address.address;
+        if (address.split(' ').length == 3) {
+          that.address.address = address.split(' ')[0] + '省' + address.split(' ')[1] + '市' + address.split(' ')[2];
+        } else if (address.split(' ').length == 2) {
+          that.address.address = address.split(' ')[0] + '市' + address.split(' ')[1];
+        }
       });
+
     }
   },
   onShow: function onShow() {

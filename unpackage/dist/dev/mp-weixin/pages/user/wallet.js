@@ -239,18 +239,18 @@ __webpack_require__.r(__webpack_exports__);
       curPage: 1,
       type: 0,
       isfoot: false,
-      shopList: ['全部', '提现记录', '冻结记录'],
+      shopList: ['全部', '提现记录', '到账记录'],
       shopIndex: 0 };
 
   },
   computed: {
-    startDate: function startDate() {
-      // return this.getDate('start');
-    },
-    endDate: function endDate() {
-      // return this.getDate('end');
-    } },
-
+    // startDate() {
+    // 	return this.getDate('start');
+    // },
+    // endDate() {
+    // 	return this.getDate('end');
+    // }
+  },
   onLoad: function onLoad() {
     this.htosp = uni.getStorageSync('htop');
     this.userId = uni.getStorageSync('userId');

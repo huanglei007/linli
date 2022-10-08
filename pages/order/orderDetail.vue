@@ -177,7 +177,7 @@
 						<view class="box-data flexd flex-center jubetween"
 							v-for="(data,index) in formdata.shopOrder.orderDetails" :key="index">
 							<view class="data-left flexd flex-center">
-								<image :src="data.pro_image" mode=""></image>
+								<image :src="data.pro_image.split(',')[0]" mode=""></image>
 								<text>{{data.pro_name}}</text>
 							</view>
 							<text>x{{data.buy_count}}</text>
@@ -291,29 +291,34 @@
 			</view> -->
 			<text class="font42 fontColor-FF6000">￥{{formdata.commission}}</text>
 			<view class="flexd flex-center">
-				<block
-					v-if="formdata.dataStatus==1&&userId!=formdata.userId&&formdata.categoryId!=6&&formdata.categoryId!=7">
-					<view class="btnWhite" @click="take">
-						接单
-					</view>
-				</block>
 				<block v-if="formdata.dataStatus==2&&userId==formdata.userId">
 					<view class="btnWhite" @click="phone(kf_hotline)">
 						申请售后
 					</view>
-				</block>
-				<block v-if="formdata.dataStatus==2&&userId==formdata.userId">
 					<view class="btnWhite" @click="finish">
 						完成订单
 					</view>
 				</block>
-				<view class="btnWhite" @click="showComm"
-					v-if="formdata.dataStatus==1&&userId==formdata.userId&&formdata.categoryId!=6&&formdata.categoryId!=7">
-					加佣
-				</view>
-				<view class="btnWhite" @click="cancel" v-if="formdata.dataStatus==1&&userId==formdata.userId">
-					取消订单
-				</view>
+				<block v-if="formdata.dataStatus==1">
+					<block v-if="formdata.categoryId!=6&&formdata.categoryId!=7">
+						<block v-if="userId!=formdata.userId">
+							<view class="btnWhite" @click="take">
+								接单
+							</view>
+						</block>
+						<block v-if="userId==formdata.userId">
+							<view class="btnWhite" @click="showComm">
+								加佣
+							</view>
+						</block>
+					</block>
+
+					<block v-if="userId==formdata.userId||userId==formdata.shopOrder.shop.user_id">
+						<view class="btnWhite" @click="cancel">
+							取消订单
+						</view>
+					</block>
+				</block>
 			</view>
 		</view>
 		<!-- 旧版 加佣弹窗 -->
@@ -577,33 +582,42 @@
 			// 取消订单
 			cancel() {
 				let that = this
-				let url = ''
-				let data = {}
 				if (that.formdata.shop_order_id) {
-					url = 'order/cancelOrder'
-					data = {
-						"orderId": that.formdata.shop_order_id,
-						"userId": that.userId
-					}
-				} else {
-					url = 'myOrder/cancelOrder'
-					data = {
-						"releaseRequirementId": that.id,
-						"userId": that.userId
-					}
+					let url = '/pagesA/a_orderDetail_cancel?type='
+					let type = that.formdata.userId == that.userId ? 0 : 1
+					uni.showModal({
+						title: '',
+						content: '确认取消订单?',
+						success(e) {
+							if (e.confirm) {
+								that.$jump(url + type + '&id=' + that.formdata.shop_order_id + '&price=' +
+									that.formdata.commission)
+							} else if (e.cancel) {
+								console.log('用户点击取消');
+							}
+						}
+					});
+				}else{
+					uni.showModal({
+						title: '确认取消订单?',
+						success(e) {
+							if (e.confirm) {
+								that.util.ajax('myOrder/cancelOrder', {
+									"releaseRequirementId": that.id,
+									"userId": that.userId
+								}, res => {
+									that.$alert('订单已取消')
+									that.refresh()
+									setTimeout(() => {
+										that.$jumpback()
+									}, 1000)
+								})
+							} else if (e.cancel) {
+								console.log('用户点击取消');
+							}
+						}
+					})
 				}
-				uni.showModal({
-					title: '是否取消订单',
-					success() {
-						that.util.ajax(url, data, res => {
-							that.$alert('订单已取消')
-							that.refresh()
-							setTimeout(() => {
-								that.$jumpback()
-							}, 1000)
-						})
-					}
-				})
 			},
 			// 线上聊天
 			talkto(id) {

@@ -94,6 +94,17 @@
 							<image class="icon32" src="/static/image/icon_update.png" mode=""></image>
 						</view>
 					</view>
+					<view class="fengexian"></view>
+					<!-- 额外配送费 ( 起送费不足时 ) -->
+					<view class="flex-center">
+						<view class="relive-title">
+							<text class="font28">配送费</text>
+						</view>
+						<view class="relive-icon">
+							<input v-model="form.delivery_fee" />
+							<image class="icon32" src="/static/image/icon_update.png" mode=""></image>
+						</view>
+					</view>
 				</view>
 				<view class="box3 view-diy">
 					<!-- 运营点 -->
@@ -338,8 +349,8 @@
 				// 营业时间
 				hoursShow: false,
 				businessHours: ['开始时间', '结束时间'],
-				timeVal_start: [9, 9],
-				timeVal_end: [15, 15],
+				timeVal_start: [9, 0],
+				timeVal_end: [15, 0],
 				// 运营点
 				operation: [],
 				operationIndex: 0,
@@ -398,6 +409,7 @@
 							newVal.service_begin_time != oldVal.service_begin_time ||
 							newVal.service_end_time != oldVal.service_end_time ||
 							newVal.initial_delivery_fee != oldVal.initial_delivery_fee ||
+							newVal.delivery_fee != oldVal.delivery_fee ||
 							newVal.service_content != oldVal.service_content ||
 							newVal.service_process != oldVal.service_process ||
 							newVal.service_guarantee != oldVal.service_guarantee) {
@@ -621,6 +633,7 @@
 				this.util.ajax('shop/editShopStatus', {
 					"business_status": that.form.business_status + 1, // 营业状态
 					"initial_delivery_fee": that.form.initial_delivery_fee, // 起送费
+					"delivery_fee": that.form.delivery_fee, // 配送费
 					"service_content": that.form.service_content, // 服务内容
 					"service_process": that.form.service_process, // 服务流程
 					"service_guarantee": that.form.service_guarantee, // 服务保障

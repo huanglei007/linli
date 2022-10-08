@@ -122,6 +122,25 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
+  var l0 = _vm.form.order
+    ? _vm.__map(_vm.form.orderDetails, function(item, index) {
+        var $orig = _vm.__get_orig(item)
+
+        var g0 = item.pro_image ? item.pro_image.split(",") : null
+        return {
+          $orig: $orig,
+          g0: g0
+        }
+      })
+    : null
+  _vm.$mp.data = Object.assign(
+    {},
+    {
+      $root: {
+        l0: l0
+      }
+    }
+  )
 }
 var recyclableRender = false
 var staticRenderFns = []
@@ -156,6 +175,18 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0; //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -450,7 +481,8 @@ var _default =
         content: '确认取消订单?',
         success: function success(e) {
           if (e.confirm) {
-            that.$jump(url + that.type + '&id=' + that.orderId + '&price=' + that.form.order.pro_price);
+            that.$jump(url + that.type + '&id=' + that.orderId + '&price=' + that.form.order.
+            pro_price);
           } else if (e.cancel) {
             console.log('用户点击取消');
           }

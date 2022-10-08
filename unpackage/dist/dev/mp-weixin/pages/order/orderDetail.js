@@ -150,6 +150,23 @@ var render = function() {
     _vm.formdata.categoryId != 11 &&
     _vm.formdata.categoryId != 15 &&
     _vm.formdata.categoryId != 19 &&
+    _vm.formdata.shop_order_id
+      ? _vm.__map(_vm.formdata.shopOrder.orderDetails, function(data, index) {
+          var $orig = _vm.__get_orig(data)
+
+          var g2 = data.pro_image.split(",")
+          return {
+            $orig: $orig,
+            g2: g2
+          }
+        })
+      : null
+  var l1 =
+    _vm.formdata.categoryId != 9 &&
+    _vm.formdata.categoryId != 10 &&
+    _vm.formdata.categoryId != 11 &&
+    _vm.formdata.categoryId != 15 &&
+    _vm.formdata.categoryId != 19 &&
     _vm.imageValue.length
       ? _vm.__map(_vm.imageValue, function(item, index) {
           var $orig = _vm.__get_orig(item)
@@ -185,6 +202,7 @@ var render = function() {
         g0: g0,
         g1: g1,
         l0: l0,
+        l1: l1,
         m1: m1
       }
     }
@@ -223,6 +241,22 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var pickerAddress = function pickerAddress() {Promise.all(/*! require.ensure | components/wangding-pickerAddres/wangding-pickerAddress */[__webpack_require__.e("common/vendor"), __webpack_require__.e("components/wangding-pickerAddres/wangding-pickerAddress")]).then((function () {return resolve(__webpack_require__(/*! @/components/wangding-pickerAddres/wangding-pickerAddress.vue */ 702));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var AOrderDetail = function AOrderDetail() {__webpack_require__.e(/*! require.ensure | pages/order/a_order_detail */ "pages/order/a_order_detail").then((function () {return resolve(__webpack_require__(/*! ./a_order_detail.vue */ 710));}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);};var _default =
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -790,33 +824,42 @@ __webpack_require__.r(__webpack_exports__);
     // 取消订单
     cancel: function cancel() {
       var that = this;
-      var url = '';
-      var data = {};
       if (that.formdata.shop_order_id) {
-        url = 'order/cancelOrder';
-        data = {
-          "orderId": that.formdata.shop_order_id,
-          "userId": that.userId };
+        var url = '/pagesA/a_orderDetail_cancel?type=';
+        var type = that.formdata.userId == that.userId ? 0 : 1;
+        uni.showModal({
+          title: '',
+          content: '确认取消订单?',
+          success: function success(e) {
+            if (e.confirm) {
+              that.$jump(url + type + '&id=' + that.formdata.shop_order_id + '&price=' +
+              that.formdata.commission);
+            } else if (e.cancel) {
+              console.log('用户点击取消');
+            }
+          } });
 
       } else {
-        url = 'myOrder/cancelOrder';
-        data = {
-          "releaseRequirementId": that.id,
-          "userId": that.userId };
+        uni.showModal({
+          title: '确认取消订单?',
+          success: function success(e) {
+            if (e.confirm) {
+              that.util.ajax('myOrder/cancelOrder', {
+                "releaseRequirementId": that.id,
+                "userId": that.userId },
+              function (res) {
+                that.$alert('订单已取消');
+                that.refresh();
+                setTimeout(function () {
+                  that.$jumpback();
+                }, 1000);
+              });
+            } else if (e.cancel) {
+              console.log('用户点击取消');
+            }
+          } });
 
       }
-      uni.showModal({
-        title: '是否取消订单',
-        success: function success() {
-          that.util.ajax(url, data, function (res) {
-            that.$alert('订单已取消');
-            that.refresh();
-            setTimeout(function () {
-              that.$jumpback();
-            }, 1000);
-          });
-        } });
-
     },
     // 线上聊天
     talkto: function talkto(id) {

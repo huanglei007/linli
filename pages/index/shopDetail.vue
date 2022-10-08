@@ -83,7 +83,8 @@
 								<text class="font36">售罄</text>
 							</view> -->
 							<view class="image">
-								<image class="product-img" :src="Img(item.images)" mode=""></image>
+								<image class="product-img" @click="doBusiness(Img(item.images))"
+									:src="Img(item.images.split(',')[0])" mode=""></image>
 								<view class="black" v-if="item.stock<1">
 									<text>售罄</text>
 								</view>
@@ -196,17 +197,15 @@
 		</swiper>
 		<view v-show="typeIndex==0" class="foot flexd jubetween flex-center">
 			<view class="cost">
-				费用 <text>{{sumPrice.toFixed(2)}}元</text>
+				费用 <text>{{sumPrice.toFixed(2)}}</text>元
+				<block v-if="sumPrice.toFixed(2)<info.initial_delivery_fee">
+					<text class="font18">(配送费{{info.delivery_fee||0}}元)</text>
+				</block>
 			</view>
 			<view class="right flexd flex-center">
-				<block v-if="sumPrice.toFixed(2)<info.initial_delivery_fee">
-					<text class="differ fontColor-666">差￥{{info.initial_delivery_fee-sumPrice.toFixed(2)}}起送</text>
-				</block>
-				<block v-else>
-					<view class="btn" :class="{'btn-no':sumPrice.toFixed(2)<info.initial_delivery_fee}">
-						<text @click="$shake(orderto)">下单</text>
-					</view>
-				</block>
+				<view class="btn">
+					<text @click="$shake(orderto)">下单</text>
+				</view>
 			</view>
 		</view>
 	</view>
@@ -230,20 +229,7 @@
 				ListIndex: 0,
 				categoryVos: [],
 				welfareList: [],
-				info: {
-					"address": "",
-					"business_hours": "",
-					"contact_phone": "",
-					"distance": "",
-					"images": "",
-					"score": 0,
-					"service_content": "",
-					"service_guarantee": "",
-					"service_process": "",
-					"shop_id": 0,
-					"shop_logo": "",
-					"shop_name": ""
-				},
+				info: {},
 				getPro: new Map(),
 				sumPrice: 0,
 				id: 0,
@@ -380,6 +366,15 @@
 						})
 					}
 				})
+			},
+			// 商品图片放大
+			doBusiness(img) {
+				let that = this
+				let imgs = img.split(',')
+				uni.previewImage({
+					current: imgs[0],
+					urls: imgs,
+				});
 			},
 			// 收藏
 			collect() {
@@ -643,26 +638,20 @@
 			text {
 				font-size: 32rpx;
 			}
+
+			.font18 {
+				color: #888888;
+				font-size: 24rpx;
+			}
 		}
 
 		.right {
-			.differ {
-				margin-right: 20rpx;
-				line-height: 5vh;
-			}
-
 			.btn {
 				line-height: 5vh;
 				font-size: 32rpx;
 				background-image: $uni-bg-color;
 				border-radius: 10rpx;
 				padding: 0 70rpx;
-			}
-
-			.btn-no {
-				color: #fff;
-				background-color: #999;
-				background-image: none;
 			}
 		}
 	}

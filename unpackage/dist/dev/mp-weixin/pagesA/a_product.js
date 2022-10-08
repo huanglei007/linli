@@ -134,12 +134,17 @@ var render = function() {
         ) {
           var $orig = _vm.__get_orig(item)
 
+          var g0 =
+            _vm.statusIndex == item.isvalid && item.images
+              ? item.images.split(",")
+              : null
           var m0 =
             _vm.statusIndex == item.isvalid && !item.images
-              ? _vm.Img(item.images)
+              ? _vm.Img(item.images.split(",")[0])
               : null
           return {
             $orig: $orig,
+            g0: g0,
             m0: m0
           }
         })
@@ -355,6 +360,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 var _default =
 {
   data: function data() {
@@ -387,12 +400,14 @@ var _default =
       addVal: '',
       // 商品的上架/下架
       productShelf: '',
-      productIndex: '',
+      productIndex: 0,
       // 商品图片
       imageValue: [],
       imageIndex: null,
-      // 当前点击输入框
-      inputIndex: '' };
+      // 价格输入框
+      input_price: false,
+      inputFocus_price: false,
+      input_index: 0 };
 
   },
   onLoad: function onLoad() {
@@ -409,8 +424,11 @@ var _default =
     imageValue: function imageValue(newVal, old) {
       var that = this;
       if (newVal[0]) {
-        that.shopType[that.shopTypeIndex].productVos[that.imageIndex].images = that.imageurl + newVal[0];
-        that.imageValue = [];
+        var imgs = [];
+        for (var i = 0; i < newVal.length; i++) {
+          imgs.push(that.imageurl + newVal[i]);
+        }
+        that.shopType[that.shopTypeIndex].productVos[that.imageIndex].images = imgs.join(",");
       } else {
         return;
       }
@@ -455,9 +473,6 @@ var _default =
         "userId": that.userId },
       function (res) {
         that.$alert('成功');
-        setTimeout(function () {
-          that.getList();
-        }, 1000);
       });
     },
     // 商品类别
@@ -521,7 +536,11 @@ var _default =
       var that = this;
       var arr = that.shopType[that.shopTypeIndex].productVos;
       if (that.productShelf == 'delete') {// 删除
-        arr[that.productIndex].isvalid = 3;
+        if (arr[that.productIndex].id) {
+          arr[that.productIndex].isvalid = 3;
+        } else {
+          arr.splice(that.productIndex, 1);
+        }
       } else if (that.productShelf == 'shelf') {// 下架
         arr[that.productIndex].isvalid = 2;
       } else {// 上架
@@ -538,7 +557,7 @@ var _default =
           "images": "",
           "isvalid": that.statusIndex,
           "name": "",
-          "selling_price": '',
+          "selling_price": '0',
           "stock": 0,
           "month_sale": 0 });
 
@@ -548,8 +567,9 @@ var _default =
     updateImg: function updateImg(index) {
       var that = this;
       if (that.statusIndex == 1) {
+        that.imageValue = [];
         that.imageIndex = index;
-        this.util.sendimage(5 - that.imageValue.length, that.imageValue);
+        this.util.sendimage(that.imageValue.length, that.imageValue);
       }
     },
     // 搜索
@@ -575,6 +595,12 @@ var _default =
       }, 2000);
     },
     // 商品价格格式化
+    priceSubClick: function priceSubClick(val, index) {
+      var that = this;
+      that.input_price = val;
+      that.inputFocus_price = val;
+      that.input_index = index;
+    },
     checkNum: function checkNum(e, index) {
       var data = this.shopType[this.shopTypeIndex].productVos;
       var num = e.detail.value;
@@ -588,13 +614,8 @@ var _default =
         this.$nextTick(function () {
           data[index].selling_price = num.slice(0, dotLast);
         });
-      }
-    },
-    focusPrice: function focusPrice(e, index) {
-      var val = e.detail.value;
-      var data = this.shopType[this.shopTypeIndex].productVos;
-      if (val == '0') {
-        data[index].selling_price = '';
+      } else {
+        data[index].selling_price = num;
       }
     },
     // 库存加减

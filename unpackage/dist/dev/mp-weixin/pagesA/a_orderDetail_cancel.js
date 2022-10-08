@@ -192,20 +192,18 @@ var _default =
     this.orderId = e.id;
     this.type = e.type + 1;
     this.price = e.price;
-    // 设置默认原因
-    this.setDefaultCancel();
-    // 获取原因
-    // this.cancellist()
+    // 取消订单原因
+    this.cancellist();
   },
   methods: {
     // 取消原因列表
     cancellist: function cancellist() {
       var that = this;
       that.util.ajax('order/cancelReasons', {
-        "type": that.type },
+        "type": 1 },
       function (res) {
-        if (res.data) {
-          that.reasonlist = res.data;
+        if (res.data.list[0]) {
+          that.reasonlist = res.data.list;
         } else {
           return;
         }
@@ -221,7 +219,7 @@ var _default =
       function (res) {
         that.$alert('已取消订单');
         setTimeout(function () {
-          that.$jump('/pages/user/orderDetail?id=' + that.orderId);
+          that.$jump('/pages/user/myOrder/myOrder?type=2');
         }, 1000);
       });
     },
@@ -233,51 +231,6 @@ var _default =
           that.current = i;
           break;
         }
-      }
-    },
-    // 设置默认取消原因
-    setDefaultCancel: function setDefaultCancel() {
-      var that = this;
-      if (that.type == 1) {
-        that.reasonlist = [{
-          id: 1,
-          value: '1',
-          label: '不想要了/临时有事' },
-        {
-          id: 2,
-          value: '2',
-          label: '点错了/点多了/点少了' },
-        {
-          id: 3,
-          value: '3',
-          label: '地址/电话填错了' },
-        {
-          id: 4,
-          value: '4',
-          label: '忘记写备注' },
-        {
-          id: 5,
-          value: '5',
-          label: '其他原因' }];
-
-      } else {
-        that.reasonlist = [{
-          id: 1,
-          value: '1',
-          label: '商品已售完' },
-        {
-          id: 2,
-          value: '2',
-          label: '联系不上用户' },
-        {
-          id: 3,
-          value: '3',
-          label: '地址无法配送' },
-        {
-          id: 4,
-          value: '4',
-          label: '店铺已打烊' }];
-
       }
     } } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))

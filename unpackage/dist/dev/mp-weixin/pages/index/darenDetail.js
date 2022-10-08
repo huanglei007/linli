@@ -441,7 +441,7 @@ var _appShare = _interopRequireWildcard(__webpack_require__(/*! @/uni_modules/zh
     },
     onShare: function onShare() {var _this2 = this;
       var shareData = {
-        shareUrl: "https://kemean.com/",
+        shareUrl: "/pages/index/darenDetail?id=" + this.id,
         shareTitle: this.info.talent_name,
         shareContent: this.info.talent_phone,
         shareImg: this.Img(this.info.photo),

@@ -52,7 +52,9 @@
 							<view v-if="statusIndex==item.isvalid" class="products">
 								<!-- 商品图片 -->
 								<view class="product-logo" @click="updateImg(index)">
-									<image class="logo" :src="item.images?item.images:Img(item.images)" mode=""></image>
+									<image class="logo"
+										:src="item.images?item.images.split(',')[0]:Img(item.images.split(',')[0])"
+										mode=""></image>
 									<view class="black" v-if="item.stock<1&&item.id">
 										<text>售罄</text>
 									</view>
@@ -68,8 +70,8 @@
 										<view class="add" @click.stop="stockEvent('add',index)">+</view>
 									</view>
 									<block>
-										<view v-if="!input_price" class="price_sub price-input"
-											@click="priceSubClick(true)">
+										<view v-if="!input_price||index!=input_index" class="price_sub price-input"
+											@click="priceSubClick(true,index)">
 											<text>{{item.selling_price}}</text>
 										</view>
 										<input v-else class="price-input" type="digit" :focus="inputFocus_price"
@@ -182,13 +184,14 @@
 				addVal: '',
 				// 商品的上架/下架
 				productShelf: '',
-				productIndex: '',
+				productIndex: 0,
 				// 商品图片
 				imageValue: [],
 				imageIndex: null,
 				// 价格输入框
 				input_price: false,
 				inputFocus_price: false,
+				input_index: 0,
 			}
 		},
 		onLoad() {
@@ -205,8 +208,11 @@
 			imageValue(newVal, old) {
 				let that = this
 				if (newVal[0]) {
-					that.shopType[that.shopTypeIndex].productVos[that.imageIndex].images = that.imageurl + newVal[0]
-					that.imageValue = []
+					let imgs = []
+					for (let i = 0; i < newVal.length; i++) {
+						imgs.push(that.imageurl + newVal[i])
+					}
+					that.shopType[that.shopTypeIndex].productVos[that.imageIndex].images = imgs.join(",")
 				} else {
 					return
 				}
@@ -251,9 +257,6 @@
 					"userId": that.userId
 				}, res => {
 					that.$alert('成功')
-					setTimeout(() => {
-						that.getList()
-					}, 1000)
 				})
 			},
 			// 商品类别
@@ -317,7 +320,11 @@
 				let that = this
 				let arr = that.shopType[that.shopTypeIndex].productVos
 				if (that.productShelf == 'delete') { // 删除
-					arr[that.productIndex].isvalid = 3
+					if (arr[that.productIndex].id) {
+						arr[that.productIndex].isvalid = 3
+					} else {
+						arr.splice(that.productIndex, 1)
+					}
 				} else if (that.productShelf == 'shelf') { // 下架
 					arr[that.productIndex].isvalid = 2
 				} else { // 上架
@@ -334,7 +341,7 @@
 						"images": "",
 						"isvalid": that.statusIndex,
 						"name": "",
-						"selling_price": '',
+						"selling_price": '0',
 						"stock": 0,
 						"month_sale": 0
 					})
@@ -344,8 +351,9 @@
 			updateImg(index) {
 				let that = this
 				if (that.statusIndex == 1) {
+					that.imageValue = []
 					that.imageIndex = index
-					this.util.sendimage(5 - that.imageValue.length, that.imageValue)
+					this.util.sendimage(that.imageValue.length, that.imageValue)
 				}
 			},
 			// 搜索
@@ -371,10 +379,11 @@
 				}, 2000)
 			},
 			// 商品价格格式化
-			priceSubClick(val) {
+			priceSubClick(val, index) {
 				let that = this
 				that.input_price = val;
 				that.inputFocus_price = val
+				that.input_index = index
 			},
 			checkNum(e, index) {
 				let data = this.shopType[this.shopTypeIndex].productVos
@@ -389,6 +398,8 @@
 					this.$nextTick(() => {
 						data[index].selling_price = num.slice(0, dotLast)
 					})
+				} else {
+					data[index].selling_price = num
 				}
 			},
 			// 库存加减

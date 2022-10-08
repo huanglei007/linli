@@ -446,6 +446,27 @@ var list = function list() {__webpack_require__.e(/*! require.ensure | component
       shopType_index: '' };
 
   },
+  // 分享给朋友
+  onShareAppMessage: function onShareAppMessage(res) {
+    if (res.from === 'button') {
+      console.log(res.target);
+    }
+    return {
+      title: '阾里',
+      path: 'pages/index/index',
+      mpId: 'wx6ae9f157d9b35d24'
+      // imageUrl: '@/'
+    };
+  },
+  //分享到朋友圈
+  onShareTimeline: function onShareTimeline(res) {
+    return {
+      title: '阾里',
+      type: 0,
+      summary: ""
+      // imageUrl: this.info.shop_logo
+    };
+  },
   onLoad: function onLoad(e) {var _this = this;
     this.userId = uni.getStorageSync('userId');
     this.htosp = uni.getStorageSync('htop');
@@ -513,8 +534,8 @@ var list = function list() {__webpack_require__.e(/*! require.ensure | component
   },
   methods: {
     menuClick: function menuClick(item, page, index) {var _this3 = this;
-      // item.path == ''
-      if (index > 9 || page == 1) {
+      // index > 9 || page == 1
+      if (item.path == '') {
         this.$alert('功能开发中');
       } else {
         if (item.path == '/pages/index/shangquan') {
@@ -874,6 +895,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 var _default =
 {
   props: ['type'],
@@ -952,9 +975,11 @@ var _default =
         if (res.data.list.length > 0) {
           var array = [];
           // 筛选营业中的商家
-          for (var a = 0; a < res.data.list.length; a++) {
-            if (res.data.list[a].business_status != 0) {
-              array.push(res.data.list[a]);
+          var datas = res.data.list;
+          for (var a = 0; a < datas.length; a++) {
+            var open = _this2.checkAuditTime(datas[a].service_begin_time, datas[a].service_end_time);
+            if (datas[a].business_status != 0 && open == true) {
+              array.push(datas[a]);
             }
           }
           // 是否分页
@@ -1021,25 +1046,43 @@ var _default =
       this.fromPage = localRoute;
     },
     // 筛选弹出层
-    // 打开
-    openpop: function openpop() {
+    openpop: function openpop() {// 打开
       this.$refs.popup.open();
       uni.hideTabBar();
     },
-    // 取消
-    cancelEvent: function cancelEvent() {
+    cancelEvent: function cancelEvent() {// 取消
       var that = this;
       that.screenIndex = 0;
       this.$refs.popup.close();
       uni.showTabBar();
     },
-    // 确认
-    confirmEvent: function confirmEvent() {
+    confirmEvent: function confirmEvent() {// 确认
       var that = this;
       that.shopTypeIndex = that.screenIndex;
       this.getType(that.shopTypeList[that.shopTypeIndex].name);
       this.$refs.popup.close();
       uni.showTabBar();
+    },
+    // 判断当前时间是否处于某个一个时间段内
+    checkAuditTime: function checkAuditTime(beginTime, endTime) {
+      var nowDate = new Date();
+      var beginDate = new Date(nowDate);
+      var endDate = new Date(nowDate);
+
+      var beginIndex = beginTime.lastIndexOf("\:");
+      var beginHour = beginTime.substring(0, beginIndex);
+      var beginMinue = beginTime.substring(beginIndex + 1, beginTime.length);
+      beginDate.setHours(beginHour, beginMinue, 0, 0);
+
+      var endIndex = endTime.lastIndexOf("\:");
+      var endHour = endTime.substring(0, endIndex);
+      var endMinue = endTime.substring(endIndex + 1, endTime.length);
+      endDate.setHours(endHour, endMinue, 0, 0);
+      if (nowDate.getTime() - beginDate.getTime() >= 0 && nowDate.getTime() <= endDate.getTime()) {
+        return true;
+      } else {
+        return false;
+      }
     } } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 

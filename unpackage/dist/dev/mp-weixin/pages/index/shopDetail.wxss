@@ -152,7 +152,11 @@ page {
 .foot .cost text {
   font-size: 32rpx;
 }
-.foot .btn {
+.foot .cost .font18 {
+  color: #888888;
+  font-size: 24rpx;
+}
+.foot .right .btn {
   line-height: 5vh;
   font-size: 32rpx;
   background-image: linear-gradient(to right, #f9db58, #f5c353);

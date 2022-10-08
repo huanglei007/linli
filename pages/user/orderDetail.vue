@@ -51,7 +51,7 @@
 					<view class="products flexd jubetween" v-for="(item,index) in form.orderDetails" :key="index">
 						<view class="news flexd">
 							<view class="products-img">
-								<image :src="item.pro_image?item.pro_image:'/static/image/icon_tj.png'" mode=""></image>
+								<image :src="item.pro_image?item.pro_image.split(',')[0]:'/static/image/icon_tj.png'" mode=""></image>
 							</view>
 							<view class="products-name">
 								<text class="font28 fontColor-666">{{item.pro_name}}</text>

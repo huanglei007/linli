@@ -23,7 +23,7 @@
 				<view class="lists" v-for="(item,index) in orderMenus" :key="index">
 					<view class="detail flexd">
 						<view class="ima">
-							<image :src="Img(item.pro_image)" mode="aspectFill"></image>
+							<image :src="Img(item.pro_image.split(',')[0])" mode="aspectFill"></image>
 						</view>
 						<view class="tiaa">
 							<view class="flexd jubetween">

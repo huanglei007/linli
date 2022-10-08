@@ -393,8 +393,14 @@ __webpack_require__.r(__webpack_exports__);
     },
     // 监听押金金额
     depositChange: function depositChange(e) {
-      console.log(e);
       this.deposit_array_index = e.detail.value;
+    },
+    // 输入框监听
+    inputchange: function inputchange(e, val) {
+      var that = this;
+      if (val == 'contactPhone') {// 联系方式
+        that.formdata.contactPhone = e.detail.value;
+      }
     },
     //
     bindPickerChange2: function bindPickerChange2(e) {
@@ -463,7 +469,7 @@ __webpack_require__.r(__webpack_exports__);
     del: function del(index) {
       this.imageValue.splice(index, 1);
     },
-    apply: function apply() {var _this2 = this;
+    apply: function apply() {
       if (this.formdata.shopName == '') {
         this.$alert('请输入店铺名称');
         return;
@@ -504,13 +510,13 @@ __webpack_require__.r(__webpack_exports__);
       obj.shopSubTypeId = this.saleType[this.saleIndex].id; //商家子类型
       obj.shopTypeId = this.typeList[this.typeIndex].id; //商家类型
       obj.userId = this.userId; //用户id
-      var that = this;
       uni.showLoading({
         title: '' });
 
-      this.util.ajax('shop/saveShopSettled', obj, function (res) {
-        if (_this2.deposit_index == '1') {
-          _this2.util.ajax('shop/submitShopDepositOrder', {
+      var that = this;
+      that.util.ajax('shop/saveShopSettled', obj, function (res) {
+        if (that.deposit_index == '1') {
+          that.util.ajax('shop/submitShopDepositOrder', {
             amount: that.deposit_array[that.deposit_array_index].amount,
             userId: that.userId },
           function (res) {

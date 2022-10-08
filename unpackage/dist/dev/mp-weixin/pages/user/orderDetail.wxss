@@ -111,7 +111,7 @@
   margin-right: 15rpx;
 }
 .price-box {
-  padding: 41rpx;
+  padding: 30rpx;
   border-top: 1px solid #E5E5E5;
   text-align: right;
 }
@@ -164,5 +164,9 @@
 }
 .contact image {
   margin-right: 10rpx;
+}
+.comment {
+  border: none;
+  background: linear-gradient(180deg, #F9D448 0%, #FFCA00 100%, #D8D8D8 100%);
 }
 

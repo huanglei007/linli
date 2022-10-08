@@ -45,7 +45,9 @@
 					<view>
 						<text class="font22 fontColor-999">起送费{{item.initial_delivery_fee||0}}元</text>
 						{{' '}}
-						<text class="font22 fontColor-999">配送费0元</text>
+						<block v-if="item.delivery_fee">
+							<text class="font22 fontColor-999">配送费{{item.delivery_fee||0}}元</text>
+						</block>
 					</view>
 					<!-- 代金卷 -->
 					<view class="voucher flexd">
@@ -162,9 +164,11 @@
 					if (res.data.list.length > 0) {
 						let array = []
 						// 筛选营业中的商家
-						for (let a = 0; a < res.data.list.length; a++) {
-							if (res.data.list[a].business_status != 0) {
-								array.push(res.data.list[a])
+						let datas = res.data.list
+						for (let a = 0; a < datas.length; a++) {
+							let open = this.checkAuditTime(datas[a].service_begin_time, datas[a].service_end_time)
+							if (datas[a].business_status != 0 && open == true) {
+								array.push(datas[a])
 							}
 						}
 						// 是否分页
@@ -231,25 +235,43 @@
 				this.fromPage = localRoute
 			},
 			// 筛选弹出层
-			// 打开
-			openpop() {
+			openpop() { // 打开
 				this.$refs.popup.open()
 				uni.hideTabBar();
 			},
-			// 取消
-			cancelEvent() {
+			cancelEvent() { // 取消
 				let that = this
 				that.screenIndex = 0
 				this.$refs.popup.close()
 				uni.showTabBar();
 			},
-			// 确认
-			confirmEvent() {
+			confirmEvent() { // 确认
 				let that = this
 				that.shopTypeIndex = that.screenIndex
 				this.getType(that.shopTypeList[that.shopTypeIndex].name)
 				this.$refs.popup.close()
 				uni.showTabBar();
+			},
+			// 判断当前时间是否处于某个一个时间段内
+			checkAuditTime(beginTime, endTime) {
+				var nowDate = new Date();
+				var beginDate = new Date(nowDate);
+				var endDate = new Date(nowDate);
+
+				var beginIndex = beginTime.lastIndexOf("\:");
+				var beginHour = beginTime.substring(0, beginIndex);
+				var beginMinue = beginTime.substring(beginIndex + 1, beginTime.length);
+				beginDate.setHours(beginHour, beginMinue, 0, 0);
+
+				var endIndex = endTime.lastIndexOf("\:");
+				var endHour = endTime.substring(0, endIndex);
+				var endMinue = endTime.substring(endIndex + 1, endTime.length);
+				endDate.setHours(endHour, endMinue, 0, 0);
+				if (nowDate.getTime() - beginDate.getTime() >= 0 && nowDate.getTime() <= endDate.getTime()) {
+					return true;
+				} else {
+					return false;
+				}
 			}
 		}
 	}

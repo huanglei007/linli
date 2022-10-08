@@ -441,7 +441,6 @@ module.exports = {
 			sizeType: ['original', 'compressed'],
 			sourceType: ['album', 'camera'],
 			success: (res) => {
-				// console.info(res.tempFilePaths[0])
 				// 1TB=1024GB 1GB=1024MB 1MB=1024KB 1KB=1024Byte
 				// let sizes = res.tempFiles[0].size / 1024 /1024;
 				const tempFilePaths = res.tempFilePaths;
@@ -456,7 +455,6 @@ module.exports = {
 							if (res.statusCode == 200) {
 								let data = JSON.parse(res.data);
 								if (data.state == 'SUCCESS') {
-									console.info(data)
 									iima.push(data.url);
 									cb && cb()
 								} else {

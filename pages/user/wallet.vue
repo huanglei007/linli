@@ -25,7 +25,7 @@
 					<text>{{Math.floor(frozen_amount)}}</text>.{{frozen_amount.toFixed(2).split('.')[1]}}
 				</view>
 				<view class="sub">
-					已冻结
+					已到账
 				</view>
 			</view>
 		</view>
@@ -76,7 +76,7 @@
 				curPage: 1,
 				type: 0,
 				isfoot: false,
-				shopList: ['全部','提现记录','冻结记录'],
+				shopList: ['全部','提现记录','到账记录'],
 				shopIndex: 0,
 			}
 		},

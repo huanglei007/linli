@@ -259,6 +259,17 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 var _default =
 {
   data: function data() {
@@ -273,8 +284,8 @@ var _default =
         id: 0 }],
 
       operationIndex: 0,
-      saleType: ['请选择达人类型', '服务', '商品'],
-      saleIndex: 0,
+      // saleType: ['请选择达人类型','服务','商品'],
+      // saleIndex: 0,
       shopTpye: [{
         service_type_name: '请选择分类',
         id: 0 }],
@@ -305,7 +316,7 @@ var _default =
         "idcardBack": "",
         "idcardFront": "",
         "operationPointId": 0,
-        "serviceDistance": '',
+        "serviceDistance": '50',
         "skillCertificate": "",
         "skillIds": "",
         "talentName": "",
@@ -320,9 +331,11 @@ var _default =
     this.imageurl = this.globalData.imageurl;
     this.formdata.userId = this.userId;
     var that = this;
+    // 分类
     this.util.ajax('talent/getTalentServiceTypes', {}, function (res) {
       that.shopTpye = that.shopTpye.concat(res.data.list);
     });
+    // 运营点
     this.util.ajax('common/operationPointList', {}, function (res) {
       that.operation = that.operation.concat(res.data.list);
     });
@@ -331,6 +344,13 @@ var _default =
 
 
   methods: {
+    // 输入框监听
+    inputchange: function inputchange(e, val) {
+      var that = this;
+      if (val == 'talentPhone') {// 联系方式
+        that.formdata.talentPhone = e.detail.value;
+      }
+    },
     refreshskilltext: function refreshskilltext() {
       //更新擅长技能文本
       var text = '';
@@ -355,7 +375,8 @@ var _default =
       this.$refs.skill.open();
     },
     onimg: function onimg(e) {
-      var that = this,img = [];
+      var that = this,
+      img = [];
       this.util.sendimage(1, img, function () {
         that.formdata[e] = img[0];
       });
@@ -364,7 +385,8 @@ var _default =
       this.operationIndex = e.target.value;
     },
     bindPickerChange3: function bindPickerChange3(e) {
-      this.saleIndex = e.target.value;
+      // this.saleIndex = e.target.value
+      this.shopIndex = e.target.value;
     },
     bindPickerChange2: function bindPickerChange2(e) {
       this.rangeIndex = e.target.value;
@@ -397,10 +419,10 @@ var _default =
         this.$alert('请输入达人联系方式');
         return;
       }
-      if (this.rangeIndex == 0) {
-        this.$alert('请选择上门服务距离');
-        return;
-      }
+      // if(this.rangeIndex==0){
+      // 	this.$alert('请选择上门服务距离')
+      // 	return
+      // }
       if (this.operationIndex == 0) {
         this.$alert('请选择运营点');
         return;
@@ -413,7 +435,7 @@ var _default =
         this.$alert('请上传身份证正反面');
         return;
       }
-      this.formdata.serviceDistance = this.range[this.rangeIndex].value;
+      // this.formdata.serviceDistance=this.range[this.rangeIndex].value
       //this.formdata.sale_nature=this.saleIndex
       this.formdata.service_type_id = this.shopTpye[this.shopIndex].id;
       this.formdata.operationPointId = this.operation[this.operationIndex].id;
