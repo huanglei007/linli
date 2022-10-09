@@ -24,8 +24,7 @@
             "Maps" : {},
             "Geolocation" : {},
             "Payment" : {},
-            "Share" : {},
-            "Fingerprint" : {}
+            "Share" : {}
         },
         /* 应用发布信息 */
         "distribute" : {

@@ -62,7 +62,7 @@
 									<view class="stock">
 										<text>库存</text>
 										<view class="del" @click.stop="stockEvent('del',index)">-</view>
-										<input class="input" type="number" v-model="item.stock" placeholder="" />
+										<input class="input" type="number" v-model="item.stock" />
 										<view class="add" @click.stop="stockEvent('add',index)">+</view>
 									</view>
 									<block>
@@ -92,7 +92,7 @@
 					</view>
 				</view>
 				<view class="foot-box flexd">
-					<view class="foot-save" v-if="shopType[shopTypeIndex]" @click="saveEvent">
+					<view class="foot-save" v-if="shopType[shopTypeIndex]" @click="$shake(saveEvent)">
 						<text>保存</text>
 					</view>
 					<view class="foot-add" @click="productHandle('add')">
@@ -162,7 +162,7 @@
 					<view class="body-images" v-for="(url,index) in imageValue_index" :key="index">
 						<block v-if="url">
 							<image :src="url" mode=""></image>
-							<image @click="imagesDel(index)" class="del-icon" src="/static/image/icon_jian.png" mode="">
+							<image @click="imagesDel(index)" class="del-icon icon32" src="/static/image/icon_jian.png" mode="">
 							</image>
 						</block>
 					</view>
@@ -216,6 +216,8 @@
 				input_price: false,
 				inputFocus_price: false,
 				input_index: 0,
+				// 防抖
+				onoff: true
 			}
 		},
 		onLoad() {
@@ -398,7 +400,7 @@
 			updateImg(index) { // 上传图片
 				let that = this
 				that.imageValue = []
-				that.util.sendimage(5 - that.imageValue_index.length, that.imageValue)
+				that.util.sendimage(1, that.imageValue)
 			},
 			// 搜索
 			inputEvent(e) {
@@ -800,8 +802,6 @@
 				position: relative;
 
 				.del-icon {
-					width: 40rpx;
-					height: 40rpx;
 					position: absolute;
 					top: 5rpx;
 					right: 5rpx;

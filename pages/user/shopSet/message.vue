@@ -76,7 +76,7 @@
 				<block>
 					<view class="peop" v-if="detail.shop_logo!=''">
 						<image :src="Img(detail.shop_logo)" mode=""></image>
-						<image @click="detail.shop_logo='',$forceUpdate()" src="/static/image/icon_jian.png" mode="" class="del"></image>
+						<image @click="detail.shop_logo='',$forceUpdate()" src="/static/image/icon_jian.png" mode="" class="del icon32"></image>
 					</view>
 				</block>
 				<view class="peop" @click="addImg2()" v-if="detail.shop_logo==''">
@@ -90,7 +90,7 @@
 				<block v-for="(item,index) in imageValue" :key='index'>
 					<view class="peop">
 						<image :src="Img(item)" mode=""></image>
-						<image @click="del('imageValue',index)" src="/static/image/icon_jian.png" mode="" class="del"></image>
+						<image @click="del('imageValue',index)" src="/static/image/icon_jian.png" mode="" class="del icon32"></image>
 					</view>
 				</block>
 				<view class="peop" @click="addImg('imageValue',5-imageValue.length)">

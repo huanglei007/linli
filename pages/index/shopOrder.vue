@@ -52,6 +52,16 @@
 				</view>
 			</view>
 			<view class="list">
+				<view class="lists flexd jubetween">
+					<view>配送费</view>
+					<view class="reda">
+						<text v-if="delivery">￥</text>
+						<text v-if="delivery">{{delivery}}</text>
+						<text v-else class="fontColor-999">无</text>
+					</view>
+				</view>
+			</view>
+			<view class="list">
 				<view class="lists">
 					<textarea class="textarea" :auto-height="true" v-model="remarks"
 						placeholder-style="color:#878787;font-size: 28rpx" placeholder="请输入备注" />
@@ -112,7 +122,9 @@
 				shopId: 0,
 				imageurl: '',
 				// 防抖
-				onoff: true
+				onoff: true,
+				// 配送费
+				delivery:0
 			}
 		},
 		onLoad(option) {
@@ -120,6 +132,7 @@
 			this.userId = uni.getStorageSync('userId');
 			this.imageurl = this.globalData.imageurl
 			this.ids = option.id
+			this.delivery = option.delivery_fee
 			if (option.index) {
 				let obj = JSON.parse(option.index)
 				let that = this

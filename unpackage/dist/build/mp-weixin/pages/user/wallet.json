@@ -1,0 +1,5 @@
+{
+  "usingComponents": {
+    "dy-date-picker": "/components/dy-Date/dy-Date"
+  }
+}

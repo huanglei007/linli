@@ -57,13 +57,15 @@
 			<view class="form">
 				<view class="item name flexd flex-center jubetween">
 					<view class="label">发布人</view>
-					<view class="text">{{formdata.publisherName}}<!-- /{{formdata.publisherSex?'女士':'先生'}} -->
+					<view v-if="formdata.shopOrder" class="text">{{formdata.shopOrder.order.contact_name}}</view>
+					<view v-else class="text">{{formdata.publisherName}}<!-- /{{formdata.publisherSex?'女士':'先生'}} -->
 					</view>
 				</view>
 				<view class="item flexd flex-center jubetween">
 					<view class="label">手机号</view>
 					<view class="text flexd flex-center">
-						<view>{{formdata.publisherPhone}}</view>
+						<view v-if="formdata.shopOrder" class="text">{{formdata.shopOrder.order.contact_phone}}</view>
+						<view v-else>{{formdata.publisherPhone}}</view>
 						<image @click="phone(formdata.publisherPhone)" src="/static/image/icon_dh.png" mode="widthFix">
 						</image>
 					</view>
@@ -597,7 +599,7 @@
 							}
 						}
 					});
-				}else{
+				} else {
 					uni.showModal({
 						title: '确认取消订单?',
 						success(e) {

@@ -239,7 +239,7 @@
 					<view class="peop" v-if="form.business_license!=''">
 						<image class="icon60"
 							:src="form.business_license?Img(form.business_license):Img(imageValue_license[0])" mode="">
-							<image @click="delImg" src="/static/image/icon_jian.png" mode="" class="del">
+							<image @click="delImg" src="/static/image/icon_jian.png" mode="" class="del icon32">
 					</view>
 					<view v-if="!form.business_license" class="peop" @click="updateImg('license')">
 						<image src="/static/image/icon_tj.png" mode="" style="border-radius: 0;"></image>

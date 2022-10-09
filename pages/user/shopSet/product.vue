@@ -23,7 +23,7 @@
 								<input type="text" v-model="itemx.name" :placeholder="'请输入'+(userinfo.user_type==3?'商品':'服务')+'名称'" placeholder-class="placeholder"/>
 							</view>
 							<view class="right">
-								<image @click="delPro(item,x)" class="add" src="/static/image/icon_jian.png" mode="widthFix"></image>
+								<image @click="delPro(item,x)" class="add icon32" src="/static/image/icon_jian.png" mode="widthFix"></image>
 							</view>
 						</view>
 						<view class="mb-20 flexd jubetween flex-center">
@@ -43,7 +43,7 @@
 								<block>
 									<view class="peop" v-if="itemx.images!=''">
 										<image :src="Img(itemx.images)" mode=""></image>
-										<image @click="del(itemx)" src="/static/image/icon_jian.png" mode="" class="del"></image>
+										<image @click="del(itemx)" src="/static/image/icon_jian.png" mode="" class="del icon32"></image>
 									</view>
 								</block>
 								<view class="peop" >

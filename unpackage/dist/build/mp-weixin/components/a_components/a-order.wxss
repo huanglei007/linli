@@ -1,0 +1,1 @@
+.sub{width:100vw;line-height:91rpx;text-align:center;background-color:#fff;border-top:1px solid #d4d4d4;position:fixed;bottom:0;left:0;box-shadow:0 6rpx 30rpx #888}.sub .sub-btn{margin:18rpx 100rpx;background:linear-gradient(180deg,#fdec7e,#f9d448);border-radius:100rpx}

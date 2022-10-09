@@ -204,7 +204,7 @@
 		</swiper>
 		<view v-show="typeIndex==0" class="foot flexd jubetween flex-center">
 			<view class="cost">
-				费用 <text>{{sumPrice.toFixed(2)}}</text>元
+				费用 <text style="color:red;">{{sumPrice.toFixed(2)}}</text>元
 				<block v-if="sumPrice.toFixed(2)<info.initial_delivery_fee">
 					<text class="font18">(配送费{{info.delivery_fee||0}}元)</text>
 				</block>
@@ -482,7 +482,11 @@
 					userId: this.userId
 				})
 				setTimeout(() => {
-					this.$jump('./shopOrder?id=' + this.id + '&index=' + json)
+					if(this.info.delivery_fee){
+						this.$jump('./shopOrder?id=' + this.id + '&index=' + json + '&delivery_fee=' + this.info.delivery_fee)
+					}else{
+						this.$jump('./shopOrder?id=' + this.id + '&index=' + json)
+					}
 				}, 1000)
 			},
 		}
