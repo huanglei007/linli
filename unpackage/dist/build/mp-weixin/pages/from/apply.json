@@ -1,9 +1,0 @@
-{
-  "usingComponents": {
-    "get-express": "/pages/from/getExpress",
-    "food": "/pages/from/food",
-    "trash": "/pages/from/trash",
-    "buy": "/pages/from/buy",
-    "get": "/pages/from/get"
-  }
-}

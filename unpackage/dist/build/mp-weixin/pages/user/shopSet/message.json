@@ -1,7 +1,0 @@
-{
-  "component": true,
-  "usingComponents": {
-    "picker-address": "/components/wangding-pickerAddres/wangding-pickerAddress",
-    "time-picker": "/components/timePicker"
-  }
-}

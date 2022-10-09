@@ -82,32 +82,38 @@
 							<!-- <view v-if="item.stock<1" class="audit-layers">
 								<text class="font36">售罄</text>
 							</view> -->
-							<view class="image">
-								<image class="product-img" @click="doBusiness(Img(item.images))"
-									:src="Img(item.images.split(',')[0])" mode=""></image>
-								<view class="black" v-if="item.stock<1">
-									<text>售罄</text>
-								</view>
-							</view>
-							<view class="message">
-								<view class="title">{{item.name}}</view>
-								<view class="flexd jubetween flex-center">
-									<view class="price">
-										￥<text>{{item.selling_price}}</text>
-										<!-- {{item.selling_price.toString().split('.')[0]}} -->
-										<!-- {{item.selling_price.toString().indexOf('.')!==-1?'.':''}}{{item.selling_price.toString().split('.')[1]}} -->
-									</view>
-									<view class="btnBox flexd jubetween flex-center">
-										<block v-if="item.stock>0">
-											<image src="/static/image/icon_j.png" @click="reduce(i)" mode="widthFix">
-											</image>
-											<view class="num">{{item.count||0}}</view>
-											<image :class="{'no-click':item.count==item.stock}"
-												src="/static/image/icon_jia.png" @click="addPro(i)" mode="widthFix">
-											</image>
-										</block>
+							<block v-if="item.name">
+								<view class="image">
+									<image class="product-img" @click="doBusiness(Img(item.images))"
+										:src="Img(item.images.split(',')[0])" mode=""></image>
+									<view class="black" v-if="item.stock<1">
+										<text>售罄</text>
 									</view>
 								</view>
+								<view class="message">
+									<view class="title">{{item.name}}</view>
+									<view class="flexd jubetween flex-center">
+										<view class="price">
+											￥<text>{{item.selling_price}}</text>
+											<!-- {{item.selling_price.toString().split('.')[0]}} -->
+											<!-- {{item.selling_price.toString().indexOf('.')!==-1?'.':''}}{{item.selling_price.toString().split('.')[1]}} -->
+										</view>
+										<view class="btnBox flexd jubetween flex-center">
+											<block v-if="item.stock>0">
+												<image src="/static/image/icon_j.png" @click="reduce(i)"
+													mode="widthFix">
+												</image>
+												<view class="num">{{item.count||0}}</view>
+												<image :class="{'no-click':item.count==item.stock}"
+													src="/static/image/icon_jia.png" @click="addPro(i)" mode="widthFix">
+												</image>
+											</block>
+										</view>
+									</view>
+								</view>
+							</block>
+							<view v-else style="flex:1;text-align: center;">
+								<text class="fontColor-ccc">暂无商品</text>
 							</view>
 						</view>
 					</scroll-view>
@@ -433,7 +439,7 @@
 						arr[i].count = this.getPro.get(arr[i].id).count
 					}
 				}
-				this.List = i
+				this.List = arr
 			},
 			// 分享
 			onShare() {

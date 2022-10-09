@@ -1,8 +1,0 @@
-{
-  "navigationStyle": "default",
-  "navigationBarTitleText": "我的福利",
-  "usingComponents": {
-    "uni-segmented-control": "/uni_modules/uni-segmented-control/components/uni-segmented-control/uni-segmented-control",
-    "uni-dateformat": "/uni_modules/uni-dateformat/components/uni-dateformat/uni-dateformat"
-  }
-}

@@ -277,7 +277,8 @@
 					"categoryVos": that.shopType,
 					"userId": that.userId
 				}, res => {
-					that.$alert('成功')
+					that.$alert('保存成功')
+					this.getList()
 				})
 			},
 			// 商品类别
@@ -351,6 +352,7 @@
 				} else { // 上架
 					arr[that.productIndex].isvalid = 1
 				}
+				this.saveEvent()
 				this.$refs.productPopup.close()
 			},
 			// 商品列表(添加)

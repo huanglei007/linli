@@ -1,7 +1,0 @@
-{
-  "component": true,
-  "usingComponents": {
-    "uni-popup": "/uni_modules/uni-popup/components/uni-popup/uni-popup",
-    "uni-dateformat": "/uni_modules/uni-dateformat/components/uni-dateformat/uni-dateformat"
-  }
-}

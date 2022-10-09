@@ -1,1 +1,0 @@
-.list{margin-top:20rpx}.list .item{padding:20rpx 30rpx;background-color:#fff;margin-bottom:4rpx}.list .item view{font-size:30rpx;line-height:2}.list .item view image{width:26rpx;margin-left:10rpx}.foot{text-align:center;margin-top:100rpx;color:#666}

@@ -1,8 +1,0 @@
-{
-  "component": true,
-  "usingComponents": {
-    "uni-forms": "/uni_modules/uni-forms/components/uni-forms/uni-forms",
-    "picker-address": "/components/changeAddresss",
-    "time-picker": "/components/timeRange"
-  }
-}

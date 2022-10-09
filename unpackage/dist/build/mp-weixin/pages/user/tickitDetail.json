@@ -1,8 +1,0 @@
-{
-  "navigationStyle": "default",
-  "navigationBarTitleText": "代金券详情",
-  "navigationBarBackgroundColor": "#ffac46",
-  "usingComponents": {
-    "uni-rate": "/uni_modules/uni-rate/components/uni-rate/uni-rate"
-  }
-}

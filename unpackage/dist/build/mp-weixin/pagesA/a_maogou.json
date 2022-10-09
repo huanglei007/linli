@@ -1,7 +1,0 @@
-{
-  "navigationStyle": "default",
-  "navigationBarTitleText": "喂猫喂狗",
-  "usingComponents": {
-    "a-order": "/components/a_components/a-order"
-  }
-}
