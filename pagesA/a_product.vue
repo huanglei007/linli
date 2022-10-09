@@ -228,6 +228,8 @@
 			// 切换商品状态刷新商品列表
 			statusIndex(newVal, oldVal) {
 				this.getList()
+				this.input_price = false
+				this.inputFocus_price = false
 			},
 			imageValue(newVal, old) {
 				let that = this
@@ -370,8 +372,12 @@
 				let that = this
 				if (that.statusIndex == 1) {
 					that.imageIndex = index
-					let arr = that.shopType[that.shopTypeIndex].productVos[index].images.split(',')
-					that.imageValue_index = arr
+					let img = that.shopType[that.shopTypeIndex].productVos[index].images
+					if (img) {
+						that.imageValue_index = img.split(',')
+					}else{
+						that.imageValue_index = []
+					}
 					that.$refs.imgaesPopup.open()
 				}
 			},
@@ -787,6 +793,7 @@
 
 		.box-body {
 			flex-wrap: wrap;
+
 			.body-images {
 				position: relative;
 

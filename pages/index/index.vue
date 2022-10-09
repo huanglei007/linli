@@ -139,7 +139,7 @@
 						},
 						{
 							img: '/static/image/huang/icon_gxd.png',
-							title: '洗衣店',
+							title: '干洗店',
 							path: '/pages/index/shangquan'
 						},
 						{

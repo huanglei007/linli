@@ -102,7 +102,8 @@
 											<image src="/static/image/icon_j.png" @click="reduce(i)" mode="widthFix">
 											</image>
 											<view class="num">{{item.count||0}}</view>
-											<image src="/static/image/icon_jia.png" @click="addPro(i)" mode="widthFix">
+											<image :class="{'no-click':item.count==item.stock}"
+												src="/static/image/icon_jia.png" @click="addPro(i)" mode="widthFix">
 											</image>
 										</block>
 									</view>
@@ -901,5 +902,9 @@
 				border-left: 1px dashed #fff;
 			}
 		}
+	}
+
+	.no-click {
+		pointer-events: none
 	}
 </style>
