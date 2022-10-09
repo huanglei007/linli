@@ -205,33 +205,6 @@
   padding: 6rpx 15rpx;
   background-color: #F5F5F5;
 }
-.add-product,
-.save-product {
-  height: 100rpx;
-  line-height: 100rpx;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 -2px 5px -1px #888888;
-  z-index: 2;
-}
-.add-product {
-  width: calc(100vw - 212rpx);
-  position: fixed;
-  bottom: 0;
-  right: 0;
-  background-color: #fff;
-}
-.add-product .icon32 {
-  margin-right: 10rpx;
-}
-.save-product {
-  width: 212rpx;
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  background: linear-gradient(180deg, #FDEC7E 0%, #F9D448 100%);
-}
 .product-popup {
   width: 530rpx;
   background-color: #fff;
@@ -286,5 +259,62 @@
   background-color: #fff;
   color: #0091FF;
   border-left: 1prx solid #F6F6F6;
+}
+.imgaes-box {
+  padding: 20rpx 40rpx 10rpx 40rpx;
+}
+.imgaes-box .box-head {
+  font-size: 32rpx;
+  padding: 0 10rpx;
+  padding-bottom: 20rpx;
+}
+.imgaes-box .box-head text:nth-child(2) {
+  color: #0091FF;
+}
+.imgaes-box .box-body {
+  flex-wrap: wrap;
+}
+.imgaes-box .box-body .body-images {
+  position: relative;
+}
+.imgaes-box .box-body .body-images .del-icon {
+  width: 40rpx;
+  height: 40rpx;
+  position: absolute;
+  top: 5rpx;
+  right: 5rpx;
+}
+.imgaes-box .box-body image {
+  width: 200rpx;
+  height: 200rpx;
+  margin: 0 15rpx 15rpx 0;
+  border-radius: 15rpx;
+}
+.foot-box {
+  width: 100%;
+  position: fixed;
+  bottom: 0;
+  background-color: #fff;
+  box-shadow: 0 -2px 5px -1px #888888;
+  z-index: 2;
+}
+.foot-box .foot-save {
+  width: 212rpx;
+  background-image: linear-gradient(to right, #f9db58, #f5c353);
+}
+.foot-box .foot-add {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.foot-box .foot-add image {
+  margin-right: 10rpx;
+}
+.foot-box .foot-save,
+.foot-box .foot-add {
+  height: 100rpx;
+  line-height: 100rpx;
+  text-align: center;
 }
 

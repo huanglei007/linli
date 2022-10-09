@@ -368,6 +368,29 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 var _default =
 {
   data: function data() {
@@ -403,6 +426,7 @@ var _default =
       productIndex: 0,
       // 商品图片
       imageValue: [],
+      imageValue_index: [],
       imageIndex: null,
       // 价格输入框
       input_price: false,
@@ -424,11 +448,7 @@ var _default =
     imageValue: function imageValue(newVal, old) {
       var that = this;
       if (newVal[0]) {
-        var imgs = [];
-        for (var i = 0; i < newVal.length; i++) {
-          imgs.push(that.imageurl + newVal[i]);
-        }
-        that.shopType[that.shopTypeIndex].productVos[that.imageIndex].images = imgs.join(",");
+        that.imageValue_index.push(that.imageurl + newVal[newVal.length - 1]);
       } else {
         return;
       }
@@ -442,7 +462,6 @@ var _default =
           "userId": this.userId,
           "searchType": this.statusIndex },
         function (res) {
-
           _this.shopType = res.data.categoryVos;
           if (res.data.categoryVos[0]) {
             _this.shopType = res.data.categoryVos;
@@ -546,7 +565,6 @@ var _default =
       } else {// 上架
         arr[that.productIndex].isvalid = 1;
       }
-      this.saveEvent();
       this.$refs.productPopup.close();
     },
     // 商品列表(添加)
@@ -563,14 +581,32 @@ var _default =
 
       }
     },
-    //上传产品图片
-    updateImg: function updateImg(index) {
+    // 商品图片
+    openImagePop: function openImagePop(index) {// 打开图片弹窗
       var that = this;
       if (that.statusIndex == 1) {
-        that.imageValue = [];
         that.imageIndex = index;
-        this.util.sendimage(that.imageValue.length, that.imageValue);
+        var arr = that.shopType[that.shopTypeIndex].productVos[index].images.split(',');
+        that.imageValue_index = arr;
+        that.$refs.imgaesPopup.open();
       }
+    },
+    closeImagePop: function closeImagePop() {// 关闭图片弹窗
+      this.$refs.imgaesPopup.close();
+    },
+    imagesDel: function imagesDel(index) {// 删除图片
+      var that = this;
+      that.imageValue_index.splice(index, 1);
+    },
+    confirmImagePop: function confirmImagePop() {// 确认
+      var that = this;
+      that.shopType[that.shopTypeIndex].productVos[that.imageIndex].images = that.imageValue_index.join(",");
+      that.closeImagePop();
+    },
+    updateImg: function updateImg(index) {// 上传图片
+      var that = this;
+      that.imageValue = [];
+      that.util.sendimage(5 - that.imageValue_index.length, that.imageValue);
     },
     // 搜索
     inputEvent: function inputEvent(e) {var _this2 = this;

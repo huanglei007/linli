@@ -37,10 +37,6 @@
 							<text>新建分类</text>
 						</view>
 					</view>
-
-					<view class="add-product save-product" v-if="shopType[shopTypeIndex]" @click="saveEvent">
-						<text>保存</text>
-					</view>
 				</view>
 				<!-- 信息 -->
 				<view class="right-box" v-if="shopType[shopTypeIndex]">
@@ -50,8 +46,8 @@
 					<view v-else class="product-box">
 						<block v-for="(item,index) in shopType[shopTypeIndex].productVos" :key="index">
 							<view v-if="statusIndex==item.isvalid" class="products">
-								<!-- 商品图片 -->
-								<view class="product-logo" @click="updateImg(index)">
+								<!-- 商品图片 updateImg(index)-->
+								<view class="product-logo" @click="openImagePop(index)">
 									<image class="logo"
 										:src="item.images?item.images.split(',')[0]:Img(item.images.split(',')[0])"
 										mode=""></image>
@@ -94,7 +90,12 @@
 							</view>
 						</block>
 					</view>
-					<view class="add-product" @click="productHandle('add')">
+				</view>
+				<view class="foot-box flexd">
+					<view class="foot-save" v-if="shopType[shopTypeIndex]" @click="saveEvent">
+						<text>保存</text>
+					</view>
+					<view class="foot-add" @click="productHandle('add')">
 						<image class="icon32" src="/static/img/icon_+.png" mode=""></image>
 						<text>添加商品</text>
 					</view>
@@ -149,6 +150,28 @@
 				</view>
 			</view>
 		</uni-popup>
+
+		<!-- 商品图片弹出层 -->
+		<uni-popup ref="imgaesPopup" type="bottom" background-color='#fff'>
+			<view class="imgaes-box">
+				<view class="box-head flexd jubetween">
+					<text @click="closeImagePop">取消</text>
+					<text @click="confirmImagePop">确认</text>
+				</view>
+				<view class="box-body flexd">
+					<view class="body-images" v-for="(url,index) in imageValue_index" :key="index">
+						<block v-if="url">
+							<image :src="url" mode=""></image>
+							<image @click="imagesDel(index)" class="del-icon" src="/static/image/icon_jian.png" mode="">
+							</image>
+						</block>
+					</view>
+					<block v-if="imageValue_index.length<6">
+						<image @click="updateImg" src="/static/image/icon_tj.png" mode=""></image>
+					</block>
+				</view>
+			</view>
+		</uni-popup>
 	</view>
 </template>
 
@@ -187,6 +210,7 @@
 				productIndex: 0,
 				// 商品图片
 				imageValue: [],
+				imageValue_index: [],
 				imageIndex: null,
 				// 价格输入框
 				input_price: false,
@@ -208,11 +232,7 @@
 			imageValue(newVal, old) {
 				let that = this
 				if (newVal[0]) {
-					let imgs = []
-					for (let i = 0; i < newVal.length; i++) {
-						imgs.push(that.imageurl + newVal[i])
-					}
-					that.shopType[that.shopTypeIndex].productVos[that.imageIndex].images = imgs.join(",")
+					that.imageValue_index.push(that.imageurl + newVal[newVal.length - 1])
 				} else {
 					return
 				}
@@ -226,7 +246,6 @@
 						"userId": this.userId,
 						"searchType": this.statusIndex
 					}, res => {
-
 						this.shopType = res.data.categoryVos
 						if (res.data.categoryVos[0]) {
 							this.shopType = res.data.categoryVos
@@ -330,7 +349,6 @@
 				} else { // 上架
 					arr[that.productIndex].isvalid = 1
 				}
-				this.saveEvent()
 				this.$refs.productPopup.close()
 			},
 			// 商品列表(添加)
@@ -347,14 +365,32 @@
 					})
 				}
 			},
-			//上传产品图片
-			updateImg(index) {
+			// 商品图片
+			openImagePop(index) { // 打开图片弹窗
 				let that = this
 				if (that.statusIndex == 1) {
-					that.imageValue = []
 					that.imageIndex = index
-					this.util.sendimage(that.imageValue.length, that.imageValue)
+					let arr = that.shopType[that.shopTypeIndex].productVos[index].images.split(',')
+					that.imageValue_index = arr
+					that.$refs.imgaesPopup.open()
 				}
+			},
+			closeImagePop() { // 关闭图片弹窗
+				this.$refs.imgaesPopup.close()
+			},
+			imagesDel(index) { // 删除图片
+				let that = this
+				that.imageValue_index.splice(index, 1)
+			},
+			confirmImagePop() { // 确认
+				let that = this
+				that.shopType[that.shopTypeIndex].productVos[that.imageIndex].images = that.imageValue_index.join(",")
+				that.closeImagePop()
+			},
+			updateImg(index) { // 上传图片
+				let that = this
+				that.imageValue = []
+				that.util.sendimage(5 - that.imageValue_index.length, that.imageValue)
 			},
 			// 搜索
 			inputEvent(e) {
@@ -671,37 +707,6 @@
 		}
 	}
 
-	.add-product,
-	.save-product {
-		height: 100rpx;
-		line-height: 100rpx;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		box-shadow: 0 -2px 5px -1px #888888;
-		z-index: 2;
-	}
-
-	.add-product {
-		width: calc(100vw - 212rpx);
-		position: fixed;
-		bottom: 0;
-		right: 0;
-		background-color: #fff;
-
-		.icon32 {
-			margin-right: 10rpx;
-		}
-	}
-
-	.save-product {
-		width: 212rpx;
-		position: fixed;
-		bottom: 0;
-		left: 0;
-		background: linear-gradient(180deg, #FDEC7E 0%, #F9D448 100%);
-	}
-
 	.product-popup {
 		width: 530rpx;
 		background-color: #fff;
@@ -764,6 +769,74 @@
 			background-color: #fff;
 			color: #0091FF;
 			border-left: 1prx solid #F6F6F6;
+		}
+	}
+
+	.imgaes-box {
+		padding: 20rpx 40rpx 10rpx 40rpx;
+
+		.box-head {
+			font-size: 32rpx;
+			padding: 0 10rpx;
+			padding-bottom: 20rpx;
+
+			text:nth-child(2) {
+				color: #0091FF;
+			}
+		}
+
+		.box-body {
+			flex-wrap: wrap;
+			.body-images {
+				position: relative;
+
+				.del-icon {
+					width: 40rpx;
+					height: 40rpx;
+					position: absolute;
+					top: 5rpx;
+					right: 5rpx;
+				}
+			}
+
+			image {
+				width: 200rpx;
+				height: 200rpx;
+				margin: 0 15rpx 15rpx 0;
+				border-radius: 15rpx;
+			}
+		}
+	}
+
+	.foot-box {
+		width: 100%;
+		position: fixed;
+		bottom: 0;
+		background-color: #fff;
+		box-shadow: 0 -2px 5px -1px #888888;
+		z-index: 2;
+
+		.foot-save {
+			width: 212rpx;
+			background-image: linear-gradient(to right, #f9db58, #f5c353);
+		}
+
+		.foot-add {
+			flex: 1;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+
+			image {
+				margin-right: 10rpx;
+			}
+		}
+
+		.foot-save,
+		.foot-add {
+			height: 100rpx;
+			line-height: 100rpx;
+			text-align: center;
 		}
 	}
 </style>
