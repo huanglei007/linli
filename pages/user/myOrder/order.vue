@@ -31,8 +31,9 @@
 							<text v-if="item.order_status == 1" class="fontColor-FF6000">代付款</text>
 							<text v-else-if="item.order_status == 2" class="fontColor-FF6000">待配送</text>
 							<text v-else-if="item.order_status == 3" class="fontColor-FF6000">配送中</text>
-							<text v-else-if="item.order_status == 4" class="fontColor-FF6000">已完成</text>
-							<text v-else="item.order_status == 5" class="fontColor-FF6000">已取消</text>
+							<text v-else-if="item.order_status == 4||item.order_status == 6"
+								class="fontColor-FF6000">已完成</text>
+							<text v-else-if="item.order_status == 5" class="fontColor-FF6000">已取消</text>
 						</view>
 					</view>
 				</view>
@@ -173,8 +174,9 @@
 			border-radius: 50rpx;
 			font-size: 28rpx;
 			color: #959595;
+
 			&.status_active {
-				color:#212121;
+				color: #212121;
 				background-color: #FFD200;
 			}
 		}

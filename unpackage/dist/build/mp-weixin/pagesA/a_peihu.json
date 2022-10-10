@@ -1,0 +1,7 @@
+{
+  "navigationStyle": "default",
+  "navigationBarTitleText": "陪护看病",
+  "usingComponents": {
+    "a-order": "/components/a_components/a-order"
+  }
+}

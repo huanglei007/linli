@@ -1,0 +1,1 @@
+.type{padding-bottom:30rpx;display:flex;justify-content:center}.type .type-select{color:#212121;padding:10rpx 40rpx;text-align:center;border:.5rpx solid #e5e5e5}.type .active{background-color:#ffd200}

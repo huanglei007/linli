@@ -1,0 +1,7 @@
+{
+  "navigationStyle": "default",
+  "navigationBarTitleText": "闲置买卖",
+  "usingComponents": {
+    "list": "/components/menuList"
+  }
+}

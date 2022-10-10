@@ -1,0 +1,4 @@
+.jiachu-yuyue-type,
+.jiachu-yuyue-food{padding:30rpx 40rpx;border-radius:20rpx;background-color:#fff;margin-bottom:30rpx}.jiachu-yuyue-type,
+.jiachu-yuyue-food-num,
+.jiachu-yuyue-food-type{display:flex;justify-content:space-between;align-items:center}.jiachu-yuyue-food-type{padding-top:30rpx;margin-top:30rpx;border-top:1px solid #e8e8e8}.jiachu-yuyue-food-type .type .news-active{background-color:#f9d448}
