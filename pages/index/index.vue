@@ -38,7 +38,7 @@
 				@confirm="dialogConfirm" @close="dialogClose"></uni-popup-dialog>
 		</uni-popup>
 		<!-- 新人福利 -->
-		<uni-popup ref="popup" type="center" :mask-click="false">
+		<uni-popup ref="newPeople" type="center" :mask-click="false">
 			<view class="newUser-box">
 				<uni-icons type="closeempty" size="15" color="#fff" class="closeX" @click="closePop"></uni-icons>
 				<image v-if="imageurl" class="box-body-img" :src="imageurl+'static/img/img_xrfl_body.png'"
@@ -287,7 +287,7 @@
 				if (e.new && e.new == 1) {
 					this.$nextTick(() => {
 						that.getDiscount()
-						that.$refs.popup.open()
+						that.$refs.newPeople.open()
 						uni.hideTabBar();
 					})
 				} else {
@@ -341,8 +341,8 @@
 		},
 		methods: {
 			menuClick(item, page, index) {
-				// index > 9 || page == 1
-				if (item.path == '') {
+				//item.path == '' 
+				if (index > 9 || page == 1) {
 					this.$alert('功能开发中')
 				} else {
 					if (item.path == '/pages/index/shangquan') {
@@ -380,7 +380,7 @@
 			},
 			//关闭新人福利弹窗
 			closePop() {
-				this.$refs.popup.close()
+				this.$refs.newPeople.close()
 				uni.showTabBar();
 				// #ifdef MP-WEIXIN
 				this.$refs.wxMessage.open()
@@ -398,13 +398,11 @@
 				})
 			},
 			// 微信订阅消息弹窗
-			// 确认
-			dialogConfirm() {
+			dialogConfirm() {// 确认
 				openSubscription()
 				uni.showTabBar();
 			},
-			// 关闭
-			dialogClose() {
+			dialogClose() {// 关闭
 				this.$refs.wxMessage.close()
 				uni.showTabBar();
 			},
@@ -425,7 +423,8 @@
 					}
 				});
 			},
-			getUserInfo() { // 个人信息
+			// 个人信息
+			getUserInfo() { 
 				let that = this
 				this.util.ajax('user/getUserInfo', {
 					"userId": this.userId

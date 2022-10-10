@@ -22,7 +22,7 @@
 							</view>
 						</view>
 						<view class="time">
-							<text class="font24 fontColor-999">{{item.createtime}}</text>
+							<uni-dateformat class="font24 fontColor-999" :date="item.createtime" format="MM-dd hh:mm"></uni-dateformat>
 						</view>
 					</view>
 					<view class="min-box flexd jubetween flex-center">

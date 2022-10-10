@@ -307,7 +307,7 @@
 						})
 					},
 					fail(err) {
-						plus.nativeUI.toast('读取当前地理位置失败');
+						that.$alert('读取当前地理位置失败');
 					}
 				});
 			},

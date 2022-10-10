@@ -141,7 +141,9 @@
 							<text class="font28">联系方式</text>
 						</view>
 						<view class="relive-icon">
-							<view @click="phoneClick(true)" v-if="!phoneInput" style="flex:1;color:#666666">{{form.contact_phone}}</view>
+							<view @click="phoneClick(true)" v-if="!phoneInput" style="flex:1;color:#666666">
+								{{form.contact_phone}}
+							</view>
 							<input v-if="phoneInput" class="input" :focus="phoneInput_focus" type="number" step='1'
 								placeholder="请输入联系方式" placeholder-style="color:#CCCCCC;" maxlength="11"
 								@input="inputchange($event, 'contact_phone')" />

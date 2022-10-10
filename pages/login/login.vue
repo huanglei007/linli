@@ -192,16 +192,16 @@
 					uni.setStorageSync('userId', json.data.user_id)
 					uni.setStorageSync('userInfo', json.data);
 					uni.setStorageSync('village', json.data.residentialQuarterVo);
-					if (!json.data.residentialQuarterVo.address) {
-						that.$jumpLa('/pages/index/changeVillage')
-					} else {
-						setTimeout(e => {
-							uni.hideLoading()
-							uni.reLaunch({
-								url: '/pages/index/index' + '?new=' + json.data.is_new
-							})
-						}, 1000)
-					}
+					// if (!json.data.residentialQuarterVo.address) {
+					// 	that.$jumpLa('/pages/index/changeVillage')
+					// } else {
+					setTimeout(e => {
+						uni.hideLoading()
+						uni.reLaunch({
+							url: '/pages/index/index' + '?new=' + json.data.is_new
+						})
+					}, 1000)
+					// }
 				})
 			},
 			// wx 一键登录
@@ -223,16 +223,15 @@
 						that.util.weeksort()
 						// 清除游客模式
 						uni.removeStorageSync('tourist');
-						if (!json.data.residentialQuarterVo.address) {
-							that.$jumpLa('/pages/index/changeVillage')
-						} else {
-							setTimeout(e => {
-								uni.reLaunch({
-									url: '/pages/index/index' + '?new=' + json.data
-										.is_new
-								})
-							}, 1000)
-						}
+						// if (!json.data.residentialQuarterVo.address) {
+						// 	that.$jumpLa('/pages/index/changeVillage')
+						// } else {
+						setTimeout(e => {
+							uni.reLaunch({
+								url: '/pages/index/index' + '?new=' + json.data.is_new
+							})
+						}, 1000)
+						// }
 					})
 				}
 			},

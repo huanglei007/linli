@@ -22,7 +22,8 @@
 							</view>
 						</view>
 						<view class="gray">
-							{{$shijian(item.createtime)}}
+							<uni-dateformat :date="item.createtime" format="MM-dd hh:mm">
+							</uni-dateformat>
 						</view>
 					</view>
 				</view>

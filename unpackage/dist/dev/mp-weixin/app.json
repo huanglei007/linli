@@ -128,6 +128,10 @@
       "desc": "获取用户定位"
     }
   },
+  "requiredPrivateInfos": [
+    "getLocation",
+    "chooseLocation"
+  ],
   "uniStatistics": {
     "enable": true
   },

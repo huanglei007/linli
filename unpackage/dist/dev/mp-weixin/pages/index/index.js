@@ -480,7 +480,7 @@ var list = function list() {__webpack_require__.e(/*! require.ensure | component
       if (e.new && e.new == 1) {
         this.$nextTick(function () {
           that.getDiscount();
-          that.$refs.popup.open();
+          that.$refs.newPeople.open();
           uni.hideTabBar();
         });
       } else {
@@ -534,8 +534,8 @@ var list = function list() {__webpack_require__.e(/*! require.ensure | component
   },
   methods: {
     menuClick: function menuClick(item, page, index) {var _this3 = this;
-      // index > 9 || page == 1
-      if (item.path == '') {
+      //item.path == '' 
+      if (index > 9 || page == 1) {
         this.$alert('功能开发中');
       } else {
         if (item.path == '/pages/index/shangquan') {
@@ -573,7 +573,7 @@ var list = function list() {__webpack_require__.e(/*! require.ensure | component
     },
     //关闭新人福利弹窗
     closePop: function closePop() {
-      this.$refs.popup.close();
+      this.$refs.newPeople.close();
       uni.showTabBar();
 
       this.$refs.wxMessage.open();
@@ -591,13 +591,11 @@ var list = function list() {__webpack_require__.e(/*! require.ensure | component
       });
     },
     // 微信订阅消息弹窗
-    // 确认
-    dialogConfirm: function dialogConfirm() {
+    dialogConfirm: function dialogConfirm() {// 确认
       (0, _wx_messagePush.openSubscription)();
       uni.showTabBar();
     },
-    // 关闭
-    dialogClose: function dialogClose() {
+    dialogClose: function dialogClose() {// 关闭
       this.$refs.wxMessage.close();
       uni.showTabBar();
     },
@@ -618,7 +616,8 @@ var list = function list() {__webpack_require__.e(/*! require.ensure | component
         }
       });
     },
-    getUserInfo: function getUserInfo() {// 个人信息
+    // 个人信息
+    getUserInfo: function getUserInfo() {
       var that = this;
       this.util.ajax('user/getUserInfo', {
         "userId": this.userId },
@@ -810,11 +809,6 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0; //
-//
-//
-//
-//
-//
 //
 //
 //

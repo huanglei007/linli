@@ -214,7 +214,7 @@ var _default =
       var that = this;
       that.util.ajax('order/cancelOrder', {
         'orderId': that.orderId,
-        "reason": that.reasonlist[that.current].label,
+        "reason": that.reasonlist[that.current].reason,
         "userId": that.userId },
       function (res) {
         that.$alert('已取消订单');
@@ -224,12 +224,12 @@ var _default =
       });
     },
     // 监听原因选择
-    radioChange: function radioChange(evt) {
+    radioChange: function radioChange(e) {
       var that = this;
       for (var i = 0; i < that.reasonlist.length; i++) {
-        if (that.reasonlist[i].value === evt.detail.value) {
+        if (that.reasonlist[i].reason === e.detail.value) {
           that.current = i;
-          break;
+          return;
         }
       }
     } } };exports.default = _default;

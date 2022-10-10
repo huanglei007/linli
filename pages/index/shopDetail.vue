@@ -206,12 +206,12 @@
 			<view class="cost">
 				费用 <text style="color:red;">{{sumPrice.toFixed(2)}}</text>元
 				<block v-if="sumPrice.toFixed(2)<info.initial_delivery_fee">
-					<text class="font18">(配送费{{info.delivery_fee||0}}元)</text>
+					<text class="font18">(含配送费{{info.delivery_fee||0}}元)</text>
 				</block>
 			</view>
 			<view class="right flexd flex-center">
-				<view class="btn">
-					<text @click="$shake(orderto)">下单</text>
+				<view class="btn" @click="$shake(orderto)">
+					<text>下单</text>
 				</view>
 			</view>
 		</view>

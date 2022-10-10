@@ -296,7 +296,7 @@ __webpack_require__.r(__webpack_exports__);
 
         },
         fail: function fail(err) {
-          plus.nativeUI.toast('读取当前地理位置失败');
+          that.$alert('读取当前地理位置失败');
         } });
 
     },

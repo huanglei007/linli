@@ -53,7 +53,7 @@
 							return {
 								"category_name": e.category_name,
 								"commission": e.commission,
-								"createtime": that.$shijian(e.createtime),
+								"createtime": e.createtime,
 								"distance": e.distance,
 								"id": e.id,
 								"image": e.head_img,

@@ -48,7 +48,8 @@
 									<text class="font32">{{item.contact_name}}</text>
 								</view>
 								<view class="time">
-									<text class="fontColor-999 font24">{{$shijian(item.createtime)}}</text>
+									<uni-dateformat class="font24 fontColor-999" :date="item.createtime"
+										format="MM-dd hh:mm"></uni-dateformat>
 								</view>
 							</view>
 						</view>

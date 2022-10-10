@@ -50,7 +50,7 @@
 				// 原因列表
 				reasonlist: [],
 				// 防抖
-				onoff:true
+				onoff: true
 			}
 		},
 		onLoad(e) {
@@ -80,7 +80,7 @@
 				let that = this
 				that.util.ajax('order/cancelOrder', {
 					'orderId': that.orderId,
-					"reason": that.reasonlist[that.current].label,
+					"reason": that.reasonlist[that.current].reason,
 					"userId": that.userId
 				}, res => {
 					that.$alert('已取消订单')
@@ -90,12 +90,12 @@
 				})
 			},
 			// 监听原因选择
-			radioChange: function(evt) {
+			radioChange(e) {
 				let that = this
 				for (let i = 0; i < that.reasonlist.length; i++) {
-					if (that.reasonlist[i].value === evt.detail.value) {
+					if (that.reasonlist[i].reason === e.detail.value) {
 						that.current = i;
-						break;
+						return;
 					}
 				}
 			},
