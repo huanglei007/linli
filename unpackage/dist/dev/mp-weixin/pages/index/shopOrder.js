@@ -257,6 +257,16 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
+
+
+
+
+
+
+
+
 {
   components: {
     changeAddresss: changeAddresss },
@@ -281,7 +291,9 @@ __webpack_require__.r(__webpack_exports__);
       shopId: 0,
       imageurl: '',
       // 防抖
-      onoff: true };
+      onoff: true,
+      // 配送费
+      delivery: 0 };
 
   },
   onLoad: function onLoad(option) {
@@ -289,6 +301,7 @@ __webpack_require__.r(__webpack_exports__);
     this.userId = uni.getStorageSync('userId');
     this.imageurl = this.globalData.imageurl;
     this.ids = option.id;
+    this.delivery = option.delivery_fee;
     if (option.index) {
       var obj = JSON.parse(option.index);
       var that = this;

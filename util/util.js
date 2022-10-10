@@ -441,10 +441,7 @@ module.exports = {
 			sizeType: ['original', 'compressed'],
 			sourceType: ['album', 'camera'],
 			success: (res) => {
-				// 1TB=1024GB 1GB=1024MB 1MB=1024KB 1KB=1024Byte
-				// let sizes = res.tempFiles[0].size / 1024 /1024;
 				const tempFilePaths = res.tempFilePaths;
-				// imalist.push(res.tempFilePaths[0]);
 				for (let i = 0; i < tempFilePaths.length; i++) {
 					uni.uploadFile({
 						url: domain + 'CrossDomainOrdinaryServlet',

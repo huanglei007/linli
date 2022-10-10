@@ -2407,8 +2407,8 @@
   margin-left: 10rpx;
 }
 .icon32 {
-  width: 32rpx;
-  height: 32rpx;
+  width: 32rpx !important;
+  height: 32rpx !important;
 }
 .icon60 {
   width: 60rpx;

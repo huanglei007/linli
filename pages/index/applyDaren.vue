@@ -80,7 +80,7 @@
 						<block v-for="(item,index) in imageValue" :key='index'>
 							<view class="peop">
 								<image :src="Img(item)" mode=""></image>
-								<image @click="del(index)" src="/static/image/icon_jian.png" mode="" class="del">
+								<image @click="del(index)" src="/static/image/icon_jian.png" mode="" class="del icon32">
 								</image>
 							</view>
 						</block>

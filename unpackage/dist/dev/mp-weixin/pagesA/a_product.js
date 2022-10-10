@@ -431,7 +431,9 @@ var _default =
       // 价格输入框
       input_price: false,
       inputFocus_price: false,
-      input_index: 0 };
+      input_index: 0,
+      // 防抖
+      onoff: true };
 
   },
   onLoad: function onLoad() {
@@ -444,6 +446,8 @@ var _default =
     // 切换商品状态刷新商品列表
     statusIndex: function statusIndex(newVal, oldVal) {
       this.getList();
+      this.input_price = false;
+      this.inputFocus_price = false;
     },
     imageValue: function imageValue(newVal, old) {
       var that = this;
@@ -485,13 +489,14 @@ var _default =
       }
     },
     // 保存商品信息
-    saveEvent: function saveEvent() {
+    saveEvent: function saveEvent() {var _this2 = this;
       var that = this;
       that.util.ajax('shop/saveShopProduct', {
         "categoryVos": that.shopType,
         "userId": that.userId },
       function (res) {
-        that.$alert('成功');
+        that.$alert('保存成功');
+        _this2.getList();
       });
     },
     // 商品类别
@@ -565,6 +570,7 @@ var _default =
       } else {// 上架
         arr[that.productIndex].isvalid = 1;
       }
+      this.saveEvent();
       this.$refs.productPopup.close();
     },
     // 商品列表(添加)
@@ -586,8 +592,12 @@ var _default =
       var that = this;
       if (that.statusIndex == 1) {
         that.imageIndex = index;
-        var arr = that.shopType[that.shopTypeIndex].productVos[index].images.split(',');
-        that.imageValue_index = arr;
+        var img = that.shopType[that.shopTypeIndex].productVos[index].images;
+        if (img) {
+          that.imageValue_index = img.split(',');
+        } else {
+          that.imageValue_index = [];
+        }
         that.$refs.imgaesPopup.open();
       }
     },
@@ -606,24 +616,24 @@ var _default =
     updateImg: function updateImg(index) {// 上传图片
       var that = this;
       that.imageValue = [];
-      that.util.sendimage(5 - that.imageValue_index.length, that.imageValue);
+      that.util.sendimage(1, that.imageValue);
     },
     // 搜索
-    inputEvent: function inputEvent(e) {var _this2 = this;
+    inputEvent: function inputEvent(e) {var _this3 = this;
       uni.showLoading({
         title: '检索中',
         mask: true });
 
       setTimeout(function () {
-        _this2.util.ajax('shop/getShopProducts', {
+        _this3.util.ajax('shop/getShopProducts', {
           "searchName": e.value,
-          "userId": _this2.userId,
-          "searchType": _this2.statusIndex },
+          "userId": _this3.userId,
+          "searchType": _this3.statusIndex },
         function (res) {
           if (res.data.categoryVos[0].productVos[0]) {
-            _this2.shopType = res.data.categoryVos;
+            _this3.shopType = res.data.categoryVos;
           } else {
-            _this2.$alert('暂无您想要的商品');
+            _this3.$alert('暂无您想要的商品');
           }
         });
 

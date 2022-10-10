@@ -204,7 +204,7 @@
 		</swiper>
 		<view v-show="typeIndex==0" class="foot flexd jubetween flex-center">
 			<view class="cost">
-				费用 <text>{{sumPrice.toFixed(2)}}</text>元
+				费用 <text style="color:red;">{{sumPrice.toFixed(2)}}</text>元
 				<block v-if="sumPrice.toFixed(2)<info.initial_delivery_fee">
 					<text class="font18">(配送费{{info.delivery_fee||0}}元)</text>
 				</block>
@@ -466,24 +466,30 @@
 			},
 			orderto() {
 				let obj = []
-				this.getPro.forEach(item => {
+				let that = this
+				that.getPro.forEach(item => {
 					obj.push({
 						count: item.count,
 						proId: item.id
 					})
 				})
 				if (obj.length == 0) {
-					this.$alert('请选择商品')
+					that.$alert('请选择商品')
 					return
 				}
 				let json = JSON.stringify({
 					productList: obj,
-					shopId: this.id,
-					userId: this.userId
+					shopId: that.id,
+					userId: that.userId
 				})
 				setTimeout(() => {
-					this.$jump('./shopOrder?id=' + this.id + '&index=' + json)
-				}, 1000)
+					if (that.info.delivery_fee && that.sumPrice.toFixed(2) < that.info.initial_delivery_fee) {
+						that.$jump('./shopOrder?id=' + that.id + '&index=' + json + '&delivery_fee=' + that.info
+							.delivery_fee)
+					} else {
+						that.$jump('./shopOrder?id=' + that.id + '&index=' + json)
+					}
+				}, 500)
 			},
 		}
 	}

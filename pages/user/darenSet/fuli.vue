@@ -10,7 +10,7 @@
 		<view class="list">
 			<view class="item" v-for="(item,i) in list" :key="i" :class="item.isDelect==1?'hide':''">
 				<view class="flexd juend">
-					<image @click="del(i)" class="jian" src="/static/image/icon_jian.png" mode="widthFix"></image>
+					<image @click="del(i)" class="jian icon32" src="/static/image/icon_jian.png" mode="widthFix"></image>
 				</view>
 				<view class="itemBox flexd jucenter flex-center">
 					<view class="input">

@@ -233,7 +233,7 @@ var _a_nearbyshop = _interopRequireDefault(__webpack_require__(/*! @/pages/index
 // 附近商家
 var _default = { components: { nearbyshop: _a_nearbyshop.default }, data: function data() {return { imageurl: '', userId: '', htosp: 0, // 商家类型
       shopType_sq: '', //  商家类型图标
-      shopType_icon: [{ page: 1, list: [{ img: '/static/image/huang/icon_cyd.png', title: '餐饮店', path: '/pages/index/shangquan' }, { img: '/static/image/huang/icon_bld.png', title: '便利店', path: '/pages/index/shangquan' }, { img: '/static/image/huang/icon_sgd.png', title: '水果店', path: '/pages/index/shangquan' }, { img: '/static/image/huang/icon_gxd.png', title: '洗衣店', path: '/pages/index/shangquan' }, { img: '/static/image/huang/icon_cwd.png', title: '宠物店', path: '/pages/index/shangquan' }] }] };}, onLoad: function onLoad(e) {this.userId = uni.getStorageSync('userId');this.htosp = uni.getStorageSync('htop');this.imageurl = this.globalData.imageurl;if (e.type) {this.shopType_sq = e.type;}},
+      shopType_icon: [{ page: 1, list: [{ img: '/static/image/huang/icon_cyd.png', title: '餐饮店', path: '/pages/index/shangquan' }, { img: '/static/image/huang/icon_bld.png', title: '便利店', path: '/pages/index/shangquan' }, { img: '/static/image/huang/icon_sgd.png', title: '水果店', path: '/pages/index/shangquan' }, { img: '/static/image/huang/icon_gxd.png', title: '干洗店', path: '/pages/index/shangquan' }, { img: '/static/image/huang/icon_cwd.png', title: '宠物店', path: '/pages/index/shangquan' }] }] };}, onLoad: function onLoad(e) {this.userId = uni.getStorageSync('userId');this.htosp = uni.getStorageSync('htop');this.imageurl = this.globalData.imageurl;if (e.type) {this.shopType_sq = e.type;}},
   onShow: function onShow() {var _this = this;
     setTimeout(function () {
       _this.$refs.ref_nearbyshop.getNewList();
@@ -464,6 +464,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0; //
+//
 //
 //
 //

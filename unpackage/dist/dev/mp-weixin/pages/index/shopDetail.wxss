@@ -345,4 +345,7 @@ page {
   padding-left: 8rpx;
   border-left: 1px dashed #fff;
 }
+.no-click {
+  pointer-events: none;
+}
 
