@@ -43,7 +43,7 @@
 					</view>
 					<!-- 起送费 -->
 					<view>
-						<text class="font22 fontColor-999">满{{item.initial_delivery_fee||0}}免费配送</text>
+						<text class="font22 fontColor-999">满{{item.initial_delivery_fee||0}}元免费配送</text>
 					</view>
 					<!-- 代金卷 -->
 					<view class="voucher flexd">

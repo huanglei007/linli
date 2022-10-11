@@ -534,7 +534,7 @@
 											"paySign": resx.data.paySign,
 											// #endif
 											success(e) {
-												that.$alert('提交成功')
+												that.$alert('提交成功,请等待审核')
 												setTimeout(() => {
 													that.$jumpback()
 												}, 1000)
