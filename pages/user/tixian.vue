@@ -8,7 +8,7 @@
 				</view>
 			</view>
 		</view>
-		<view class="asdoa">
+		<view class="asdoa" v-if="examine==0">
 			<view class="tit flexd flex-center" @click="showInput=!showInput">
 				<image src="/static/image/icon_zfb.png" mode="widthFix"></image>
 				<view>支付宝</view>
@@ -53,12 +53,14 @@
 				accountNumber:'',
 				surplus_virtual_currency_quantity:0,
 				showInput: false,
+				// 审核
+				examine:0
 			} 
 		},
 		onLoad() {
 			this.htosp = uni.getStorageSync('htop');
 			this.userId = uni.getStorageSync('userId');
-			
+			this.examine = uni.getStorageSync('examine')
 		},
 		onShow() {
 			this.loadmore();
