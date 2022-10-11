@@ -4,7 +4,7 @@
 			<view class="top">
 				<image class="code" src="/static/image/img_sfz_z.png" mode=""></image>
 				<!-- <view class="btn">
-					立即使用
+					去使用
 				</view> -->
 			</view>
 			<view class="bottom">

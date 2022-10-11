@@ -370,7 +370,7 @@
 				// 防抖
 				onoff: true,
 				// 是否审核
-				examine: true,
+				examine: false,
 				examine_s: null,
 				// 手机号输入框
 				phoneInput: false, //false=>DIV  true=>手机框
@@ -389,7 +389,7 @@
 			},
 		},
 		watch: {
-			imageValue(newVal, oldVal) {
+			imageValue_logo(newVal, oldVal) {
 				this.form.shop_logo = this.Img(newVal[0])
 			},
 			imageValue_license(newVal, oldVal) {
