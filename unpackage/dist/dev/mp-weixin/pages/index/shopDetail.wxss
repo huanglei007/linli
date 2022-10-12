@@ -80,17 +80,17 @@ page {
   width: 40rpx;
 }
 .shopMessage .title {
-  font-size: 36rpx;
+  font-size: 40rpx;
   font-weight: bold;
+  letter-spacing: 1px;
 }
-.shopMessage .image {
-  width: 160rpx;
+.shopMessage .shopLogo {
   margin-right: 30rpx;
 }
-.shopMessage .image image {
-  width: 160rpx;
-  height: 160rpx;
-  border-radius: 10rpx;
+.shopMessage .shopLogo image {
+  width: 180rpx;
+  height: 180rpx;
+  border-radius: 12rpx;
 }
 .shopMessage .star {
   margin-left: 10rpx;
@@ -191,23 +191,15 @@ page {
   border-bottom: 1rpx solid #ddd;
   position: relative;
 }
-.list .right .item .image {
-  width: 160rpx;
-  height: 160rpx;
+.list .right .item .productImg {
   position: relative;
 }
-.list .right .item .image image {
-  width: 100%;
-  height: 100%;
+.list .right .item .productImg image {
+  width: 160rpx;
+  height: 160rpx;
   border-radius: 12rpx;
 }
-.list .right .item .image .renzhen {
-  position: absolute;
-  width: 70rpx;
-  top: 0;
-  right: 0;
-}
-.list .right .item .image .black {
+.list .right .item .productImg .black {
   width: 100%;
   height: 100%;
   background: rgba(51, 51, 51, 0.55);
@@ -219,7 +211,7 @@ page {
   justify-content: center;
   border-radius: 12rpx;
 }
-.list .right .item .image .black text {
+.list .right .item .productImg .black text {
   color: #fff;
   font-size: 41rpx;
   letter-spacing: 8rpx;
@@ -229,7 +221,11 @@ page {
 }
 .list .right .item .message .title {
   font-size: 32rpx;
+  font-weight: 600;
   margin-bottom: 50rpx;
+}
+.list .right .item .message .price {
+  color: red;
 }
 .list .right .item .message .price text {
   font-size: 40rpx;
@@ -293,9 +289,6 @@ page {
 .card .menu .item .right .btn.active {
   background-color: #fff;
   color: #ff581e;
-}
-.card .menu .item .right .sub {
-  color: #FF581E;
 }
 .shopMessBox {
   padding: 40rpx 30rpx;

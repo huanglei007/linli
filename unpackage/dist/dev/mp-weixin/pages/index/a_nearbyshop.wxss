@@ -56,22 +56,10 @@
   padding: 24rpx;
   border-radius: 20rpx;
 }
-.list .item .image {
-  width: 150rpx;
-  height: 150rpx;
-  overflow: hidden;
-  position: relative;
-}
-.list .item .image image {
-  width: 100%;
-  height: 100%;
-}
-.list .item .image .renzhen {
-  width: 60rpx;
-  height: 30rpx;
-  position: absolute;
-  right: 0;
-  top: 0;
+.list .item .shopLogo image {
+  width: 160rpx;
+  height: 160rpx;
+  border-radius: 12rpx;
 }
 .list .item .message {
   width: 500rpx;
@@ -84,6 +72,13 @@
   padding-bottom: 10rpx;
   margin-right: 155rpx;
 }
+.list .item .message .title .shopName {
+  letter-spacing: 1px;
+  font-weight: bold;
+}
+.list .item .message .title .shopType {
+  color: #0B4EA5;
+}
 .list .item .message .nickname {
   color: #888;
 }
@@ -93,16 +88,13 @@
 .list .item .message .range {
   text-align: right;
   position: absolute;
-  top: 2rpx;
+  top: 0;
   right: 0;
 }
-.list .item .message .range .tab-box {
-  color: #999999;
-}
 .list .item .message .range .tab-box .tab {
+  background-color: #f5d45d;
+  border-radius: 25rpx 0 25rpx 0;
   padding: 6rpx 14rpx;
-  border: 1px solid #999999;
-  border-radius: 8rpx;
 }
 .list .item .message .range .distance {
   color: #999999;
@@ -126,12 +118,13 @@
 }
 .list .item .message .voucher .piece {
   font-size: 22rpx;
-  line-height: 2.2;
+  line-height: 2;
   padding: 0 20rpx;
   background-color: #FFF5EC;
-  margin-right: 10rpx;
   background-repeat: no-repeat;
   background-size: 100% 100%;
+  border-radius: 8rpx;
+  margin-right: 10rpx;
   margin-bottom: 10rpx;
   color: #FF7827;
 }

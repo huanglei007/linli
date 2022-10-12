@@ -391,6 +391,13 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 var _default =
 {
   data: function data() {
@@ -472,36 +479,26 @@ var _default =
           } else {
             if (_this.statusIndex != 1) {
               _this.shopType = res.data.categoryVos;
-            } else if (!_this.shopType[0]) {
-              // this.shopType.push({
-              // 	"category_name": "类别1",
-              // 	"productVos": [{
-              // 		"images": "",
-              // 		"isvalid": 1,
-              // 		"name": "",
-              // 		"selling_price": 0,
-              // 		"stock": 0
-              // 	}]
-              // })
-            }
+            } else if (!_this.shopType[0]) {}
           }
         });
       }
     },
     // 保存商品信息
-    saveEvent: function saveEvent() {var _this2 = this;
+    saveEvent: function saveEvent(val) {var _this2 = this;
       var that = this;
       that.util.ajax('shop/saveShopProduct', {
         "categoryVos": that.shopType,
         "userId": that.userId },
       function (res) {
-        that.$alert('保存成功');
+        if (val != 0) {
+          that.$alert('保存成功');
+        }
         _this2.getList();
       });
     },
     // 商品类别
-    // (添加 删除 更改)弹窗
-    shopTypeHandlePop: function shopTypeHandlePop(val, name) {
+    shopTypeHandlePop: function shopTypeHandlePop(val, name) {// (添加 删除 更改)弹窗
       var that = this;
       that.$refs.typePopup.open();
       that.handleIndex = val;
@@ -509,83 +506,69 @@ var _default =
         that.editVal = name;
       }
     },
-    // 取消
-    cancelEvent_type: function cancelEvent_type() {
+    cancelEvent_type: function cancelEvent_type() {// 取消
       this.addVal = '';
       this.$refs.typePopup.close();
     },
-    // 确认
-    confimeEvent_type: function confimeEvent_type() {
+    confimeEvent_type: function confimeEvent_type() {// 确认
       var that = this;
-      if (that.handleIndex == 'edit') {
+      if (that.handleIndex == 'edit') {// 更改类别名称
         that.shopType[that.shopTypeIndex].category_name = that.editVal;
-      } else if (that.handleIndex == 'delete') {
+      } else if (that.handleIndex == 'delete') {// 删除类别
         var arr = that.shopType[that.shopTypeIndex].productVos;
         for (var i = 0; i < arr.length; i++) {
           arr[i].isvalid = 3;
         }
-        that.shopTypeIndex = 0;
-        that.saveEvent();
-      } else {
+        that.saveEvent(0); // 保存数据
+        that.shopTypeIndex = 0; // 初始化当前类别
+      } else {// 添加类别
         that.shopType.push({
           "category_name": that.addVal,
-          "productVos": [
-            // 	{
-            // 	"isvalid": that.statusIndex,
-            // 	"name": "",
-            // 	"selling_price": 0,
-            // 	"stock": 0,
-            // },
-          ] });
+          "productVos": [] });
 
       }
-      this.addVal = '';
       // 关闭弹窗
-      this.$refs.typePopup.close();
+      this.cancelEvent_type();
     },
     //商品列表
-    // (删除 下架 上架)弹窗
-    productPopEvent: function productPopEvent(val, index) {
+    productPopEvent: function productPopEvent(val, index) {// (删除 下架 上架)弹窗
       var that = this;
       that.$refs.productPopup.open();
       that.productShelf = val;
       that.productIndex = index;
     },
-    // 取消
-    cancelEvent_type_product: function cancelEvent_type_product() {
+    cancelEvent_type_product: function cancelEvent_type_product() {// 取消
       this.$refs.productPopup.close();
     },
-    // 确认
-    confimeEvent_type_product: function confimeEvent_type_product() {
+    confimeEvent_type_product: function confimeEvent_type_product() {// 确认
       var that = this;
       var arr = that.shopType[that.shopTypeIndex].productVos;
-      if (that.productShelf == 'delete') {// 删除
+      if (that.productShelf == 'shelf') {// 下架
+        arr[that.productIndex].isvalid = 2;
+      } else if (that.productShelf == 'upshelf') {// 上架
+        arr[that.productIndex].isvalid = 1;
+      } else if (that.productShelf == 'delete') {// 删除
         if (arr[that.productIndex].id) {
           arr[that.productIndex].isvalid = 3;
         } else {
           arr.splice(that.productIndex, 1);
         }
-      } else if (that.productShelf == 'shelf') {// 下架
-        arr[that.productIndex].isvalid = 2;
-      } else {// 上架
-        arr[that.productIndex].isvalid = 1;
       }
-      this.saveEvent();
-      this.$refs.productPopup.close();
+      that.saveEvent(0); // 保存数据
+      that.shopTypeIndex = 0; // 初始化当前类别
+      that.$refs.productPopup.close(); // 关闭弹窗
     },
-    // 商品列表(添加)
-    productHandle: function productHandle(val, index) {
+    // 添加商品
+    product_add: function product_add() {
       var that = this;
-      if (val == 'add') {
-        that.shopType[that.shopTypeIndex].productVos.push({
-          "images": "",
-          "isvalid": that.statusIndex,
-          "name": "",
-          "selling_price": '0',
-          "stock": 0,
-          "month_sale": 0 });
+      that.shopType[that.shopTypeIndex].productVos.push({
+        "images": "",
+        "isvalid": that.statusIndex,
+        "name": "",
+        "selling_price": '0',
+        "stock": 0,
+        "month_sale": 0 });
 
-      }
     },
     // 商品图片
     openImagePop: function openImagePop(index) {// 打开图片弹窗

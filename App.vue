@@ -13,11 +13,11 @@
 			// #endif
 		},
 		onShow() {
-			// 定时更新wx token
-			setInterval(() => {
+			// #ifdef MP-WEIXIN
+			setInterval(() => { // 定时更新wx token
 				this.util.get_wx_access_token()
 			}, 6000000)
-			// #ifdef MP-WEIXIN
+
 			// wx更新版本
 			const updateManager = uni.getUpdateManager();
 			updateManager.onCheckForUpdate(function(res) {

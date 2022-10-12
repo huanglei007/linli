@@ -22,8 +22,8 @@
 		</view>
 		<view class="shopMessage">
 			<view class="flexd flex-center">
-				<view class="image">
-					<image style="width:174rpx;height:174rpx;" :src="Img(info.shop_logo)" mode=""></image>
+				<view class="shopLogo">
+					<image :src="Img(info.shop_logo)" mode=""></image>
 				</view>
 				<view class="message">
 					<view class="flexd jubetween">
@@ -77,15 +77,11 @@
 						</view>
 					</scroll-view>
 					<scroll-view :scroll-y="isBottom" class="right">
-						<view class="item flexd jubetween" v-for="(item,i) in List" :key="i">
-							<!-- 售罄 -->
-							<!-- <view v-if="item.stock<1" class="audit-layers">
-								<text class="font36">售罄</text>
-							</view> -->
-							<block v-if="item.name">
-								<view class="image">
-									<image class="product-img" @click="doBusiness(Img(item.images))"
-										:src="Img(item.images.split(',')[0])" mode=""></image>
+						<block v-if="List[0]">
+							<view class="item flexd jubetween" v-for="(item,i) in List" :key="i">
+								<view class="productImg">
+									<image @click="doBusiness(Img(item.images))" :src="Img(item.images.split(',')[0])"
+										mode=""></image>
 									<view class="black" v-if="item.stock<1">
 										<text>售罄</text>
 									</view>
@@ -111,10 +107,10 @@
 										</view>
 									</view>
 								</view>
-							</block>
-							<view v-else style="flex:1;text-align: center;">
-								<text class="fontColor-ccc">暂无商品</text>
 							</view>
+						</block>
+						<view v-else style="flex:1;text-align:center;padding:30px;">
+							<text class="fontColor-ccc">暂无商品</text>
 						</view>
 					</scroll-view>
 				</view>
@@ -194,7 +190,6 @@
 									<view class="btn" :class="item.received==1?'active':''" @click="getwel(item)">
 										{{item.received==1?'已':'去'}}领取
 									</view>
-									<!-- <view class="sub">销量 1852</view> -->
 								</view>
 							</view>
 						</view>
@@ -206,7 +201,7 @@
 			<view class="cost">
 				费用 <text style="color:red;">{{sumPrice.toFixed(2)}}</text>元
 				<block v-if="sumPrice.toFixed(2)<info.initial_delivery_fee">
-					<text class="font18">(含配送费{{info.delivery_fee||0}}元)</text>
+					<text class="font18">(不含配送费)</text>
 				</block>
 			</view>
 			<view class="right flexd flex-center">
@@ -567,18 +562,18 @@
 		}
 
 		.title {
-			font-size: 36rpx;
+			font-size: 40rpx;
 			font-weight: bold;
+			letter-spacing: 1px;
 		}
 
-		.image {
-			width: 160rpx;
+		.shopLogo {
 			margin-right: 30rpx;
 
 			image {
-				width: 160rpx;
-				height: 160rpx;
-				border-radius: 10rpx;
+				width: 180rpx;
+				height: 180rpx;
+				border-radius: 12rpx;
 			}
 		}
 
@@ -700,41 +695,14 @@
 				padding: 30rpx;
 				border-bottom: 1rpx solid #ddd;
 				position: relative;
-				// .audit-layers {
-				// 	position: absolute;
-				// 	top: 0;
-				// 	left: 0;
-				// 	bottom: 0;
-				// 	right: 0;
-				// 	color: #fff;
-				// 	background-color: rgba(0, 0, 0, 0.4);
-				// 	z-index: 2;
-				// 	display: flex;
-				// 	align-items: center;
-				// 	justify-content: center;
 
-				// 	text {
-				// 		font-size: 41rpx;
-				// 		letter-spacing: 15rpx;
-				// 	}
-				// }
-
-				.image {
-					width: 160rpx;
-					height: 160rpx;
+				.productImg {
 					position: relative;
 
 					image {
-						width: 100%;
-						height: 100%;
+						width: 160rpx;
+						height: 160rpx;
 						border-radius: 12rpx;
-					}
-
-					.renzhen {
-						position: absolute;
-						width: 70rpx;
-						top: 0;
-						right: 0;
 					}
 
 					.black {
@@ -762,10 +730,13 @@
 
 					.title {
 						font-size: 32rpx;
+						font-weight: 600;
 						margin-bottom: 50rpx;
 					}
 
 					.price {
+						color: red;
+
 						text {
 							font-size: 40rpx;
 						}
@@ -844,10 +815,6 @@
 							background-color: #fff;
 							color: #ff581e;
 						}
-					}
-
-					.sub {
-						color: #FF581E;
 					}
 				}
 			}

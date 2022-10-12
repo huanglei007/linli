@@ -91,19 +91,25 @@
 						</block>
 					</view>
 				</view>
-				<view class="foot-box flexd">
-					<view class="foot-save" v-if="shopType[shopTypeIndex]" @click="$shake(saveEvent)">
+				<view v-else class="right-box aaa">
+					<view v-if="!shopType[shopTypeIndex]||!shopType[shopTypeIndex].productVos[0]"
+						class="fontColor-ccc noData">
+						<text>暂无</text>
+					</view>
+				</view>
+				<view class="foot-box flexd" v-if="shopType[shopTypeIndex]">
+					<view class="foot-save" @click="$shake(saveEvent)">
 						<text>保存</text>
 					</view>
-					<view class="foot-add" @click="productHandle('add')">
+					<view class="foot-add" @click="$shake(product_add)">
 						<image class="icon32" src="/static/img/icon_+.png" mode=""></image>
 						<text>添加商品</text>
 					</view>
 				</view>
 			</view>
 		</view>
-		<!-- 分类弹出层 -->
-		<uni-popup ref="typePopup" type="center">
+		<!-- 分类编辑弹出层 -->
+		<uni-popup ref="typePopup" type="center" :mask-click="false">
 			<view class="type-popup">
 				<view class="popup-add" v-if="handleIndex=='add'">
 					<view class="title">
@@ -135,8 +141,8 @@
 
 		</uni-popup>
 
-		<!-- 产品弹出层 -->
-		<uni-popup ref="productPopup" type="center">
+		<!-- 商品编辑弹出层 -->
+		<uni-popup ref="productPopup" type="center" :mask-click="false">
 			<view class="product-popup">
 				<view class="title">
 					<text v-if="productShelf=='delete'" class="font36">确定删除该商品?</text>
@@ -162,7 +168,8 @@
 					<view class="body-images" v-for="(url,index) in imageValue_index" :key="index">
 						<block v-if="url">
 							<image :src="url" mode=""></image>
-							<image @click="imagesDel(index)" class="del-icon icon32" src="/static/image/icon_jian.png" mode="">
+							<image @click="imagesDel(index)" class="del-icon icon32" src="/static/image/icon_jian.png"
+								mode="">
 							</image>
 						</block>
 					</view>
@@ -256,36 +263,26 @@
 						} else {
 							if (this.statusIndex != 1) {
 								this.shopType = res.data.categoryVos
-							} else if (!this.shopType[0]) {
-								// this.shopType.push({
-								// 	"category_name": "类别1",
-								// 	"productVos": [{
-								// 		"images": "",
-								// 		"isvalid": 1,
-								// 		"name": "",
-								// 		"selling_price": 0,
-								// 		"stock": 0
-								// 	}]
-								// })
-							}
+							} else if (!this.shopType[0]) {}
 						}
 					})
 				}
 			},
 			// 保存商品信息
-			saveEvent() {
+			saveEvent(val) {
 				let that = this
 				that.util.ajax('shop/saveShopProduct', {
 					"categoryVos": that.shopType,
 					"userId": that.userId
 				}, res => {
-					that.$alert('保存成功')
+					if (val != 0) {
+						that.$alert('保存成功')
+					}
 					this.getList()
 				})
 			},
 			// 商品类别
-			// (添加 删除 更改)弹窗
-			shopTypeHandlePop(val, name) {
+			shopTypeHandlePop(val, name) { // (添加 删除 更改)弹窗
 				let that = this
 				that.$refs.typePopup.open()
 				that.handleIndex = val
@@ -293,83 +290,69 @@
 					that.editVal = name
 				}
 			},
-			// 取消
-			cancelEvent_type() {
+			cancelEvent_type() { // 取消
 				this.addVal = ''
 				this.$refs.typePopup.close()
 			},
-			// 确认
-			confimeEvent_type() {
+			confimeEvent_type() { // 确认
 				let that = this
-				if (that.handleIndex == 'edit') {
+				if (that.handleIndex == 'edit') { // 更改类别名称
 					that.shopType[that.shopTypeIndex].category_name = that.editVal
-				} else if (that.handleIndex == 'delete') {
+				} else if (that.handleIndex == 'delete') { // 删除类别
 					let arr = that.shopType[that.shopTypeIndex].productVos
 					for (let i = 0; i < arr.length; i++) {
 						arr[i].isvalid = 3
 					}
-					that.shopTypeIndex = 0
-					that.saveEvent()
-				} else {
+					that.saveEvent(0) // 保存数据
+					that.shopTypeIndex = 0 // 初始化当前类别
+				} else { // 添加类别
 					that.shopType.push({
 						"category_name": that.addVal,
-						"productVos": [
-							// 	{
-							// 	"isvalid": that.statusIndex,
-							// 	"name": "",
-							// 	"selling_price": 0,
-							// 	"stock": 0,
-							// },
-						]
+						"productVos": []
 					})
 				}
-				this.addVal = ''
 				// 关闭弹窗
-				this.$refs.typePopup.close()
+				this.cancelEvent_type()
 			},
 			//商品列表
-			// (删除 下架 上架)弹窗
-			productPopEvent(val, index) {
+			productPopEvent(val, index) { // (删除 下架 上架)弹窗
 				let that = this
 				that.$refs.productPopup.open()
 				that.productShelf = val
 				that.productIndex = index
 			},
-			// 取消
-			cancelEvent_type_product() {
+			cancelEvent_type_product() { // 取消
 				this.$refs.productPopup.close()
 			},
-			// 确认
-			confimeEvent_type_product() {
+			confimeEvent_type_product() { // 确认
 				let that = this
 				let arr = that.shopType[that.shopTypeIndex].productVos
-				if (that.productShelf == 'delete') { // 删除
+				if (that.productShelf == 'shelf') { // 下架
+					arr[that.productIndex].isvalid = 2
+				} else if (that.productShelf == 'upshelf') { // 上架
+					arr[that.productIndex].isvalid = 1
+				} else if (that.productShelf == 'delete') { // 删除
 					if (arr[that.productIndex].id) {
 						arr[that.productIndex].isvalid = 3
 					} else {
 						arr.splice(that.productIndex, 1)
 					}
-				} else if (that.productShelf == 'shelf') { // 下架
-					arr[that.productIndex].isvalid = 2
-				} else { // 上架
-					arr[that.productIndex].isvalid = 1
 				}
-				this.saveEvent()
-				this.$refs.productPopup.close()
+				that.saveEvent(0) // 保存数据
+				that.shopTypeIndex = 0 // 初始化当前类别
+				that.$refs.productPopup.close() // 关闭弹窗
 			},
-			// 商品列表(添加)
-			productHandle(val, index) {
+			// 添加商品
+			product_add() {
 				let that = this
-				if (val == 'add') {
-					that.shopType[that.shopTypeIndex].productVos.push({
-						"images": "",
-						"isvalid": that.statusIndex,
-						"name": "",
-						"selling_price": '0',
-						"stock": 0,
-						"month_sale": 0
-					})
-				}
+				that.shopType[that.shopTypeIndex].productVos.push({
+					"images": "",
+					"isvalid": that.statusIndex,
+					"name": "",
+					"selling_price": '0',
+					"stock": 0,
+					"month_sale": 0
+				})
 			},
 			// 商品图片
 			openImagePop(index) { // 打开图片弹窗
@@ -379,7 +362,7 @@
 					let img = that.shopType[that.shopTypeIndex].productVos[index].images
 					if (img) {
 						that.imageValue_index = img.split(',')
-					}else{
+					} else {
 						that.imageValue_index = []
 					}
 					that.$refs.imgaesPopup.open()

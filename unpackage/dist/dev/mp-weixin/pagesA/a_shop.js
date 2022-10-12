@@ -538,7 +538,7 @@ var _default =
       // 防抖
       onoff: true,
       // 是否审核
-      examine: true,
+      examine: false,
       examine_s: null,
       // 手机号输入框
       phoneInput: false, //false=>DIV  true=>手机框
@@ -557,7 +557,7 @@ var _default =
     } },
 
   watch: {
-    imageValue: function imageValue(newVal, oldVal) {
+    imageValue_logo: function imageValue_logo(newVal, oldVal) {
       this.form.shop_logo = this.Img(newVal[0]);
     },
     imageValue_license: function imageValue_license(newVal, oldVal) {
@@ -702,7 +702,7 @@ var _default =
                     "paySign": resx.data.paySign,
 
                     success: function success(e) {
-                      that.$alert('提交成功');
+                      that.$alert('提交成功,请等待审核');
                       setTimeout(function () {
                         that.$jumpback();
                       }, 1000);

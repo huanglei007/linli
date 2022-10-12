@@ -23,14 +23,14 @@
 			</view>
 			<view class="item flexd" v-for="(item,index) in shopList" :key="index"
 				@click="$jump('/pages/index/shopDetail?id='+item.id)">
-				<view>
-					<image style="width:160rpx;height:160rpx;" :src="Img(item.shop_logo)" mode=""></image>
+				<view class="shopLogo">
+					<image :src="Img(item.shop_logo)" mode=""></image>
 				</view>
 				<view class="message">
 					<!-- 商铺名称 商家类别 -->
 					<view class="title">
-						<text>{{item.shop_name}} {{' '}}</text>
-						<text class="font22" style="color:#0B4EA5;">{{item.shop_sub_type_name}}</text>
+						<text class="shopName">{{item.shop_name}} {{' '}}</text>
+						<text class="shopType font22">{{item.shop_sub_type_name}}</text>
 					</view>
 					<!-- 距离 -->
 					<view class="range">
@@ -344,23 +344,11 @@
 			padding: 24rpx;
 			border-radius: 20rpx;
 
-			.image {
-				width: 150rpx;
-				height: 150rpx;
-				overflow: hidden;
-				position: relative;
-
+			.shopLogo {
 				image {
-					width: 100%;
-					height: 100%;
-				}
-
-				.renzhen {
-					width: 60rpx;
-					height: 30rpx;
-					position: absolute;
-					right: 0;
-					top: 0;
+					width: 160rpx;
+					height: 160rpx;
+					border-radius: 12rpx;
 				}
 			}
 
@@ -374,6 +362,16 @@
 					position: relative;
 					padding-bottom: 10rpx;
 					margin-right: 155rpx;
+
+					.shopName {
+						letter-spacing: 1px;
+						font-weight: bold;
+					}
+
+					.shopType {
+						color: #0B4EA5;
+					}
+
 				}
 
 				.nickname {
@@ -387,16 +385,14 @@
 				.range {
 					text-align: right;
 					position: absolute;
-					top: 2rpx;
+					top: 0;
 					right: 0;
 
 					.tab-box {
-						color: #999999;
-
 						.tab {
+							background-color: #f5d45d;
+							border-radius: 25rpx 0 25rpx 0;
 							padding: 6rpx 14rpx;
-							border: 1px solid #999999;
-							border-radius: 8rpx;
 						}
 					}
 
@@ -427,12 +423,13 @@
 
 					.piece {
 						font-size: 22rpx;
-						line-height: 2.2;
+						line-height: 2;
 						padding: 0 20rpx;
 						background-color: #FFF5EC;
-						margin-right: 10rpx;
 						background-repeat: no-repeat;
 						background-size: 100% 100%;
+						border-radius: 8rpx;
+						margin-right: 10rpx;
 						margin-bottom: 10rpx;
 						color: #FF7827;
 					}

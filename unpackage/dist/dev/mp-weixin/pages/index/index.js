@@ -534,7 +534,7 @@ var list = function list() {__webpack_require__.e(/*! require.ensure | component
   },
   methods: {
     menuClick: function menuClick(item, page, index) {var _this3 = this;
-      //item.path == '' 
+      // item.path == '' 
       if (index > 9 || page == 1) {
         this.$alert('功能开发中');
       } else {

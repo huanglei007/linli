@@ -195,13 +195,15 @@ var _default =
       trueName: '',
       accountNumber: '',
       surplus_virtual_currency_quantity: 0,
-      showInput: false };
+      showInput: false,
+      // 审核
+      examine: 0 };
 
   },
   onLoad: function onLoad() {
     this.htosp = uni.getStorageSync('htop');
     this.userId = uni.getStorageSync('userId');
-
+    this.examine = uni.getStorageSync('examine');
   },
   onShow: function onShow() {
     this.loadmore();

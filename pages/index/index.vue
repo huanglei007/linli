@@ -341,7 +341,7 @@
 		},
 		methods: {
 			menuClick(item, page, index) {
-				//item.path == '' 
+				// item.path == '' 
 				if (index > 9 || page == 1) {
 					this.$alert('功能开发中')
 				} else {

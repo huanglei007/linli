@@ -297,6 +297,7 @@ module.exports = {
 							let arr = res.data.list
 							for (let i = 0; i < arr.length; i++) {
 								if (arr[i].title == '有新订单') {
+									console.log('有新订单')
 									// #ifdef APP-PLUS
 									innerAudioContext.src =
 										'../../static/mp3/newOrder.mp3';

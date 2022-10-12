@@ -121,8 +121,8 @@ __webpack_require__.r(__webpack_exports__);
 
   },
   onShow: function onShow() {var _this = this;
-    // 定时更新wx token
-    setInterval(function () {
+
+    setInterval(function () {// 定时更新wx token
       _this.util.get_wx_access_token();
     }, 6000000);
 
