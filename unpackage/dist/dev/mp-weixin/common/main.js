@@ -156,6 +156,15 @@ __webpack_require__.r(__webpack_exports__);
 
     });
 
+
+    // 当前用户不是游客则打开websocket链接
+    if (uni.getStorageSync('userId') && uni.getStorageSync('userId') != 40) {
+      this.util.weeksort();
+    }
+  },
+  onHide: function onHide() {
+    // 页面隐藏时关闭websocket链接
+    uni.closeSocket();
   },
   beforeDestroy: function beforeDestroy() {},
   methods: {} };exports.default = _default;

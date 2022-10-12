@@ -48,6 +48,15 @@
 				});
 			});
 			// #endif
+
+			// 当前用户不是游客则打开websocket链接
+			if (uni.getStorageSync('userId') && uni.getStorageSync('userId') != 40) {
+				this.util.weeksort()
+			}
+		},
+		onHide() {
+			// 页面隐藏时关闭websocket链接
+			uni.closeSocket()
 		},
 		beforeDestroy() {},
 		methods: {}

@@ -184,16 +184,11 @@ module.exports = {
 				plus.io.resolveLocalFileSystemURL(filePath, function(entry) {
 					if (entry.isDirectory) {
 						entry.removeRecursively(function(entry) { //递归删除其下的所有文件及子目录  
-							// console.log('1')
-						}, function(e) {
-							// console.log(e.message)  
-						});
+						}, function(e) {});
 					} else {
 						entry.remove();
 					}
-				}, function(e) {
-					// console.log('文件路径读取失败')  
-				});
+				}, function(e) {});
 			}
 		}
 	},
@@ -247,7 +242,7 @@ module.exports = {
 		})
 		//监听socket错误 
 		uni.onSocketError((e) => {
-			console.log(e);
+			console.log('socket错误:', e);
 			uni.closeSocket();
 			setTimeout(() => {
 				this.weeksort();
@@ -278,135 +273,141 @@ module.exports = {
 				});
 				var infos = JSON.parse(res.data);
 				console.log('WebSocket:', infos)
-				// 用户ID
-				let userid = uni.getStorageSync('userId')
-				// 用户类型 (1.平台 2.运营点 3.商家 4.达人 5.普通会员)
-				let usertype = uni.getStorageSync('userInfo').user_type
-				if (infos != null && infos != '' && infos != undefined && infos !=
-					'用户未登录,请先登录') {
-					// 推送订单消息或语音
-					const innerAudioContext = uni.createInnerAudioContext();
-					innerAudioContext.autoplay = true;
-					// 根据用户推送
-					if (usertype == 3) { //用户是商家
-						// 通知列表
-						that.ajax('message/listPage', {
-							"userId": userid,
-							"isRead": 1,
-						}, res => {
-							let arr = res.data.list
-							for (let i = 0; i < arr.length; i++) {
-								if (arr[i].title == '有新订单') {
-									console.log('有新订单')
-									// #ifdef APP-PLUS
-									innerAudioContext.src =
-										'../../static/mp3/newOrder.mp3';
-									innerAudioContext.onPlay(() => {
-										console.log('您有新的订单, 请及时处理');
-									});
-									innerAudioContext.onError((res) => {
-										console.log(res.errMsg);
-										console.log(res.errCode);
-									});
-									// #endif
+				let userid = uni.getStorageSync('userId') // 用户ID
+				let usertype = uni.getStorageSync('userInfo').user_type // 用户类型 (1.平台 2.运营点 3.商家 4.达人 5.普通会员)
+				// if (infos.msg != '用户未登录,请先登录' && infos.msg != '用户不存在,请先注册!') {
+				// 推送订单消息或语音
+				const innerAudioContext = uni.createInnerAudioContext();
+				innerAudioContext.autoplay = true;
+				// 根据用户推送
+				if (usertype == 3) { //用户是商家
+					// 通知列表
+					that.ajax('message/listPage', {
+						"userId": userid,
+						"isRead": 1,
+					}, res => {
+						let arr = res.data.list
+						for (let i = 0; i < arr.length; i++) {
+							if (arr[i].title == '有新订单') {
+								// #ifdef APP-PLUS
+								innerAudioContext.src =
+									'../../static/mp3/newOrder.mp3';
+								innerAudioContext.onPlay(() => {
+									console.log('您有新的订单, 请及时处理');
+								});
+								innerAudioContext.onError((res) => {
+									console.log(res);
+								});
+								// #endif
 
-									// #ifdef MP-WEIXIN
-									send_msg(
-										'LCKpmzf8qAd8XdsRcGl6N6pCmM205WGImmZ6ZDBTGCw', {
-											"character_string1": {
-												"value": arr[i].createtime
-											},
-											"time4": {
-												"value": this.dateFormat(
-													'yyyy-MM-dd HH:mm', arr[i]
-													.createtime)
-											},
-										})
-									// #endif
-								}
-							}
-						})
-					} else if (usertype == 4) { //用户是达人
-						// 发布需求列表
-						that.ajax('release/releaseList', {
-							"userId": that.userid
-						}, (res) => {
-							let arr = res.data.list
-							let time = new Date().getTime()
-							for (let i = 0; i < arr.length; i++) {
-								if ((time - arr[0].createtime) <= 10000) {
-									// #ifdef APP-PLUS
-									innerAudioContext.src =
-										'../../static/mp3/grabbingOrder.mp3';
-									innerAudioContext.onPlay(() => {
-										console.log('接单大厅有新的需求发布，快来抢单吧');
-									});
-									innerAudioContext.onError((res) => {
-										console.log(res.errMsg);
-										console.log(res.errCode);
-									});
-									// #endif
-
-									// #ifdef MP-WEIXIN
-									send_msg(
-										'iXmb8LUNIb_VP_KaNq5avEPVrZLdfBbQBNrrRelJfhE', {
-											"amount2": {
-												"value": arr[i].commission
-											},
-											"time4": {
-												"value": this.dateFormat(
-													'yyyy-MM-dd HH:mm', arr[i]
-													.createtime)
-											},
-											"thing3": {
-												"value": arr[i]
-													.requirement_introduction
-											}
-										})
-									// #endif
-								}
-							}
-						})
-					}
-
-					// 消息类别 1 => 图片
-					if (infos.data.messageType == 1) {
-						if (userid) {
-							that.ajax('contact/queryAllUnreadMessage', {
-								"fromUserId": userid,
-							}, res => {
-								if (res.data.unreadCount) {
-									if (res.data.unreadCount > 99) {
-										uni.showTabBarRedDot({
-											index: 2
-										})
-									} else {
-										uni.setTabBarBadge({
-											index: 2,
-											text: res.data.unreadCount > 99 ?
-												'99+' : res.data.unreadCount
-												.toString()
-										})
-									}
-								} else {
-									uni.hideTabBarRedDot({
-										index: 2
+								// #ifdef MP-WEIXIN
+								send_msg(
+									'LCKpmzf8qAd8XdsRcGl6N6pCmM205WGImmZ6ZDBTGCw', {
+										"character_string1": {
+											"value": arr[i].createtime
+										},
+										"time4": {
+											"value": this.dateFormat(
+												'yyyy-MM-dd HH:mm', arr[i]
+												.createtime)
+										},
 									})
-									uni.removeTabBarBadge({
-										index: 2
-									})
-								}
-							})
+								// #endif
+							}
 						}
-						setTimeout(() => {
-							cb && cb(infos)
-						}, 50)
-					} else {
-						console.log('heart***');
-					}
-				} else {
-					that.$jump('/pages/login/login')
+					})
+				} else if (usertype == 4) { //用户是达人
+					// 发布需求列表
+					that.ajax('release/releaseList', {
+						"userId": that.userid
+					}, (res) => {
+						let arr = res.data.list
+						let time = new Date().getTime()
+						for (let i = 0; i < arr.length; i++) {
+							if ((time - arr[0].createtime) <= 10000) {
+								// #ifdef APP-PLUS
+								innerAudioContext.src =
+									'../../static/mp3/grabbingOrder.mp3';
+								innerAudioContext.onPlay(() => {
+									console.log('接单大厅有新的需求发布，快来抢单吧');
+								});
+								innerAudioContext.onError((res) => {
+									console.log(res);
+								});
+								// #endif
+
+								// #ifdef MP-WEIXIN
+								send_msg(
+									'iXmb8LUNIb_VP_KaNq5avEPVrZLdfBbQBNrrRelJfhE', {
+										"amount2": {
+											"value": arr[i].commission
+										},
+										"time4": {
+											"value": this.dateFormat(
+												'yyyy-MM-dd HH:mm', arr[i]
+												.createtime)
+										},
+										"thing3": {
+											"value": arr[i]
+												.requirement_introduction
+										}
+									})
+								// #endif
+							}
+						}
+					})
 				}
+
+				// 消息类别 1 => 图片
+				if (infos.data && infos.data.messageType == 1) {
+					if (userid) {
+						that.ajax('contact/queryAllUnreadMessage', {
+							"fromUserId": userid,
+						}, res => {
+							if (res.data.unreadCount) {
+								if (res.data.unreadCount > 99) {
+									uni.showTabBarRedDot({
+										index: 2
+									})
+								} else {
+									uni.setTabBarBadge({
+										index: 2,
+										text: res.data.unreadCount > 99 ?
+											'99+' : res.data.unreadCount
+											.toString()
+									})
+								}
+							} else {
+								uni.hideTabBarRedDot({
+									index: 2
+								})
+								uni.removeTabBarBadge({
+									index: 2
+								})
+							}
+						})
+					}
+					setTimeout(() => {
+						cb && cb(infos)
+					}, 50)
+				} else {
+					console.log('heart***');
+				}
+				// } else { // 去登录
+				// uni.showToast({
+				// 	title: '登录信息已过期，请重新登录',
+				// 	icon:'none'
+				// })
+				// setTimeout(() => {
+				// 	uni.closeSocket()
+				// 	uni.removeStorageSync('userId');
+				// 	uni.removeStorageSync('userInfo');
+				// 	uni.removeStorageSync('access_token');
+				// 	uni.reLaunch({
+				// 		url: '/pages/login/login'
+				// 	})
+				// }, 1000)
+				// }
 			}, 10000)
 
 		})

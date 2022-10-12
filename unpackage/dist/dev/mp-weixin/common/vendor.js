@@ -3791,16 +3791,11 @@ module.exports = (_module$exports = {
         plus.io.resolveLocalFileSystemURL(filePath, function (entry) {
           if (entry.isDirectory) {
             entry.removeRecursively(function (entry) {//递归删除其下的所有文件及子目录  
-              // console.log('1')
-            }, function (e) {
-              // console.log(e.message)  
-            });
+            }, function (e) {});
           } else {
             entry.remove();
           }
-        }, function (e) {
-          // console.log('文件路径读取失败')  
-        });
+        }, function (e) {});
       }
     }
   },
@@ -3854,7 +3849,7 @@ module.exports = (_module$exports = {
     });
     //监听socket错误 
     uni.onSocketError(function (e) {
-      console.log(e);
+      console.log('socket错误:', e);
       uni.closeSocket();
       setTimeout(function () {
         _this.weeksort();
@@ -3885,26 +3880,22 @@ module.exports = (_module$exports = {
 
         var infos = JSON.parse(res.data);
         console.log('WebSocket:', infos);
-        // 用户ID
-        var userid = uni.getStorageSync('userId');
-        // 用户类型 (1.平台 2.运营点 3.商家 4.达人 5.普通会员)
-        var usertype = uni.getStorageSync('userInfo').user_type;
-        if (infos != null && infos != '' && infos != undefined && infos !=
-        '用户未登录,请先登录') {
-          // 推送订单消息或语音
-          var innerAudioContext = uni.createInnerAudioContext();
-          innerAudioContext.autoplay = true;
-          // 根据用户推送
-          if (usertype == 3) {//用户是商家
-            // 通知列表
-            that.ajax('message/listPage', {
-              "userId": userid,
-              "isRead": 1 },
-            function (res) {
-              var arr = res.data.list;
-              for (var i = 0; i < arr.length; i++) {
-                if (arr[i].title == '有新订单') {
-                  console.log('有新订单');
+        var userid = uni.getStorageSync('userId'); // 用户ID
+        var usertype = uni.getStorageSync('userInfo').user_type; // 用户类型 (1.平台 2.运营点 3.商家 4.达人 5.普通会员)
+        // if (infos.msg != '用户未登录,请先登录' && infos.msg != '用户不存在,请先注册!') {
+        // 推送订单消息或语音
+        var innerAudioContext = uni.createInnerAudioContext();
+        innerAudioContext.autoplay = true;
+        // 根据用户推送
+        if (usertype == 3) {//用户是商家
+          // 通知列表
+          that.ajax('message/listPage', {
+            "userId": userid,
+            "isRead": 1 },
+          function (res) {
+            var arr = res.data.list;
+            for (var i = 0; i < arr.length; i++) {
+              if (arr[i].title == '有新订单') {
 
 
 
@@ -3917,103 +3908,113 @@ module.exports = (_module$exports = {
 
 
 
+                (0, _wx_messagePush.send_msg)(
+                'LCKpmzf8qAd8XdsRcGl6N6pCmM205WGImmZ6ZDBTGCw', {
+                  "character_string1": {
+                    "value": arr[i].createtime },
 
-                  (0, _wx_messagePush.send_msg)(
-                  'LCKpmzf8qAd8XdsRcGl6N6pCmM205WGImmZ6ZDBTGCw', {
-                    "character_string1": {
-                      "value": arr[i].createtime },
-
-                    "time4": {
-                      "value": _this2.dateFormat(
-                      'yyyy-MM-dd HH:mm', arr[i].
-                      createtime) } });
-
+                  "time4": {
+                    "value": _this2.dateFormat(
+                    'yyyy-MM-dd HH:mm', arr[i].
+                    createtime) } });
 
 
-                }
+
               }
-            });
-          } else if (usertype == 4) {//用户是达人
-            // 发布需求列表
-            that.ajax('release/releaseList', {
-              "userId": that.userid },
-            function (res) {
-              var arr = res.data.list;
-              var time = new Date().getTime();
-              for (var i = 0; i < arr.length; i++) {
-                if (time - arr[0].createtime <= 10000) {
-
-
-
-
-
-
-
-
-
-
-
-
-
-                  (0, _wx_messagePush.send_msg)(
-                  'iXmb8LUNIb_VP_KaNq5avEPVrZLdfBbQBNrrRelJfhE', {
-                    "amount2": {
-                      "value": arr[i].commission },
-
-                    "time4": {
-                      "value": _this2.dateFormat(
-                      'yyyy-MM-dd HH:mm', arr[i].
-                      createtime) },
-
-                    "thing3": {
-                      "value": arr[i].
-                      requirement_introduction } });
-
-
-
-                }
-              }
-            });
-          }
-
-          // 消息类别 1 => 图片
-          if (infos.data.messageType == 1) {
-            if (userid) {
-              that.ajax('contact/queryAllUnreadMessage', {
-                "fromUserId": userid },
-              function (res) {
-                if (res.data.unreadCount) {
-                  if (res.data.unreadCount > 99) {
-                    uni.showTabBarRedDot({
-                      index: 2 });
-
-                  } else {
-                    uni.setTabBarBadge({
-                      index: 2,
-                      text: res.data.unreadCount > 99 ?
-                      '99+' : res.data.unreadCount.
-                      toString() });
-
-                  }
-                } else {
-                  uni.hideTabBarRedDot({
-                    index: 2 });
-
-                  uni.removeTabBarBadge({
-                    index: 2 });
-
-                }
-              });
             }
-            setTimeout(function () {
-              cb && cb(infos);
-            }, 50);
-          } else {
-            console.log('heart***');
-          }
-        } else {
-          that.$jump('/pages/login/login');
+          });
+        } else if (usertype == 4) {//用户是达人
+          // 发布需求列表
+          that.ajax('release/releaseList', {
+            "userId": that.userid },
+          function (res) {
+            var arr = res.data.list;
+            var time = new Date().getTime();
+            for (var i = 0; i < arr.length; i++) {
+              if (time - arr[0].createtime <= 10000) {
+
+
+
+
+
+
+
+
+
+
+
+
+                (0, _wx_messagePush.send_msg)(
+                'iXmb8LUNIb_VP_KaNq5avEPVrZLdfBbQBNrrRelJfhE', {
+                  "amount2": {
+                    "value": arr[i].commission },
+
+                  "time4": {
+                    "value": _this2.dateFormat(
+                    'yyyy-MM-dd HH:mm', arr[i].
+                    createtime) },
+
+                  "thing3": {
+                    "value": arr[i].
+                    requirement_introduction } });
+
+
+
+              }
+            }
+          });
         }
+
+        // 消息类别 1 => 图片
+        if (infos.data && infos.data.messageType == 1) {
+          if (userid) {
+            that.ajax('contact/queryAllUnreadMessage', {
+              "fromUserId": userid },
+            function (res) {
+              if (res.data.unreadCount) {
+                if (res.data.unreadCount > 99) {
+                  uni.showTabBarRedDot({
+                    index: 2 });
+
+                } else {
+                  uni.setTabBarBadge({
+                    index: 2,
+                    text: res.data.unreadCount > 99 ?
+                    '99+' : res.data.unreadCount.
+                    toString() });
+
+                }
+              } else {
+                uni.hideTabBarRedDot({
+                  index: 2 });
+
+                uni.removeTabBarBadge({
+                  index: 2 });
+
+              }
+            });
+          }
+          setTimeout(function () {
+            cb && cb(infos);
+          }, 50);
+        } else {
+          console.log('heart***');
+        }
+        // } else { // 去登录
+        // uni.showToast({
+        // 	title: '登录信息已过期，请重新登录',
+        // 	icon:'none'
+        // })
+        // setTimeout(() => {
+        // 	uni.closeSocket()
+        // 	uni.removeStorageSync('userId');
+        // 	uni.removeStorageSync('userInfo');
+        // 	uni.removeStorageSync('access_token');
+        // 	uni.reLaunch({
+        // 		url: '/pages/login/login'
+        // 	})
+        // }, 1000)
+        // }
       }, 10000);
 
     });
