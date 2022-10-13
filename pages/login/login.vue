@@ -181,6 +181,10 @@
 					"phone": this.phone,
 					"code": this.msg,
 				}, json => {
+					// 缓存用户信息
+					uni.setStorageSync('userId', json.data.user_id)
+					uni.setStorageSync('userInfo', json.data);
+					uni.setStorageSync('village', json.data.residentialQuarterVo);
 					if (json.data.user_id != 40) {
 						// 打开websocket链接
 						that.util.weeksort()
@@ -188,10 +192,6 @@
 						// 游客模式
 						uni.setStorageSync('tourist', true)
 					}
-					// 缓存用户信息
-					uni.setStorageSync('userId', json.data.user_id)
-					uni.setStorageSync('userInfo', json.data);
-					uni.setStorageSync('village', json.data.residentialQuarterVo);
 					// if (!json.data.residentialQuarterVo.address) {
 					// 	that.$jumpLa('/pages/index/changeVillage')
 					// } else {
