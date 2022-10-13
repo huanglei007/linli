@@ -106,6 +106,11 @@
 											</block>
 										</view>
 									</view>
+									<block v-if="item.synopsis">
+										<view class="synopsis fontColor-999">
+											<text>描述：{{item.synopsis}}</text>
+										</view>
+									</block>
 								</view>
 							</view>
 						</block>
@@ -885,5 +890,10 @@
 
 	.no-click {
 		pointer-events: none
+	}
+
+	.synopsis {
+		margin-top: 10rpx;
+		word-break: break-all;
 	}
 </style>

@@ -74,6 +74,10 @@
 											placeholder="请输入商品价格" placeholder-class="placeholder"
 											@input="checkNum($event,index)" />
 									</block>
+									<view class="synopsis-box">
+										<input v-model="item.synopsis" type="text"
+											placeholder="商品描述" placeholder-class="placeholder" />
+									</view>
 									<view class="meth">
 										<view class="sale">
 											<text class="font22">月销 {{item.month_sale?item.month_sale:0}}</text>
@@ -637,7 +641,6 @@
 						}
 
 						.price_sub {
-							line-height: 1.4em;
 							padding: 6rpx 15rpx;
 							background-color: #f5f5f5;
 						}
@@ -830,5 +833,8 @@
 			line-height: 100rpx;
 			text-align: center;
 		}
+	}
+	.synopsis-box{
+		padding-top:20rpx;
 	}
 </style>
